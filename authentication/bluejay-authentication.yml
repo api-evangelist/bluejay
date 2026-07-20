@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/bluejay-openapi-original.json
+docs: https://docs.getbluejay.ai/api-reference/introduction
+notes: >-
+  Single API-key scheme. Generate a key from the app Settings > API Keys page
+  (https://app.getbluejay.ai/settings/api-keys) and pass it in the X-API-Key
+  request header. Applied globally as the root security requirement. No OAuth2
+  or OpenID Connect surface is published, so there is no scope model.
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  description: API key required to authenticate requests.
+  sources:
+  - openapi/bluejay-openapi-original.json
