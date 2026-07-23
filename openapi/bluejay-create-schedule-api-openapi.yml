@@ -1,0 +1,252 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Create Schedule API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Create Schedule
+paths:
+  /v1/create-schedule:
+    post:
+      summary: Create Schedule
+      operationId: create_schedule_v1_create_schedule_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCronJobRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCronJobResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Create Schedule
+components:
+  schemas:
+    EveryNMinutesSchedule:
+      properties:
+        frequency:
+          type: string
+          const: every_n_minutes
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 59.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N minutes (max 59)
+      type: object
+      required:
+      - frequency
+      - interval
+      title: EveryNMinutesSchedule
+    EveryNHoursSchedule:
+      properties:
+        frequency:
+          type: string
+          const: every_n_hours
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 23.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N hours (max 23)
+      type: object
+      required:
+      - frequency
+      - interval
+      title: EveryNHoursSchedule
+    WeeklySchedule:
+      properties:
+        frequency:
+          type: string
+          const: weekly
+          title: Frequency
+        day_of_week:
+          type: string
+          enum:
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          - saturday
+          - sunday
+          title: Day Of Week
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+      type: object
+      required:
+      - frequency
+      - day_of_week
+      - time
+      title: WeeklySchedule
+    DailySchedule:
+      properties:
+        frequency:
+          type: string
+          const: daily
+          title: Frequency
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+          description: HH:MM 24hr time
+      type: object
+      required:
+      - frequency
+      - time
+      title: DailySchedule
+    MonthlySchedule:
+      properties:
+        frequency:
+          type: string
+          const: monthly
+          title: Frequency
+        day_of_month:
+          type: integer
+          maximum: 31.0
+          minimum: 1.0
+          title: Day Of Month
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+      type: object
+      required:
+      - frequency
+      - day_of_month
+      - time
+      title: MonthlySchedule
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CronSchedule:
+      properties:
+        frequency:
+          type: string
+          const: cron
+          title: Frequency
+        expression:
+          type: string
+          title: Expression
+          description: Cron expression
+      type: object
+      required:
+      - frequency
+      - expression
+      title: CronSchedule
+    CreateCronJobRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: The unique identifier for the associated simulation.
+        schedule:
+          anyOf:
+          - $ref: '#/components/schemas/EveryNMinutesSchedule'
+          - $ref: '#/components/schemas/EveryNHoursSchedule'
+          - $ref: '#/components/schemas/DailySchedule'
+          - $ref: '#/components/schemas/WeeklySchedule'
+          - $ref: '#/components/schemas/MonthlySchedule'
+          - $ref: '#/components/schemas/CronSchedule'
+          title: Schedule
+          description: The schedule for the cron job.
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+          description: Whether the cron job should be enabled upon creation.
+          default: true
+      type: object
+      required:
+      - simulation_id
+      - schedule
+      title: CreateCronJobRequest
+    CreateCronJobResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: The unique identifier for the created cron job.
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: The unique identifier for the associated simulation.
+        cron_expression:
+          type: string
+          title: Cron Expression
+          description: The cron expression defining the job schedule.
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+          description: Whether the cron job is enabled.
+      type: object
+      required:
+      - id
+      - simulation_id
+      - cron_expression
+      title: CreateCronJobResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

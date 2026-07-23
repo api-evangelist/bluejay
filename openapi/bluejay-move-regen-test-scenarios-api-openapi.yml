@@ -1,0 +1,79 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Move Regen Test Scenarios API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Move Regen Test Scenarios
+paths:
+  /v1/move-regen-test-scenarios:
+    post:
+      summary: Move Regen Test Scenarios Endpoint
+      description: "Regenerates test scenarios with a new goal while preserving scenario descriptions.\n\nAccepts a request with the following structure:\n{\n    agent: Agent;\n    promptId?: string;\n    knowledgeBaseId?: string;\n    scenarios: TestScenario[];\n    newGoal: string;\n}"
+      operationId: move_regen_test_scenarios_endpoint_v1_move_regen_test_scenarios_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Move Regen Test Scenarios
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

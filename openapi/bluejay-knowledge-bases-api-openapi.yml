@@ -1,0 +1,656 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Knowledge Bases API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Knowledge Bases
+paths:
+  /v1/agents/{agent_id}/knowledge-bases:
+    get:
+      tags:
+      - Knowledge Bases
+      summary: Get Knowledge Base By Label Agent Scoped
+      description: 'retrieve a single knowledge base by label: /agents/{agent_id}/knowledge-bases?label=... .
+
+
+        - if label is missing -> 400
+
+        - if label resolves to 0 -> 404; >1 -> 400 ambiguous (except latest which should be unique)'
+      operationId: get_knowledge_base_by_label_agent_scoped_v1_agents__agent_id__knowledge_bases_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: label
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBaseResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/knowledge-bases/versions:
+    post:
+      tags:
+      - Knowledge Bases
+      summary: Create Knowledge Base Version Agent Scoped
+      operationId: create_knowledge_base_version_agent_scoped_v1_agents__agent_id__knowledge_bases_versions_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKnowledgeBaseVersionBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBaseResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Knowledge Bases
+      summary: List Knowledge Base Versions
+      operationId: list_knowledge_base_versions_v1_agents__agent_id__knowledge_bases_versions_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: label
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Version
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Limit
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KnowledgeBaseResponse'
+                title: Response List Knowledge Base Versions V1 Agents  Agent Id  Knowledge Bases Versions Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Knowledge Bases
+      summary: Delete Knowledge Base Version By Label Agent Scoped
+      description: 'delete a knowledge base version by label.
+
+
+        - if label is production -> 400 (must move production first)
+
+        - if label resolves to 0 -> 404; >1 -> 400 ambiguous (except latest which should be unique)
+
+        - if deleting latest, reassign latest to highest remaining version
+
+        - cannot delete if it is the only version'
+      operationId: delete_knowledge_base_version_by_label_agent_scoped_v1_agents__agent_id__knowledge_bases_versions_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: label
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/knowledge-bases/versions/{version}:
+    get:
+      tags:
+      - Knowledge Bases
+      summary: Get Knowledge Base Version Agent Scoped
+      operationId: get_knowledge_base_version_agent_scoped_v1_agents__agent_id__knowledge_bases_versions__version__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Version
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBaseResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Knowledge Bases
+      summary: Delete Knowledge Base Version Agent Scoped
+      description: 'delete a specific knowledge base version; cannot delete production; cannot delete only version.
+
+
+        if deleting latest, reassign latest to highest remaining version.
+
+        returns metadata about the deletion.'
+      operationId: delete_knowledge_base_version_agent_scoped_v1_agents__agent_id__knowledge_bases_versions__version__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Version
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/knowledge-bases/{kb_id}:
+    get:
+      tags:
+      - Knowledge Bases
+      summary: Get Knowledge Base By Id
+      operationId: get_knowledge_base_by_id_v1_agents__agent_id__knowledge_bases__kb_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: kb_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Kb Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBaseResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Knowledge Bases
+      summary: Delete Knowledge Base By Id Agent Scoped
+      operationId: delete_knowledge_base_by_id_agent_scoped_v1_agents__agent_id__knowledge_bases__kb_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: kb_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Kb Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/knowledge-bases/versions/{version}/labels:
+    get:
+      tags:
+      - Knowledge Bases
+      summary: List Knowledge Base Version Labels Agent Scoped
+      operationId: list_knowledge_base_version_labels_agent_scoped_v1_agents__agent_id__knowledge_bases_versions__version__labels_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Version
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Knowledge Bases
+      summary: Add Knowledge Base Version Labels Agent Scoped
+      operationId: add_knowledge_base_version_labels_agent_scoped_v1_agents__agent_id__knowledge_bases_versions__version__labels_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Version
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabelDeltaRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Knowledge Bases
+      summary: Remove Knowledge Base Version Labels Agent Scoped
+      operationId: remove_knowledge_base_version_labels_agent_scoped_v1_agents__agent_id__knowledge_bases_versions__version__labels_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Version
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabelDeltaRequest'
+              default:
+                labels: []
+                override_label: false
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CreateKnowledgeBaseVersionBody:
+      properties:
+        kb_text:
+          type: string
+          title: Kb Text
+        commit_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Commit Message
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+      type: object
+      required:
+      - kb_text
+      title: CreateKnowledgeBaseVersionBody
+    LabelDeltaRequest:
+      properties:
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        override_label:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Override Label
+          default: false
+      type: object
+      title: LabelDeltaRequest
+      description: 'request body for add/remove label operations.
+
+
+        labels: list of labels to add or remove. empty/null means no-op for add,
+
+        and clear-all for remove (callers decide the semantics).
+
+        override_label: when true, adding an existing label moves its association
+
+        to the requested resource; when false, conflicts return 409.'
+    LabelListResponse:
+      properties:
+        labels:
+          items:
+            type: string
+          type: array
+          title: Labels
+      type: object
+      title: LabelListResponse
+      description: response wrapper for just a list of labels.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    KnowledgeBaseResponse:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+          description: the id of the knowledge base
+        kb_text:
+          type: string
+          title: Kb Text
+          description: the knowledge base content
+        commit_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Commit Message
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+          description: labels associated with the knowledge base
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: arbitrary JSON metadata
+        version:
+          type: integer
+          title: Version
+          description: the version number of the knowledge base
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: id of the agent that owns this knowledge base
+      type: object
+      required:
+      - kb_text
+      - version
+      - agent_id
+      title: KnowledgeBaseResponse
+      description: response model for knowledge base without created_at.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

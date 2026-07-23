@@ -1,0 +1,107 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Send Text API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Send Text
+paths:
+  /v1/send-text:
+    post:
+      summary: Recieve Text Processor
+      description: Process text input and return a response.
+      operationId: recieve_text_processor_v1_send_text_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextProcessorRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      tags:
+      - Send Text
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TextProcessorRequest:
+      properties:
+        redis_key:
+          type: string
+          title: Redis Key
+          description: redis key for conversation history
+        test_case_id:
+          type: string
+          title: Test Case Id
+          description: ID of the test case
+        response_format:
+          type: string
+          enum:
+          - chirp
+          - text
+          title: Response Format
+          description: response format
+          default: chirp
+      type: object
+      required:
+      - redis_key
+      - test_case_id
+      title: TextProcessorRequest
+      description: Pydantic model for text processor request body
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

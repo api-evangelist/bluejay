@@ -1,0 +1,390 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Communities API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Communities
+paths:
+  /v1/create-community:
+    post:
+      tags:
+      - Communities
+      summary: Create Community
+      description: Create a new community.
+      operationId: create_community_v1_create_community_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommunityRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunityResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/community/{community_id}:
+    get:
+      tags:
+      - Communities
+      summary: Get Community
+      description: Get a specific community by ID.
+      operationId: get_community_v1_community__community_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: community_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Community Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunityResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Communities
+      summary: Delete Community
+      description: Delete a specific community by ID.
+      operationId: delete_community_v1_community__community_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: community_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Community Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunityResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/communities:
+    get:
+      tags:
+      - Communities
+      summary: Get Communities
+      description: Get all communities, optionally filtered by digital human (test case).
+      operationId: get_communities_v1_communities_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: digital_human_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Digital Human Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunitiesListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-community/{community_id}:
+    put:
+      tags:
+      - Communities
+      summary: Update Community
+      description: Update a specific community by ID.
+      operationId: update_community_v1_update_community__community_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: community_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Community Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCommunityRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunityResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/add-to-community/{community_id}:
+    put:
+      tags:
+      - Communities
+      summary: Add Digital Humans To Community
+      description: Add digital humans to an existing community without replacing the current list.
+      operationId: add_digital_humans_to_community_v1_add_to_community__community_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: community_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Community Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddToCommunityRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunityResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CommunitiesListResponse:
+      properties:
+        communities:
+          items:
+            $ref: '#/components/schemas/CommunityResponse'
+          type: array
+          title: Communities
+          description: List of communities
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of communities
+      type: object
+      required:
+      - communities
+      - total_count
+      title: CommunitiesListResponse
+      description: Response model for listing communities
+    CommunityResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Unique identifier for the community
+        title:
+          type: string
+          title: Title
+          description: Title of the community
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the community
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When this community was created
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: List of digital human (test case) IDs associated with this community
+      type: object
+      required:
+      - id
+      - title
+      - created_at
+      title: CommunityResponse
+      description: Response model for community operations
+    CreateCommunityRequest:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the community
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the community
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: List of digital human (test case) IDs to associate this community with
+      type: object
+      required:
+      - title
+      title: CreateCommunityRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UpdateCommunityRequest:
+      properties:
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+          description: Title of the community
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the community
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: List of digital human (test case) IDs to associate this community with (replaces existing associations)
+      type: object
+      title: UpdateCommunityRequest
+    AddToCommunityRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: List of digital human (test case) IDs to add to this community
+      type: object
+      required:
+      - digital_human_ids
+      title: AddToCommunityRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

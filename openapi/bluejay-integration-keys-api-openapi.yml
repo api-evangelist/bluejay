@@ -1,0 +1,224 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Integration Keys API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Integration Keys
+paths:
+  /v1/integrations:
+    get:
+      tags:
+      - Integration Keys
+      summary: Get Integrations
+      description: 'Return integration metadata for the authenticated org.
+
+        Secret fields are returned as null with companion _set booleans.'
+      operationId: get_integrations_v1_integrations_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Integration Keys
+      summary: Patch Integrations
+      description: 'Update integration fields. Secret fields are encrypted before storage.
+
+        Send null to clear a field. Only include fields that changed.
+
+        Prefer POST /update-integrations for a typed, agent-style contract.'
+      operationId: patch_integrations_v1_integrations_patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/get-integration-key:
+    post:
+      tags:
+      - Integration Keys
+      summary: Get Integration Key
+      description: Decrypt and return a single integration secret field.
+      operationId: get_integration_key_v1_get_integration_key_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegrationKeyRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationKeyResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-integrations:
+    post:
+      tags:
+      - Integration Keys
+      summary: Update Integrations
+      description: 'Update integration fields for the authenticated org (middleware encrypts secrets before DB write).
+
+        Same semantics as PATCH /integrations: only send fields to change; null clears a field.'
+      operationId: update_integrations_v1_update_integrations_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationsUpdateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    IntegrationKeyResponse:
+      properties:
+        value:
+          type: string
+          title: Value
+          description: The decrypted plaintext value
+      type: object
+      required:
+      - value
+      title: IntegrationKeyResponse
+    IntegrationsUpdateResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the update succeeded
+          default: true
+        message:
+          type: string
+          title: Message
+          description: Human-readable result message
+        status:
+          type: string
+          title: Status
+          description: Status code string for clients
+          default: '200'
+        integrations:
+          additionalProperties: true
+          type: object
+          title: Integrations
+          description: Current integration row with secrets masked (same shape as GET /integrations)
+      type: object
+      required:
+      - message
+      - integrations
+      title: IntegrationsUpdateResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    IntegrationKeyRequest:
+      properties:
+        field:
+          type: string
+          title: Field
+          description: The secret field name to retrieve
+      type: object
+      required:
+      - field
+      title: IntegrationKeyRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

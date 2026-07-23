@@ -1,0 +1,507 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Simulations API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Simulations
+paths:
+  /v1/simulation/{simulation_id}:
+    delete:
+      tags:
+      - Simulations
+      summary: Delete Simulation
+      description: Delete a specific simulation by ID.
+      operationId: delete_simulation_v1_simulation__simulation_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteSimulationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Simulations
+      summary: Update Simulation
+      description: 'update a specific simulation by id.
+
+
+        only fields provided in the request body will be updated.'
+      operationId: update_simulation_v1_simulation__simulation_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/src__api__simulations__UpdateSimulationRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationPydantic'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Simulations
+      summary: Get Simulation
+      description: Get a specific simulation by ID.
+      operationId: get_simulation_v1_simulation__simulation_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationPydantic'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/simulation/{simulation_id}/add-digital-humans:
+    post:
+      tags:
+      - Simulations
+      summary: Add Digital Humans To Simulation
+      description: add existing digital humans to a simulation without replacing existing associations.
+      operationId: add_digital_humans_to_simulation_v1_simulation__simulation_id__add_digital_humans_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddDigitalHumansToSimulationRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddDigitalHumansToSimulationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/simulation/{simulation_id}/remove-digital-humans:
+    post:
+      tags:
+      - Simulations
+      summary: Remove Digital Humans From Simulation
+      description: remove digital humans from a simulation (unlink only); idempotent for missing links.
+      operationId: remove_digital_humans_from_simulation_v1_simulation__simulation_id__remove_digital_humans_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveDigitalHumansFromSimulationRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoveDigitalHumansFromSimulationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    SimulationType:
+      type: string
+      enum:
+      - sequential
+      - parallel
+      - max_concurrent
+      title: SimulationType
+    DeleteSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_simulation_id:
+          type: integer
+          title: Deleted Simulation Id
+          description: ID of the deleted simulation
+      type: object
+      required:
+      - message
+      - deleted_simulation_id
+      title: DeleteSimulationResponse
+      description: Response model for deleting a simulation
+    SimulationPydantic:
+      properties:
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+        agent_id:
+          type: integer
+          title: Agent Id
+        name:
+          type: string
+          title: Name
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Settings
+        type:
+          $ref: '#/components/schemas/SimulationType'
+        max_concurrent:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Concurrent
+        max_turns:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Turns
+        ringing_timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Ringing Timeout
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        pinned:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Pinned
+        always_on:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Always On
+      type: object
+      required:
+      - agent_id
+      - name
+      - type
+      title: SimulationPydantic
+    RemoveDigitalHumansFromSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: success message
+      type: object
+      required:
+      - message
+      title: RemoveDigitalHumansFromSimulationResponse
+      description: response body for removing digital humans from a simulation (does not delete the digital humans).
+    RemoveDigitalHumansFromSimulationRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: array of digital human IDs to remove from this simulation
+      type: object
+      required:
+      - digital_human_ids
+      title: RemoveDigitalHumansFromSimulationRequest
+      description: request body for removing digital humans from a simulation (unlink only).
+    AddDigitalHumansToSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: success message
+      type: object
+      required:
+      - message
+      title: AddDigitalHumansToSimulationResponse
+      description: response body for adding digital humans to a simulation.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    src__api__simulations__UpdateSimulationRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: updated simulation name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: human‑readable description of the simulation
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: optional default prompt UUID for this simulation
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: optional default knowledge base UUID for this simulation
+        max_concurrent:
+          anyOf:
+          - type: integer
+            maximum: 500.0
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Max Concurrent
+          description: maximum number of concurrent runs (max 500)
+        hangup_on_transfer:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Hangup On Transfer
+          description: whether to hang up the call on transfer
+        max_call_duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Call Duration
+          description: maximum duration of each call. units specified by max_call_duration_units
+        max_call_duration_units:
+          anyOf:
+          - type: string
+            enum:
+            - minutes
+            - seconds
+          - type: 'null'
+          title: Max Call Duration Units
+          description: 'units for max_call_duration: ''minutes'' or ''seconds'''
+        max_turns:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Turns
+          description: maximum number of turns per simulation run
+        ringing_timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Ringing Timeout
+          description: ringing timeout in seconds before abandoning
+        digital_humans_settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Digital Humans Settings
+          description: settings for digital humans in the simulation
+        selected_custom_metrics:
+          anyOf:
+          - items:
+              type: string
+              format: uuid
+            type: array
+          - type: 'null'
+          title: Selected Custom Metrics
+          description: array of custom metric IDs to be saved in settings
+        custom_metrics_failing_threshold:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 0.0
+          - type: 'null'
+          title: Custom Metrics Failing Threshold
+          description: score threshold below which a custom metric is considered failing (0-100)
+        custom_metrics_passing_threshold:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 0.0
+          - type: 'null'
+          title: Custom Metrics Passing Threshold
+          description: score threshold at or above which a custom metric is considered passing (0-100)
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: array of tags for the simulation
+        pinned:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Pinned
+          description: whether the simulation is pinned
+      type: object
+      title: UpdateSimulationRequest
+      description: 'request body for updating a simulation.
+
+
+        all fields are optional; only provided fields will be updated.'
+    AddDigitalHumansToSimulationRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: array of existing digital human IDs to add to the simulation
+      type: object
+      required:
+      - digital_human_ids
+      title: AddDigitalHumansToSimulationRequest
+      description: request body for adding existing digital humans to a simulation.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

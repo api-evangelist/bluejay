@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Generate Translated Transcript API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Generate Translated Transcript
+paths:
+  /v1/generate-translated-transcript/{test_result_id}:
+    post:
+      summary: Generate Translated Transcript
+      description: "Generate a translated transcript for a given audio file.\n\nArgs:\n    test_result_id: the ID of the test result to generate a translated transcript for.\n\nReturns:\n    a dictionary with the status, message, and translated transcript url."
+      operationId: generate_translated_transcript_v1_generate_translated_transcript__test_result_id__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: test_result_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Test Result Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Generate Translated Transcript
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

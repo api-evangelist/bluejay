@@ -1,0 +1,502 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Alerts API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Alerts
+paths:
+  /v1/create-alert:
+    post:
+      tags:
+      - Alerts
+      summary: Create Alert
+      description: Create a new alert with optional agent associations
+      operationId: create_alert_v1_create_alert_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAlertRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-alert/{alert_id}:
+    put:
+      tags:
+      - Alerts
+      summary: Update Alert
+      description: Update an existing alert
+      operationId: update_alert_v1_update_alert__alert_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: alert_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Alert Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAlertRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/alert/{alert_id}:
+    delete:
+      tags:
+      - Alerts
+      summary: Delete Alert
+      description: Delete an alert and its agent associations
+      operationId: delete_alert_v1_alert__alert_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: alert_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Alert Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteAlertResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    EntityType:
+      type: string
+      enum:
+      - standard_metric
+      - custom_goal
+      - custom_metric
+      title: EntityType
+      description: Enum representing the entity types for alerts.
+    CreateAlertRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the alert
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the alert
+        is_enabled:
+          type: boolean
+          title: Is Enabled
+          description: Whether the alert is enabled
+          default: true
+        entity_type:
+          $ref: '#/components/schemas/EntityType'
+          description: Type of entity being monitored
+        entity_field:
+          type: string
+          title: Entity Field
+          description: The specific field/metric being monitored
+        operator:
+          $ref: '#/components/schemas/Operator'
+          description: Comparison operator
+        comparison_value:
+          type: string
+          title: Comparison Value
+          description: Value to compare against
+        notification_channels:
+          items:
+            $ref: '#/components/schemas/NotificationChannelRequest'
+          type: array
+          title: Notification Channels
+          description: Notification channels configuration
+        applies_to_all_agents:
+          type: boolean
+          title: Applies To All Agents
+          description: Whether the alert applies to all agents
+          default: true
+        agent_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Agent Ids
+          description: Agent IDs to associate with this alert (only used when applies_to_all_agents=False)
+        threshold_time_interval:
+          type: integer
+          title: Threshold Time Interval
+          description: Time window in seconds for the alert (e.g. 600 for 10 minutes)
+          default: 600
+        min_events:
+          type: integer
+          title: Min Events
+          description: The minimum number of events for the alert
+          default: 10
+        source_scope:
+          $ref: '#/components/schemas/SourceScope'
+          description: 'Which data source fires this alert: ''all'', ''observability'', or ''simulation'''
+          default: all
+      type: object
+      required:
+      - name
+      - entity_type
+      - entity_field
+      - operator
+      - comparison_value
+      title: CreateAlertRequest
+      description: Request model for creating an alert
+    DeleteAlertResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_alert_id:
+          type: string
+          title: Deleted Alert Id
+          description: ID of the deleted alert
+      type: object
+      required:
+      - message
+      - deleted_alert_id
+      title: DeleteAlertResponse
+      description: Response model for deleting an alert
+    AlertResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Unique identifier for the alert
+        name:
+          type: string
+          title: Name
+          description: Name of the alert
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the alert
+        is_enabled:
+          type: boolean
+          title: Is Enabled
+          description: Whether the alert is enabled
+        organization_id:
+          type: string
+          title: Organization Id
+          description: Organization ID
+        entity_type:
+          $ref: '#/components/schemas/EntityType'
+          description: Type of entity being monitored
+        entity_field:
+          type: string
+          title: Entity Field
+          description: The specific field/metric being monitored
+        operator:
+          $ref: '#/components/schemas/Operator'
+          description: Comparison operator
+        comparison_value:
+          type: string
+          title: Comparison Value
+          description: Value to compare against
+        notification_channels:
+          items: {}
+          type: array
+          title: Notification Channels
+          description: Notification channels configuration
+        last_triggered_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Triggered At
+          description: When the alert was last triggered
+        trigger_count:
+          type: integer
+          title: Trigger Count
+          description: Number of times triggered
+        created_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By
+          description: User who created the alert
+        applies_to_all_agents:
+          type: boolean
+          title: Applies To All Agents
+          description: Whether the alert applies to all agents
+        agents:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Agents
+          description: Associated agent IDs
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When the alert was created
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+          description: When the alert was last updated
+        threshold_time_interval:
+          type: integer
+          title: Threshold Time Interval
+          description: Time window in seconds for the alert (e.g. 600 for 10 minutes)
+        min_events:
+          type: integer
+          title: Min Events
+          description: The minimum number of events for the alert
+        in_alert:
+          type: boolean
+          title: In Alert
+          description: Whether the alert is in alert
+        source_scope:
+          type: string
+          title: Source Scope
+          description: 'Which data source fires this alert: ''all'', ''observability'', or ''simulation'''
+          default: all
+      type: object
+      required:
+      - id
+      - name
+      - is_enabled
+      - organization_id
+      - entity_type
+      - entity_field
+      - operator
+      - comparison_value
+      - notification_channels
+      - trigger_count
+      - applies_to_all_agents
+      - created_at
+      - threshold_time_interval
+      - min_events
+      - in_alert
+      title: AlertResponse
+      description: Response model for alert operations
+    NotificationChannelRequest:
+      properties:
+        type:
+          type: string
+          title: Type
+          description: 'Type of notification: ''email'', ''slack'', or ''webhook'''
+        target:
+          type: string
+          title: Target
+          description: Target for the notification (email address, slack channel, webhook URL)
+      type: object
+      required:
+      - type
+      - target
+      title: NotificationChannelRequest
+      description: Notification channel configuration
+    SourceScope:
+      type: string
+      enum:
+      - all
+      - observability
+      - simulation
+      title: SourceScope
+      description: 'Allowed data source scope for when an alert fires: all, observability only, or simulation only.'
+    UpdateAlertRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the alert
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the alert
+        is_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Enabled
+          description: Whether the alert is enabled
+        entity_type:
+          anyOf:
+          - $ref: '#/components/schemas/EntityType'
+          - type: 'null'
+          description: Type of entity being monitored
+        entity_field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entity Field
+          description: The specific field/metric being monitored
+        operator:
+          anyOf:
+          - $ref: '#/components/schemas/Operator'
+          - type: 'null'
+          description: Comparison operator
+        comparison_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Comparison Value
+          description: Value to compare against
+        notification_channels:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/NotificationChannelRequest'
+            type: array
+          - type: 'null'
+          title: Notification Channels
+          description: Notification channels configuration
+        applies_to_all_agents:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Applies To All Agents
+          description: Whether the alert applies to all agents
+        agent_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Agent Ids
+          description: Agent IDs to associate with this alert
+        threshold_time_interval:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Threshold Time Interval
+          description: Time window in seconds for the alert (e.g. 600 for 10 minutes)
+        min_events:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Events
+          description: Minimum number of events to trigger the alert
+        source_scope:
+          anyOf:
+          - $ref: '#/components/schemas/SourceScope'
+          - type: 'null'
+          description: 'Which data source fires this alert: ''all'', ''observability'', or ''simulation'''
+      type: object
+      title: UpdateAlertRequest
+      description: Request model for updating an alert
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Operator:
+      type: string
+      enum:
+      - equals
+      - not_equals
+      - greater_than
+      - less_than
+      - greater_than_or_equal
+      - less_than_or_equal
+      - contains
+      - not_contains
+      title: Operator
+      description: Enum representing the comparison operators for alerts.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

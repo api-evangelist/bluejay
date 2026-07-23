@@ -1,0 +1,243 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents HTTP Text Agent API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: HTTP Text Agent
+paths:
+  /v1/queue-http-text-simulation-run:
+    post:
+      tags:
+      - HTTP Text Agent
+      summary: Queue Http Simulation Run
+      description: 'Queue a new simulation run and test results for HTTP text agent.
+
+        Takes simulation_id, optional prompt_id, knowledge_base_id, and digital_human_ids.
+
+        If digital_human_ids is not provided, uses all digital humans for the simulation.
+
+        Returns simulation_run_id (experiment_run_id) and simulation_result_ids (array of test result IDs).'
+      operationId: queue_http_simulation_run_v1_queue_http_text_simulation_run_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HttpSimulationRunRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpSimulationRunResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/send-http-text-message:
+    post:
+      tags:
+      - HTTP Text Agent
+      summary: Send Http Text Message
+      description: 'Receive a text message via HTTP, process it through the lambda, and send response to webhook.
+
+        Uses simulation_result_id (test_result_id) for Redis operations and evaluations.'
+      operationId: send_http_text_message_v1_send_http_text_message_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HttpTextMessageRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpTextMessageResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+components:
+  schemas:
+    HttpTextMessageResponse:
+      properties:
+        simulation_result_id:
+          type: string
+          title: Simulation Result Id
+          description: Simulation result ID
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+        end_conversation:
+          type: boolean
+          title: End Conversation
+          description: Whether the conversation has ended
+          default: false
+      type: object
+      required:
+      - simulation_result_id
+      title: HttpTextMessageResponse
+      description: Response model for HTTP text message
+    HttpSimulationRunRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: ID of the simulation to be run
+        prompt_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Id
+          description: Prompt UUID associated with this run
+        knowledge_base_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Knowledge base UUID associated with this run
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: Digital human IDs to be used in the simulation
+      type: object
+      required:
+      - simulation_id
+      title: HttpSimulationRunRequest
+      description: Request model for HTTP simulation run
+    HttpTextMessageRequest:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Text message to send
+        simulation_result_id:
+          type: string
+          title: Simulation Result Id
+          description: ID of the simulation result (test result)
+        end_conversation:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: End Conversation
+          description: If true, skip lambda and end/evaluate the conversation
+          default: false
+        end_turn:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: End Turn
+          description: If true, process the message now; if false, stack it for later
+          default: true
+        message_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message Id
+          description: Unique message ID for deduping within a conversation
+      type: object
+      required:
+      - message
+      - simulation_result_id
+      title: HttpTextMessageRequest
+      description: Request model for HTTP text message
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HttpSimulationRunResponse:
+      properties:
+        simulation_run_id:
+          type: string
+          title: Simulation Run Id
+          description: ID of the created simulation run (experiment_run)
+        simulation_result_ids:
+          items:
+            type: string
+          type: array
+          title: Simulation Result Ids
+          description: IDs of the created simulation results (test results)
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent associated with the simulation run
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+      type: object
+      required:
+      - simulation_run_id
+      - simulation_result_ids
+      - agent_id
+      title: HttpSimulationRunResponse
+      description: Response model for HTTP simulation run
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

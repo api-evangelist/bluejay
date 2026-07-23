@@ -1,0 +1,632 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Folders API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Folders
+paths:
+  /v1/create-folder:
+    post:
+      tags:
+      - Folders
+      summary: Create Folder
+      description: 'Create a new folder for organizing agents.
+
+
+        Returns the created folder details.'
+      operationId: create_folder_v1_create_folder_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderCreateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/all-folders:
+    get:
+      tags:
+      - Folders
+      summary: Get All Folders
+      description: 'Get all folders for the authenticated user''s organization.
+
+
+        Returns a list of all folders with their details.'
+      operationId: get_all_folders_v1_all_folders_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FolderResponse'
+                title: Response Get All Folders V1 All Folders Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/folder/{folder_id}:
+    get:
+      tags:
+      - Folders
+      summary: Get Folder
+      description: 'Get a specific folder by ID.
+
+
+        Returns the folder details if it exists and belongs to the user''s organization.'
+      operationId: get_folder_v1_folder__folder_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Folder Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Folders
+      summary: Delete Folder
+      description: 'Delete a folder.
+
+
+        Note: This will set the folder_id to NULL for all agents in this folder.
+
+        Returns the deleted folder ID and status.'
+      operationId: delete_folder_v1_folder__folder_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Folder Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDeleteResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/folders/move-agent:
+    put:
+      tags:
+      - Folders
+      summary: Move Agent To Folder
+      description: 'Move an agent to a folder or disassociate it from any folder.
+
+
+        - If folder_id is provided: Associates the agent with that folder
+
+        - If folder_id is null: Disassociates the agent from any folder
+
+
+        Both the agent and folder (if provided) must belong to the user''s organization.'
+      operationId: move_agent_to_folder_v1_folders_move_agent_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveAgentRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoveAgentResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-folder/{folder_id}:
+    put:
+      tags:
+      - Folders
+      summary: Update Folder
+      description: 'Update a folder''s name.
+
+
+        Returns the updated folder details.'
+      operationId: update_folder_v1_update_folder__folder_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Folder Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderUpdateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/get-agents-by-folder/{folder_id}:
+    get:
+      tags:
+      - Folders
+      summary: Get Agents By Folder
+      description: 'Get all agents in a specific folder.
+
+
+        Returns a list of agent IDs and names in the folder.'
+      operationId: get_agents_by_folder_v1_get_agents_by_folder__folder_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Folder Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AgentPydantic'
+                title: Response Get Agents By Folder V1 Get Agents By Folder  Folder Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    MoveAgentRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the agent to move
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+          description: ID of the target folder (null to disassociate from any folder)
+      type: object
+      required:
+      - agent_id
+      title: MoveAgentRequest
+    AgentPydantic:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: integer
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          title: Name
+        agent_description:
+          type: string
+          title: Agent Description
+        knowledge_base:
+          type: string
+          title: Knowledge Base
+        organization_id:
+          type: string
+          title: Organization Id
+        goals:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Goals
+        mode:
+          $ref: '#/components/schemas/AgentMode'
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/AgentType'
+          - type: 'null'
+        connection_type:
+          anyOf:
+          - $ref: '#/components/schemas/ConnectionType'
+          - type: 'null'
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+        websocket_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Url
+        redact_pii:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redact Pii
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        keyterms:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keyterms
+        voice_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Provider
+        provider_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider Id
+        websocket_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Username
+        websocket_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Password
+        external_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Agent Id
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+        custom_sip_headers:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Custom Sip Headers
+        sip_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Username
+        sip_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Password
+        simulation_notifications:
+          additionalProperties: true
+          type: object
+          title: Simulation Notifications
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+        http_webhook:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook
+        http_webhook_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook Key
+        enable_outbound_call_auto_start:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Outbound Call Auto Start
+      type: object
+      required:
+      - name
+      - agent_description
+      - knowledge_base
+      - organization_id
+      - mode
+      title: AgentPydantic
+    AgentType:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: AgentType
+      description: Enum representing the type of agent
+    MoveAgentResponse:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the agent
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+          description: ID of the folder (null if disassociated)
+        status:
+          type: string
+          title: Status
+          description: Status of the operation
+          default: success
+      type: object
+      required:
+      - agent_id
+      title: MoveAgentResponse
+    FolderCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the folder
+      type: object
+      required:
+      - name
+      title: FolderCreateRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FolderResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: ID of the folder
+        name:
+          type: string
+          title: Name
+          description: Name of the folder
+        organization_id:
+          type: string
+          title: Organization Id
+          description: Organization ID
+        created_at:
+          type: string
+          title: Created At
+          description: Timestamp when the folder was created
+      type: object
+      required:
+      - id
+      - name
+      - organization_id
+      - created_at
+      title: FolderResponse
+    ConnectionType:
+      type: string
+      enum:
+      - SMS
+      - HTTP_WEBHOOK
+      - PHONE
+      - SIP
+      - WEBSOCKET
+      - LIVEKIT
+      - PIPECAT
+      title: ConnectionType
+      description: Enum representing the connection type of the agent
+    FolderDeleteResponse:
+      properties:
+        folder_id:
+          type: string
+          format: uuid
+          title: Folder Id
+          description: ID of the deleted folder
+        status:
+          type: string
+          title: Status
+          description: Status of the deletion
+          default: success
+      type: object
+      required:
+      - folder_id
+      title: FolderDeleteResponse
+    FolderUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: New name for the folder
+      type: object
+      required:
+      - name
+      title: FolderUpdateRequest
+    AgentMode:
+      type: string
+      enum:
+      - VOICE
+      - TEXT
+      title: AgentMode
+      description: Enum representing the mode of agent
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

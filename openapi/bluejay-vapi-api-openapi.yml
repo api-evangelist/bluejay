@@ -1,0 +1,167 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents vapi API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: vapi
+paths:
+  /v1/integrations/vapi:
+    post:
+      tags:
+      - vapi
+      summary: Handle Webhook
+      description: Handle VAPI webhook events.
+      operationId: handle_webhook_v1_integrations_vapi_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+  /v1/integrations/vapi/sync:
+    post:
+      tags:
+      - vapi
+      summary: Sync Vapi Agents
+      description: 'Trigger an async sync of all Vapi assistants into Bluejay agents.
+
+
+        Admins may pass organization_id to sync any org.
+
+        Non-admins are restricted to their own org.'
+      operationId: sync_vapi_agents_v1_integrations_vapi_sync_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SyncVapiAgentsRequest'
+              default:
+                dry_run: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/vapi/sync-agent:
+    post:
+      tags:
+      - vapi
+      summary: Sync Single Agent From Vapi
+      description: Trigger an async sync of a single Vapi agent's name and prompt from Vapi.
+      operationId: sync_single_agent_from_vapi_v1_integrations_vapi_sync_agent_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SyncSingleAgentFromVapiRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SyncSingleAgentFromVapiRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+      type: object
+      required:
+      - agent_id
+      title: SyncSingleAgentFromVapiRequest
+    SyncVapiAgentsRequest:
+      properties:
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+        dry_run:
+          type: boolean
+          title: Dry Run
+          default: true
+      type: object
+      title: SyncVapiAgentsRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

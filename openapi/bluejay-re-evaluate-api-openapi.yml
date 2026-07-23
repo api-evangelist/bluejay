@@ -1,0 +1,156 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Re-evaluate API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Re-evaluate
+paths:
+  /v1/re-evaluate/{call_id}:
+    post:
+      tags:
+      - Re-evaluate
+      summary: Re Evaluate
+      description: Re-evaluate a call.
+      operationId: re_evaluate_v1_re_evaluate__call_id__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: call_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Call Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReEvaluateCallResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/re-evaluate-simulation-result/{simulation_result_id}:
+    post:
+      tags:
+      - Re-evaluate
+      summary: Re Evaluate Simulation Result
+      description: Re-evaluate a simulation result.
+      operationId: re_evaluate_simulation_result_v1_re_evaluate_simulation_result__simulation_result_id__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_result_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Result Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReEvaluateSimulationResultResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReEvaluateSimulationResultResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+        simulation_result_id:
+          type: integer
+          title: Simulation Result Id
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - status
+      - simulation_result_id
+      - message
+      title: ReEvaluateSimulationResultResponse
+    ReEvaluateCallResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+        call_id:
+          type: string
+          title: Call Id
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - status
+      - call_id
+      - message
+      title: ReEvaluateCallResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

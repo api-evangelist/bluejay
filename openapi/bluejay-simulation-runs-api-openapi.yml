@@ -1,0 +1,153 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Simulation Runs API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Simulation Runs
+paths:
+  /v1/simulation-result/{simulation_result_id}:
+    delete:
+      tags:
+      - Simulation Runs
+      summary: Delete Simulation Result
+      description: Delete a single simulation result (one row in run details) by ID.
+      operationId: delete_simulation_result_v1_simulation_result__simulation_result_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_result_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Result Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteSimulationResultResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/simulation-run/{simulation_run_id}:
+    delete:
+      tags:
+      - Simulation Runs
+      summary: Delete Simulation Run
+      description: Delete a single simulation run by ID. This will also delete all associated test results.
+      operationId: delete_simulation_run_v1_simulation_run__simulation_run_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_run_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Run Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteSimulationRunResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DeleteSimulationResultResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_simulation_result_id:
+          type: integer
+          title: Deleted Simulation Result Id
+          description: ID of the deleted simulation result
+      type: object
+      required:
+      - message
+      - deleted_simulation_result_id
+      title: DeleteSimulationResultResponse
+      description: Response model for the delete simulation result API (customer-facing).
+    DeleteSimulationRunResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_simulation_run_id:
+          type: integer
+          title: Deleted Simulation Run Id
+          description: ID of the deleted simulation run
+      type: object
+      required:
+      - message
+      - deleted_simulation_run_id
+      title: DeleteSimulationRunResponse
+      description: Response model for deleting a simulation run.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

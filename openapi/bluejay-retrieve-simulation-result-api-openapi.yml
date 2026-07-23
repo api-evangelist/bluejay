@@ -1,0 +1,585 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Retrieve Simulation Result API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Retrieve Simulation Result
+paths:
+  /v1/retrieve-simulation-result/{test_result_id}:
+    get:
+      summary: Retrieve Simulation Result
+      description: "Retrieve a single test result and its associated custom metrics.\n\nArgs:\n    test_result_id: the ID of the test result to retrieve.\n\nReturns:\n    the test result along with its custom metric results."
+      operationId: retrieve_simulation_result_v1_retrieve_simulation_result__test_result_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: test_result_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Test Result Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleSimulationResultResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Retrieve Simulation Result
+components:
+  schemas:
+    src__models__api_custom_metric__CustomMetric:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the custom metric
+        description:
+          type: string
+          title: Description
+          description: The description of the custom metric
+        response_type:
+          type: string
+          title: Response Type
+          description: The response type of the custom metric
+        response_value:
+          type: string
+          title: Response Value
+          description: The response value of the custom metric
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+          description: The reasoning of the custom metric
+        min_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Value
+          description: The minimum value of the custom metric
+        max_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Value
+          description: The maximum value of the custom metric
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+          description: The category of the custom metric
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: The tags of the custom metric
+        scoring_guidance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scoring Guidance
+          description: The scoring guidance of the custom metric
+        enum_options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum Options
+          description: The enum options of the custom metric
+      type: object
+      required:
+      - name
+      - description
+      - response_type
+      - response_value
+      title: Custom Metric
+    ToolCallComparisonGroup:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Tool name
+        expected:
+          items:
+            $ref: '#/components/schemas/ExpectedToolCallDetail'
+          type: array
+          title: Expected
+          description: Expected invocations of this tool
+        actual:
+          items:
+            $ref: '#/components/schemas/ActualToolCallDetail'
+          type: array
+          title: Actual
+          description: Actual invocations of this tool during the simulation
+      type: object
+      required:
+      - name
+      title: ToolCallComparisonGroup
+    SimulationResultResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: ID of the simulation result
+        digital_human_id:
+          type: integer
+          title: Digital Human Id
+          description: ID of the digital human associated with the simulation result
+        result:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Result
+          description: Result of the simulation run
+        duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Duration
+          description: Duration of the simulation run in milliseconds
+        start_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Time
+          description: Start time of the simulation run
+        end_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: End Time
+          description: End time of the simulation run
+        custom_metrics:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Custom Metrics
+          description: Custom metrics associated with the simulation result
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+          description: Current status of the simulation result
+        latency:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Latency
+          description: Average latency of the simulation run
+        events:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Event'
+            type: array
+          - type: 'null'
+          title: Events
+          description: Events of the simulation run
+        transcript_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Transcript Url
+          description: URL to the transcript file of the simulation run
+        audio_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Url
+          description: URL to the audio file of the simulation run
+        evaluations:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Evaluation'
+            type: array
+          - type: 'null'
+          title: Evaluations
+          description: Evaluations of the simulation result
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolCallComparisonGroup'
+            type: array
+          - type: 'null'
+          title: Tool Calls
+          description: Expected vs actual tool calls grouped by tool name
+      type: object
+      required:
+      - id
+      - digital_human_id
+      title: SimulationResultResponse
+    ActualToolCallDetail:
+      properties:
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Parameters passed to the tool
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Output returned by the tool
+        start_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Start Offset Ms
+          description: When the tool was called relative to conversation start, in milliseconds
+      type: object
+      title: ActualToolCallDetail
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FillerIgnoredLatency:
+      properties:
+        avg_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Filler Ignored Latency
+          description: Average filler ignored latency
+          default: 0
+        p50_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Filler Ignored Latency
+          description: 50th percentile filler ignored latency
+          default: 0
+        p90_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Filler Ignored Latency
+          description: 90th percentile filler ignored latency
+          default: 0
+        p95_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Filler Ignored Latency
+          description: 95th percentile filler ignored latency
+          default: 0
+        p99_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Filler Ignored Latency
+          description: 99th percentile filler ignored latency
+          default: 0
+      type: object
+      title: FillerIgnoredLatency
+    Evaluation:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Unique identifier for the evaluation result
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When this evaluation result was created (defaults to now in UTC)
+        hallucination:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Hallucination
+          description: Whether the agent exhibited hallucination during the call
+        hallucination_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Hallucination Reasoning
+          description: Reasoning behind the hallucination, if applicable
+        redundancy:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redundancy
+          description: Whether the agent exhibited redundancy during the call
+        redundancy_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Redundancy Reasoning
+          description: Reasoning behind the redundancy, if applicable
+        agent_speak_percentage:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Agent Speak Percentage
+          description: Percentage of the call where the agent was speaking
+        avg_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Agent Latency
+          description: Average latency of the agent's responses during the call
+        latency:
+          anyOf:
+          - $ref: '#/components/schemas/Latency'
+          - type: 'null'
+          description: Latency metrics for the agent's responses
+        filler_ignored_latency:
+          anyOf:
+          - $ref: '#/components/schemas/FillerIgnoredLatency'
+          - type: 'null'
+          description: Filler ignored latency metrics
+        num_turns:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Num Turns
+          description: Total number of turns taken by the agent during the call
+        call_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Summary
+          description: Summary of the call, if applicable
+        custom_evals:
+          anyOf:
+          - items: {}
+            type: array
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Custom Evals
+          description: List of custom evaluations performed during the call
+        custom_evals_success_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Custom Evals Success Rate
+          description: Success rate of the custom evaluations performed during the call
+        goal_success:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Goal Success
+          description: Whether the goal was successfully achieved during the call
+        goal_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal Reasoning
+          description: Reasoning behind the goal success, if applicable
+        pronunciation_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Pronunciation Score
+          description: Pronunciation score of the agent during the call
+        pronunciation_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pronunciation Reasoning
+          description: Reasoning behind the pronunciation score, if applicable
+        custom_metrics:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/src__models__api_custom_metric__CustomMetric'
+            type: array
+          - type: 'null'
+          title: Custom Metrics
+          description: Custom metrics associated with the evaluation
+      type: object
+      required:
+      - agent_speak_percentage
+      - avg_agent_latency
+      title: Evaluation
+      description: Pydantic model for evaluation result
+    ExpectedToolCallDetail:
+      properties:
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Expected parameters
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Expected output
+      type: object
+      title: ExpectedToolCallDetail
+    Latency:
+      properties:
+        avg_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Agent Latency
+          description: Average latency
+          default: 0
+        max_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Agent Latency
+          description: Maximum latency
+          default: 0
+        p50_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Agent Latency
+          description: 50th percentile latency
+          default: 0
+        p90_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Agent Latency
+          description: 90th percentile latency
+          default: 0
+        p95_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Agent Latency
+          description: 95th percentile latency
+          default: 0
+        p99_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Agent Latency
+          description: 99th percentile latency
+          default: 0
+      type: object
+      title: Latency
+    SingleSimulationResultResponse:
+      properties:
+        simulation_result:
+          $ref: '#/components/schemas/SimulationResultResponse'
+          description: The requested simulation result
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - simulation_result
+      title: SingleSimulationResultResponse
+    Event:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the event
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the event in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the event
+        end_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: End Offset Ms
+          description: End offset of the event in milliseconds
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: List of tags associated with the event
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Additional metadata associated with the event
+      type: object
+      required:
+      - title
+      - start_offset_ms
+      title: Event
+      description: Pydantic model for event data
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

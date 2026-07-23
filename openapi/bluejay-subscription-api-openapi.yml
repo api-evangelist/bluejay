@@ -1,0 +1,258 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Subscription API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Subscription
+paths:
+  /v1/subscription/signup:
+    post:
+      tags:
+      - Subscription
+      summary: Signup
+      description: 'Create subscription: Stripe customer + Metronome customer + contract.'
+      operationId: signup_v1_subscription_signup_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/start-trial:
+    post:
+      tags:
+      - Subscription
+      summary: Start Trial
+      description: Start a 7-day free trial only. Call this when a new account is created.
+      operationId: start_trial_v1_subscription_start_trial_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartTrialRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/active-package:
+    get:
+      tags:
+      - Subscription
+      summary: Get Active Package
+      description: Get the user's active package ID from their Metronome contract.
+      operationId: get_active_package_v1_subscription_active_package_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivePackageResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/cancel:
+    post:
+      tags:
+      - Subscription
+      summary: Cancel Subscription
+      description: 'Cancel subscription self-serve by ending the active Metronome contract
+
+        at the end of the current billing period (updateEndDate).'
+      operationId: cancel_subscription_v1_subscription_cancel_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    StartTrialRequest:
+      properties:
+        payment_method_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method Id
+          description: Optional Stripe payment method ID; trial can start without a card
+      type: object
+      title: StartTrialRequest
+    CancelResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the cancel request was accepted
+        message:
+          type: string
+          title: Message
+          description: Response message for the frontend
+      type: object
+      required:
+      - success
+      - message
+      title: CancelResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SignupResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the signup was successful
+        message:
+          type: string
+          title: Message
+          description: Response message
+      type: object
+      required:
+      - success
+      - message
+      title: SignupResponse
+    SignupRequest:
+      properties:
+        payment_method_id:
+          type: string
+          title: Payment Method Id
+          description: Stripe payment method ID
+        package_id:
+          type: string
+          title: Package Id
+          description: Metronome Package ID
+      type: object
+      required:
+      - payment_method_id
+      - package_id
+      title: SignupRequest
+    ActivePackageResponse:
+      properties:
+        package_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Package Id
+          description: Active package ID if available
+        has_active_contract:
+          type: boolean
+          title: Has Active Contract
+          description: Whether the user has an active contract
+        access_ends_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Access Ends At
+          description: ISO 8601 timestamp when access ends, from Metronome contract ending_before (e.g. cancel at period end or trial end). Null if open-ended or not returned.
+      type: object
+      required:
+      - has_active_contract
+      title: ActivePackageResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

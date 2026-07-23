@@ -1,0 +1,1186 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Agents
+paths:
+  /v1/add-agent:
+    post:
+      tags:
+      - Agents
+      summary: Add Agent
+      description: 'Add a new agent to the system.
+
+
+        Returns the agent id and a status code.'
+      operationId: add_agent_v1_add_agent_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-agent:
+    post:
+      tags:
+      - Agents
+      summary: Update Agent
+      description: Update an existing agent in the system.
+      operationId: update_agent_v1_update_agent_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentUpdateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentUpdateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-agent-by-external-id:
+    put:
+      tags:
+      - Agents
+      summary: Update Agent By External Id
+      description: Update an existing agent in the system by external ID.
+      operationId: update_agent_by_external_id_v1_update_agent_by_external_id_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentUpdateWithExternalIdRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentUpdateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}:
+    get:
+      tags:
+      - Agents
+      summary: Get Agent
+      description: Get an agent by ID.
+      operationId: get_agent_v1_agents__agent_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentPydantic'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-by-external-id/{external_id}:
+    get:
+      tags:
+      - Agents
+      summary: Get Agent By External Id
+      description: Get an agent by external ID.
+      operationId: get_agent_by_external_id_v1_agent_by_external_id__external_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: external_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: External Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentPydantic'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/all-agents:
+    get:
+      tags:
+      - Agents
+      summary: Get All Agents
+      description: Get all your agents.
+      operationId: get_all_agents_v1_all_agents_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AgentPydantic'
+                title: Response Get All Agents V1 All Agents Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent/{agent_id}:
+    delete:
+      tags:
+      - Agents
+      summary: Delete Agent
+      description: Delete an agent by ID.
+      operationId: delete_agent_v1_agent__agent_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/generate-http-webhook-key:
+    post:
+      tags:
+      - Agents
+      summary: Generate Http Webhook Key
+      description: Generate a new signing key for an HTTP agent's webhook
+      operationId: generate_http_webhook_key_v1_generate_http_webhook_key_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentWebhookKeyRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentWebhookKeyResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/get-http-webhook-key:
+    post:
+      tags:
+      - Agents
+      summary: Get Http Webhook Key
+      description: Get the signing key for an HTTP agent's webhook
+      operationId: get_http_webhook_key_v1_get_http_webhook_key_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentWebhookKeyRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentWebhookKeyResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AgentWebhookKeyResponse:
+      properties:
+        signing_key:
+          type: string
+          title: Signing Key
+          description: Signing key
+        message:
+          type: string
+          title: Message
+          description: Message
+      type: object
+      required:
+      - signing_key
+      - message
+      title: AgentWebhookKeyResponse
+      description: Response model for agent webhook key
+    AgentPydantic:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: integer
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          title: Name
+        agent_description:
+          type: string
+          title: Agent Description
+        knowledge_base:
+          type: string
+          title: Knowledge Base
+        organization_id:
+          type: string
+          title: Organization Id
+        goals:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Goals
+        mode:
+          $ref: '#/components/schemas/AgentMode'
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/AgentType'
+          - type: 'null'
+        connection_type:
+          anyOf:
+          - $ref: '#/components/schemas/ConnectionType'
+          - type: 'null'
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+        websocket_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Url
+        redact_pii:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redact Pii
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        keyterms:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keyterms
+        voice_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Provider
+        provider_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider Id
+        websocket_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Username
+        websocket_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Password
+        external_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Agent Id
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+        custom_sip_headers:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Custom Sip Headers
+        sip_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Username
+        sip_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Password
+        simulation_notifications:
+          additionalProperties: true
+          type: object
+          title: Simulation Notifications
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+        http_webhook:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook
+        http_webhook_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook Key
+        enable_outbound_call_auto_start:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Outbound Call Auto Start
+      type: object
+      required:
+      - name
+      - agent_description
+      - knowledge_base
+      - organization_id
+      - mode
+      title: AgentPydantic
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ConnectionType:
+      type: string
+      enum:
+      - SMS
+      - HTTP_WEBHOOK
+      - PHONE
+      - SIP
+      - WEBSOCKET
+      - LIVEKIT
+      - PIPECAT
+      title: ConnectionType
+      description: Enum representing the connection type of the agent
+    AgentResponse:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the created agent
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+        http_webhook_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook Key
+          description: Signing key for HTTP webhook (only provided if http_webhook was set)
+      type: object
+      required:
+      - agent_id
+      title: AgentResponse
+    AgentUpdateRequest:
+      properties:
+        agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent to be updated
+        external_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Agent Id
+          description: External agent ID for the agent
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the agent
+        system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: System Prompt
+          description: System prompt for the agent
+        knowledge_base:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Knowledge Base
+          description: Knowledge base of the agent
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number associated with the agent
+        goals:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Goals
+          description: List of goals for the agent
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/AgentType'
+          - type: 'null'
+          description: 'INBOUND: Agent receives incoming calls from customers
+
+            OUTBOUND: Agent makes outgoing calls to customers'
+        connection_type:
+          anyOf:
+          - $ref: '#/components/schemas/ConnectionType'
+          - type: 'null'
+          description: Connection type of the agent (Livekit, Websocket, etc.)
+        mode:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMode'
+          - type: 'null'
+          description: Modality of the agent
+        keyterms:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keyterms
+          description: List of keyterms for the agent
+        folder:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Folder
+          description: Name of the folder to put the agent in
+        websocket_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Url
+          description: WebSocket URL for real-time communication
+        websocket_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Username
+          description: Username for WebSocket authentication
+        websocket_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Password
+          description: Password for WebSocket authentication
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+          description: SIP URI for VoIP calls
+        sip_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Username
+          description: Username for SIP authentication
+        sip_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Password
+          description: Password for SIP authentication
+        custom_sip_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Custom Sip Headers
+          description: Custom headers for SIP requests (Do not include `X-` prefix for the headers, these get added automatically)
+        redact_pii:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redact Pii
+          description: Enable/disable PII redaction
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+          description: LiveKit agent name
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+          description: LiveKit metadata
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+          description: Pipecat agent name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+          description: Pipecat agent configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+          description: Pipecat room properties
+        http_webhook:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook
+          description: HTTP webhook URL for text agent communication
+        voice_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Provider
+          description: Voice provider for the agent
+        provider_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider Id
+          description: Provider ID for the agent
+        enable_outbound_call_auto_start:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Outbound Call Auto Start
+          description: Automatically initiate an outbound call when a test result reaches READY state
+      type: object
+      required:
+      - agent_id
+      title: AgentUpdateRequest
+    AgentUpdateResponse:
+      properties:
+        agent:
+          $ref: '#/components/schemas/AgentUpdateRequest'
+          description: Updated agent details
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+        http_webhook_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook Key
+          description: Signing key for HTTP webhook (only provided if http_webhook was set)
+      type: object
+      required:
+      - agent
+      title: AgentUpdateResponse
+    AgentRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the agent
+        system_prompt:
+          type: string
+          title: System Prompt
+          description: System prompt for the agent
+        knowledge_base:
+          type: string
+          title: Knowledge Base
+          description: Knowledge base of the agent
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number associated with the agent
+        goals:
+          items:
+            type: string
+          type: array
+          title: Goals
+          description: List of goals for the agent
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/AgentType'
+          - type: 'null'
+          description: 'INBOUND: Agent receives incoming calls from customers
+
+            OUTBOUND: Agent makes outgoing calls to customers'
+          default: INBOUND
+        connection_type:
+          anyOf:
+          - $ref: '#/components/schemas/ConnectionType'
+          - type: 'null'
+          description: Connection type of the agent (Livekit, Websocket, etc.)
+        mode:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMode'
+          - type: 'null'
+          description: Modality of the agent
+          default: VOICE
+        keyterms:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keyterms
+          description: List of keyterms for the agent
+        external_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Agent Id
+          description: External agent ID for the agent
+        folder:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Folder
+          description: Name of the folder to put the agent in
+        websocket_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Url
+          description: WebSocket URL for real-time communication
+        websocket_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Username
+          description: Username for WebSocket authentication
+        websocket_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Password
+          description: Password for WebSocket authentication
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+          description: SIP URI for VoIP calls
+        sip_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Username
+          description: Username for SIP authentication
+        sip_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Password
+          description: Password for SIP authentication
+        custom_sip_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Custom Sip Headers
+          description: Custom headers for SIP requests (Do not include `X-` prefix for the headers, these get added automatically)
+        redact_pii:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redact Pii
+          description: Enable/disable PII redaction
+          default: false
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+          description: LiveKit agent name
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+          description: LiveKit metadata
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+          description: Pipecat agent name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+          description: Pipecat agent configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+          description: Pipecat room properties
+        http_webhook:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook
+          description: HTTP webhook URL for text agent communication
+        voice_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Provider
+          description: Voice provider for the agent
+        provider_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider Id
+          description: Provider ID for the agent
+        enable_outbound_call_auto_start:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Outbound Call Auto Start
+          description: Automatically initiate an outbound call when a test result reaches READY state
+      type: object
+      required:
+      - name
+      - system_prompt
+      - knowledge_base
+      - goals
+      title: AgentRequest
+    AgentWebhookKeyRequest:
+      properties:
+        agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent
+        external_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Agent Id
+          description: External ID of the agent
+      type: object
+      title: AgentWebhookKeyRequest
+      description: Request model for creating/getting an agent webhook key
+    AgentUpdateWithExternalIdRequest:
+      properties:
+        external_agent_id:
+          type: string
+          title: External Agent Id
+          description: External agent ID for the agent
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the agent
+        system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: System Prompt
+          description: System prompt for the agent
+        knowledge_base:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Knowledge Base
+          description: Knowledge base of the agent
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number associated with the agent
+        goals:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Goals
+          description: List of goals for the agent
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/AgentType'
+          - type: 'null'
+          description: 'INBOUND: Agent receives incoming calls from customers
+
+            OUTBOUND: Agent makes outgoing calls to customers'
+        connection_type:
+          anyOf:
+          - $ref: '#/components/schemas/ConnectionType'
+          - type: 'null'
+          description: Connection type of the agent (Livekit, Websocket, etc.)
+        mode:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMode'
+          - type: 'null'
+          description: Modality of the agent
+        keyterms:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keyterms
+          description: List of keyterms for the agent
+        folder:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Folder
+          description: Name of the folder to put the agent in
+        websocket_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Url
+          description: WebSocket URL for real-time communication
+        websocket_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Username
+          description: Username for WebSocket authentication
+        websocket_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Password
+          description: Password for WebSocket authentication
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+          description: SIP URI for VoIP calls
+        sip_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Username
+          description: Username for SIP authentication
+        sip_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Password
+          description: Password for SIP authentication
+        custom_sip_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Custom Sip Headers
+          description: Custom headers for SIP requests
+        redact_pii:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redact Pii
+          description: Enable/disable PII redaction
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+          description: LiveKit agent name
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+          description: LiveKit metadata
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+          description: Pipecat agent name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+          description: Pipecat agent configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+          description: Pipecat room properties
+        http_webhook:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook
+          description: HTTP webhook URL for text agent communication
+        voice_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Provider
+          description: Voice provider for the agent
+        provider_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider Id
+          description: Provider ID for the agent
+        enable_outbound_call_auto_start:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Outbound Call Auto Start
+          description: Automatically initiate an outbound call when a test result reaches READY state
+      type: object
+      required:
+      - external_agent_id
+      title: AgentUpdateWithExternalIdRequest
+    AgentType:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: AgentType
+      description: Enum representing the type of agent
+    AgentMode:
+      type: string
+      enum:
+      - VOICE
+      - TEXT
+      title: AgentMode
+      description: Enum representing the mode of agent
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

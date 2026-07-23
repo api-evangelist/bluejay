@@ -1,0 +1,115 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Compare Experiment Runs API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Compare Experiment Runs
+paths:
+  /v1/compare-experiment-runs:
+    post:
+      summary: Compare Experiment Runs
+      description: Compare multiple experiment runs and generate a summary of differences
+      operationId: compare_experiment_runs_v1_compare_experiment_runs_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComparisonRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComparisonResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Compare Experiment Runs
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ComparisonRequest:
+      properties:
+        experiment_run_ids:
+          items:
+            type: integer
+          type: array
+          title: Experiment Run Ids
+          description: List of experiment run IDs to compare
+      type: object
+      required:
+      - experiment_run_ids
+      title: ComparisonRequest
+      description: Pydantic model for experiment run comparison request
+    ComparisonResponse:
+      properties:
+        summary:
+          type: string
+          title: Summary
+          description: AI-generated comparison summary of the experiment runs
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - summary
+      title: ComparisonResponse
+      description: Pydantic model for experiment run comparison response
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

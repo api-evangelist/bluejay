@@ -1,0 +1,130 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Get Simulations By Agent API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Get Simulations By Agent
+paths:
+  /v1/get-simulations-by-agent/{agent_id}:
+    get:
+      summary: Get Simulations By Agent
+      description: Get all simulations for a specific agent.
+      operationId: get_simulations_by_agent_v1_get_simulations_by_agent__agent_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSimulationsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Get Simulations By Agent
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SimulationRes:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: ID of the simulation
+        name:
+          type: string
+          title: Name
+          description: Name of the simulation
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent associated with the simulation
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When the simulation was created
+        settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Settings
+          description: Settings of the simulation
+      type: object
+      required:
+      - id
+      - name
+      - created_at
+      title: SimulationRes
+    GetSimulationsResponse:
+      properties:
+        simulations:
+          items:
+            $ref: '#/components/schemas/SimulationRes'
+          type: array
+          title: Simulations
+          description: List of simulations
+      type: object
+      title: GetSimulationsResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

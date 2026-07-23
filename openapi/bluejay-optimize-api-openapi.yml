@@ -1,0 +1,239 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Optimize API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Optimize
+paths:
+  /v1/optimize/metric-prompt:
+    post:
+      tags:
+      - Optimize
+      summary: Optimize Metric Prompt
+      description: 'Accept a custom metric prompt and return an optimized version using an LLM.
+
+        The optimized prompt is clearer, more precise, and easier for evaluators to apply consistently.'
+      operationId: optimize_metric_prompt_v1_optimize_metric_prompt_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptimizeMetricPromptRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OptimizeMetricPromptResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/optimize/metric-prompt-with-diff:
+    post:
+      tags:
+      - Optimize
+      summary: Optimize Metric Prompt With Diff
+      description: 'Optimize a metric prompt using human vs AI evaluation comparisons.
+
+        evaluation_diffs is required and must not be empty.'
+      operationId: optimize_metric_prompt_with_diff_v1_optimize_metric_prompt_with_diff_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptimizeMetricPromptWithDiffRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OptimizeMetricPromptResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    OptimizeMetricPromptWithDiffRequest:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: The name of the custom metric to optimize.
+        prompt:
+          type: string
+          minLength: 1
+          title: Prompt
+          description: The current evaluation system prompt to optimize.
+        additional_instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Additional Instructions
+          description: Additional instructions for the optimization.
+        evaluation_diffs:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/EvaluationDiffItem'
+            type: array
+          - type: 'null'
+          title: Evaluation Diffs
+          description: List of human vs AI evaluation comparisons. Required and must not be empty.
+        diff_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Diff Prompt
+          description: System/instruction for how to use evaluation_diffs. If omitted, a default is used.
+      type: object
+      required:
+      - name
+      - prompt
+      title: OptimizeMetricPromptWithDiffRequest
+      description: Request body for optimizing a metric prompt using evaluation diffs.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OptimizeMetricPromptResponse:
+      properties:
+        optimized_prompt:
+          type: string
+          title: Optimized Prompt
+          description: The optimized version of the custom metric prompt.
+      type: object
+      required:
+      - optimized_prompt
+      title: OptimizeMetricPromptResponse
+      description: Response containing the optimized prompt.
+    EvaluationDiffItem:
+      properties:
+        call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Id
+          description: Call ID for call conversations.
+        test_result_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Test Result Id
+          description: Test result ID for test_result conversations.
+        human_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Value
+          description: Human evaluator's response (e.g. Pass/Fail, score).
+        ai_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ai Value
+          description: AI evaluator's response.
+        human_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Reasoning
+          description: Human evaluator's reasoning.
+        ai_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ai Reasoning
+          description: AI evaluator's reasoning.
+      type: object
+      title: EvaluationDiffItem
+      description: One human vs AI evaluation comparison for a conversation.
+    OptimizeMetricPromptRequest:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: The name of the custom metric to optimize.
+        prompt:
+          type: string
+          minLength: 1
+          title: Prompt
+          description: The current evaluation system prompt to optimize.
+        additional_instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Additional Instructions
+          description: Additional instructions for the optimization.
+      type: object
+      required:
+      - name
+      - prompt
+      title: OptimizeMetricPromptRequest
+      description: Request body for optimizing a metric prompt (no evaluation diffs).
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

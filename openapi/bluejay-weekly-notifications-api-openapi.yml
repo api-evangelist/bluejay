@@ -1,0 +1,161 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Weekly notifications API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Weekly notifications
+paths:
+  /v1/weekly-notifications:
+    post:
+      tags:
+      - Weekly notifications
+      summary: Post Weekly Notifications
+      description: Upsert weekly digest notification targets (and optionally UTC weekly schedule) for the current org.
+      operationId: post_weekly_notifications_v1_weekly_notifications_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeeklyNotificationsBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyNotificationsPostResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    WeeklyNotificationsBody:
+      properties:
+        targets:
+          items:
+            $ref: '#/components/schemas/WeeklyNotificationTarget'
+          type: array
+          title: Targets
+          description: List of notification targets (alarm-style). Required to avoid accidentally overwriting with an empty list.
+        preferred_send_time_utc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preferred Send Time Utc
+          description: UTC clock time when the weekly job runs, HH:MM:SS (e.g. 17:00:00). Must be sent together with day_of_week unless using clear_schedule.
+        day_of_week:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Day Of Week
+          description: 'UTC weekday for the weekly instant: 0=Monday .. 6=Sunday (cron-style in UTC).'
+        clear_schedule:
+          type: boolean
+          title: Clear Schedule
+          description: If true, reset weekly send to the default (Monday 9:00 AM PST → UTC); still updates targets. Do not send with preferred_send_time_utc or day_of_week.
+          default: false
+      additionalProperties: false
+      type: object
+      required:
+      - targets
+      title: WeeklyNotificationsBody
+    WeeklyNotificationsPostResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        first_generate_at_utc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Generate At Utc
+          description: 'From summaries-cron: first generate job fire (ISO UTC), if registered.'
+        first_notify_at_utc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Notify At Utc
+          description: 'From summaries-cron: first notify job fire (ISO UTC), if registered.'
+        deferred:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Deferred
+          description: True if first fire was deferred by at least one week for lead-time safety.
+      type: object
+      title: WeeklyNotificationsPostResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    WeeklyNotificationTarget:
+      properties:
+        type:
+          type: string
+          enum:
+          - email
+          - slack
+          title: Type
+          description: Channel type
+        target:
+          type: string
+          minLength: 1
+          title: Target
+          description: Email address or Slack channel ID
+      type: object
+      required:
+      - type
+      - target
+      title: WeeklyNotificationTarget
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

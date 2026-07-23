@@ -1,0 +1,158 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Api Keys API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Api Keys
+paths:
+  /v1/api-keys:
+    post:
+      summary: Create Api Key
+      operationId: create_api_key_v1_api_keys_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKeyIn'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Api Keys
+  /v1/api-keys/{key_id}:
+    delete:
+      summary: Revoke Key
+      operationId: revoke_key_v1_api_keys__key_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: key_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Api Keys
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    KeyOut:
+      properties:
+        id:
+          type: string
+          title: Id
+        api_key:
+          type: string
+          title: Api Key
+        scope:
+          type: string
+          title: Scope
+        name:
+          type: string
+          title: Name
+        created_at:
+          type: string
+          title: Created At
+        revoked:
+          type: boolean
+          title: Revoked
+      type: object
+      required:
+      - id
+      - api_key
+      - scope
+      - name
+      - created_at
+      - revoked
+      title: KeyOut
+    CreateKeyIn:
+      properties:
+        scope:
+          type: string
+          title: Scope
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - scope
+      title: CreateKeyIn
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

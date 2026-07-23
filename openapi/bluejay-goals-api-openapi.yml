@@ -1,0 +1,121 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Goals API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Goals
+paths:
+  /v1/generate-goals:
+    post:
+      tags:
+      - Goals
+      summary: Generate Goals Endpoint
+      description: Generate high-level goals for a given agent based on its description and knowledge base.
+      operationId: generate_goals_endpoint_v1_generate_goals_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateGoalsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GenerateGoalsRequest:
+      properties:
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent to generate goals for
+        count:
+          type: integer
+          title: Count
+          description: Number of goals to generate
+          default: 5
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: ID of the prompt to use for goal generation
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: ID of the knowledge base to use for goal generation
+        custom_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Prompt
+          description: Custom instructions for goal generation
+      type: object
+      required:
+      - agent_id
+      title: GenerateGoalsRequest
+      description: Request model for generating goals
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

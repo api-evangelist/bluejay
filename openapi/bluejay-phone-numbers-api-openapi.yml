@@ -1,0 +1,136 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Phone Numbers API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Phone Numbers
+paths:
+  /v1/phone-numbers:
+    get:
+      tags:
+      - Phone Numbers
+      summary: Get Phone Numbers
+      description: Return phone number under an org
+      operationId: get_phone_numbers_v1_phone_numbers_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PhoneNumberResponse'
+                title: Response Get Phone Numbers V1 Phone Numbers Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PhoneNumberResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: Unique identifier for the phone number record
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp when the record was created
+        phone_number:
+          type: string
+          title: Phone Number
+          description: The phone number in text format
+        purchase_date:
+          type: string
+          format: date
+          title: Purchase Date
+          description: Date when the phone number was purchased
+        price:
+          type: integer
+          title: Price
+          description: Price of the phone number in cents or smallest currency unit
+        organization_id:
+          type: string
+          format: uuid
+          title: Organization Id
+          description: Organization ID
+      type: object
+      required:
+      - id
+      - created_at
+      - phone_number
+      - purchase_date
+      - price
+      - organization_id
+      title: PhoneNumberResponse
+      description: 'Response schema for phone number data.
+
+        Based on the database table structure with columns:
+
+        - id: int8 (primary key)
+
+        - created_at: timestamptz
+
+        - phone_number: text
+
+        - purchase_date: date
+
+        - price: int8
+
+        - organization_id: uuid'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

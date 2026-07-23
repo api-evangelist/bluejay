@@ -1,0 +1,348 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Generate Digital Humans API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Generate Digital Humans
+paths:
+  /v1/generate-digital-humans:
+    post:
+      summary: Generate Digital Humans
+      description: Given an agent this endpoint generates digital humans to test that agent based on varying simulation types.
+      operationId: generate_digital_humans_v1_generate_digital_humans_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DigitalHumanRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__main__DigitalHumanResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Generate Digital Humans
+components:
+  schemas:
+    ReplayTranscriptFromText:
+      properties:
+        transcript:
+          type: string
+          title: Transcript
+          description: The transcript text to analyze and replay
+        success_criteria:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Success Criteria
+          description: Success criteria for the scenario (auto-generated if not provided)
+        mode:
+          type: string
+          enum:
+          - strict
+          - smart
+          - persona
+          title: Mode
+          description: 'Mode for transcript replay: ''strict'' (extract specific utterances), ''smart'' (balanced approach - default), or ''persona'' (generate persona intent)'
+          default: smart
+      type: object
+      required:
+      - transcript
+      title: Replay Transcript From Text
+      description: Replay transcript by providing the transcript text directly
+    TraitDataType:
+      type: string
+      enum:
+      - BOOLEAN
+      - STRING
+      - DATE
+      - NUMBER
+      title: TraitDataType
+      description: Enum for trait data types.
+    Trait:
+      properties:
+        trait_name:
+          type: string
+          title: Trait Name
+          description: Name of the trait
+        trait_data_type:
+          $ref: '#/components/schemas/TraitDataType'
+          description: Data type of the trait
+        value:
+          title: Value
+          description: Value of the trait (stored as JSONB)
+        is_sip_header:
+          type: boolean
+          title: Is Sip Header
+          description: Whether this trait is a SIP header
+          default: false
+      type: object
+      required:
+      - trait_name
+      - trait_data_type
+      - value
+      title: Trait
+      description: Model for a single trait.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    src__main__DigitalHumanResponse:
+      properties:
+        digital_humans:
+          items: {}
+          type: array
+          title: Digital Humans
+          description: List of digital humans created for the simulation
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+        success:
+          type: boolean
+          title: Success
+          description: Whether the generation succeeded
+          default: true
+        test_scenarios:
+          anyOf:
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Test Scenarios
+          description: Scenario view of created digital humans (includes original_transcript and formatted_transcript for transcript replays)
+        warning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Warning
+          description: Warning message if the request was modified (e.g. truncated due to exceeding the max limit)
+      type: object
+      title: DigitalHumanResponse
+    DigitalHumanRequest:
+      properties:
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent to be used to generate the digital humans
+        simulation_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Simulation Id
+          description: Optionally attach the digital humans to a simulation
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: Prompt UUID associated with the simulation
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Knowledge base UUID associated with the simulation
+        goal_adherence:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/GoalAdherence'
+            type: array
+          - type: 'null'
+          title: Goal Adherence
+          description: List of goal adherence scenarios
+        workflow_adherence:
+          anyOf:
+          - additionalProperties:
+              type: integer
+            type: object
+          - type: 'null'
+          title: Workflow Adherence
+          description: Dictionary of workflow IDs and their counts
+        workflow_adherence_v2:
+          anyOf:
+          - additionalProperties:
+              type: integer
+            type: object
+          - type: 'null'
+          title: Workflow Adherence V2
+          description: Dictionary of workflow_v2 IDs and their counts (uses new graph definition format). Counts are capped at 200 paths per workflow.
+        replay_transcript:
+          anyOf:
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/ReplayTranscriptFromText'
+              - $ref: '#/components/schemas/ReplayTranscriptFromConversation'
+            type: array
+          - type: 'null'
+          title: Replay Transcript
+          description: List of transcript replays to generate digital humans from
+        customer_personas:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/CustomerPersonaRequest'
+            type: array
+          - type: 'null'
+          title: Customer Personas
+          description: List of customer personas to be used in the simulation
+        load_testing:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Load Testing
+          description: Number of load testing calls
+          default: 0
+        red_teaming:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Red Teaming
+          description: Number of red teaming calls
+          default: 0
+        traits:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Trait'
+            type: array
+          - type: 'null'
+          title: Traits
+          description: List of traits to apply to all generated digital humans
+        num_runs:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Num Runs
+          description: Number of runs per digital human per simulation run (run count).
+          default: 1
+      type: object
+      required:
+      - agent_id
+      title: DigitalHumanRequest
+      description: Pydantic model for digital humans (simulation type) request
+    CustomerPersonaRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the customer persona
+        description:
+          type: string
+          title: Description
+          description: Description of the customer persona
+        goal:
+          type: string
+          title: Goal
+          description: Goal or objective of the customer persona
+        num_calls:
+          type: integer
+          title: Num Calls
+          description: Number of calls that matched the customer persona
+      type: object
+      required:
+      - name
+      - description
+      - goal
+      - num_calls
+      title: CustomerPersonaRequest
+      description: Pydantic model for customer persona in simulation
+    GoalAdherence:
+      properties:
+        goal:
+          type: string
+          title: Goal
+          description: Description of the goal
+        num_calls:
+          type: integer
+          title: Num Calls
+          description: Number of calls that adhered to the goal
+      type: object
+      required:
+      - goal
+      - num_calls
+      title: GoalAdherence
+      description: Pydantic model for goal adherence in simulation
+    ReplayTranscriptFromConversation:
+      properties:
+        conversation_id:
+          type: string
+          title: Conversation Id
+          description: ID of an existing conversation log to retrieve transcript from
+        success_criteria:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Success Criteria
+          description: Success criteria for the scenario (auto-generated if not provided)
+        mode:
+          type: string
+          enum:
+          - strict
+          - smart
+          - persona
+          title: Mode
+          description: 'Mode for transcript replay: ''strict'' (extract specific utterances), ''smart'' (balanced approach - default), or ''persona'' (generate persona intent)'
+          default: smart
+      type: object
+      required:
+      - conversation_id
+      title: Replay Transcript From Conversation ID
+      description: Replay transcript by referencing an existing conversation ID
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

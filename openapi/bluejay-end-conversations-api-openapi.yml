@@ -1,0 +1,152 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents End Conversations API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: End Conversations
+paths:
+  /v1/end-conversations:
+    post:
+      summary: End Conversations
+      description: 'End multiple running conversations by marking them in Redis for the LiveKit agent to terminate.
+
+
+        This endpoint:
+
+        1. Checks that each test result exists and is in RUNNING status
+
+        2. Writes control objects to Redis for the LiveKit agent to pick up
+
+        3. Schedules a 30-second fallback watchdog for each conversation
+
+        4. Returns which conversations were successfully marked for ending and which failed
+
+
+        The fallback watchdog ensures that if LiveKit fails to respond, the conversation
+
+        status will be updated after 30 seconds to prevent it from appearing stuck forever.'
+      operationId: end_conversations_v1_end_conversations_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndConversationsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndConversationsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - End Conversations
+components:
+  schemas:
+    EndConversationsRequest:
+      properties:
+        test_result_ids:
+          items:
+            type: integer
+          type: array
+          minItems: 1
+          title: Test Result Ids
+          description: List of test result IDs to end
+      type: object
+      required:
+      - test_result_ids
+      title: EndConversationsRequest
+      description: Pydantic model for ending multiple conversations
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    EndConversationsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the operation was successful
+        ended_count:
+          type: integer
+          title: Ended Count
+          description: Number of conversations marked for ending
+        test_result_ids:
+          items:
+            type: integer
+          type: array
+          title: Test Result Ids
+          description: Test result IDs that were processed
+        failed_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Failed Ids
+          description: Test result IDs that failed to process (if any)
+        message:
+          type: string
+          title: Message
+          description: Status message
+      type: object
+      required:
+      - success
+      - ended_count
+      - test_result_ids
+      - message
+      title: EndConversationsResponse
+      description: Response for end conversations request
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

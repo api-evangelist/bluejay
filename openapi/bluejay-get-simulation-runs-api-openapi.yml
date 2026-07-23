@@ -1,0 +1,179 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Get Simulation Runs API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Get Simulation Runs
+paths:
+  /v1/get-simulation-runs/{simulation_id}:
+    get:
+      summary: Get Simulation Runs
+      description: Get all simulation runs for a specific simulation.
+      operationId: get_simulation_runs_v1_get_simulation_runs__simulation_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Simulation Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSimulationRunsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Get Simulation Runs
+components:
+  schemas:
+    SimulationRunRes:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: ID of the simulation run
+        experiment_id:
+          type: integer
+          title: Experiment Id
+          description: ID of the simulation associated with the run
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: Summary of the simulation run
+        tests_passed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Passed
+          description: Number of tests that passed in the simulation run
+        tests_failed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Failed
+          description: Number of tests that failed in the simulation run
+        total_tests:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Tests
+          description: Total number of tests in the simulation run
+        tests_completed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Completed
+          description: Number of tests that were completed in the simulation run
+        tests_incompleted:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Incompleted
+          description: Number of tests that were not completed in the simulation run
+        curr_step_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Curr Step Id
+          description: Current step ID of the simulation run
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When the simulation run was created
+        status:
+          $ref: '#/components/schemas/SimulationRunStatus'
+          description: Current status of the simulation run
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number of the simulation run
+      type: object
+      required:
+      - id
+      - experiment_id
+      - created_at
+      - status
+      title: SimulationRunRes
+    SimulationRunStatus:
+      type: string
+      enum:
+      - INITIALIZING
+      - RUNNING
+      - COMPLETED
+      - INCOMPLETED
+      - INSUFFICIENT_FUNDS
+      title: SimulationRunStatus
+      description: Enum representing the possible states of a simulation run.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GetSimulationRunsResponse:
+      properties:
+        simulation_runs:
+          items:
+            $ref: '#/components/schemas/SimulationRunRes'
+          type: array
+          title: Simulation Runs
+          description: List of simulation runs
+      type: object
+      title: GetSimulationRunsResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

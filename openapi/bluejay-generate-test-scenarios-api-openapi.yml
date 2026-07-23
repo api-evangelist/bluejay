@@ -1,0 +1,79 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Generate Test Scenarios API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Generate Test Scenarios
+paths:
+  /v1/generate-test-scenarios:
+    post:
+      summary: Generate Test Scenarios
+      description: "Generates test scenarios for a given simulation.\n\nAccepts a SimulationRequest with the following structure:\n{\n    name: string;\n    agent: Agent;\n    promptId?: string;\n    knowledgeBaseId?: string;\n    scenarios: TestScenarioRequest[];\n    callAllocation: {\n        goalAdherence: { [key: string]: number };\n        systemIntegrity: { [key: string]: number };\n        customerPersonas: { [key: string]: number };\n        workflowAdherence: { [key: string]: number };\n        workflowAdherenceV2: { [key: string]: number };\n        expectedToolCalls: [{name: string, output: string}, {name: string, output: string}, ...];\n        customPrompt: {prompt: string, count: number};\n        transcriptGeneration: [{transcript: string, success_criteria?: string, use_specific_utterances?: boolean}, ...];\n            // For transcriptGeneration:\n            // - transcript: Required. The transcript text to analyze\n            // - success_criteria: Optional. If not provided, will be auto-generated from transcript\n            // - If use_specific_utterances is true (default): customer utterances extracted and stored as JSON string in scenario description\n            // - If use_specific_utterances is false: persona intent description generated in natural language\n        csvCallAllocation: [{intent: string, success_criteria: string, count: number}, ...];\n            // For csvCallAllocation:\n            // - intent: Required. The customer intent/description for the scenario\n            // - success_criteria: Required. The success criteria for the scenario\n            // - count: Required. Number of scenarios to generate with this intent and success criteria\n    };\n    selectedProperties: {\n        [category: string]: string[];\n    };\n    customerTraits?: [\n        {name: string, data_type: \"boolean\" | \"string\" | \"date\" | \"number\"}\n    ];\n}"
+      operationId: generate_test_scenarios_v1_generate_test_scenarios_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Generate Test Scenarios
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

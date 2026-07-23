@@ -1,0 +1,191 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Queue Simulation Run API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Queue Simulation Run
+paths:
+  /v1/queue-simulation-run:
+    post:
+      summary: Queue Simulation Run Endpoint
+      description: Queue a simulation run for processing.
+      operationId: queue_simulation_run_endpoint_v1_queue_simulation_run_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/src__main__SimulationRunRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__main__SimulationRunResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Queue Simulation Run
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    src__main__SimulationRunRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: ID of the simulation to be run
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: Prompt UUID associated with this run
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Knowledge base UUID associated with this run
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: Digital human IDs to be used in the simulation
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Optional phone number to be used in this simulation run (overrides the agent phone number)
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+          description: Optional SIP URI to be used in this simulation run (overrides the agent SIP URI)
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+          description: Optional agent name to be used by user's livekit, an empty string will use the default agent
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+          description: metadata to be passed to the livekit room
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+          description: Pipecat agent name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+          description: Pipecat agent configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+          description: Pipecat room properties
+      type: object
+      required:
+      - simulation_id
+      title: SimulationRunRequest
+      description: Pydantic model for simulation run request
+    src__main__SimulationRunResponse:
+      properties:
+        simulation_run_id:
+          type: string
+          title: Simulation Run Id
+          description: ID of the created simulation run
+        simulation_result_ids:
+          items:
+            type: string
+          type: array
+          title: Simulation Result Ids
+          description: IDs of the created simulation results (test results)
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent associated with the simulation run
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+      type: object
+      required:
+      - simulation_run_id
+      - simulation_result_ids
+      - agent_id
+      title: SimulationRunResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

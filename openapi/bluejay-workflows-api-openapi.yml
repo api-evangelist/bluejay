@@ -1,0 +1,468 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Workflows API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Workflows
+paths:
+  /v1/workflow:
+    post:
+      tags:
+      - Workflows
+      summary: Create Workflow V2
+      description: Create a workflows_v2 row with a React Flow graph definition.
+      operationId: create_workflow_v2_v1_workflow_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkflowV2Request'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowV2Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Workflows
+      summary: List Workflows V2
+      description: List all workflows_v2 for the authenticated user's organization.
+      operationId: list_workflows_v2_v1_workflow_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: If set, only workflows linked to this agent (agent must be in your org).
+          title: Agent Id
+        description: If set, only workflows linked to this agent (agent must be in your org).
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowsV2ListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/workflow/{workflow_id}/duplicate:
+    post:
+      tags:
+      - Workflows
+      summary: Duplicate Workflow V2
+      description: Create a new workflows_v2 row copying definition, description, and agent links from the source.
+      operationId: duplicate_workflow_v2_v1_workflow__workflow_id__duplicate_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workflow_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Workflow Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DuplicateWorkflowV2Request'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowV2Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/workflow/{workflow_id}:
+    get:
+      tags:
+      - Workflows
+      summary: Get Workflow V2
+      description: Get one workflows_v2 by ID (organization must match).
+      operationId: get_workflow_v2_v1_workflow__workflow_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workflow_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Workflow Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowV2Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Workflows
+      summary: Update Workflow V2
+      description: Update name, description, agent links, and/or definition (React Flow graph).
+      operationId: update_workflow_v2_v1_workflow__workflow_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workflow_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Workflow Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWorkflowV2Request'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowV2Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Workflows
+      summary: Delete Workflow V2
+      description: Delete a workflows_v2 row.
+      operationId: delete_workflow_v2_v1_workflow__workflow_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workflow_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Workflow Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteWorkflowV2Response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    WorkflowV2Response:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Workflow ID
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+          description: Owning organization ID (set by middleware on create)
+        agent_ids:
+          items:
+            type: integer
+          type: array
+          title: Agent Ids
+          description: Linked agent ids when the workflow is agent-scoped
+          default: []
+        name:
+          type: string
+          title: Name
+          description: Name of the workflow
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description
+        definition:
+          additionalProperties: true
+          type: object
+          title: Definition
+          description: Stored React Flow graph (`start` / `single` / `options` nodes).
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Creation timestamp
+      type: object
+      required:
+      - id
+      - name
+      - definition
+      - created_at
+      title: WorkflowV2Response
+      description: Single workflows_v2 row.
+    UpdateWorkflowV2Request:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+          description: New name for the workflow
+        agent_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Agent Ids
+          description: Set owning agents, or null to clear agent links (must belong to your organization when set).
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: New description (set empty string to clear if your client sends it)
+        definition:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Definition
+          description: Full React Flow definition to persist when provided.
+      type: object
+      title: UpdateWorkflowV2Request
+      description: Partial update for workflows_v2.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CreateWorkflowV2Request:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+          description: Name of the workflow
+        agent_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Agent Ids
+          description: Owning agents (must belong to your organization). Omit or null for org-only workflow.
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Human-readable description of the workflow
+        definition:
+          additionalProperties: true
+          type: object
+          title: Definition
+          description: React Flow graph. Omitted `nodes` / `edges` default to []. With no `single` or `options` nodes, the graph is stored as a draft (only multiple-start is rejected). Once there is content, export rules apply (paths, branch_options, etc.).
+      type: object
+      required:
+      - name
+      - definition
+      title: CreateWorkflowV2Request
+      description: Create a workflow; ``definition`` is a React Flow graph (``nodes``, ``edges``, optional ``viewport``).
+      examples:
+      - agent_ids: []
+        definition:
+          edges:
+          - source: wf-start
+            target: n-greet
+          nodes:
+          - data:
+              id: wf-start
+            deletable: false
+            draggable: true
+            id: wf-start
+            position:
+              x: 100
+              y: 50
+            type: start
+          - data:
+              id: n-greet
+              message: Hi, how can I help?
+              speaker: agent
+              turn: 0
+              type: contextual
+            id: n-greet
+            position:
+              x: 200
+              y: 180
+            type: single
+        description: Password reset IVR
+        name: Support reset flow
+    DuplicateWorkflowV2Request:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+          description: Name for the copy. Omit or null for "Copy of {original name}".
+      type: object
+      title: DuplicateWorkflowV2Request
+      description: Duplicate an existing workflow (new row, same definition and agent links).
+    WorkflowsV2ListResponse:
+      properties:
+        workflows:
+          items:
+            $ref: '#/components/schemas/WorkflowV2Response'
+          type: array
+          title: Workflows
+          description: Workflows
+        total_count:
+          type: integer
+          title: Total Count
+          description: Number of workflows returned
+      type: object
+      required:
+      - workflows
+      - total_count
+      title: WorkflowsV2ListResponse
+      description: List workflows_v2 for the organization.
+    DeleteWorkflowV2Response:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_workflow_id:
+          type: string
+          title: Deleted Workflow Id
+          description: ID of the deleted workflow
+      type: object
+      required:
+      - message
+      - deleted_workflow_id
+      title: DeleteWorkflowV2Response
+      description: Delete confirmation.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

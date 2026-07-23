@@ -1,0 +1,323 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Customer Personas API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Customer Personas
+paths:
+  /v1/create-customer-persona:
+    post:
+      tags:
+      - Customer Personas
+      summary: Create Customer Persona
+      description: Create a new customer persona.
+      operationId: create_customer_persona_v1_create_customer_persona_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerPersonaRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerPersonaPydantic'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/customer-personas-by-agent/{agent_id}:
+    get:
+      tags:
+      - Customer Personas
+      summary: Get Customer Personas By Agent
+      description: Get all customer personas for an agent.
+      operationId: get_customer_personas_by_agent_v1_customer_personas_by_agent__agent_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerPersonaPydantic'
+                title: Response Get Customer Personas By Agent V1 Customer Personas By Agent  Agent Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/customer-persona/{persona_id}:
+    get:
+      tags:
+      - Customer Personas
+      summary: Get Customer Persona
+      description: Get a specific customer persona by ID.
+      operationId: get_customer_persona_v1_customer_persona__persona_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: persona_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Persona Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerPersonaPydantic'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Customer Personas
+      summary: Delete Customer Persona
+      description: Delete a specific customer persona by ID.
+      operationId: delete_customer_persona_v1_customer_persona__persona_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: persona_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Persona Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerPersonaPydantic'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-customer-persona/{persona_id}:
+    put:
+      tags:
+      - Customer Personas
+      summary: Update Customer Persona
+      description: Update a specific customer persona by ID.
+      operationId: update_customer_persona_v1_update_customer_persona__persona_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: persona_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Persona Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerPersonaRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerPersonaPydantic'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CustomerPersonaPydantic:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        goal:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal
+        org_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Org Id
+      type: object
+      title: CustomerPersonaPydantic
+      description: Pydantic version of CustomerPersona for validation and serialization.
+    CreateCustomerPersonaRequest:
+      properties:
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent this persona belongs to
+        name:
+          type: string
+          title: Name
+          description: Name of the customer persona
+        description:
+          type: string
+          title: Description
+          description: Description of the customer persona
+        goal:
+          type: string
+          title: Goal
+          description: Goal of the customer persona
+      type: object
+      required:
+      - name
+      - description
+      - goal
+      title: CreateCustomerPersonaRequest
+    UpdateCustomerPersonaRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the customer persona
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the customer persona
+        goal:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal
+          description: Goal of the customer persona
+      type: object
+      title: UpdateCustomerPersonaRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

@@ -1,0 +1,180 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Text Simulations API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Text Simulations
+paths:
+  /v1/queue-sms-simulation-run:
+    post:
+      tags:
+      - Text Simulations
+      summary: Queue Sms Simulation Run
+      operationId: queue_sms_simulation_run_v1_queue_sms_simulation_run_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/src__text_agents__sms_text_agent_api__SimulationRunRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__text_agents__sms_text_agent_api__SimulationRunResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/receive-text-message:
+    post:
+      tags:
+      - Text Simulations
+      summary: Receive Text Message
+      operationId: receive_text_message_v1_receive_text_message_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    src__text_agents__sms_text_agent_api__SimulationRunRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: ID of the simulation to be run
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: Prompt UUID associated with this run
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Knowledge base UUID associated with this run
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: Digital human IDs to be used in the simulation
+        terminate_overlapping_simulations:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Terminate Overlapping Simulations
+          description: If true, all overlapping conversations with same pair of phone numbers will be ended
+          default: false
+      type: object
+      required:
+      - simulation_id
+      title: SimulationRunRequest
+      description: Pydantic model for simulation run request
+    src__text_agents__sms_text_agent_api__SimulationRunResponse:
+      properties:
+        simulation_run_id:
+          type: string
+          title: Simulation Run Id
+          description: ID of the created simulation run
+        simulation_result_ids:
+          items:
+            type: string
+          type: array
+          title: Simulation Result Ids
+          description: IDs of the created simulation results (test results)
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent associated with the simulation run
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+        terminated_conversations:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Terminated Conversations
+          description: List of conversations that were terminated due to overlapping phone numbers
+      type: object
+      required:
+      - simulation_run_id
+      - simulation_result_ids
+      - agent_id
+      title: SimulationRunResponse
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.

@@ -1,0 +1,179 @@
+openapi: 3.1.0
+info:
+  title: Bluejay Agents Phone Number Management API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Phone Number Management
+paths:
+  /v1/phone-numbers/add:
+    post:
+      tags:
+      - Phone Number Management
+      summary: Add Phone Number
+      operationId: add_phone_number_v1_phone_numbers_add_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPhoneNumberRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddPhoneNumberResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/phone-numbers/{phone_number}/release:
+    delete:
+      tags:
+      - Phone Number Management
+      summary: Release Phone Number
+      operationId: release_phone_number_v1_phone_numbers__phone_number__release_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: phone_number
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phone Number
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleasePhoneNumberResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AddPhoneNumberRequest:
+      properties:
+        area_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Area Code
+          description: Optional US area code to bias phone number search (e.g. 415)
+      type: object
+      title: AddPhoneNumberRequest
+      description: Request schema for auto-purchasing a Twilio number for an organization.
+    AddPhoneNumberResponse:
+      properties:
+        phone_number:
+          type: string
+          title: Phone Number
+          description: Purchased E.164 phone number
+        twilio_sid:
+          type: string
+          title: Twilio Sid
+          description: Twilio IncomingPhoneNumber SID
+        organization_id:
+          type: string
+          format: uuid
+          title: Organization Id
+          description: Organization ID
+        purchase_date:
+          type: string
+          format: date
+          title: Purchase Date
+          description: Date when purchased
+        price:
+          type: integer
+          title: Price
+          description: Stored price in cents
+      type: object
+      required:
+      - phone_number
+      - twilio_sid
+      - organization_id
+      - purchase_date
+      - price
+      title: AddPhoneNumberResponse
+      description: Response schema after auto-purchasing and storing a phone number.
+    ReleasePhoneNumberResponse:
+      properties:
+        phone_number:
+          type: string
+          title: Phone Number
+          description: Released E.164 phone number
+        released:
+          type: boolean
+          title: Released
+          description: Whether the Twilio release was performed
+      type: object
+      required:
+      - phone_number
+      - released
+      title: ReleasePhoneNumberResponse
+      description: Response schema after releasing a Twilio number.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
