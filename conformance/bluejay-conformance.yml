@@ -1,0 +1,33 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/bluejay-openapi-original.json
+notes: >-
+  Cross-cutting standards conformance derived from the OpenAPI 3.1 document and
+  the published docs. Absence of evidence is recorded as conforms:false.
+standards:
+  - id: openapi-3.1
+    conforms: true
+    evidence: openapi field is 3.1.0
+  - id: api-key-auth
+    conforms: true
+    evidence: components.securitySchemes.apiKeyAuth (apiKey in header X-API-Key)
+  - id: oauth2
+    conforms: false
+    evidence: no oauth2 security scheme declared
+  - id: openid-connect
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: error responses use FastAPI HTTPValidationError (application/json), not application/problem+json
+  - id: webhooks
+    conforms: true
+    evidence: OpenAPI top-level webhooks.events_webhook with discriminated event payloads
+  - id: pagination
+    conforms: true
+    evidence: page/page_size/limit query parameters on list operations
+  - id: idempotency
+    conforms: false
+    evidence: no Idempotency-Key contract documented or in spec
+  - id: opentelemetry
+    conforms: true
+    evidence: Traces API ingests OpenTelemetry traces for observability (docs core-concepts/traces)

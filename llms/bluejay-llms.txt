@@ -1,0 +1,215 @@
+# Bluejay Docs
+
+## Docs
+
+- [Add Agent](https://docs.getbluejay.ai/api-reference/endpoint/add-agent.md): Add a new agent to the system.
+- [Add Knowledge Base Version Labels](https://docs.getbluejay.ai/api-reference/endpoint/add-knowledge-base-version-labels.md)
+- [Add Prompt Version Labels](https://docs.getbluejay.ai/api-reference/endpoint/add-prompt-version-labels.md)
+- [Add Digital Humans To Community](https://docs.getbluejay.ai/api-reference/endpoint/add-to-community.md): Add digital humans to an existing community without replacing the current list.
+- [Create Alert](https://docs.getbluejay.ai/api-reference/endpoint/create-alert.md): Create an observability or simulation alert for your organization.
+- [Create Community](https://docs.getbluejay.ai/api-reference/endpoint/create-community.md): Create a new community.
+- [Create Custom Metric](https://docs.getbluejay.ai/api-reference/endpoint/create-custom-metric.md): Create a new custom metric.
+- [Create Custom Metrics](https://docs.getbluejay.ai/api-reference/endpoint/create-custom-metrics.md): Create multiple custom metrics synchronously using a single bulk insert.
+- [Create Customer Persona](https://docs.getbluejay.ai/api-reference/endpoint/create-customer-persona.md): Create a new customer persona.
+- [Create Digital Human](https://docs.getbluejay.ai/api-reference/endpoint/create-digital-human.md): Create a new digital human.
+- [Bulk Create Digital Humans](https://docs.getbluejay.ai/api-reference/endpoint/create-digital-humans.md): Bulk create digital humans.
+- [Create Folder](https://docs.getbluejay.ai/api-reference/endpoint/create-folder.md): Create a new folder for organizing agents.
+- [Create Knowledge Base Version](https://docs.getbluejay.ai/api-reference/endpoint/create-knowledge-base-version.md)
+- [Create Label](https://docs.getbluejay.ai/api-reference/endpoint/create-label.md): create a free-standing label for an agent (not attached to any prompt or knowledge base).
+- [Create Prompt Version](https://docs.getbluejay.ai/api-reference/endpoint/create-prompt-version.md): create a new prompt version under /agents/{agent_id}/prompts/versions.
+- [Create scenario](https://docs.getbluejay.ai/api-reference/endpoint/create-scenario.md): Create a scenario definition as a React Flow graph.
+- [Create Schedule](https://docs.getbluejay.ai/api-reference/endpoint/create-schedule.md)
+- [Create Simulation](https://docs.getbluejay.ai/api-reference/endpoint/create-simulation.md): Create a new simulation with the provided details.
+- [Create Workflow](https://docs.getbluejay.ai/api-reference/endpoint/create-workflows.md): Deprecated. POST /v1/workflows — create a workflow row.
+- [Delete Agent](https://docs.getbluejay.ai/api-reference/endpoint/delete-agent.md): Delete an agent by ID.
+- [Delete Alert](https://docs.getbluejay.ai/api-reference/endpoint/delete-alert.md): Delete an alert and its agent associations.
+- [Delete Call Log](https://docs.getbluejay.ai/api-reference/endpoint/delete-call-log.md): Delete a specific call log given its ID. Validates that the user has access to the call log by checking organization membership.
+- [Delete Community](https://docs.getbluejay.ai/api-reference/endpoint/delete-community.md): Delete a specific community by ID.
+- [Delete Custom Metric](https://docs.getbluejay.ai/api-reference/endpoint/delete-custom-metric.md): Delete a specific custom metric by ID.
+- [Delete Customer Persona](https://docs.getbluejay.ai/api-reference/endpoint/delete-customer-persona.md): Delete a specific customer persona by ID.
+- [Delete Digital Human](https://docs.getbluejay.ai/api-reference/endpoint/delete-digital-human.md): Delete a digital human by ID.
+- [Delete Folder](https://docs.getbluejay.ai/api-reference/endpoint/delete-folder.md): Delete a folder.
+- [Delete Knowledge Base By Id](https://docs.getbluejay.ai/api-reference/endpoint/delete-knowledge-base-by-id.md)
+- [Delete Knowledge Base Version](https://docs.getbluejay.ai/api-reference/endpoint/delete-knowledge-base-version.md)
+- [Delete Knowledge Base Version By Label](https://docs.getbluejay.ai/api-reference/endpoint/delete-knowledge-base-version-by-label.md)
+- [Delete Label](https://docs.getbluejay.ai/api-reference/endpoint/delete-label.md): delete a free-standing label; cannot delete reserved labels; cannot delete if associated.
+- [Delete Prompt By Id](https://docs.getbluejay.ai/api-reference/endpoint/delete-prompt-by-id.md)
+- [Delete Prompt Version](https://docs.getbluejay.ai/api-reference/endpoint/delete-prompt-version.md): delete a specific prompt version; cannot delete production; cannot delete only version.
+- [Delete Prompt Version By Label](https://docs.getbluejay.ai/api-reference/endpoint/delete-prompt-version-by-label.md): delete a prompt version by label.
+- [Delete scenario](https://docs.getbluejay.ai/api-reference/endpoint/delete-scenario.md): Delete a scenario and its stored typed React Flow graph by UUID.
+- [Delete Schedule](https://docs.getbluejay.ai/api-reference/endpoint/delete-schedule.md)
+- [Delete Simulation](https://docs.getbluejay.ai/api-reference/endpoint/delete-simulation.md): Delete a specific simulation by ID.
+- [End Conversations](https://docs.getbluejay.ai/api-reference/endpoint/end-conversations.md): End multiple running conversations by marking them in Redis for the LiveKit agent to terminate.
+- [Evaluate](https://docs.getbluejay.ai/api-reference/endpoint/evaluate.md): Submit a call or chat for evaluation.
+- [Generate Digital Humans](https://docs.getbluejay.ai/api-reference/endpoint/generate-digital-humans.md): Given an agent this endpoint generates digital humans to test that agent based on varying simulation types.
+- [Generate intent summary](https://docs.getbluejay.ai/api-reference/endpoint/generate-intent-summary.md): Generate an intent summary for a test case when intent exceeds a character limit.
+- [Generate objectives](https://docs.getbluejay.ai/api-reference/endpoint/generate-objectives.md): Generate objectives for a test case from its intent.
+- [Get Agent](https://docs.getbluejay.ai/api-reference/endpoint/get-agent.md): Get an agent by ID.
+- [Get Agent By External ID](https://docs.getbluejay.ai/api-reference/endpoint/get-agent-by-external-id.md): Get an agent by external ID.
+- [Get Agents by Folder](https://docs.getbluejay.ai/api-reference/endpoint/get-agents-by-folder.md): Get all agents in a specific folder.
+- [Get Alert Results](https://docs.getbluejay.ai/api-reference/endpoint/get-alert-results.md): Retrieve the fired results for an alert, each resolved to the simulation run or observability call that caused it.
+- [List Alerts](https://docs.getbluejay.ai/api-reference/endpoint/get-alerts.md): List all alerts for your organization, optionally filtered by source scope (observability or simulation).
+- [Get All Agents](https://docs.getbluejay.ai/api-reference/endpoint/get-all-agents.md): Get all your agents.
+- [Get All Digital Humans](https://docs.getbluejay.ai/api-reference/endpoint/get-all-digital-humans.md): Get all of your digital humans.
+- [Get All Folders](https://docs.getbluejay.ai/api-reference/endpoint/get-all-folders.md): Get all folders for the authenticated user's organization.
+- [Get All Simulations](https://docs.getbluejay.ai/api-reference/endpoint/get-all-simulations.md): Get all simulations for a user.
+- [Get Communities](https://docs.getbluejay.ai/api-reference/endpoint/get-communities.md): Get all communities, optionally filtered by digital human (test case).
+- [Get Community](https://docs.getbluejay.ai/api-reference/endpoint/get-community.md): Get a specific community by ID.
+- [Get Custom Metric](https://docs.getbluejay.ai/api-reference/endpoint/get-custom-metric.md): Get a specific custom metric by ID.
+- [Get Custom Metrics](https://docs.getbluejay.ai/api-reference/endpoint/get-custom-metrics.md): Get all custom metrics, optionally filtered by agent, with pagination.
+- [Get Custom Metrics by Agent](https://docs.getbluejay.ai/api-reference/endpoint/get-custom-metrics-by-agent.md): Get all custom metrics for an agent.
+- [Get Customer Persona](https://docs.getbluejay.ai/api-reference/endpoint/get-customer-persona.md): Get a specific customer persona by ID.
+- [Get Customer Personas by Agent](https://docs.getbluejay.ai/api-reference/endpoint/get-customer-persona-by-agent.md): Get all customer personas for an agent.
+- [Get Digital Human](https://docs.getbluejay.ai/api-reference/endpoint/get-digital-human.md): Get a digital human by ID.
+- [Get Digital Humans by Simulation](https://docs.getbluejay.ai/api-reference/endpoint/get-digital-humans-by-simulation.md): Get digital humans by simulation ID.
+- [Get Folder](https://docs.getbluejay.ai/api-reference/endpoint/get-folder.md): Get a specific folder by ID.
+- [Get Knowledge Base By Id](https://docs.getbluejay.ai/api-reference/endpoint/get-knowledge-base-by-id.md)
+- [Get Knowledge Base By Label](https://docs.getbluejay.ai/api-reference/endpoint/get-knowledge-base-by-label.md)
+- [Get Knowledge Base Version](https://docs.getbluejay.ai/api-reference/endpoint/get-knowledge-base-version.md)
+- [Get Label By Id](https://docs.getbluejay.ai/api-reference/endpoint/get-label-by-id.md)
+- [Get Prompt By Id](https://docs.getbluejay.ai/api-reference/endpoint/get-prompt-by-id.md)
+- [Get Prompt By Label](https://docs.getbluejay.ai/api-reference/endpoint/get-prompt-by-label.md): retrieve a single prompt by label under /agents/{agent_id}/prompts?label=... .
+- [Get Prompt Version](https://docs.getbluejay.ai/api-reference/endpoint/get-prompt-version.md)
+- [Get scenario](https://docs.getbluejay.ai/api-reference/endpoint/get-scenario.md): Fetch one scenario by UUID, including the full typed React Flow definition.
+- [Get Simulation](https://docs.getbluejay.ai/api-reference/endpoint/get-simulation.md): Get a specific simulation by ID.
+- [Get Simulation Runs](https://docs.getbluejay.ai/api-reference/endpoint/get-simulation-runs.md): Get all simulation runs for a specific simulation.
+- [Get Simulations by Agent](https://docs.getbluejay.ai/api-reference/endpoint/get-simulations-by-agent.md): Get all simulations for a specific agent.
+- [Get Workflows](https://docs.getbluejay.ai/api-reference/endpoint/get-workflows.md): Deprecated. GET /v1/workflows — list workflows for your org.
+- [List Knowledge Base Version Labels](https://docs.getbluejay.ai/api-reference/endpoint/list-knowledge-base-version-labels.md)
+- [List Knowledge Base Versions](https://docs.getbluejay.ai/api-reference/endpoint/list-knowledge-base-versions.md)
+- [List Labels](https://docs.getbluejay.ai/api-reference/endpoint/list-labels.md): list all free-standing labels for an agent; filter by substring with q.
+- [List Prompt Version Labels](https://docs.getbluejay.ai/api-reference/endpoint/list-prompt-version-labels.md)
+- [List Prompt Versions](https://docs.getbluejay.ai/api-reference/endpoint/list-prompt-versions.md): list prompt versions with optional filters (label, version).
+- [List scenarios](https://docs.getbluejay.ai/api-reference/endpoint/list-scenarios.md): List scenarios for your org; each item includes a typed React Flow definition (discriminated nodes and data).
+- [Move Agent to Folder](https://docs.getbluejay.ai/api-reference/endpoint/move-agent-to-folder.md): Move an agent to a folder or disassociate it from any folder.
+- [Get Phone Numbers](https://docs.getbluejay.ai/api-reference/endpoint/phone-numbers.md): Return phone number under an org
+- [Promote Prompt](https://docs.getbluejay.ai/api-reference/endpoint/promote-prompt.md): Move the production label to the latest prompt version, or to the version identified by prompt_id.
+- [Pull Bluejay as Code](https://docs.getbluejay.ai/api-reference/endpoint/pull-bluejay-as-code.md)
+- [Push Bluejay as Code](https://docs.getbluejay.ai/api-reference/endpoint/push-bluejay-as-code.md)
+- [Queue HTTP Text Simulation Run](https://docs.getbluejay.ai/api-reference/endpoint/queue-http-text-simulation-run.md): Queue a new simulation run and test results for HTTP text agent. Takes simulation_id, optional prompt_id, knowledge_base_id, and digital_human_ids. If digital_human_ids is not provided, uses all digital humans for the simulation. Returns simulation_run_id (experiment_run_id) and simulation_result_id…
+- [Queue Simulation Run](https://docs.getbluejay.ai/api-reference/endpoint/queue-simulation-run.md): Queue a simulation run for processing.
+- [Queue SMS Simulation Run](https://docs.getbluejay.ai/api-reference/endpoint/queue-sms-simulation-run.md)
+- [Reevaluate](https://docs.getbluejay.ai/api-reference/endpoint/re-evaluate.md)
+- [Remove Knowledge Base Version Labels](https://docs.getbluejay.ai/api-reference/endpoint/remove-knowledge-base-version-labels.md)
+- [Remove Prompt Version Labels](https://docs.getbluejay.ai/api-reference/endpoint/remove-prompt-version-labels.md)
+- [Retrieve Call Log](https://docs.getbluejay.ai/api-reference/endpoint/retrieve-call-log.md): Retrieve call logs for a specific agent given the agent ID. Returns a list of call objects, each with an additional "evaluations" field containing a list of evaluations joined via call_id.
+- [Retrieve Call Logs](https://docs.getbluejay.ai/api-reference/endpoint/retrieve-call-logs.md): Retrieve call logs for a specific agent given the agent ID. Returns a list of call objects, each with an additional "evaluations" field containing a list of evaluations joined via call_id.
+- [Retrieve Simulation Result](https://docs.getbluejay.ai/api-reference/endpoint/retrieve-simulation-result.md): Retrieve a single test result and its associated custom metrics.
+- [Retrieve Simulation Results](https://docs.getbluejay.ai/api-reference/endpoint/retrieve-simulation-results.md): Retrieve the results of a simulation run.
+- [Send HTTP Text Message](https://docs.getbluejay.ai/api-reference/endpoint/send-http-text-message.md): Receive a text message via HTTP, process it through the lambda, and send response to webhook. Uses simulation_result_id (sim_conversation_id) for Redis operations and evaluations.
+- [Translate Transcript](https://docs.getbluejay.ai/api-reference/endpoint/translate-transcript.md): Translates all utterances in a simulation or production conversation transcript to the specified target language using Google Translate API.
+- [Update Agent](https://docs.getbluejay.ai/api-reference/endpoint/update-agent.md): Update an existing agent in the system.
+- [Update Agent By External ID](https://docs.getbluejay.ai/api-reference/endpoint/update-agent-by-external-id.md): Update an existing agent in the system by external ID.
+- [Update Alert](https://docs.getbluejay.ai/api-reference/endpoint/update-alert.md): Update an existing alert. Unset fields are preserved; nullable fields can be cleared explicitly.
+- [Update Community](https://docs.getbluejay.ai/api-reference/endpoint/update-community.md): Update a specific community by ID.
+- [Update Custom Metric](https://docs.getbluejay.ai/api-reference/endpoint/update-custom-metric.md): Update a specific custom metric by ID.
+- [Update Customer Persona](https://docs.getbluejay.ai/api-reference/endpoint/update-customer-persona.md): Update a specific customer persona by ID.
+- [Update Digital Human](https://docs.getbluejay.ai/api-reference/endpoint/update-digital-human.md): Update a digital human by ID.
+- [Update Folder](https://docs.getbluejay.ai/api-reference/endpoint/update-folder.md): Update a folder's name.
+- [Update Label](https://docs.getbluejay.ai/api-reference/endpoint/update-label.md): rename a free-standing label; reserved labels are not allowed as targets.
+- [Update Log](https://docs.getbluejay.ai/api-reference/endpoint/update-log.md)
+- [Update scenario](https://docs.getbluejay.ai/api-reference/endpoint/update-scenario.md): Partially update a scenario; replacing definition re-validates the same typed React Flow graph as create.
+- [Update Schedule](https://docs.getbluejay.ai/api-reference/endpoint/update-schedule.md)
+- [Update Simulation](https://docs.getbluejay.ai/api-reference/endpoint/update-simulation.md): update a specific simulation by id.
+- [Update Simulation Result](https://docs.getbluejay.ai/api-reference/endpoint/update-simulation-result.md)
+- [Update Workflow](https://docs.getbluejay.ai/api-reference/endpoint/update-workflows.md): Deprecated. PUT /v1/update-workflow/{workflow_id}.
+- [Introduction](https://docs.getbluejay.ai/api-reference/introduction.md): Build with the Bluejay simulations and observability APIs
+- [Events Webhook](https://docs.getbluejay.ai/api-reference/webhook/events-webhook.md): Upon an event on the platform, we'll send you the results to the URL you registered within the dashboard
+- [Bluejay University](https://docs.getbluejay.ai/bluejay-university.md): A structured, lesson-based learning path from platform fundamentals to production-ready evaluation systems.
+- [Changelog](https://docs.getbluejay.ai/changelog.md): Updates, changes, and improvements at Bluejay.
+- [GitHub Actions](https://docs.getbluejay.ai/cookbook/github-actions.md): Gate your CI/CD pipeline with real agent performance tests
+- [Workflows](https://docs.getbluejay.ai/cookbook/scenario-builder.md): Creating and Managing Agent Workflows with Bluejay
+- [Agents Deep Dive](https://docs.getbluejay.ai/core-concepts/agents.md): Field-level reference for creating, configuring, and connecting Agents in Bluejay
+- [Communities](https://docs.getbluejay.ai/core-concepts/communities.md): Learn about Bluejay Communities
+- [Digital Humans Deep Dive](https://docs.getbluejay.ai/core-concepts/digital-humans.md): Complete reference for Digital Human fields, generation, and best practices
+- [Simulation Results](https://docs.getbluejay.ai/core-concepts/simulation-results.md): Learn how to interpret the results of a Bluejay simulation run
+- [Simulation Runs](https://docs.getbluejay.ai/core-concepts/simulation-runs.md): Learn about the format and lifecycle of Bluejay simulation runs
+- [Overview](https://docs.getbluejay.ai/core-concepts/traces/overview.md): Send OpenTelemetry traces to Bluejay for production observability and simulation analysis
+- [Webhooks](https://docs.getbluejay.ai/core-concepts/webhook.md): Receive real-time notifications for simulation and observability events
+- [Voice AI Glossary](https://docs.getbluejay.ai/glossary.md): Search and browse core Voice AI & Bluejay terms
+- [Introduction](https://docs.getbluejay.ai/index.md): **Bluejay is the testing, monitoring, and improvement layer for conversational AI agents.** Enterprises, startups, and developers across the world use Bluejay to evaluate their voice agents, create custom benchmarks, and catch production failures before they reach customers.
+- [Bland Observability](https://docs.getbluejay.ai/integrations/bland.md): Integrating Bland with Bluejay Observability
+- [ElevenLabs Observability](https://docs.getbluejay.ai/integrations/eleven-labs.md): Integrating ElevenLabs with Bluejay Observability
+- [ElevenLabs Simulations](https://docs.getbluejay.ai/integrations/eleven-labs-simulations.md): Sync your ElevenLabs agents into Bluejay and run simulations against them
+- [Conversational Engine (CES) Simulations](https://docs.getbluejay.ai/integrations/google-ces.md): Connect and test your Google Conversational Engine (CES) agents from Bluejay over Voice or Chat
+- [Dialogflow CX Simulations](https://docs.getbluejay.ai/integrations/google-dfcx.md): Connect, test, version, and promote your Google Dialogflow CX agents from Bluejay
+- [LiveKit Observability](https://docs.getbluejay.ai/integrations/livekit.md): Send your production LiveKit calls to Bluejay for transcripts, recordings, and evals
+- [Retell Observability](https://docs.getbluejay.ai/integrations/retell.md): Integrating Retell with Bluejay Observability
+- [Slack Observability](https://docs.getbluejay.ai/integrations/slack.md): Send Bluejay alarm notifications to Slack
+- [Vapi Observability](https://docs.getbluejay.ai/integrations/vapi.md): Integrating Vapi with Bluejay Observability
+- [Overview](https://docs.getbluejay.ai/key-concepts/agents/overview.md): How Bluejay models Agents and connects them to simulations, observability, custom metrics, and workflows
+- [Workflows](https://docs.getbluejay.ai/key-concepts/agents/workflow.md): Sync your agent's multi-agent workflow into Bluejay and use it to drive simulations
+- [Overview](https://docs.getbluejay.ai/key-concepts/alerts/overview.md): Understand how Alerts are configured and used in Bluejay
+- [Bluejay as Code](https://docs.getbluejay.ai/key-concepts/bluejay-as-code/overview.md): Manage Bluejay resources in your codebase.
+- [Claude Code Skill](https://docs.getbluejay.ai/key-concepts/bluejay-as-code/skill.md): Drop-in Claude Code skill for Bluejay as Code integrations
+- [Overview](https://docs.getbluejay.ai/key-concepts/communities/overview.md): Understand how Communities are organized and used in Bluejay
+- [Dynamic Variables](https://docs.getbluejay.ai/key-concepts/custom-metrics/dynamic-variables.md): Inject call-specific context into your Custom Metric definitions at evaluation time using template variables
+- [Metric Types](https://docs.getbluejay.ai/key-concepts/custom-metrics/metric-types.md): Understand the six response types available for Custom Metrics in Bluejay
+- [Overview](https://docs.getbluejay.ai/key-concepts/custom-metrics/overview.md): Understand how Custom Metrics are defined and used in Bluejay
+- [Prompting Guide](https://docs.getbluejay.ai/key-concepts/custom-metrics/prompting-guide.md): Best practices for writing Custom Metric prompts that produce reliable, predictable evaluations
+- [Overview](https://docs.getbluejay.ai/key-concepts/customer-traits/overview.md): Understand how Customer Traits are modeled and used in Bluejay
+- [Overview](https://docs.getbluejay.ai/key-concepts/dashboards/overview.md): Understand how Dashboards are used in Bluejay
+- [Configuration](https://docs.getbluejay.ai/key-concepts/digital-humans/configuration.md): Configure Digital Human behavior, voice traits, scripted responses, DTMF, and IVR simulation
+- [Bulk Upload via CSV](https://docs.getbluejay.ai/key-concepts/digital-humans/csv-upload.md): Create many Digital Humans at once by uploading a CSV. Set intent, success criteria, behavior, tool calls, custom traits, and scripted responses, one row per Digital Human.
+- [Follow-up SMS](https://docs.getbluejay.ai/key-concepts/digital-humans/follow-up-sms.md): Test the confirmation text your agent sends after a voice call, graded and attached to the originating call
+- [Overview](https://docs.getbluejay.ai/key-concepts/digital-humans/overview.md): Understand what Digital Humans are and how they power realistic agent testing on Bluejay
+- [Prompting Guide](https://docs.getbluejay.ai/key-concepts/digital-humans/prompting-guide.md): Best practices for writing Digital Human intents and success criteria
+- [Use Cases](https://docs.getbluejay.ai/key-concepts/digital-humans/use-cases.md): Real-world scenarios and patterns for building effective Digital Human test suites
+- [Overview](https://docs.getbluejay.ai/key-concepts/metrics-lab/overview.md): Clone your QA engineer's judgment into Bluejay's evaluator with the Metrics Lab, a human in the loop workflow that keeps your AI scoring conversations the way your reviewers would
+- [Overview](https://docs.getbluejay.ai/key-concepts/scenario-builder/overview.md): Author conversation scenarios as path graphs that drive digital humans
+- [Claude Code & Claude Desktop](https://docs.getbluejay.ai/mcp/claude-code.md): Connect Bluejay MCP server to Claude Code CLI and Claude Desktop
+- [Cursor & Windsurf](https://docs.getbluejay.ai/mcp/cursor-windsurf.md): Connect Bluejay MCP server to Cursor and Windsurf
+- [MCP Server](https://docs.getbluejay.ai/mcp/overview.md): Connect AI agents and coding assistants to Bluejay using the Model Context Protocol
+- [Alerts](https://docs.getbluejay.ai/monitor/observability/alerts.md): Get notified when production metrics cross thresholds that need attention
+- [API Integration Tutorial](https://docs.getbluejay.ai/monitor/observability/api-integration-tutorial.md): Learn how to connect production conversation data into Bluejay observability workflows
+- [Dashboards](https://docs.getbluejay.ai/monitor/observability/dashboards.md): Monitor production agent performance with observability dashboards
+- [Overview](https://docs.getbluejay.ai/monitor/observability/overview.md): Understand how observability works in Bluejay
+- [Tool Calls](https://docs.getbluejay.ai/monitor/observability/tool-calls.md): Include tool call data and metadata when evaluating production calls
+- [Traces](https://docs.getbluejay.ai/monitor/observability/traces.md): Link OpenTelemetry traces to production conversation evaluations
+- [Quickstart](https://docs.getbluejay.ai/quickstart.md): Go from zero to a full Bluejay evaluation workflow — via the UI or the API
+- [Bland Simulations](https://docs.getbluejay.ai/simulation-integrations/bland.md): Test your Bland agents over the phone
+- [Dynamic SIP Webhook](https://docs.getbluejay.ai/simulation-integrations/dynamic-sip-webhook.md): Return a fresh SIP destination per call from your own webhook, fetched at dial time
+- [Chat Testing](https://docs.getbluejay.ai/simulation-integrations/http-webhooks.md): Test text-based chat agents using HTTP webhooks for bidirectional messaging
+- [Kore.ai](https://docs.getbluejay.ai/simulation-integrations/kore.md): Test Kore.ai chatbots end-to-end with Bluejay's digital humans
+- [LiveKit Simulations](https://docs.getbluejay.ai/simulation-integrations/livekit.md): Pick the right way to connect your LiveKit agent for simulations
+- [LiveKit — Direct Connection](https://docs.getbluejay.ai/simulation-integrations/livekit-direct.md): Bluejay creates the room and dispatches your agent directly
+- [LiveKit — Outbound Agents](https://docs.getbluejay.ai/simulation-integrations/livekit-outbound.md): Test a LiveKit agent that places calls: your agent dials, the digital human answers
+- [LiveKit — SIP Connection](https://docs.getbluejay.ai/simulation-integrations/livekit-sip.md): Bluejay dials your LiveKit project's SIP host
+- [Miro Simulations](https://docs.getbluejay.ai/simulation-integrations/miro.md): Integrating Miro with Bluejay Workflows
+- [Pipecat Simulations](https://docs.getbluejay.ai/simulation-integrations/pipecat.md): Connect directly to a pipecat transport for simulations
+- [Retell Simulations](https://docs.getbluejay.ai/simulation-integrations/retell.md): Run Bluejay simulations against your Retell agents, inbound or outbound
+- [SIP Simulations](https://docs.getbluejay.ai/simulation-integrations/sip.md): Connect directly via SIP and collect enhanced call metadata
+- [Telephony Simulations](https://docs.getbluejay.ai/simulation-integrations/telephony.md): Simple phone number setup for instant voice agent testing
+- [Vapi Simulations](https://docs.getbluejay.ai/simulation-integrations/vapi.md): Sync your Vapi assistants into Bluejay and run simulations against them
+- [Websocket Simulations](https://docs.getbluejay.ai/simulation-integrations/websockets.md): Real-time voice over WebSocket using the CHIRP protocol
+- [Alerts](https://docs.getbluejay.ai/test/simulations/alerts.md): Get notified when simulation results cross quality thresholds
+- [Customer Journeys](https://docs.getbluejay.ai/test/simulations/customer-journeys.md): Test multi-step customer flows end-to-end — book → confirm → cancel — with one Digital Human and locked identity across the sequence
+- [Dashboards](https://docs.getbluejay.ai/test/simulations/dashboards.md): Track simulation performance and compare results across runs
+- [Overview](https://docs.getbluejay.ai/test/simulations/overview.md): Understand how simulations are used for testing in Bluejay
+- [Simulation Statuses](https://docs.getbluejay.ai/test/simulations/statuses.md): Understand every status a simulation result or simulation run can take, what each one means, and what to do about it
+- [Tool Calls](https://docs.getbluejay.ai/test/simulations/tool-calls.md): Enrich simulation evaluations with tool call tracking and custom metadata
+- [Traces](https://docs.getbluejay.ai/test/simulations/traces.md): Link OpenTelemetry traces to simulation results
+- [Simulation Types](https://docs.getbluejay.ai/test/simulations/types.md): Understand the major categories of simulations you can run in Bluejay
+- [API Essentials](https://docs.getbluejay.ai/university/api-automation/api-essentials.md): Authenticate, create resources, and run simulations using the Bluejay REST API.
+- [Lesson 4: API & Automation](https://docs.getbluejay.ai/university/api-automation/overview.md): Move from the dashboard to programmatic control with Bluejay's API, Workflows, and integrations.
+- [Workflows & Integrations](https://docs.getbluejay.ai/university/api-automation/workflows-integrations.md): Automate recurring tests, connect voice providers, and integrate Bluejay into your CI/CD pipeline.
+- [Core Entities](https://docs.getbluejay.ai/university/foundations/core-entities.md): Understand the data model that powers Bluejay — Agents, Digital Humans, Communities, Custom Metrics, and how they relate.
+- [Lesson 1: Foundations](https://docs.getbluejay.ai/university/foundations/overview.md): Get oriented with the Bluejay platform, set up your workspace, and learn the core entities that power testing and monitoring.
+- [Platform Setup](https://docs.getbluejay.ai/university/foundations/platform-setup.md): Log in to Bluejay, tour the dashboard, generate an API key, and create your first Agent.
+- [Metrics, Dashboards & Alerts](https://docs.getbluejay.ai/university/observability/metrics-dashboards-alerts.md): Create custom evaluation criteria, visualize quality trends on dashboards, and get notified when things go wrong.
+- [Lesson 3: Monitoring, Metrics & Dashboards](https://docs.getbluejay.ai/university/observability/overview.md): Monitor production calls, create evaluation metrics, build dashboards, and set up alerts.
+- [Setting Up Observability](https://docs.getbluejay.ai/university/observability/setting-up.md): Connect production call data to Bluejay so every conversation is automatically evaluated.
+- [Advanced Testing Strategies](https://docs.getbluejay.ai/university/simulations/advanced-testing.md): Scale your testing with simulation types, Communities, Customer Traits, and structured test plans.
+- [Your First Simulation](https://docs.getbluejay.ai/university/simulations/first-simulation.md): Create, configure, and run a simulation from scratch using the Bluejay dashboard.
+- [Lesson 2: Testing with Simulations](https://docs.getbluejay.ai/university/simulations/overview.md): Build, configure, and run simulations to validate your AI agent before it reaches production.
+
+## OpenAPI Specs
+
+- [openapi](https://docs.getbluejay.ai/api-reference/openapi.json)
+- [mint-openapi](https://docs.getbluejay.ai/api-reference/mint-openapi.json)
+
+## Optional
+
+- [Bluejay Events](https://luma.com/calendar/cal-SiZErInrVWBE5Et)
+- [Request Slack Channel](https://forms.gle/hGkdMPDrXhz99Hxz9)
+- [Blog](https://getbluejay.ai/blog)

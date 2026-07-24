@@ -1,0 +1,59 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/bluejay-openapi-original.json
+docs: https://docs.getbluejay.ai/api-reference/introduction
+notes: >-
+  Cross-cutting request/response semantics for the Bluejay REST API, derived
+  from the OpenAPI 3.1 document and the published docs.
+authentication:
+  style: api-key
+  header: X-API-Key
+  docs: https://docs.getbluejay.ai/api-reference/introduction
+idempotency:
+  supported: false
+  notes: >-
+    No Idempotency-Key header or idempotent-retry contract is documented or
+    present in the OpenAPI. Retries of non-GET operations are not guaranteed
+    safe.
+pagination:
+  style: page-number
+  params:
+    - name: page
+      in: query
+      description: 1-based page number.
+    - name: page_size
+      in: query
+      description: Items per page.
+    - name: limit
+      in: query
+      description: Max items returned on list endpoints that use a simple cap.
+  notes: >-
+    Pagination is inconsistent across the surface - most list endpoints take
+    page/page_size, some take a simple limit, and a few take neither. There is
+    no cursor-based pagination.
+filtering:
+  common_params: [q, label, version, external_id]
+  notes: >-
+    Free-text search via q on label/list endpoints; resource filters like
+    agent_id, folder_id, and simulation_id are passed as path or query params.
+versioning:
+  style: uri-path
+  current: v1
+error_envelope:
+  media_type: application/json
+  schema: HTTPValidationError
+  shape: '{ "detail": [ { "loc": [...], "msg": "...", "type": "..." } ] }'
+  cross_ref: errors/bluejay-problem-types.yml
+webhooks:
+  delivery: HTTP POST to a URL registered in the dashboard
+  signature_header: x-webhook-secret
+  discriminator: type
+  cross_ref: asyncapi/bluejay-webhooks.yml
+rate_limiting:
+  signaled: false
+  notes: No rate-limit headers or documented quotas were found.
+cross_references:
+  authentication: authentication/bluejay-authentication.yml
+  errors: errors/bluejay-problem-types.yml
+  lifecycle: lifecycle/bluejay-lifecycle.yml
+  webhooks: asyncapi/bluejay-webhooks.yml

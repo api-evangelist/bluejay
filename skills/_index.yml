@@ -1,0 +1,32 @@
+generated: '2026-07-18'
+method: generated
+skills:
+  - file: bluejay-create-agent-and-simulate.md
+    name: Create an agent and run a simulation
+    api: openapi/bluejay-openapi-original.json
+    method: generated
+    operations:
+      - add_agent_v1_add_agent_post
+      - generate_digital_humans_v1_generate_digital_humans_post
+      - create_simulation_v1_create_simulation_post
+      - queue_simulation_run_endpoint_v1_queue_simulation_run_post
+      - get_simulation_runs_v1_get_simulation_runs__simulation_id__get
+      - retrieve_simulation_results_v1_retrieve_simulation_results__simulation_run_id__get
+  - file: bluejay-evaluate-production-calls.md
+    name: Evaluate production calls with observability
+    api: openapi/bluejay-openapi-original.json
+    method: generated
+    operations:
+      - evaluate_v1_evaluate_post
+      - create_custom_metric_v1_create_custom_metric_post
+      - retrieve_call_logs_v1_retrieve_call_logs__agent_id__get
+      - retrieve_call_log_v1_retrieve_call_log__call_id__get
+      - create_alert_v1_create_alert_post
+provider_published:
+  - name: Bluejay as Code (Claude Code skill)
+    method: searched
+    source: https://docs.getbluejay.ai/key-concepts/bluejay-as-code/skill
+    description: >-
+      Provider-published plain-text Claude Code skill that teaches an agent the
+      Bluejay as Code push/pull API before it writes integration code. Delivered
+      as a drop-in system prompt file referenced in a Claude Code session.

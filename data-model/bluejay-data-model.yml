@@ -1,0 +1,112 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/bluejay-openapi-original.json
+docs: https://docs.getbluejay.ai/university/foundations/core-entities
+notes: >-
+  Entity-relationship graph derived from OpenAPI path parameters, request/response
+  schemas, and the published Core Entities reference. Relationships inferred from
+  id-reference path params (agent_id, simulation_id, simulation_run_id, etc.).
+entities:
+  - name: Agent
+    description: A conversational AI system (voice or chat) under test.
+    id_param: agent_id
+  - name: Simulation
+    description: A test suite grouping digital humans to run against an agent.
+    id_param: simulation_id
+  - name: DigitalHuman
+    description: A synthetic caller / test persona used to drive a simulation.
+    id_param: digital_human_id
+  - name: SimulationRun
+    description: A single execution of a simulation.
+    id_param: simulation_run_id
+  - name: SimulationResult
+    description: The graded result of one conversation within a run.
+    id_param: simulation_result_id
+  - name: CustomMetric
+    description: A user-defined evaluation criterion applied to conversations.
+    id_param: metric_id
+  - name: Community
+    description: A named grouping of digital humans (test cases).
+    id_param: community_id
+  - name: Folder
+    description: Organizational container for agents.
+    id_param: folder_id
+  - name: Prompt
+    description: A versioned prompt attached to an agent.
+    id_param: prompt_id
+  - name: KnowledgeBase
+    description: A versioned knowledge base attached to an agent.
+    id_param: kb_id
+  - name: CallLog
+    description: A production conversation record ingested for observability.
+    id_param: call_id
+  - name: Alert
+    description: A threshold rule over observability or simulation metrics.
+    id_param: alert_id
+  - name: CustomerPersona
+    description: A reusable persona definition for an agent.
+    id_param: persona_id
+  - name: Label
+    description: A free-standing tag attachable to agent resources.
+    id_param: label_id
+  - name: MetricsLab
+    description: A human-in-the-loop workspace for calibrating metric evaluators.
+    id_param: lab_id
+relationships:
+  - from: Folder
+    to: Agent
+    kind: has_many
+    via: folder_id
+  - from: Agent
+    to: Simulation
+    kind: has_many
+    via: agent_id
+  - from: Agent
+    to: CustomMetric
+    kind: has_many
+    via: agent_id
+  - from: Agent
+    to: Prompt
+    kind: has_many
+    via: agent_id
+  - from: Agent
+    to: KnowledgeBase
+    kind: has_many
+    via: agent_id
+  - from: Agent
+    to: Label
+    kind: has_many
+    via: agent_id
+  - from: Agent
+    to: CustomerPersona
+    kind: has_many
+    via: agent_id
+  - from: Agent
+    to: CallLog
+    kind: has_many
+    via: agent_id
+  - from: Simulation
+    to: DigitalHuman
+    kind: has_many
+    via: simulation_id
+  - from: Simulation
+    to: SimulationRun
+    kind: has_many
+    via: simulation_id
+  - from: SimulationRun
+    to: SimulationResult
+    kind: has_many
+    via: simulation_run_id
+  - from: Community
+    to: DigitalHuman
+    kind: has_many
+    via: community_id
+  - from: MetricsLab
+    to: CustomMetric
+    kind: has_many
+    via: lab_id
+  - from: CallLog
+    to: CustomMetric
+    kind: has_many
+    via: call_id
+    note: evaluations join custom metrics to a call

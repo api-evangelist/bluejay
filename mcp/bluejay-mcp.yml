@@ -1,0 +1,40 @@
+generated: '2026-07-18'
+method: searched
+status: published
+source: https://docs.getbluejay.ai/mcp/overview
+server:
+  name: bluejay
+  transport: http
+  protocol: MCP Streamable HTTP
+  url: https://api.getbluejay.ai/mcp
+  authentication:
+    type: apiKey
+    header: X-API-Key
+    notes: >-
+      Same API key as the REST API (Settings > API Keys). The server injects the
+      caller's credentials into each underlying REST call. Every request to /mcp
+      is a stateless HTTP POST that returns the tool result inline.
+clients_documented:
+  - name: Claude Code / Claude Desktop
+    docs: https://docs.getbluejay.ai/mcp/claude-code
+  - name: Cursor / Windsurf
+    docs: https://docs.getbluejay.ai/mcp/cursor-windsurf
+tool_summary: >-
+  70+ tools, each mapping 1-to-1 with a Bluejay REST endpoint. Categories
+  published by the provider: Agents, Simulations, Digital Humans, Simulation
+  Runs, Evaluation & Observability, Custom Metrics, Folders, Prompts, Labels,
+  Communities, Workflows, Schedules, Phone Numbers.
+tool_categories:
+  - {name: Agents, count: 8}
+  - {name: Simulations, count: 7}
+  - {name: Digital Humans, count: 7}
+  - {name: Simulation Runs, count: 5}
+  - {name: Evaluation & Observability, count: 6}
+  - {name: Custom Metrics, count: 8}
+  - {name: Folders, count: 6}
+  - {name: Prompts, count: 11}
+  - {name: Labels, count: 5}
+  - {name: Communities, count: 5}
+  - {name: Workflows, count: 4}
+  - {name: Schedules, count: 4}
+  - {name: Phone Numbers, count: 3}

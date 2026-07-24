@@ -1,0 +1,27 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.getbluejay.ai/changelog
+versioning:
+  scheme: uri-path
+  current: v1
+  base_path: /v1
+  docs: https://docs.getbluejay.ai/api-reference/introduction
+  notes: >-
+    All operations are served under the /v1 path prefix on
+    https://api.getbluejay.ai. The product changelog is date-based rather than
+    semver.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: >-
+    No formal deprecation policy or RFC 8594 Sunset/Deprecation header support
+    was found. Individual operations and the Workflows surface are marked
+    "Deprecated" in the docs/spec; there is no dated removal commitment.
+sla:
+  url: null
+status_page: null
+deprecated_operations:
+  - openapi/bluejay-openapi-original.json#get_custom_metrics_by_agent_v1_custom_metrics_by_agent__agent_id__get
+deprecated_surfaces:
+  - name: Workflows (create/get/update)
+    note: Marked Deprecated in the docs; superseded by Scenario Builder / Workflows v2.

@@ -1,0 +1,34 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/bluejay-openapi-original.json
+format: fastapi-detail
+notes: >-
+  Derived from the OpenAPI 3.1 responses. The API is a FastAPI service: the only
+  declared error response across all 174 operations is HTTP 422 Unprocessable
+  Entity carrying an HTTPValidationError body (application/json), NOT RFC 9457
+  problem+json. Authentication failures, not-found, and server errors are
+  returned at runtime but are not enumerated in the spec.
+envelope:
+  media_type: application/json
+  schema: HTTPValidationError
+  shape: >-
+    { "detail": [ { "loc": ["body", "field"], "msg": "…", "type": "…" } ] }
+  description: >-
+    Standard FastAPI validation-error envelope. "detail" is an array of
+    ValidationError items, each with loc (path to the offending field), msg
+    (human-readable message), and type (error category).
+problems:
+  - status: 422
+    title: Validation Error
+    schema: HTTPValidationError
+    media_type: application/json
+    occurrence: declared on all 174 operations
+    remediation: >-
+      Inspect detail[].loc to find the invalid field and detail[].msg for the
+      reason; correct the request body/query/path parameter and retry.
+  - status: 401
+    title: Unauthorized (undeclared)
+    media_type: application/json
+    occurrence: runtime
+    remediation: >-
+      Ensure a valid X-API-Key header is present. Not enumerated in the spec.

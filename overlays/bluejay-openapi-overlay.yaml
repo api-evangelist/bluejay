@@ -1,0 +1,28 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Bluejay API
+  version: 1.0.0
+extends: openapi/bluejay-openapi-original.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-07-18'
+      x-apievangelist-provider: bluejay
+      x-apievangelist-category: AI Agent QA & Observability
+      x-agent-ready:
+        mcp_server: https://api.getbluejay.ai/mcp
+        authentication: X-API-Key
+        webhooks: true
+        idempotency: false
+  - target: $.info.contact
+    update:
+      x-support: https://docs.getbluejay.ai/
+      x-changelog: https://docs.getbluejay.ai/changelog
+  - target: $.info
+    update:
+      x-enrichment-notes: >-
+        API-key auth (X-API-Key), URI-path versioning under /v1, FastAPI-style
+        422 validation errors, page/page_size pagination, one discriminated
+        webhook surface (four event types), and a first-party Python SDK
+        (bluejay-sdk on PyPI). No OAuth, sandbox mode, or idempotency contract
+        published.

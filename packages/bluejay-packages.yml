@@ -1,0 +1,21 @@
+generated: '2026-07-18'
+method: searched
+source: https://pypi.org/project/bluejay-sdk/
+notes: >-
+  First-party Python SDK is published to PyPI as "bluejay-sdk" and is generated
+  by Speakeasy (author field: Speakeasy) with the summary "Type-safe Python SDK
+  for the Bluejay platform - testing, evaluation, and monitoring for
+  conversational AI agents." No first-party JavaScript/TypeScript, Go, Java,
+  Ruby, PHP, .NET, or Rust client library was found on the public registries at
+  the time of this pass; the generic npm "bluejay" and PyPI "bluejay" packages
+  are unrelated name collisions and are NOT first-party.
+packages:
+  - language: python
+    registry: pypi
+    name: bluejay-sdk
+    version: 0.3.6
+    url: https://pypi.org/project/bluejay-sdk/
+    install: pip install bluejay-sdk
+    generator: speakeasy
+    requires_python: ">=3.10"
+    official: true

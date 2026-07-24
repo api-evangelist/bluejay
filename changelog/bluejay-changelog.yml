@@ -1,0 +1,26 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.getbluejay.ai/changelog
+scheme: date-based
+notes: >-
+  Bluejay publishes a date-based changelog (no semantic version numbers);
+  entries are tagged by category (New, Improvement, Performance, Integration).
+  Recent window captured below; the live changelog is the source of truth.
+entries:
+  - date: '2026-06-23'
+    breaking: false
+    highlights:
+      - Google Dialogflow CX integration for end-to-end simulations with session
+        orchestration and audio transport.
+      - Kore.ai integration for both simulations and observability monitoring.
+  - date: '2026-06-16'
+    breaking: false
+    highlights:
+      - Retell agents can now run as outbound with auto-derived agent typing.
+      - Observability page and simulations guide refreshed around a new UI flow.
+      - Vapi simulations - direct testing against Vapi assistants.
+  - date: '2026-06-09'
+    breaking: false
+    highlights:
+      - Audio quality metrics added with Tyto risk scoring.
+      - PagerDuty alert channel support for incident escalation.

@@ -1,0 +1,31 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.getbluejay.ai/core-concepts/webhook
+spec_source: openapi/bluejay-openapi-original.json#/webhooks/events_webhook
+spec_type: Webhooks
+notes: >-
+  Bluejay delivers real-time events by HTTP POST to a single webhook endpoint
+  you register in the dashboard. The OpenAPI declares one webhook,
+  events_webhook, whose body is a oneOf over four event payloads discriminated
+  by the "type" property. Signature/verification is carried on the
+  x-webhook-secret header. No standalone AsyncAPI document is published, so this
+  is captured as a Webhooks catalog rather than an AsyncAPI spec.
+delivery:
+  method: POST
+  target: URL registered in the Bluejay dashboard
+  media_type: application/json
+  signature_header: x-webhook-secret
+  discriminator: type
+events:
+  - type: simulation_result_evaluated
+    schema: WebhookSimulationResultEvaluated
+    description: A single simulation conversation finished and was graded (result, custom_metrics, evaluations, tool_calls).
+  - type: simulation_ended
+    schema: WebhookSimulationResultEnded
+    description: A simulation result reached a terminal state (status, start/end time, duration).
+  - type: observability_call_evaluated
+    schema: WebhookObservabilityCallEvaluated
+    description: A production call ingested via observability was evaluated (transcript_url, recording_url, evaluations, custom_metrics).
+  - type: outbound_simulation_started
+    schema: WebhookOutboundSimulationStarted
+    description: An outbound simulation run began (agent_id, simulation_id, simulation_run_id, digital_humans).
