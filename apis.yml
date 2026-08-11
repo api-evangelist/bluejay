@@ -934,7 +934,7 @@ common:
 - type: Authentication
   url: authentication/bluejay-authentication.yml
 - type: OpenAPI
-  url: openapi/bluejay-openapi-original.json
+  url: openapi/_original/bluejay-openapi-original.json
 - type: MCPServer
   url: mcp/bluejay-mcp.yml
 - type: Packages
