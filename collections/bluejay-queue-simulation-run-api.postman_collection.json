@@ -1,0 +1,219 @@
+{
+  "item": [
+    {
+      "id": "5e1968d9-6222-4f80-b694-7d4e1331d17f",
+      "name": "Queue Simulation Run",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f8ca607f-eaa8-4b92-9b9f-8eeb9c2bca6c",
+          "name": "Queue Simulation Run Endpoint",
+          "request": {
+            "name": "Queue Simulation Run Endpoint",
+            "description": {
+              "content": "Queue a simulation run for processing.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "queue-simulation-run"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"simulation_id\": \"<string>\",\n  \"prompt_id\": \"<uuid>\",\n  \"knowledge_base_id\": \"<uuid>\",\n  \"digital_human_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"phone_number\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": 8976.897115469346\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 6596\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": 9822,\n    \"key_1\": true,\n    \"key_2\": 4740,\n    \"key_3\": false\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9a810faa-40ee-4592-bff5-bde551d8c7a6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "queue-simulation-run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"simulation_id\": \"<string>\",\n  \"prompt_id\": \"<uuid>\",\n  \"knowledge_base_id\": \"<uuid>\",\n  \"digital_human_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"phone_number\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": false,\n    \"key_1\": true,\n    \"key_2\": 3569\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": 150,\n    \"key_1\": false\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"simulation_run_id\": \"string\",\n  \"simulation_result_ids\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agent_id\": \"string\",\n  \"status\": \"success\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38349f46-d762-4cce-9218-36e2510ad2a7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "queue-simulation-run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"simulation_id\": \"<string>\",\n  \"prompt_id\": \"<uuid>\",\n  \"knowledge_base_id\": \"<uuid>\",\n  \"digital_human_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"phone_number\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": false,\n    \"key_1\": true,\n    \"key_2\": 3569\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": 150,\n    \"key_1\": false\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "91fdbc97-0207-4ece-b186-b71075e98f0e",
+    "name": "Bluejay Agents Queue Simulation Run API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents Folders API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Folders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/create-folder",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new folder for organizing agents.\n\nReturns the created folder details."
+        },
+        {
+          "info": {
+            "name": "Get All Folders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/all-folders",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get all folders for the authenticated user's organization.\n\nReturns a list of all folders with their details."
+        },
+        {
+          "info": {
+            "name": "Get Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/folder/:folder_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific folder by ID.\n\nReturns the folder details if it exists and belongs to the user's organization."
+        },
+        {
+          "info": {
+            "name": "Delete Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/folder/:folder_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a folder.\n\nNote: This will set the folder_id to NULL for all agents in this folder.\nReturns the deleted folder ID and status."
+        },
+        {
+          "info": {
+            "name": "Move Agent To Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.getbluejay.ai/v1/folders/move-agent",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Move an agent to a folder or disassociate it from any folder.\n\n- If folder_id is provided: Associates the agent with that folder\n- If folder_id is null: Disassociates the agent from any folder\n\nBoth the agent and folder (if provided) must belong to the user's organization."
+        },
+        {
+          "info": {
+            "name": "Update Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.getbluejay.ai/v1/update-folder/:folder_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a folder's name.\n\nReturns the updated folder details."
+        },
+        {
+          "info": {
+            "name": "Get Agents By Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/get-agents-by-folder/:folder_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get all agents in a specific folder.\n\nReturns a list of agent IDs and names in the folder."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

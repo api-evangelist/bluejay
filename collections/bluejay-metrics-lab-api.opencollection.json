@@ -1,0 +1,288 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents Metrics Lab API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metrics Lab",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Evaluate Conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/evaluate-conversation",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Queue a conversation (call or test_result) for evaluation in the metrics lab."
+        },
+        {
+          "info": {
+            "name": "Create Lab",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/lab",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new lab."
+        },
+        {
+          "info": {
+            "name": "Update Lab",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/lab/:lab_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lab_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a specific lab by ID."
+        },
+        {
+          "info": {
+            "name": "Delete Lab",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/lab/:lab_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lab_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a specific lab by ID."
+        },
+        {
+          "info": {
+            "name": "Add Metrics To Lab",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/lab/:lab_id/metrics",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lab_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add metrics to an existing lab."
+        },
+        {
+          "info": {
+            "name": "Add Conversations To Lab",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/lab/:lab_id/conversations",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lab_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add conversations to an existing lab."
+        },
+        {
+          "info": {
+            "name": "Remove Conversations From Lab",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/lab/:lab_id/conversations",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lab_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Remove one or more conversations from an existing lab."
+        },
+        {
+          "info": {
+            "name": "Create Or Update Human Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/lab/:lab_id/human-evaluation",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lab_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a human evaluation for a lab metric result."
+        },
+        {
+          "info": {
+            "name": "Create Metric Revision",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/lab/:lab_id/metric-revisions",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lab_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new metric revision for a lab. Revision number is auto-incremented by DB trigger."
+        },
+        {
+          "info": {
+            "name": "Update Lab Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.getbluejay.ai/v1/metrics-lab/lab/:lab_id/settings",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "lab_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update lab settings, merging with existing settings to avoid overwriting other settings."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

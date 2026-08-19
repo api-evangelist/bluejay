@@ -1,0 +1,1544 @@
+{
+  "item": [
+    {
+      "id": "70293f95-20c8-41d4-b174-63853ff37873",
+      "name": "Agents",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a6a4650e-eb4b-4fcf-b331-cf3fbe540322",
+          "name": "Add Agent",
+          "request": {
+            "name": "Add Agent",
+            "description": {
+              "content": "Add a new agent to the system.\n\nReturns the agent id and a status code.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "add-agent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"system_prompt\": \"<string>\",\n  \"knowledge_base\": \"<string>\",\n  \"goals\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"phone_number\": \"<string>\",\n  \"type\": \"<string>\",\n  \"connection_type\": \"<string>\",\n  \"mode\": \"<string>\",\n  \"keyterms\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"external_agent_id\": \"<string>\",\n  \"folder\": \"<string>\",\n  \"websocket_url\": \"<string>\",\n  \"websocket_username\": \"<string>\",\n  \"websocket_password\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"sip_username\": \"<string>\",\n  \"sip_password\": \"<string>\",\n  \"custom_sip_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"redact_pii\": \"<boolean>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": true\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 5210\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": 3629.483160333673,\n    \"key_1\": 9260,\n    \"key_2\": \"string\"\n  },\n  \"http_webhook\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"provider_id\": \"<string>\",\n  \"enable_outbound_call_auto_start\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "71b5cba2-01ab-4981-836f-aa8c451113a2",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "add-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"system_prompt\": \"<string>\",\n  \"knowledge_base\": \"<string>\",\n  \"goals\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"phone_number\": \"<string>\",\n  \"type\": \"INBOUND\",\n  \"connection_type\": \"PHONE\",\n  \"mode\": \"VOICE\",\n  \"keyterms\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"external_agent_id\": \"<string>\",\n  \"folder\": \"<string>\",\n  \"websocket_url\": \"<string>\",\n  \"websocket_username\": \"<string>\",\n  \"websocket_password\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"sip_username\": \"<string>\",\n  \"sip_password\": \"<string>\",\n  \"custom_sip_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"redact_pii\": \"<boolean>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": false\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 9705.486968340228,\n    \"key_1\": \"string\"\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": \"string\",\n    \"key_1\": false\n  },\n  \"http_webhook\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"provider_id\": \"<string>\",\n  \"enable_outbound_call_auto_start\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"agent_id\": 4584,\n  \"status\": \"200\",\n  \"http_webhook_key\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b94a5451-6b67-46e3-be5c-51f1fa5f4568",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "add-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"system_prompt\": \"<string>\",\n  \"knowledge_base\": \"<string>\",\n  \"goals\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"phone_number\": \"<string>\",\n  \"type\": \"INBOUND\",\n  \"connection_type\": \"PHONE\",\n  \"mode\": \"VOICE\",\n  \"keyterms\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"external_agent_id\": \"<string>\",\n  \"folder\": \"<string>\",\n  \"websocket_url\": \"<string>\",\n  \"websocket_username\": \"<string>\",\n  \"websocket_password\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"sip_username\": \"<string>\",\n  \"sip_password\": \"<string>\",\n  \"custom_sip_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"redact_pii\": \"<boolean>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": false\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 9705.486968340228,\n    \"key_1\": \"string\"\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": \"string\",\n    \"key_1\": false\n  },\n  \"http_webhook\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"provider_id\": \"<string>\",\n  \"enable_outbound_call_auto_start\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "96cc47c1-0efe-46d7-b464-8f1c114ddfa1",
+          "name": "Update Agent",
+          "request": {
+            "name": "Update Agent",
+            "description": {
+              "content": "Update an existing agent in the system.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "update-agent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"<string>\",\n  \"external_agent_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"system_prompt\": \"<string>\",\n  \"knowledge_base\": \"<string>\",\n  \"phone_number\": \"<string>\",\n  \"goals\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"type\": \"<string>\",\n  \"connection_type\": \"<string>\",\n  \"mode\": \"<string>\",\n  \"keyterms\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"folder\": \"<string>\",\n  \"websocket_url\": \"<string>\",\n  \"websocket_username\": \"<string>\",\n  \"websocket_password\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"sip_username\": \"<string>\",\n  \"sip_password\": \"<string>\",\n  \"custom_sip_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"redact_pii\": \"<boolean>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": true\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": true\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": true\n  },\n  \"http_webhook\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"provider_id\": \"<string>\",\n  \"enable_outbound_call_auto_start\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fced9ff4-d1c5-4734-97a4-3c37325e84f3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"external_agent_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"system_prompt\": \"<string>\",\n  \"knowledge_base\": \"<string>\",\n  \"phone_number\": \"<string>\",\n  \"goals\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"type\": \"OUTBOUND\",\n  \"connection_type\": \"LIVEKIT\",\n  \"mode\": \"VOICE\",\n  \"keyterms\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"folder\": \"<string>\",\n  \"websocket_url\": \"<string>\",\n  \"websocket_username\": \"<string>\",\n  \"websocket_password\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"sip_username\": \"<string>\",\n  \"sip_password\": \"<string>\",\n  \"custom_sip_headers\": {\n    \"key_0\": \"<string>\"\n  },\n  \"redact_pii\": \"<boolean>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": 3632\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 2411.0519075164348\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": false,\n    \"key_1\": 5986.204583660557,\n    \"key_2\": 6455.9394896961785\n  },\n  \"http_webhook\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"provider_id\": \"<string>\",\n  \"enable_outbound_call_auto_start\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"agent\": {\n    \"agent_id\": \"string\",\n    \"external_agent_id\": \"string\",\n    \"name\": \"string\",\n    \"system_prompt\": \"string\",\n    \"knowledge_base\": \"string\",\n    \"phone_number\": \"string\",\n    \"goals\": [\n      \"string\",\n      \"string\"\n    ],\n    \"type\": \"OUTBOUND\",\n    \"connection_type\": \"SMS\",\n    \"mode\": \"TEXT\",\n    \"keyterms\": [\n      \"string\",\n      \"string\"\n    ],\n    \"folder\": \"string\",\n    \"websocket_url\": \"string\",\n    \"websocket_username\": \"string\",\n    \"websocket_password\": \"string\",\n    \"sip_uri\": \"string\",\n    \"sip_username\": \"string\",\n    \"sip_password\": \"string\",\n    \"custom_sip_headers\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"redact_pii\": false,\n    \"livekit_agent_name\": \"string\",\n    \"livekit_metadata\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"pipecat_agent_name\": \"string\",\n    \"pipecat_agent_configuration\": {\n      \"key_0\": true,\n      \"key_1\": false,\n      \"key_2\": 2694,\n      \"key_3\": \"string\"\n    },\n    \"pipecat_room_properties\": {\n      \"key_0\": true\n    },\n    \"http_webhook\": \"string\",\n    \"voice_provider\": \"string\",\n    \"provider_id\": \"string\",\n    \"enable_outbound_call_auto_start\": true\n  },\n  \"status\": \"200\",\n  \"http_webhook_key\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "315536cc-4900-446c-a585-bbefce3bf585",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"external_agent_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"system_prompt\": \"<string>\",\n  \"knowledge_base\": \"<string>\",\n  \"phone_number\": \"<string>\",\n  \"goals\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"type\": \"OUTBOUND\",\n  \"connection_type\": \"LIVEKIT\",\n  \"mode\": \"VOICE\",\n  \"keyterms\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"folder\": \"<string>\",\n  \"websocket_url\": \"<string>\",\n  \"websocket_username\": \"<string>\",\n  \"websocket_password\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"sip_username\": \"<string>\",\n  \"sip_password\": \"<string>\",\n  \"custom_sip_headers\": {\n    \"key_0\": \"<string>\"\n  },\n  \"redact_pii\": \"<boolean>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": 3632\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 2411.0519075164348\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": false,\n    \"key_1\": 5986.204583660557,\n    \"key_2\": 6455.9394896961785\n  },\n  \"http_webhook\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"provider_id\": \"<string>\",\n  \"enable_outbound_call_auto_start\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd4097b0-3828-40b3-9994-21eec7bfeef7",
+          "name": "Update Agent By External Id",
+          "request": {
+            "name": "Update Agent By External Id",
+            "description": {
+              "content": "Update an existing agent in the system by external ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "update-agent-by-external-id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_agent_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"system_prompt\": \"<string>\",\n  \"knowledge_base\": \"<string>\",\n  \"phone_number\": \"<string>\",\n  \"goals\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"type\": \"<string>\",\n  \"connection_type\": \"<string>\",\n  \"mode\": \"<string>\",\n  \"keyterms\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"folder\": \"<string>\",\n  \"websocket_url\": \"<string>\",\n  \"websocket_username\": \"<string>\",\n  \"websocket_password\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"sip_username\": \"<string>\",\n  \"sip_password\": \"<string>\",\n  \"custom_sip_headers\": {\n    \"key_0\": \"<string>\"\n  },\n  \"redact_pii\": \"<boolean>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": 6389,\n    \"key_1\": 1846,\n    \"key_2\": \"string\",\n    \"key_3\": true\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 6124.2937352227145\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": 7180,\n    \"key_1\": false\n  },\n  \"http_webhook\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"provider_id\": \"<string>\",\n  \"enable_outbound_call_auto_start\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e02160f8-e161-4da4-9751-deab138e2b22",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-agent-by-external-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_agent_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"system_prompt\": \"<string>\",\n  \"knowledge_base\": \"<string>\",\n  \"phone_number\": \"<string>\",\n  \"goals\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"type\": \"INBOUND\",\n  \"connection_type\": \"HTTP_WEBHOOK\",\n  \"mode\": \"TEXT\",\n  \"keyterms\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"folder\": \"<string>\",\n  \"websocket_url\": \"<string>\",\n  \"websocket_username\": \"<string>\",\n  \"websocket_password\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"sip_username\": \"<string>\",\n  \"sip_password\": \"<string>\",\n  \"custom_sip_headers\": {\n    \"key_0\": \"<string>\"\n  },\n  \"redact_pii\": \"<boolean>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": 9081.713059192934,\n    \"key_1\": \"string\",\n    \"key_2\": \"string\",\n    \"key_3\": 7354.178498302977\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 9546\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": false\n  },\n  \"http_webhook\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"provider_id\": \"<string>\",\n  \"enable_outbound_call_auto_start\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"agent\": {\n    \"agent_id\": \"string\",\n    \"external_agent_id\": \"string\",\n    \"name\": \"string\",\n    \"system_prompt\": \"string\",\n    \"knowledge_base\": \"string\",\n    \"phone_number\": \"string\",\n    \"goals\": [\n      \"string\",\n      \"string\"\n    ],\n    \"type\": \"OUTBOUND\",\n    \"connection_type\": \"SMS\",\n    \"mode\": \"TEXT\",\n    \"keyterms\": [\n      \"string\",\n      \"string\"\n    ],\n    \"folder\": \"string\",\n    \"websocket_url\": \"string\",\n    \"websocket_username\": \"string\",\n    \"websocket_password\": \"string\",\n    \"sip_uri\": \"string\",\n    \"sip_username\": \"string\",\n    \"sip_password\": \"string\",\n    \"custom_sip_headers\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"redact_pii\": false,\n    \"livekit_agent_name\": \"string\",\n    \"livekit_metadata\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"pipecat_agent_name\": \"string\",\n    \"pipecat_agent_configuration\": {\n      \"key_0\": true,\n      \"key_1\": false,\n      \"key_2\": 2694,\n      \"key_3\": \"string\"\n    },\n    \"pipecat_room_properties\": {\n      \"key_0\": true\n    },\n    \"http_webhook\": \"string\",\n    \"voice_provider\": \"string\",\n    \"provider_id\": \"string\",\n    \"enable_outbound_call_auto_start\": true\n  },\n  \"status\": \"200\",\n  \"http_webhook_key\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "197f7002-087c-4e74-83ef-75b1b018450f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-agent-by-external-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_agent_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"system_prompt\": \"<string>\",\n  \"knowledge_base\": \"<string>\",\n  \"phone_number\": \"<string>\",\n  \"goals\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"type\": \"INBOUND\",\n  \"connection_type\": \"HTTP_WEBHOOK\",\n  \"mode\": \"TEXT\",\n  \"keyterms\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"folder\": \"<string>\",\n  \"websocket_url\": \"<string>\",\n  \"websocket_username\": \"<string>\",\n  \"websocket_password\": \"<string>\",\n  \"sip_uri\": \"<string>\",\n  \"sip_username\": \"<string>\",\n  \"sip_password\": \"<string>\",\n  \"custom_sip_headers\": {\n    \"key_0\": \"<string>\"\n  },\n  \"redact_pii\": \"<boolean>\",\n  \"livekit_agent_name\": \"<string>\",\n  \"livekit_metadata\": {\n    \"key_0\": 9081.713059192934,\n    \"key_1\": \"string\",\n    \"key_2\": \"string\",\n    \"key_3\": 7354.178498302977\n  },\n  \"pipecat_agent_name\": \"<string>\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 9546\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": false\n  },\n  \"http_webhook\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"provider_id\": \"<string>\",\n  \"enable_outbound_call_auto_start\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80dce7b9-1050-4326-8dce-fb12c3bdafa8",
+          "name": "Get Agent",
+          "request": {
+            "name": "Get Agent",
+            "description": {
+              "content": "Get an agent by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agents",
+                ":agent_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "agent_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "77d8a50a-f987-498b-8bc1-c212edd7e02f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agents",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"agent_description\": \"string\",\n  \"knowledge_base\": \"string\",\n  \"organization_id\": \"string\",\n  \"mode\": \"VOICE\",\n  \"id\": \"string\",\n  \"goals\": [\n    \"string\",\n    \"string\"\n  ],\n  \"type\": \"OUTBOUND\",\n  \"connection_type\": \"LIVEKIT\",\n  \"phone_number\": \"string\",\n  \"websocket_url\": \"string\",\n  \"redact_pii\": false,\n  \"folder_id\": \"62cf9377-826b-a45c-4a7a-197d64b0e873\",\n  \"created_at\": \"2019-04-02T06:24:12.852Z\",\n  \"keyterms\": [\n    \"string\",\n    \"string\"\n  ],\n  \"voice_provider\": \"string\",\n  \"provider_id\": \"string\",\n  \"websocket_username\": \"string\",\n  \"websocket_password\": \"string\",\n  \"external_agent_id\": \"string\",\n  \"sip_uri\": \"string\",\n  \"custom_sip_headers\": {\n    \"key_0\": false\n  },\n  \"sip_username\": \"string\",\n  \"sip_password\": \"string\",\n  \"simulation_notifications\": {\n    \"key_0\": true\n  },\n  \"livekit_agent_name\": \"string\",\n  \"livekit_metadata\": {\n    \"key_0\": false,\n    \"key_1\": false\n  },\n  \"pipecat_agent_name\": \"string\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 6662.039859794871\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": 5668.7125041105755,\n    \"key_1\": \"string\"\n  },\n  \"http_webhook\": \"string\",\n  \"http_webhook_key\": \"string\",\n  \"enable_outbound_call_auto_start\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02ce6287-c0dc-444f-9989-ccd31e1d13c0",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agents",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "241dbb99-ee18-44fa-965c-0ff41e0c29c4",
+          "name": "Get Agent By External Id",
+          "request": {
+            "name": "Get Agent By External Id",
+            "description": {
+              "content": "Get an agent by external ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-by-external-id",
+                ":external_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "6d324a35-ac26-4fc8-96a9-9aeeaae7cd3f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-by-external-id",
+                    ":external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"agent_description\": \"string\",\n  \"knowledge_base\": \"string\",\n  \"organization_id\": \"string\",\n  \"mode\": \"VOICE\",\n  \"id\": \"string\",\n  \"goals\": [\n    \"string\",\n    \"string\"\n  ],\n  \"type\": \"OUTBOUND\",\n  \"connection_type\": \"LIVEKIT\",\n  \"phone_number\": \"string\",\n  \"websocket_url\": \"string\",\n  \"redact_pii\": false,\n  \"folder_id\": \"62cf9377-826b-a45c-4a7a-197d64b0e873\",\n  \"created_at\": \"2019-04-02T06:24:12.852Z\",\n  \"keyterms\": [\n    \"string\",\n    \"string\"\n  ],\n  \"voice_provider\": \"string\",\n  \"provider_id\": \"string\",\n  \"websocket_username\": \"string\",\n  \"websocket_password\": \"string\",\n  \"external_agent_id\": \"string\",\n  \"sip_uri\": \"string\",\n  \"custom_sip_headers\": {\n    \"key_0\": false\n  },\n  \"sip_username\": \"string\",\n  \"sip_password\": \"string\",\n  \"simulation_notifications\": {\n    \"key_0\": true\n  },\n  \"livekit_agent_name\": \"string\",\n  \"livekit_metadata\": {\n    \"key_0\": false,\n    \"key_1\": false\n  },\n  \"pipecat_agent_name\": \"string\",\n  \"pipecat_agent_configuration\": {\n    \"key_0\": 6662.039859794871\n  },\n  \"pipecat_room_properties\": {\n    \"key_0\": 5668.7125041105755,\n    \"key_1\": \"string\"\n  },\n  \"http_webhook\": \"string\",\n  \"http_webhook_key\": \"string\",\n  \"enable_outbound_call_auto_start\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "123d3bdb-acf5-47aa-bbd3-d5cb22916b9d",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-by-external-id",
+                    ":external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5a2fbb93-484b-41fc-b758-bbc908d38a5b",
+          "name": "Get All Agents",
+          "request": {
+            "name": "Get All Agents",
+            "description": {
+              "content": "Get all your agents.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "all-agents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "278513ce-efec-462a-8029-0a3ab4eb42a5",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "all-agents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"string\",\n    \"agent_description\": \"string\",\n    \"knowledge_base\": \"string\",\n    \"organization_id\": \"string\",\n    \"mode\": \"VOICE\",\n    \"id\": \"string\",\n    \"goals\": [\n      \"string\",\n      \"string\"\n    ],\n    \"type\": \"OUTBOUND\",\n    \"connection_type\": \"HTTP_WEBHOOK\",\n    \"phone_number\": \"string\",\n    \"websocket_url\": \"string\",\n    \"redact_pii\": false,\n    \"folder_id\": \"17f4a1fb-19f4-3cac-4ddf-ac0fa6b5b7a1\",\n    \"created_at\": \"1989-07-24T10:12:03.877Z\",\n    \"keyterms\": [\n      \"string\",\n      \"string\"\n    ],\n    \"voice_provider\": \"string\",\n    \"provider_id\": \"string\",\n    \"websocket_username\": \"string\",\n    \"websocket_password\": \"string\",\n    \"external_agent_id\": \"string\",\n    \"sip_uri\": \"string\",\n    \"custom_sip_headers\": {\n      \"key_0\": \"string\",\n      \"key_1\": true\n    },\n    \"sip_username\": \"string\",\n    \"sip_password\": \"string\",\n    \"simulation_notifications\": {\n      \"key_0\": true\n    },\n    \"livekit_agent_name\": \"string\",\n    \"livekit_metadata\": {\n      \"key_0\": 5046.145535522151\n    },\n    \"pipecat_agent_name\": \"string\",\n    \"pipecat_agent_configuration\": {\n      \"key_0\": 5895\n    },\n    \"pipecat_room_properties\": {\n      \"key_0\": \"string\"\n    },\n    \"http_webhook\": \"string\",\n    \"http_webhook_key\": \"string\",\n    \"enable_outbound_call_auto_start\": false\n  },\n  {\n    \"name\": \"string\",\n    \"agent_description\": \"string\",\n    \"knowledge_base\": \"string\",\n    \"organization_id\": \"string\",\n    \"mode\": \"VOICE\",\n    \"id\": \"string\",\n    \"goals\": [\n      \"string\",\n      \"string\"\n    ],\n    \"type\": \"INBOUND\",\n    \"connection_type\": \"SIP\",\n    \"phone_number\": \"string\",\n    \"websocket_url\": \"string\",\n    \"redact_pii\": true,\n    \"folder_id\": \"f2b3ede8-13f5-fc94-2ca8-35820aa8a8fa\",\n    \"created_at\": \"2005-06-21T09:16:16.405Z\",\n    \"keyterms\": [\n      \"string\",\n      \"string\"\n    ],\n    \"voice_provider\": \"string\",\n    \"provider_id\": \"string\",\n    \"websocket_username\": \"string\",\n    \"websocket_password\": \"string\",\n    \"external_agent_id\": \"string\",\n    \"sip_uri\": \"string\",\n    \"custom_sip_headers\": {\n      \"key_0\": \"string\",\n      \"key_1\": false\n    },\n    \"sip_username\": \"string\",\n    \"sip_password\": \"string\",\n    \"simulation_notifications\": {\n      \"key_0\": \"string\"\n    },\n    \"livekit_agent_name\": \"string\",\n    \"livekit_metadata\": {\n      \"key_0\": true,\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"pipecat_agent_name\": \"string\",\n    \"pipecat_agent_configuration\": {\n      \"key_0\": 5871.043295595888,\n      \"key_1\": \"string\"\n    },\n    \"pipecat_room_properties\": {\n      \"key_0\": 5164,\n      \"key_1\": 4529,\n      \"key_2\": true\n    },\n    \"http_webhook\": \"string\",\n    \"http_webhook_key\": \"string\",\n    \"enable_outbound_call_auto_start\": false\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e747b146-3729-418b-a277-fda9cb65538a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "all-agents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "19dae8fb-749c-4644-baeb-71758aeee94f",
+          "name": "Delete Agent",
+          "request": {
+            "name": "Delete Agent",
+            "description": {
+              "content": "Delete an agent by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent",
+                ":agent_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "agent_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "b161d253-a625-499f-913a-e09eb562b104",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"agent_id\": 4584,\n  \"status\": \"200\",\n  \"http_webhook_key\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa624cc1-0c7f-4cb1-b22a-bf48b4fcdf9c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eccb3fc6-b0d3-49f9-a916-ae33f86ea62d",
+          "name": "Generate Http Webhook Key",
+          "request": {
+            "name": "Generate Http Webhook Key",
+            "description": {
+              "content": "Generate a new signing key for an HTTP agent's webhook",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "generate-http-webhook-key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"<string>\",\n  \"external_agent_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c29eae08-38a4-4b48-a4c4-05d4d4341980",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-http-webhook-key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"external_agent_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signing_key\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55546163-c38c-4ded-abd0-9299dd0fffd3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-http-webhook-key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"external_agent_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40cc5953-bcab-4598-b11d-118038018c65",
+          "name": "Get Http Webhook Key",
+          "request": {
+            "name": "Get Http Webhook Key",
+            "description": {
+              "content": "Get the signing key for an HTTP agent's webhook",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "get-http-webhook-key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"<string>\",\n  \"external_agent_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0c7d2f00-9543-4b6d-add8-453badfe2558",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "get-http-webhook-key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"external_agent_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signing_key\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf18bba7-163c-4cef-90e8-49e85dabb314",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "get-http-webhook-key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"external_agent_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6e9253fe-34f1-4902-807a-a9251369db4f",
+    "name": "Bluejay Agents API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

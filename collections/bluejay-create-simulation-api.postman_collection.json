@@ -1,0 +1,219 @@
+{
+  "item": [
+    {
+      "id": "95f3261d-6ad9-48ee-b930-2c22c6fb6961",
+      "name": "Create Simulation",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2bfce8e4-f0b1-4a68-9dd8-a03e76fde61e",
+          "name": "Create Simulation",
+          "request": {
+            "name": "Create Simulation",
+            "description": {
+              "content": "Create a new simulation with the provided details.\n\nReturns the simulation id and a status code.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "create-simulation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"prompt_id\": \"<uuid>\",\n  \"knowledge_base_id\": \"<uuid>\",\n  \"sequential_calling\": \"<boolean>\",\n  \"max_concurrent\": \"<integer>\",\n  \"hangup_on_transfer\": \"<boolean>\",\n  \"max_call_duration\": \"<integer>\",\n  \"max_call_duration_units\": \"<string>\",\n  \"ringing_timeout\": \"<integer>\",\n  \"digital_humans_settings\": {\n    \"default_name\": \"<string>\",\n    \"default_caller_number\": \"<string>\",\n    \"default_language\": \"<string>\",\n    \"default_background_noise\": \"<string>\",\n    \"first_message\": \"<string>\",\n    \"num_runs\": \"<integer>\"\n  },\n  \"selected_custom_metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"custom_metrics_failing_threshold\": \"<integer>\",\n  \"custom_metrics_passing_threshold\": \"<integer>\",\n  \"always_on\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "de2bc3d7-d7e2-4ebd-ab3c-4a4a0cc81695",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-simulation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"prompt_id\": \"<uuid>\",\n  \"knowledge_base_id\": \"<uuid>\",\n  \"sequential_calling\": \"<boolean>\",\n  \"max_concurrent\": \"<integer>\",\n  \"hangup_on_transfer\": \"<boolean>\",\n  \"max_call_duration\": \"<integer>\",\n  \"max_call_duration_units\": \"<string>\",\n  \"ringing_timeout\": \"<integer>\",\n  \"digital_humans_settings\": {\n    \"default_name\": \"string\",\n    \"default_caller_number\": \"string\",\n    \"default_language\": \"string\",\n    \"default_background_noise\": \"string\",\n    \"first_message\": \"string\",\n    \"num_runs\": 7401\n  },\n  \"selected_custom_metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"custom_metrics_failing_threshold\": \"<integer>\",\n  \"custom_metrics_passing_threshold\": \"<integer>\",\n  \"always_on\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"simulation_id\": 3777,\n  \"status\": \"200\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de1580f5-ac8d-499e-8bf1-4a5aa005ef0f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-simulation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"prompt_id\": \"<uuid>\",\n  \"knowledge_base_id\": \"<uuid>\",\n  \"sequential_calling\": \"<boolean>\",\n  \"max_concurrent\": \"<integer>\",\n  \"hangup_on_transfer\": \"<boolean>\",\n  \"max_call_duration\": \"<integer>\",\n  \"max_call_duration_units\": \"<string>\",\n  \"ringing_timeout\": \"<integer>\",\n  \"digital_humans_settings\": {\n    \"default_name\": \"string\",\n    \"default_caller_number\": \"string\",\n    \"default_language\": \"string\",\n    \"default_background_noise\": \"string\",\n    \"first_message\": \"string\",\n    \"num_runs\": 7401\n  },\n  \"selected_custom_metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"custom_metrics_failing_threshold\": \"<integer>\",\n  \"custom_metrics_passing_threshold\": \"<integer>\",\n  \"always_on\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8db04d67-7d04-48bc-8310-68b5d42b4c39",
+    "name": "Bluejay Agents Create Simulation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

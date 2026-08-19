@@ -1,0 +1,389 @@
+{
+  "item": [
+    {
+      "id": "0ad28f3e-a27c-4b49-82da-908c4f2cd5c7",
+      "name": "Evaluate",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "08dd93ee-fd37-4ad9-8890-f9d643f566d8",
+          "name": "Evaluate",
+          "request": {
+            "name": "Evaluate",
+            "description": {
+              "content": "Submit a call or chat for evaluation.\n\nReturns an eval ID that can be used to track evaluation status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "evaluate-call"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"<string>\",\n  \"start_time_utc\": \"<dateTime>\",\n  \"participants\": [\n    {\n      \"role\": \"<string>\",\n      \"spoke_first\": \"<boolean>\",\n      \"name\": \"<string>\",\n      \"phone_number\": \"<string>\"\n    },\n    {\n      \"role\": \"<string>\",\n      \"spoke_first\": \"<boolean>\",\n      \"name\": \"<string>\",\n      \"phone_number\": \"<string>\"\n    }\n  ],\n  \"recording_url\": \"<uri>\",\n  \"recording_base64\": \"<string>\",\n  \"call_direction\": \"<string>\",\n  \"interface\": \"<string>\",\n  \"transcript_url\": \"<uri>\",\n  \"transcript\": [\n    {\n      \"start_offset_ms\": \"<integer>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"speaker\": \"<string>\",\n      \"utterance\": \"<string>\",\n      \"filler_utterance\": \"<boolean>\"\n    },\n    {\n      \"start_offset_ms\": \"<integer>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"speaker\": \"<string>\",\n      \"utterance\": \"<string>\",\n      \"filler_utterance\": \"<boolean>\"\n    }\n  ],\n  \"tool_calls\": [\n    {\n      \"name\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": false\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": 499,\n        \"key_1\": true,\n        \"key_2\": 7611\n      },\n      \"output\": {}\n    }\n  ],\n  \"events\": [\n    {\n      \"title\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"metadata\": {\n        \"key_0\": 9884.904335421823,\n        \"key_1\": false,\n        \"key_2\": \"string\"\n      }\n    },\n    {\n      \"title\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"metadata\": {\n        \"key_0\": true,\n        \"key_1\": 2377.2220867441265\n      }\n    }\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"trace_id\": \"<string>\",\n  \"created_at\": \"<dateTime>\",\n  \"metadata\": {\n    \"key_0\": true,\n    \"key_1\": \"string\"\n  },\n  \"webhook_tag\": \"<string>\",\n  \"custom_metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"custom_metric_tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"label\": \"<string>\",\n  \"enable_phrase_latencies\": \"<boolean>\",\n  \"conversation_ended_by\": \"<string>\",\n  \"multichannel\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ebc94799-6066-4818-966c-b7053fb8a168",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "evaluate-call"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"string\",\n  \"start_time_utc\": \"1949-10-03T08:12:58.464Z\",\n  \"participants\": [\n    {\n      \"role\": \"USER\",\n      \"spoke_first\": true,\n      \"name\": \"string\",\n      \"phone_number\": \"string\"\n    },\n    {\n      \"role\": \"USER\",\n      \"spoke_first\": false,\n      \"name\": \"string\",\n      \"phone_number\": \"string\"\n    }\n  ],\n  \"recording_url\": \"https://IBKossulCfHHFgNPqe.oaksrL42-KU-kBs0KUDwohpZEmSt+bUK4fo,GOhWGdg5tXaK7SW6NgZfmKGO\",\n  \"recording_base64\": \"string\",\n  \"call_direction\": \"INBOUND\",\n  \"interface\": \"PHONE\",\n  \"transcript_url\": \"http://HDAAnhhcqihJvYfPunCxfZz.fwuld29iGKJsfOPlgpXwOW,XmRxY.JwYBNoIwC8GJR6-nFK4W.AS3zxsx6IG\",\n  \"transcript\": [\n    {\n      \"start_offset_ms\": 7800,\n      \"end_offset_ms\": 7653,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": true\n    },\n    {\n      \"start_offset_ms\": 6862,\n      \"end_offset_ms\": 2670,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": false\n    }\n  ],\n  \"tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 8059,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": false,\n        \"key_1\": 2687,\n        \"key_2\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 9548,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": false,\n        \"key_1\": 4216.758423227585\n      },\n      \"output\": {}\n    }\n  ],\n  \"events\": [\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 3502,\n      \"description\": \"string\",\n      \"end_offset_ms\": 9689,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 9645,\n      \"description\": \"string\",\n      \"end_offset_ms\": 3347,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ],\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"trace_id\": \"string\",\n  \"created_at\": \"1962-07-21T12:21:47.263Z\",\n  \"metadata\": {\n    \"key_0\": 8319.335691651017\n  },\n  \"webhook_tag\": \"string\",\n  \"custom_metrics\": [\n    \"074d54cc-50b4-07a0-c6cb-6da428ee1fc9\",\n    \"fd2913cd-2bec-9c5c-99b1-0d0e0d9bb053\"\n  ],\n  \"custom_metric_tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"label\": \"string\",\n  \"enable_phrase_latencies\": false,\n  \"conversation_ended_by\": \"AGENT\",\n  \"multichannel\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"call_id\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36f2e235-a544-477d-aa5e-7737e8eae4ba",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "evaluate-call"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"string\",\n  \"start_time_utc\": \"1949-10-03T08:12:58.464Z\",\n  \"participants\": [\n    {\n      \"role\": \"USER\",\n      \"spoke_first\": true,\n      \"name\": \"string\",\n      \"phone_number\": \"string\"\n    },\n    {\n      \"role\": \"USER\",\n      \"spoke_first\": false,\n      \"name\": \"string\",\n      \"phone_number\": \"string\"\n    }\n  ],\n  \"recording_url\": \"https://IBKossulCfHHFgNPqe.oaksrL42-KU-kBs0KUDwohpZEmSt+bUK4fo,GOhWGdg5tXaK7SW6NgZfmKGO\",\n  \"recording_base64\": \"string\",\n  \"call_direction\": \"INBOUND\",\n  \"interface\": \"PHONE\",\n  \"transcript_url\": \"http://HDAAnhhcqihJvYfPunCxfZz.fwuld29iGKJsfOPlgpXwOW,XmRxY.JwYBNoIwC8GJR6-nFK4W.AS3zxsx6IG\",\n  \"transcript\": [\n    {\n      \"start_offset_ms\": 7800,\n      \"end_offset_ms\": 7653,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": true\n    },\n    {\n      \"start_offset_ms\": 6862,\n      \"end_offset_ms\": 2670,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": false\n    }\n  ],\n  \"tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 8059,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": false,\n        \"key_1\": 2687,\n        \"key_2\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 9548,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": false,\n        \"key_1\": 4216.758423227585\n      },\n      \"output\": {}\n    }\n  ],\n  \"events\": [\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 3502,\n      \"description\": \"string\",\n      \"end_offset_ms\": 9689,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 9645,\n      \"description\": \"string\",\n      \"end_offset_ms\": 3347,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ],\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"trace_id\": \"string\",\n  \"created_at\": \"1962-07-21T12:21:47.263Z\",\n  \"metadata\": {\n    \"key_0\": 8319.335691651017\n  },\n  \"webhook_tag\": \"string\",\n  \"custom_metrics\": [\n    \"074d54cc-50b4-07a0-c6cb-6da428ee1fc9\",\n    \"fd2913cd-2bec-9c5c-99b1-0d0e0d9bb053\"\n  ],\n  \"custom_metric_tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"label\": \"string\",\n  \"enable_phrase_latencies\": false,\n  \"conversation_ended_by\": \"AGENT\",\n  \"multichannel\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f523bcb-1404-4d1a-824d-37e14fdf415c",
+          "name": "Evaluate",
+          "request": {
+            "name": "Evaluate",
+            "description": {
+              "content": "Submit a call or chat for evaluation.\n\nReturns an eval ID that can be used to track evaluation status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "evaluate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"<string>\",\n  \"start_time_utc\": \"<dateTime>\",\n  \"participants\": [\n    {\n      \"role\": \"<string>\",\n      \"spoke_first\": \"<boolean>\",\n      \"name\": \"<string>\",\n      \"phone_number\": \"<string>\"\n    },\n    {\n      \"role\": \"<string>\",\n      \"spoke_first\": \"<boolean>\",\n      \"name\": \"<string>\",\n      \"phone_number\": \"<string>\"\n    }\n  ],\n  \"recording_url\": \"<uri>\",\n  \"recording_base64\": \"<string>\",\n  \"call_direction\": \"<string>\",\n  \"interface\": \"<string>\",\n  \"transcript_url\": \"<uri>\",\n  \"transcript\": [\n    {\n      \"start_offset_ms\": \"<integer>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"speaker\": \"<string>\",\n      \"utterance\": \"<string>\",\n      \"filler_utterance\": \"<boolean>\"\n    },\n    {\n      \"start_offset_ms\": \"<integer>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"speaker\": \"<string>\",\n      \"utterance\": \"<string>\",\n      \"filler_utterance\": \"<boolean>\"\n    }\n  ],\n  \"tool_calls\": [\n    {\n      \"name\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": false\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": 499,\n        \"key_1\": true,\n        \"key_2\": 7611\n      },\n      \"output\": {}\n    }\n  ],\n  \"events\": [\n    {\n      \"title\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"metadata\": {\n        \"key_0\": 9884.904335421823,\n        \"key_1\": false,\n        \"key_2\": \"string\"\n      }\n    },\n    {\n      \"title\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"metadata\": {\n        \"key_0\": true,\n        \"key_1\": 2377.2220867441265\n      }\n    }\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"trace_id\": \"<string>\",\n  \"created_at\": \"<dateTime>\",\n  \"metadata\": {\n    \"key_0\": true,\n    \"key_1\": \"string\"\n  },\n  \"webhook_tag\": \"<string>\",\n  \"custom_metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"custom_metric_tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"label\": \"<string>\",\n  \"enable_phrase_latencies\": \"<boolean>\",\n  \"conversation_ended_by\": \"<string>\",\n  \"multichannel\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b18de2b0-cea5-4886-8792-5e9770065af5",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "evaluate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"string\",\n  \"start_time_utc\": \"1949-10-03T08:12:58.464Z\",\n  \"participants\": [\n    {\n      \"role\": \"USER\",\n      \"spoke_first\": true,\n      \"name\": \"string\",\n      \"phone_number\": \"string\"\n    },\n    {\n      \"role\": \"USER\",\n      \"spoke_first\": false,\n      \"name\": \"string\",\n      \"phone_number\": \"string\"\n    }\n  ],\n  \"recording_url\": \"https://IBKossulCfHHFgNPqe.oaksrL42-KU-kBs0KUDwohpZEmSt+bUK4fo,GOhWGdg5tXaK7SW6NgZfmKGO\",\n  \"recording_base64\": \"string\",\n  \"call_direction\": \"INBOUND\",\n  \"interface\": \"PHONE\",\n  \"transcript_url\": \"http://HDAAnhhcqihJvYfPunCxfZz.fwuld29iGKJsfOPlgpXwOW,XmRxY.JwYBNoIwC8GJR6-nFK4W.AS3zxsx6IG\",\n  \"transcript\": [\n    {\n      \"start_offset_ms\": 7800,\n      \"end_offset_ms\": 7653,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": true\n    },\n    {\n      \"start_offset_ms\": 6862,\n      \"end_offset_ms\": 2670,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": false\n    }\n  ],\n  \"tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 8059,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": false,\n        \"key_1\": 2687,\n        \"key_2\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 9548,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": false,\n        \"key_1\": 4216.758423227585\n      },\n      \"output\": {}\n    }\n  ],\n  \"events\": [\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 3502,\n      \"description\": \"string\",\n      \"end_offset_ms\": 9689,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 9645,\n      \"description\": \"string\",\n      \"end_offset_ms\": 3347,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ],\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"trace_id\": \"string\",\n  \"created_at\": \"1962-07-21T12:21:47.263Z\",\n  \"metadata\": {\n    \"key_0\": 8319.335691651017\n  },\n  \"webhook_tag\": \"string\",\n  \"custom_metrics\": [\n    \"074d54cc-50b4-07a0-c6cb-6da428ee1fc9\",\n    \"fd2913cd-2bec-9c5c-99b1-0d0e0d9bb053\"\n  ],\n  \"custom_metric_tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"label\": \"string\",\n  \"enable_phrase_latencies\": false,\n  \"conversation_ended_by\": \"AGENT\",\n  \"multichannel\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"call_id\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa650cff-40ca-4ae6-8ff0-b4855e11eb98",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "evaluate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"string\",\n  \"start_time_utc\": \"1949-10-03T08:12:58.464Z\",\n  \"participants\": [\n    {\n      \"role\": \"USER\",\n      \"spoke_first\": true,\n      \"name\": \"string\",\n      \"phone_number\": \"string\"\n    },\n    {\n      \"role\": \"USER\",\n      \"spoke_first\": false,\n      \"name\": \"string\",\n      \"phone_number\": \"string\"\n    }\n  ],\n  \"recording_url\": \"https://IBKossulCfHHFgNPqe.oaksrL42-KU-kBs0KUDwohpZEmSt+bUK4fo,GOhWGdg5tXaK7SW6NgZfmKGO\",\n  \"recording_base64\": \"string\",\n  \"call_direction\": \"INBOUND\",\n  \"interface\": \"PHONE\",\n  \"transcript_url\": \"http://HDAAnhhcqihJvYfPunCxfZz.fwuld29iGKJsfOPlgpXwOW,XmRxY.JwYBNoIwC8GJR6-nFK4W.AS3zxsx6IG\",\n  \"transcript\": [\n    {\n      \"start_offset_ms\": 7800,\n      \"end_offset_ms\": 7653,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": true\n    },\n    {\n      \"start_offset_ms\": 6862,\n      \"end_offset_ms\": 2670,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": false\n    }\n  ],\n  \"tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 8059,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": false,\n        \"key_1\": 2687,\n        \"key_2\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 9548,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": false,\n        \"key_1\": 4216.758423227585\n      },\n      \"output\": {}\n    }\n  ],\n  \"events\": [\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 3502,\n      \"description\": \"string\",\n      \"end_offset_ms\": 9689,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 9645,\n      \"description\": \"string\",\n      \"end_offset_ms\": 3347,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ],\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"trace_id\": \"string\",\n  \"created_at\": \"1962-07-21T12:21:47.263Z\",\n  \"metadata\": {\n    \"key_0\": 8319.335691651017\n  },\n  \"webhook_tag\": \"string\",\n  \"custom_metrics\": [\n    \"074d54cc-50b4-07a0-c6cb-6da428ee1fc9\",\n    \"fd2913cd-2bec-9c5c-99b1-0d0e0d9bb053\"\n  ],\n  \"custom_metric_tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"label\": \"string\",\n  \"enable_phrase_latencies\": false,\n  \"conversation_ended_by\": \"AGENT\",\n  \"multichannel\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "be2f7a5c-6d44-4ead-8f08-5eb91df6206c",
+    "name": "Bluejay Agents Evaluate API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

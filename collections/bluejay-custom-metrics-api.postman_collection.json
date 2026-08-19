@@ -1,0 +1,1443 @@
+{
+  "item": [
+    {
+      "id": "f3b36e89-070a-4e14-81fc-332cd6977dad",
+      "name": "Custom Metrics",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1b0497df-cb7d-4440-850a-70207626b60b",
+          "name": "Create Custom Metric",
+          "request": {
+            "name": "Create Custom Metric",
+            "description": {
+              "content": "Create a new custom metric.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "create-custom-metric"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"response_type\": \"<string>\",\n  \"agent_id\": \"<integer>\",\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"min_value\": \"<number>\",\n  \"max_value\": \"<number>\",\n  \"category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"scoring_guidance\": \"<string>\",\n  \"eval_route\": \"<string>\",\n  \"model\": \"<string>\",\n  \"audio_model\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"enum_options\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"allow_not_applicable\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f986f7e8-f1a2-4374-8203-97fef54682fe",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-custom-metric"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"response_type\": \"yes_no\",\n  \"agent_id\": \"<integer>\",\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"min_value\": \"<number>\",\n  \"max_value\": \"<number>\",\n  \"category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"scoring_guidance\": \"<string>\",\n  \"eval_route\": \"AUDIO\",\n  \"model\": \"<string>\",\n  \"audio_model\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"enum_options\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"allow_not_applicable\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"response_type\": \"quantitative\",\n  \"created_at\": \"2022-08-16T22:16:04.227Z\",\n  \"agent_ids\": [\n    3438,\n    424\n  ],\n  \"min_value\": 388.3390262238051,\n  \"max_value\": 8600.639789409353,\n  \"category\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"scoring_guidance\": \"string\",\n  \"eval_route\": \"TEXT\",\n  \"model\": \"string\",\n  \"audio_model\": \"string\",\n  \"temperature\": 4753.507985829787,\n  \"enum_options\": [\n    \"string\",\n    \"string\"\n  ],\n  \"allow_not_applicable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99d44b7d-c135-4b4c-bb4a-3a25e671b2ad",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-custom-metric"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"response_type\": \"yes_no\",\n  \"agent_id\": \"<integer>\",\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"min_value\": \"<number>\",\n  \"max_value\": \"<number>\",\n  \"category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"scoring_guidance\": \"<string>\",\n  \"eval_route\": \"AUDIO\",\n  \"model\": \"<string>\",\n  \"audio_model\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"enum_options\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"allow_not_applicable\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bbceffb1-75f1-4e46-96c9-2028e62f0f62",
+          "name": "Create Custom Metrics",
+          "request": {
+            "name": "Create Custom Metrics",
+            "description": {
+              "content": "Create multiple custom metrics synchronously using a single bulk insert.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "create-custom-metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metrics\": [\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"response_type\": \"<string>\",\n      \"agent_id\": \"<integer>\",\n      \"agent_ids\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"min_value\": \"<number>\",\n      \"max_value\": \"<number>\",\n      \"category\": \"<string>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"scoring_guidance\": \"<string>\",\n      \"eval_route\": \"<string>\",\n      \"model\": \"<string>\",\n      \"audio_model\": \"<string>\",\n      \"temperature\": \"<number>\",\n      \"enum_options\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"allow_not_applicable\": false\n    },\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"response_type\": \"<string>\",\n      \"agent_id\": \"<integer>\",\n      \"agent_ids\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"min_value\": \"<number>\",\n      \"max_value\": \"<number>\",\n      \"category\": \"<string>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"scoring_guidance\": \"<string>\",\n      \"eval_route\": \"<string>\",\n      \"model\": \"<string>\",\n      \"audio_model\": \"<string>\",\n      \"temperature\": \"<number>\",\n      \"enum_options\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"allow_not_applicable\": false\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f8ff3ea5-1aea-47c3-90a6-9d688a8045e6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-custom-metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metrics\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"pass_fail\",\n      \"agent_id\": 4231,\n      \"agent_ids\": [\n        1602,\n        1389\n      ],\n      \"min_value\": 7902.791865871548,\n      \"max_value\": 5333.963310943503,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"TEXT\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 2929.883654268516,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"pass_fail\",\n      \"agent_id\": 9699,\n      \"agent_ids\": [\n        507,\n        3565\n      ],\n      \"min_value\": 3542.9530868085835,\n      \"max_value\": 4777.549813286785,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"TEXT\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 5127.657078899995,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metrics\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"pass_fail\",\n      \"created_at\": \"2016-09-20T02:55:43.228Z\",\n      \"agent_ids\": [\n        6526,\n        5748\n      ],\n      \"min_value\": 5627.761114208618,\n      \"max_value\": 7921.916589499897,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"TEXT\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 3246.9764905033417,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"qualitative\",\n      \"created_at\": \"1953-07-23T21:24:14.665Z\",\n      \"agent_ids\": [\n        4032,\n        7628\n      ],\n      \"min_value\": 2805.66127697907,\n      \"max_value\": 9276.930648153713,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"TEXT\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 9505.347306794416,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "928d42d6-64a2-4a95-81ba-e978d5bce38d",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-custom-metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metrics\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"pass_fail\",\n      \"agent_id\": 4231,\n      \"agent_ids\": [\n        1602,\n        1389\n      ],\n      \"min_value\": 7902.791865871548,\n      \"max_value\": 5333.963310943503,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"TEXT\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 2929.883654268516,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"pass_fail\",\n      \"agent_id\": 9699,\n      \"agent_ids\": [\n        507,\n        3565\n      ],\n      \"min_value\": 3542.9530868085835,\n      \"max_value\": 4777.549813286785,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"TEXT\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 5127.657078899995,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fa51572b-4b76-46db-880a-bdf5a465d132",
+          "name": "Get Custom Metric",
+          "request": {
+            "name": "Get Custom Metric",
+            "description": {
+              "content": "Get a specific custom metric by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-metric",
+                ":metric_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "metric_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "c86df88f-f0ff-475e-ae00-30918e783f43",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-metric",
+                    ":metric_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metric_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"response_type\": \"quantitative\",\n  \"created_at\": \"2022-08-16T22:16:04.227Z\",\n  \"agent_ids\": [\n    3438,\n    424\n  ],\n  \"min_value\": 388.3390262238051,\n  \"max_value\": 8600.639789409353,\n  \"category\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"scoring_guidance\": \"string\",\n  \"eval_route\": \"TEXT\",\n  \"model\": \"string\",\n  \"audio_model\": \"string\",\n  \"temperature\": 4753.507985829787,\n  \"enum_options\": [\n    \"string\",\n    \"string\"\n  ],\n  \"allow_not_applicable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "076fbc4e-abd9-47e3-b81f-9166a3914fec",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-metric",
+                    ":metric_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metric_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a2362373-238a-4f0d-a5a3-2d1cc46a3e83",
+          "name": "Delete Custom Metric",
+          "request": {
+            "name": "Delete Custom Metric",
+            "description": {
+              "content": "Delete a specific custom metric by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-metric",
+                ":metric_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "metric_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "de947cdd-19cf-4032-81e1-ef28f6dc4e99",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-metric",
+                    ":metric_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metric_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"response_type\": \"json\",\n  \"agent_id\": 9988,\n  \"min_value\": 9138.195620090813,\n  \"max_value\": 6864.004499244749,\n  \"created_at\": \"1994-05-14T21:44:31.257Z\",\n  \"id\": \"f463995b-a785-89bc-60dd-8bd4212feffa\",\n  \"category\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"scoring_guidance\": \"string\",\n  \"eval_route\": \"AUTO\",\n  \"model\": \"string\",\n  \"audio_model\": \"string\",\n  \"temperature\": 1126.741112924704,\n  \"enum_options\": [\n    \"string\",\n    \"string\"\n  ],\n  \"organization_id\": \"f5fc7be1-3ef4-9d9f-238c-e8081bffa500\",\n  \"allow_not_applicable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41ead940-c1d3-4870-a2a7-a9e3df672e00",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-metric",
+                    ":metric_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metric_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "233611fd-669c-4084-b6a3-0989acb80d67",
+          "name": "Get Custom Metrics",
+          "request": {
+            "name": "Get Custom Metrics",
+            "description": {
+              "content": "Get all custom metrics, optionally filtered by agent, with pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "agent_id",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "50"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "9172cc7f-e28d-4a9f-b5a1-abed533c579f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agent_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metrics\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"yes_no\",\n      \"created_at\": \"1981-05-11T00:28:29.552Z\",\n      \"agent_ids\": [\n        9755,\n        4061\n      ],\n      \"min_value\": 9307.223296875138,\n      \"max_value\": 1128.2487399045272,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"TEXT\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 471.33243094479525,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"enum\",\n      \"created_at\": \"1961-12-24T13:30:48.759Z\",\n      \"agent_ids\": [\n        8243,\n        9028\n      ],\n      \"min_value\": 7709.9211520923545,\n      \"max_value\": 6005.793712389078,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"AUTO\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 4409.434796797703,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    }\n  ],\n  \"total_count\": 9406,\n  \"page\": 2109,\n  \"page_size\": 4690,\n  \"items_in_page\": 7765,\n  \"total_pages\": 9384\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "883afdd4-ed45-4fc4-a68f-d71e4cdffb08",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agent_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5423fd11-7209-41f6-84a9-d208fd2cd2c0",
+          "name": "Get Custom Metrics By Agent",
+          "request": {
+            "name": "Get Custom Metrics By Agent",
+            "description": {
+              "content": "Get all custom metrics for an agent.\n\n**DEPRECATED**: This endpoint is deprecated. Please use GET /custom-metrics?agent_id={agent_id} instead,\nwhich supports pagination and additional features.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-metrics-by-agent",
+                ":agent_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "agent_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "78011875-e318-4e42-b51b-799c4366a21b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-metrics-by-agent",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metrics\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"yes_no\",\n      \"created_at\": \"1981-05-11T00:28:29.552Z\",\n      \"agent_ids\": [\n        9755,\n        4061\n      ],\n      \"min_value\": 9307.223296875138,\n      \"max_value\": 1128.2487399045272,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"TEXT\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 471.33243094479525,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"response_type\": \"enum\",\n      \"created_at\": \"1961-12-24T13:30:48.759Z\",\n      \"agent_ids\": [\n        8243,\n        9028\n      ],\n      \"min_value\": 7709.9211520923545,\n      \"max_value\": 6005.793712389078,\n      \"category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"scoring_guidance\": \"string\",\n      \"eval_route\": \"AUTO\",\n      \"model\": \"string\",\n      \"audio_model\": \"string\",\n      \"temperature\": 4409.434796797703,\n      \"enum_options\": [\n        \"string\",\n        \"string\"\n      ],\n      \"allow_not_applicable\": false\n    }\n  ],\n  \"total_count\": 9406,\n  \"page\": 2109,\n  \"page_size\": 4690,\n  \"items_in_page\": 7765,\n  \"total_pages\": 9384\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3dbdf8d-bc26-48e1-b3fc-6a377a0b3099",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-metrics-by-agent",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4132efa3-396d-4fb9-b207-6057864aa717",
+          "name": "Update Custom Metric",
+          "request": {
+            "name": "Update Custom Metric",
+            "description": {
+              "content": "Update a specific custom metric by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "update-custom-metric",
+                ":metric_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "metric_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"response_type\": \"<string>\",\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"min_value\": \"<number>\",\n  \"max_value\": \"<number>\",\n  \"category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"scoring_guidance\": \"<string>\",\n  \"eval_route\": \"<string>\",\n  \"model\": \"<string>\",\n  \"audio_model\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"enum_options\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"allow_not_applicable\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f0c34876-a9ea-4ad9-a13d-3206b2653eba",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-custom-metric",
+                    ":metric_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metric_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"response_type\": \"yes_no\",\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"min_value\": \"<number>\",\n  \"max_value\": \"<number>\",\n  \"category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"scoring_guidance\": \"<string>\",\n  \"eval_route\": \"AUTO\",\n  \"model\": \"<string>\",\n  \"audio_model\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"enum_options\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"allow_not_applicable\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"response_type\": \"quantitative\",\n  \"created_at\": \"2022-08-16T22:16:04.227Z\",\n  \"agent_ids\": [\n    3438,\n    424\n  ],\n  \"min_value\": 388.3390262238051,\n  \"max_value\": 8600.639789409353,\n  \"category\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"scoring_guidance\": \"string\",\n  \"eval_route\": \"TEXT\",\n  \"model\": \"string\",\n  \"audio_model\": \"string\",\n  \"temperature\": 4753.507985829787,\n  \"enum_options\": [\n    \"string\",\n    \"string\"\n  ],\n  \"allow_not_applicable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0cb0d5e-1551-43c0-aef2-4050960b55e3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-custom-metric",
+                    ":metric_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metric_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"response_type\": \"yes_no\",\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"min_value\": \"<number>\",\n  \"max_value\": \"<number>\",\n  \"category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"scoring_guidance\": \"<string>\",\n  \"eval_route\": \"AUTO\",\n  \"model\": \"<string>\",\n  \"audio_model\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"enum_options\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"allow_not_applicable\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b04e159b-d2da-4124-899b-b10968e7b1ca",
+          "name": "Bulk Update Custom Metrics",
+          "request": {
+            "name": "Bulk Update Custom Metrics",
+            "description": {
+              "content": "Bulk update custom metrics: apply the same patch to each metric in metric_ids.\nOnly keys present in updates are applied; each key's value (including null) is written.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "update-custom-metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metric_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"updates\": {\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"agent_ids\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"eval_route\": \"<string>\",\n    \"model\": \"<string>\",\n    \"audio_model\": \"<string>\",\n    \"temperature\": \"<number>\",\n    \"allow_not_applicable\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2c4c9287-0c32-428b-a5a1-efb577b5a16f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-custom-metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metric_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"updates\": {\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"agent_ids\": [\n      2301,\n      7010\n    ],\n    \"eval_route\": \"TEXT\",\n    \"model\": \"string\",\n    \"audio_model\": \"string\",\n    \"temperature\": 5030.211936527805,\n    \"allow_not_applicable\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"updated\": 1994\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "feee5ae3-9345-48f3-88b7-68655cb92b73",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-custom-metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metric_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"updates\": {\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"agent_ids\": [\n      2301,\n      7010\n    ],\n    \"eval_route\": \"TEXT\",\n    \"model\": \"string\",\n    \"audio_model\": \"string\",\n    \"temperature\": 5030.211936527805,\n    \"allow_not_applicable\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a204d99c-1067-46a9-8450-7fa2d4279a07",
+    "name": "Bluejay Agents Custom Metrics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

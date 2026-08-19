@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents vapi API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "vapi",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Handle Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/integrations/vapi",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Handle VAPI webhook events."
+        },
+        {
+          "info": {
+            "name": "Sync Vapi Agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/integrations/vapi/sync",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Trigger an async sync of all Vapi assistants into Bluejay agents.\n\nAdmins may pass organization_id to sync any org.\nNon-admins are restricted to their own org."
+        },
+        {
+          "info": {
+            "name": "Sync Single Agent From Vapi",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/integrations/vapi/sync-agent",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Trigger an async sync of a single Vapi agent's name and prompt from Vapi."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

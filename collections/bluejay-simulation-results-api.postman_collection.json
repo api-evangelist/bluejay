@@ -1,0 +1,216 @@
+{
+  "item": [
+    {
+      "id": "90155181-6902-498f-97c6-a0965667e7e3",
+      "name": "Simulation Results",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "88df0d86-5f3a-4aa8-8136-751466b14df1",
+          "name": "Update Simulation Result",
+          "request": {
+            "name": "Update Simulation Result",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "update-simulation-result"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"simulation_result_id\": \"<string>\",\n  \"events\": [\n    {\n      \"title\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"title\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"metadata\": {\n        \"key_0\": 8872,\n        \"key_1\": true,\n        \"key_2\": 5669\n      }\n    }\n  ],\n  \"tool_calls\": [\n    {\n      \"name\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": 3616\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": false\n      },\n      \"output\": {}\n    }\n  ],\n  \"recorded_transcript\": [\n    {\n      \"start_offset_ms\": \"<integer>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"speaker\": \"<string>\",\n      \"utterance\": \"<string>\",\n      \"filler_utterance\": \"<boolean>\"\n    },\n    {\n      \"start_offset_ms\": \"<integer>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"speaker\": \"<string>\",\n      \"utterance\": \"<string>\",\n      \"filler_utterance\": \"<boolean>\"\n    }\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "35bbc1c3-1c03-4a72-afeb-940fdfe51b01",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-simulation-result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"simulation_result_id\": \"<string>\",\n  \"events\": [\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 3111,\n      \"description\": \"string\",\n      \"end_offset_ms\": 6265,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": 7068.227682169913\n      }\n    },\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 2259,\n      \"description\": \"string\",\n      \"end_offset_ms\": 520,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": false,\n        \"key_1\": 6804\n      }\n    }\n  ],\n  \"tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 2637,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 753,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": 1862.8974185198376,\n        \"key_1\": 7274.096292292675,\n        \"key_2\": true,\n        \"key_3\": 7509.761611991977\n      },\n      \"output\": {}\n    }\n  ],\n  \"recorded_transcript\": [\n    {\n      \"start_offset_ms\": 1882,\n      \"end_offset_ms\": 9617,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": true\n    },\n    {\n      \"start_offset_ms\": 3856,\n      \"end_offset_ms\": 8342,\n      \"speaker\": \"AGENT\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": true\n    }\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": {\n    \"key_0\": 9557\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7abb5cf1-75f9-458b-8f24-cd294ecb0640",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-simulation-result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"simulation_result_id\": \"<string>\",\n  \"events\": [\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 3111,\n      \"description\": \"string\",\n      \"end_offset_ms\": 6265,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": 7068.227682169913\n      }\n    },\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 2259,\n      \"description\": \"string\",\n      \"end_offset_ms\": 520,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": false,\n        \"key_1\": 6804\n      }\n    }\n  ],\n  \"tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 2637,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 753,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": 1862.8974185198376,\n        \"key_1\": 7274.096292292675,\n        \"key_2\": true,\n        \"key_3\": 7509.761611991977\n      },\n      \"output\": {}\n    }\n  ],\n  \"recorded_transcript\": [\n    {\n      \"start_offset_ms\": 1882,\n      \"end_offset_ms\": 9617,\n      \"speaker\": \"USER\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": true\n    },\n    {\n      \"start_offset_ms\": 3856,\n      \"end_offset_ms\": 8342,\n      \"speaker\": \"AGENT\",\n      \"utterance\": \"string\",\n      \"filler_utterance\": true\n    }\n  ],\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"metadata\": {\n    \"key_0\": 9557\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7a2de4f6-c03a-4814-b867-1b95a4f8ae6b",
+    "name": "Bluejay Agents Simulation Results API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

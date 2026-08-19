@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents HTTP Text Agent API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "HTTP Text Agent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Queue Http Simulation Run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/queue-http-text-simulation-run",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Queue a new simulation run and test results for HTTP text agent.\nTakes simulation_id, optional prompt_id, knowledge_base_id, and digital_human_ids.\nIf digital_human_ids is not provided, uses all digital humans for the simulation.\nReturns simulation_run_id (experiment_run_id) and simulation_result_ids (array of test result IDs)."
+        },
+        {
+          "info": {
+            "name": "Send Http Text Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/send-http-text-message",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Receive a text message via HTTP, process it through the lambda, and send response to webhook.\nUses simulation_result_id (test_result_id) for Redis operations and evaluations."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,217 @@
+{
+  "item": [
+    {
+      "id": "89c1792f-aa3d-4f84-ae8e-08671aa71e62",
+      "name": "Retrieve Simulation Result",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f40aa2b4-87c0-495f-b5f8-721409dc16c1",
+          "name": "Retrieve Simulation Result",
+          "request": {
+            "name": "Retrieve Simulation Result",
+            "description": {
+              "content": "Retrieve a single test result and its associated custom metrics.\n\nArgs:\n    test_result_id: the ID of the test result to retrieve.\n\nReturns:\n    the test result along with its custom metric results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "retrieve-simulation-result",
+                ":test_result_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "test_result_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "8ff6a902-1cee-477a-9f4c-820fd747a0e3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "retrieve-simulation-result",
+                    ":test_result_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "test_result_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"simulation_result\": {\n    \"id\": 6223,\n    \"digital_human_id\": 870,\n    \"result\": {\n      \"key_0\": \"string\",\n      \"key_1\": 3942\n    },\n    \"duration\": 352,\n    \"start_time\": \"2011-03-18T18:35:46.072Z\",\n    \"end_time\": \"1963-03-29T15:49:55.828Z\",\n    \"custom_metrics\": {\n      \"key_0\": 8154,\n      \"key_1\": 8254\n    },\n    \"status\": \"string\",\n    \"latency\": {\n      \"key_0\": 3992,\n      \"key_1\": 4646\n    },\n    \"events\": [\n      {\n        \"title\": \"string\",\n        \"start_offset_ms\": 9956,\n        \"description\": \"string\",\n        \"end_offset_ms\": 4347,\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ],\n        \"metadata\": {\n          \"key_0\": false\n        }\n      },\n      {\n        \"title\": \"string\",\n        \"start_offset_ms\": 2678,\n        \"description\": \"string\",\n        \"end_offset_ms\": 2187,\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ],\n        \"metadata\": {\n          \"key_0\": 4586,\n          \"key_1\": 6225\n        }\n      }\n    ],\n    \"transcript_url\": \"string\",\n    \"audio_url\": \"string\",\n    \"evaluations\": [\n      {\n        \"agent_speak_percentage\": 1022.0142102222596,\n        \"avg_agent_latency\": 521.6812645152713,\n        \"id\": \"string\",\n        \"created_at\": \"1977-01-19T11:42:25.500Z\",\n        \"hallucination\": true,\n        \"hallucination_reasoning\": \"string\",\n        \"redundancy\": true,\n        \"redundancy_reasoning\": \"string\",\n        \"latency\": {\n          \"avg_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"max_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p50_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p90_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p95_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p99_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"filler_ignored_latency\": {\n          \"avg_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p50_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p90_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p95_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p99_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"num_turns\": 2710,\n        \"call_summary\": \"string\",\n        \"custom_evals_success_rate\": 9553.47831083579,\n        \"goal_success\": false,\n        \"goal_reasoning\": \"string\",\n        \"pronunciation_score\": 4819.755561198199,\n        \"pronunciation_reasoning\": \"string\",\n        \"custom_metrics\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      {\n        \"agent_speak_percentage\": 9429.57788491915,\n        \"avg_agent_latency\": 4313.7713514918405,\n        \"id\": \"string\",\n        \"created_at\": \"1947-02-05T23:42:11.476Z\",\n        \"hallucination\": true,\n        \"hallucination_reasoning\": \"string\",\n        \"redundancy\": true,\n        \"redundancy_reasoning\": \"string\",\n        \"latency\": {\n          \"avg_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"max_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p50_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p90_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p95_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p99_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"filler_ignored_latency\": {\n          \"avg_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p50_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p90_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p95_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p99_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"num_turns\": 1099,\n        \"call_summary\": \"string\",\n        \"custom_evals_success_rate\": 131.869300861438,\n        \"goal_success\": false,\n        \"goal_reasoning\": \"string\",\n        \"pronunciation_score\": 2594.4917700135375,\n        \"pronunciation_reasoning\": \"string\",\n        \"custom_metrics\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      }\n    ],\n    \"tool_calls\": [\n      {\n        \"name\": \"string\",\n        \"expected\": [\n          {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"output\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"output\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"actual\": [\n          {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"output\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"start_offset_ms\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"output\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"start_offset_ms\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"string\",\n        \"expected\": [\n          {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"output\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"output\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"actual\": [\n          {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"output\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"start_offset_ms\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"output\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"start_offset_ms\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    ]\n  },\n  \"status\": \"200\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa963716-fff6-47b9-b5e1-97277a778270",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "retrieve-simulation-result",
+                    ":test_result_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "test_result_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "424b2e95-01f9-455a-8e40-336bf910d721",
+    "name": "Bluejay Agents Retrieve Simulation Result API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

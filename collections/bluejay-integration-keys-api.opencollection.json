@@ -1,0 +1,98 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents Integration Keys API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Integration Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Integrations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/integrations",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Return integration metadata for the authenticated org.\nSecret fields are returned as null with companion _set booleans."
+        },
+        {
+          "info": {
+            "name": "Patch Integrations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.getbluejay.ai/v1/integrations",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Update integration fields. Secret fields are encrypted before storage.\nSend null to clear a field. Only include fields that changed.\nPrefer POST /update-integrations for a typed, agent-style contract."
+        },
+        {
+          "info": {
+            "name": "Get Integration Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/get-integration-key",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Decrypt and return a single integration secret field."
+        },
+        {
+          "info": {
+            "name": "Update Integrations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/update-integrations",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Update integration fields for the authenticated org (middleware encrypts secrets before DB write).\nSame semantics as PATCH /integrations: only send fields to change; null clears a field."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

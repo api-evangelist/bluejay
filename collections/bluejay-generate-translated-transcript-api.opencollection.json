@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents Generate Translated Transcript API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Generate Translated Transcript",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate Translated Transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/generate-translated-transcript/:test_result_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "test_result_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Generate a translated transcript for a given audio file.\n\nArgs:\n    test_result_id: the ID of the test result to generate a translated transcript for.\n\nReturns:\n    a dictionary with the status, message, and translated transcript url."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

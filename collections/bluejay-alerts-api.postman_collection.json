@@ -1,0 +1,584 @@
+{
+  "item": [
+    {
+      "id": "79842928-5bee-412e-ab69-079348a75e9a",
+      "name": "Alerts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f4d258b5-ba27-47c0-a23e-fd572815a456",
+          "name": "Create Alert",
+          "request": {
+            "name": "Create Alert",
+            "description": {
+              "content": "Create a new alert with optional agent associations",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "create-alert"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"entity_field\": \"<string>\",\n  \"operator\": \"<string>\",\n  \"comparison_value\": \"<string>\",\n  \"description\": \"<string>\",\n  \"is_enabled\": true,\n  \"notification_channels\": [\n    {\n      \"type\": \"<string>\",\n      \"target\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"target\": \"<string>\"\n    }\n  ],\n  \"applies_to_all_agents\": true,\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"threshold_time_interval\": 600,\n  \"min_events\": 10,\n  \"source_scope\": \"all\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "68efc5a2-1665-4244-9f45-1866cd5e83ec",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-alert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"entity_type\": \"custom_goal\",\n  \"entity_field\": \"<string>\",\n  \"operator\": \"less_than_or_equal\",\n  \"comparison_value\": \"<string>\",\n  \"description\": \"<string>\",\n  \"is_enabled\": true,\n  \"notification_channels\": [\n    {\n      \"type\": \"string\",\n      \"target\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"target\": \"string\"\n    }\n  ],\n  \"applies_to_all_agents\": true,\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"threshold_time_interval\": 600,\n  \"min_events\": 10,\n  \"source_scope\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"is_enabled\": true,\n  \"organization_id\": \"string\",\n  \"entity_type\": \"custom_goal\",\n  \"entity_field\": \"string\",\n  \"operator\": \"not_equals\",\n  \"comparison_value\": \"string\",\n  \"notification_channels\": [],\n  \"trigger_count\": 3728,\n  \"applies_to_all_agents\": false,\n  \"created_at\": \"1977-06-09T00:16:47.066Z\",\n  \"threshold_time_interval\": 5124,\n  \"min_events\": 6824,\n  \"in_alert\": false,\n  \"description\": \"string\",\n  \"last_triggered_at\": \"2012-05-01T14:32:36.478Z\",\n  \"created_by\": \"string\",\n  \"agents\": [\n    4742,\n    5855\n  ],\n  \"updated_at\": \"1950-11-09T02:04:38.143Z\",\n  \"source_scope\": \"all\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac06a447-93f4-476e-831f-fdb77b2ada7f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-alert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"entity_type\": \"custom_goal\",\n  \"entity_field\": \"<string>\",\n  \"operator\": \"less_than_or_equal\",\n  \"comparison_value\": \"<string>\",\n  \"description\": \"<string>\",\n  \"is_enabled\": true,\n  \"notification_channels\": [\n    {\n      \"type\": \"string\",\n      \"target\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"target\": \"string\"\n    }\n  ],\n  \"applies_to_all_agents\": true,\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"threshold_time_interval\": 600,\n  \"min_events\": 10,\n  \"source_scope\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4ba72073-8f49-41b8-b3b8-7f30eacc2c37",
+          "name": "Update Alert",
+          "request": {
+            "name": "Update Alert",
+            "description": {
+              "content": "Update an existing alert",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "update-alert",
+                ":alert_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "alert_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"is_enabled\": \"<boolean>\",\n  \"entity_type\": \"<string>\",\n  \"entity_field\": \"<string>\",\n  \"operator\": \"<string>\",\n  \"comparison_value\": \"<string>\",\n  \"notification_channels\": [\n    {\n      \"type\": \"<string>\",\n      \"target\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"target\": \"<string>\"\n    }\n  ],\n  \"applies_to_all_agents\": \"<boolean>\",\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"threshold_time_interval\": \"<integer>\",\n  \"min_events\": \"<integer>\",\n  \"source_scope\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "97d98a36-d71a-4bee-94b1-49a02b567901",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-alert",
+                    ":alert_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alert_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"is_enabled\": \"<boolean>\",\n  \"entity_type\": \"custom_goal\",\n  \"entity_field\": \"<string>\",\n  \"operator\": \"not_contains\",\n  \"comparison_value\": \"<string>\",\n  \"notification_channels\": [\n    {\n      \"type\": \"string\",\n      \"target\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"target\": \"string\"\n    }\n  ],\n  \"applies_to_all_agents\": \"<boolean>\",\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"threshold_time_interval\": \"<integer>\",\n  \"min_events\": \"<integer>\",\n  \"source_scope\": \"observability\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"is_enabled\": true,\n  \"organization_id\": \"string\",\n  \"entity_type\": \"custom_goal\",\n  \"entity_field\": \"string\",\n  \"operator\": \"not_equals\",\n  \"comparison_value\": \"string\",\n  \"notification_channels\": [],\n  \"trigger_count\": 3728,\n  \"applies_to_all_agents\": false,\n  \"created_at\": \"1977-06-09T00:16:47.066Z\",\n  \"threshold_time_interval\": 5124,\n  \"min_events\": 6824,\n  \"in_alert\": false,\n  \"description\": \"string\",\n  \"last_triggered_at\": \"2012-05-01T14:32:36.478Z\",\n  \"created_by\": \"string\",\n  \"agents\": [\n    4742,\n    5855\n  ],\n  \"updated_at\": \"1950-11-09T02:04:38.143Z\",\n  \"source_scope\": \"all\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42afc83a-9090-43bc-8dc7-ef854bcb3b90",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-alert",
+                    ":alert_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alert_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"is_enabled\": \"<boolean>\",\n  \"entity_type\": \"custom_goal\",\n  \"entity_field\": \"<string>\",\n  \"operator\": \"not_contains\",\n  \"comparison_value\": \"<string>\",\n  \"notification_channels\": [\n    {\n      \"type\": \"string\",\n      \"target\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"target\": \"string\"\n    }\n  ],\n  \"applies_to_all_agents\": \"<boolean>\",\n  \"agent_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"threshold_time_interval\": \"<integer>\",\n  \"min_events\": \"<integer>\",\n  \"source_scope\": \"observability\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "23589472-7575-40a2-b41b-d82ed9afe2af",
+          "name": "Delete Alert",
+          "request": {
+            "name": "Delete Alert",
+            "description": {
+              "content": "Delete an alert and its agent associations",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "alert",
+                ":alert_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "alert_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "44635a59-a64b-433b-a1ed-f8c5bf836ef7",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "alert",
+                    ":alert_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alert_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"deleted_alert_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55ba16ea-ed98-4a97-acb9-d5fba4dcce18",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "alert",
+                    ":alert_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alert_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2a767558-2a8b-4c2e-a866-40063b9ff615",
+    "name": "Bluejay Agents Alerts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

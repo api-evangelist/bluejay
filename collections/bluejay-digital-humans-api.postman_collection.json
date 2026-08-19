@@ -1,0 +1,1600 @@
+{
+  "item": [
+    {
+      "id": "686786a2-58a9-4ea9-8f57-aa96ae6f76b6",
+      "name": "Digital Humans",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "28aba831-755d-422a-947b-b58e0a7336b2",
+          "name": "Create Digital Human",
+          "request": {
+            "name": "Create Digital Human",
+            "description": {
+              "content": "Create a new digital human.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "create-digital-human"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"digital_human\": {\n    \"phone_number\": \"<string>\",\n    \"intent\": \"\",\n    \"success_criteria\": \"\",\n    \"name\": \"<string>\",\n    \"tag\": \"<string>\",\n    \"language\": \"<string>\",\n    \"accent\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"background_noise\": \"<string>\",\n    \"voice_speed\": \"<string>\",\n    \"audio_quality\": \"<string>\",\n    \"fluency\": \"<string>\",\n    \"verbosity\": \"<string>\",\n    \"outbound_text_number\": \"<string>\",\n    \"background_noise_volume\": \"<number>\",\n    \"expected_tool_calls\": [\n      {\n        \"name\": \"<string>\",\n        \"parameters\": {\n          \"key_0\": 5151,\n          \"key_1\": 457.25323075802237\n        },\n        \"output\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"parameters\": {\n          \"key_0\": 3421\n        },\n        \"output\": {}\n      }\n    ],\n    \"allow_end_call_tool\": \"<boolean>\",\n    \"endpointing_delay\": \"<number>\",\n    \"creativity\": \"<number>\",\n    \"hangup_phrases\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"hangup_instructions\": \"<string>\",\n    \"allow_silence_tool\": false,\n    \"silence_tool_instructions\": \"default\",\n    \"silence_timeout\": \"<integer>\",\n    \"role_description\": \"<string>\",\n    \"traits\": [\n      {\n        \"trait_name\": \"<string>\",\n        \"trait_data_type\": \"<string>\",\n        \"value\": {},\n        \"is_sip_header\": false\n      },\n      {\n        \"trait_name\": \"<string>\",\n        \"trait_data_type\": \"<string>\",\n        \"value\": {},\n        \"is_sip_header\": false\n      }\n    ],\n    \"interruptions\": {\n      \"type\": \"<string>\"\n    },\n    \"scripted_responses\": [\n      {\n        \"match_type\": \"<string>\",\n        \"match_phrase\": \"<string>\",\n        \"response_type\": \"<string>\",\n        \"occurrence_mode\": \"<string>\",\n        \"response_value\": \"<string>\",\n        \"occurrence_n\": \"<integer>\",\n        \"silence_duration\": \"<integer>\"\n      },\n      {\n        \"match_type\": \"<string>\",\n        \"match_phrase\": \"<string>\",\n        \"response_type\": \"<string>\",\n        \"occurrence_mode\": \"<string>\",\n        \"response_value\": \"<string>\",\n        \"occurrence_n\": \"<integer>\",\n        \"silence_duration\": \"<integer>\"\n      }\n    ],\n    \"speaks_first_config\": {\n      \"speaks_first\": \"<boolean>\",\n      \"mode\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    \"original_transcript\": \"<string>\",\n    \"formatted_transcript\": [\n      {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\"\n      },\n      {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      }\n    ],\n    \"enriched_playback\": [\n      {\n        \"key_0\": 7052,\n        \"key_1\": 2841\n      },\n      {\n        \"key_0\": 6537\n      }\n    ],\n    \"always_on_mode\": \"<boolean>\",\n    \"always_on_active\": \"<boolean>\",\n    \"num_runs\": \"<integer>\",\n    \"livekit_metadata\": {\n      \"key_0\": 6414,\n      \"key_1\": false\n    }\n  },\n  \"simulation_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"simulation_id\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f79ea2ed-edb1-4562-b863-c0f98565a511",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-digital-human"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"digital_human\": {\n    \"phone_number\": \"string\",\n    \"intent\": \"\",\n    \"success_criteria\": \"\",\n    \"name\": \"string\",\n    \"tag\": \"string\",\n    \"language\": \"ru\",\n    \"accent\": \"australian\",\n    \"gender\": \"female\",\n    \"background_noise\": \"park\",\n    \"voice_speed\": \"slow\",\n    \"audio_quality\": \"low\",\n    \"fluency\": \"intermediate\",\n    \"verbosity\": \"low\",\n    \"outbound_text_number\": \"string\",\n    \"background_noise_volume\": 0.10608472819018311,\n    \"expected_tool_calls\": [\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": \"string\"\n        },\n        \"output\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": false\n        },\n        \"output\": {}\n      }\n    ],\n    \"allow_end_call_tool\": false,\n    \"endpointing_delay\": 7219.509953356538,\n    \"creativity\": 1.7603975203612434,\n    \"hangup_phrases\": [\n      \"string\",\n      \"string\"\n    ],\n    \"hangup_instructions\": \"string\",\n    \"allow_silence_tool\": false,\n    \"silence_tool_instructions\": \"default\",\n    \"silence_timeout\": 6927,\n    \"role_description\": \"string\",\n    \"traits\": [\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"STRING\",\n        \"value\": {},\n        \"is_sip_header\": false\n      },\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"BOOLEAN\",\n        \"value\": {},\n        \"is_sip_header\": false\n      }\n    ],\n    \"interruptions\": {\n      \"type\": \"none\"\n    },\n    \"scripted_responses\": [\n      {\n        \"match_type\": \"context\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"dtmf\",\n        \"occurrence_mode\": \"first_n\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 1381,\n        \"silence_duration\": 4463\n      },\n      {\n        \"match_type\": \"exact\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"silence\",\n        \"occurrence_mode\": \"first_n\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 610,\n        \"silence_duration\": 5020\n      }\n    ],\n    \"speaks_first_config\": {\n      \"speaks_first\": true,\n      \"mode\": \"ai_generated\",\n      \"message\": \"string\"\n    },\n    \"original_transcript\": \"string\",\n    \"formatted_transcript\": [\n      {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      }\n    ],\n    \"enriched_playback\": [\n      {\n        \"key_0\": \"string\"\n      },\n      {\n        \"key_0\": \"string\",\n        \"key_1\": 5864.052980865116\n      }\n    ],\n    \"always_on_mode\": true,\n    \"always_on_active\": false,\n    \"num_runs\": 2874,\n    \"livekit_metadata\": {\n      \"key_0\": 8031\n    }\n  },\n  \"simulation_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"simulation_id\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"digital_human\": {\n    \"intent\": \"string\",\n    \"success_criteria\": \"string\",\n    \"id\": 8048,\n    \"tag\": \"string\",\n    \"name\": \"string\",\n    \"language\": \"yue\",\n    \"accent\": \"american\",\n    \"gender\": \"male\",\n    \"background_noise\": \"string\",\n    \"voice_speed\": \"string\",\n    \"audio_quality\": \"string\",\n    \"fluency\": \"string\",\n    \"verbosity\": \"string\",\n    \"phone_number\": \"string\",\n    \"outbound_text_number\": \"string\",\n    \"websocket_url\": \"string\",\n    \"background_noise_volume\": 9399.503800750444,\n    \"expected_tool_calls\": [\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": 7494,\n          \"key_1\": true\n        },\n        \"output\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": 4162\n        },\n        \"output\": {}\n      }\n    ],\n    \"allow_end_call_tool\": false,\n    \"endpointing_delay\": 1008.8495304882728,\n    \"creativity\": 2640.1576184081077,\n    \"hangup_phrases\": [\n      \"string\",\n      \"string\"\n    ],\n    \"hangup_instructions\": \"string\",\n    \"allow_silence_tool\": false,\n    \"silence_tool_instructions\": \"string\",\n    \"silence_timeout\": 4768,\n    \"role_description\": \"string\",\n    \"created_at\": \"1988-10-15T01:18:03.913Z\",\n    \"traits\": [\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"STRING\",\n        \"value\": {},\n        \"is_sip_header\": false\n      },\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"DATE\",\n        \"value\": {},\n        \"is_sip_header\": false\n      }\n    ],\n    \"interruptions\": {\n      \"key_0\": 132,\n      \"key_1\": false\n    },\n    \"scripted_responses\": [\n      {\n        \"match_type\": \"context\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"silence\",\n        \"occurrence_mode\": \"always\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 7746,\n        \"silence_duration\": 1177\n      },\n      {\n        \"match_type\": \"context\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"phrase\",\n        \"occurrence_mode\": \"first_n\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 6148,\n        \"silence_duration\": 6402\n      }\n    ],\n    \"speaks_first_config\": {\n      \"speaks_first\": false,\n      \"mode\": \"ai_generated\",\n      \"message\": \"string\"\n    },\n    \"original_transcript\": \"string\",\n    \"formatted_transcript\": [\n      {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      },\n      {\n        \"key_0\": \"string\"\n      }\n    ],\n    \"enriched_playback\": [\n      {\n        \"key_0\": 951,\n        \"key_1\": 4814\n      },\n      {\n        \"key_0\": \"string\",\n        \"key_1\": 6876\n      }\n    ],\n    \"livekit_metadata\": {\n      \"key_0\": true,\n      \"key_1\": 3268.5450840611484,\n      \"key_2\": true,\n      \"key_3\": \"string\"\n    }\n  },\n  \"simulation_ids\": [\n    8783,\n    9396\n  ],\n  \"simulation_id\": 5037\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1dff58a4-5021-49b5-8c02-7a94da7c3789",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "create-digital-human"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"digital_human\": {\n    \"phone_number\": \"string\",\n    \"intent\": \"\",\n    \"success_criteria\": \"\",\n    \"name\": \"string\",\n    \"tag\": \"string\",\n    \"language\": \"ru\",\n    \"accent\": \"australian\",\n    \"gender\": \"female\",\n    \"background_noise\": \"park\",\n    \"voice_speed\": \"slow\",\n    \"audio_quality\": \"low\",\n    \"fluency\": \"intermediate\",\n    \"verbosity\": \"low\",\n    \"outbound_text_number\": \"string\",\n    \"background_noise_volume\": 0.10608472819018311,\n    \"expected_tool_calls\": [\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": \"string\"\n        },\n        \"output\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": false\n        },\n        \"output\": {}\n      }\n    ],\n    \"allow_end_call_tool\": false,\n    \"endpointing_delay\": 7219.509953356538,\n    \"creativity\": 1.7603975203612434,\n    \"hangup_phrases\": [\n      \"string\",\n      \"string\"\n    ],\n    \"hangup_instructions\": \"string\",\n    \"allow_silence_tool\": false,\n    \"silence_tool_instructions\": \"default\",\n    \"silence_timeout\": 6927,\n    \"role_description\": \"string\",\n    \"traits\": [\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"STRING\",\n        \"value\": {},\n        \"is_sip_header\": false\n      },\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"BOOLEAN\",\n        \"value\": {},\n        \"is_sip_header\": false\n      }\n    ],\n    \"interruptions\": {\n      \"type\": \"none\"\n    },\n    \"scripted_responses\": [\n      {\n        \"match_type\": \"context\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"dtmf\",\n        \"occurrence_mode\": \"first_n\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 1381,\n        \"silence_duration\": 4463\n      },\n      {\n        \"match_type\": \"exact\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"silence\",\n        \"occurrence_mode\": \"first_n\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 610,\n        \"silence_duration\": 5020\n      }\n    ],\n    \"speaks_first_config\": {\n      \"speaks_first\": true,\n      \"mode\": \"ai_generated\",\n      \"message\": \"string\"\n    },\n    \"original_transcript\": \"string\",\n    \"formatted_transcript\": [\n      {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      }\n    ],\n    \"enriched_playback\": [\n      {\n        \"key_0\": \"string\"\n      },\n      {\n        \"key_0\": \"string\",\n        \"key_1\": 5864.052980865116\n      }\n    ],\n    \"always_on_mode\": true,\n    \"always_on_active\": false,\n    \"num_runs\": 2874,\n    \"livekit_metadata\": {\n      \"key_0\": 8031\n    }\n  },\n  \"simulation_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"simulation_id\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fbc517c5-5c57-4f6d-8304-6f3c952a2539",
+          "name": "Get Digital Human",
+          "request": {
+            "name": "Get Digital Human",
+            "description": {
+              "content": "Get a digital human by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "digital-human",
+                ":digital_human_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "digital_human_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "17dd2a7b-5f69-49fc-8bd7-31cdb5aa6c4e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "digital-human",
+                    ":digital_human_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "digital_human_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"digital_human\": {\n    \"intent\": \"string\",\n    \"success_criteria\": \"string\",\n    \"id\": 8048,\n    \"tag\": \"string\",\n    \"name\": \"string\",\n    \"language\": \"yue\",\n    \"accent\": \"american\",\n    \"gender\": \"male\",\n    \"background_noise\": \"string\",\n    \"voice_speed\": \"string\",\n    \"audio_quality\": \"string\",\n    \"fluency\": \"string\",\n    \"verbosity\": \"string\",\n    \"phone_number\": \"string\",\n    \"outbound_text_number\": \"string\",\n    \"websocket_url\": \"string\",\n    \"background_noise_volume\": 9399.503800750444,\n    \"expected_tool_calls\": [\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": 7494,\n          \"key_1\": true\n        },\n        \"output\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": 4162\n        },\n        \"output\": {}\n      }\n    ],\n    \"allow_end_call_tool\": false,\n    \"endpointing_delay\": 1008.8495304882728,\n    \"creativity\": 2640.1576184081077,\n    \"hangup_phrases\": [\n      \"string\",\n      \"string\"\n    ],\n    \"hangup_instructions\": \"string\",\n    \"allow_silence_tool\": false,\n    \"silence_tool_instructions\": \"string\",\n    \"silence_timeout\": 4768,\n    \"role_description\": \"string\",\n    \"created_at\": \"1988-10-15T01:18:03.913Z\",\n    \"traits\": [\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"STRING\",\n        \"value\": {},\n        \"is_sip_header\": false\n      },\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"DATE\",\n        \"value\": {},\n        \"is_sip_header\": false\n      }\n    ],\n    \"interruptions\": {\n      \"key_0\": 132,\n      \"key_1\": false\n    },\n    \"scripted_responses\": [\n      {\n        \"match_type\": \"context\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"silence\",\n        \"occurrence_mode\": \"always\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 7746,\n        \"silence_duration\": 1177\n      },\n      {\n        \"match_type\": \"context\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"phrase\",\n        \"occurrence_mode\": \"first_n\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 6148,\n        \"silence_duration\": 6402\n      }\n    ],\n    \"speaks_first_config\": {\n      \"speaks_first\": false,\n      \"mode\": \"ai_generated\",\n      \"message\": \"string\"\n    },\n    \"original_transcript\": \"string\",\n    \"formatted_transcript\": [\n      {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      },\n      {\n        \"key_0\": \"string\"\n      }\n    ],\n    \"enriched_playback\": [\n      {\n        \"key_0\": 951,\n        \"key_1\": 4814\n      },\n      {\n        \"key_0\": \"string\",\n        \"key_1\": 6876\n      }\n    ],\n    \"livekit_metadata\": {\n      \"key_0\": true,\n      \"key_1\": 3268.5450840611484,\n      \"key_2\": true,\n      \"key_3\": \"string\"\n    }\n  },\n  \"simulation_ids\": [\n    8783,\n    9396\n  ],\n  \"simulation_id\": 5037\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "35f16b77-4e7b-4706-8315-b8b191ac8a47",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "digital-human",
+                    ":digital_human_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "digital_human_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3e2cedca-199e-4216-b2d4-13030bd566c5",
+          "name": "Delete Digital Human",
+          "request": {
+            "name": "Delete Digital Human",
+            "description": {
+              "content": "Delete a digital human by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "digital-human",
+                ":digital_human_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "digital_human_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "72bb44c5-27a6-4e2b-8f24-36acaa4c1040",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "digital-human",
+                    ":digital_human_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "digital_human_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"intent\": \"string\",\n  \"success_criteria\": \"string\",\n  \"id\": 5251,\n  \"tag\": \"string\",\n  \"name\": \"string\",\n  \"language\": \"zh\",\n  \"accent\": \"hindi\",\n  \"gender\": \"female\",\n  \"background_noise\": \"string\",\n  \"voice_speed\": \"string\",\n  \"audio_quality\": \"string\",\n  \"fluency\": \"string\",\n  \"verbosity\": \"string\",\n  \"phone_number\": \"string\",\n  \"outbound_text_number\": \"string\",\n  \"websocket_url\": \"string\",\n  \"background_noise_volume\": 1778.5829968265155,\n  \"expected_tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"parameters\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": 6913.200820013885,\n        \"key_3\": 5640.951589716856,\n        \"key_4\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"parameters\": {\n        \"key_0\": 6810.455489043631,\n        \"key_1\": 7238,\n        \"key_2\": 3235\n      },\n      \"output\": {}\n    }\n  ],\n  \"allow_end_call_tool\": false,\n  \"endpointing_delay\": 3436.8844712745595,\n  \"creativity\": 881.1868251397282,\n  \"hangup_phrases\": [\n    \"string\",\n    \"string\"\n  ],\n  \"hangup_instructions\": \"string\",\n  \"allow_silence_tool\": false,\n  \"silence_tool_instructions\": \"string\",\n  \"silence_timeout\": 4178,\n  \"role_description\": \"string\",\n  \"created_at\": \"1996-06-11T20:00:30.323Z\",\n  \"traits\": [\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"BOOLEAN\",\n      \"value\": {},\n      \"is_sip_header\": false\n    },\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"BOOLEAN\",\n      \"value\": {},\n      \"is_sip_header\": false\n    }\n  ],\n  \"interruptions\": {\n    \"key_0\": true,\n    \"key_1\": true,\n    \"key_2\": \"string\",\n    \"key_3\": 3947,\n    \"key_4\": \"string\"\n  },\n  \"scripted_responses\": [\n    {\n      \"match_type\": \"exact\",\n      \"match_phrase\": \"string\",\n      \"response_type\": \"phrase\",\n      \"occurrence_mode\": \"first_n\",\n      \"response_value\": \"string\",\n      \"occurrence_n\": 4044,\n      \"silence_duration\": 1706\n    },\n    {\n      \"match_type\": \"exact\",\n      \"match_phrase\": \"string\",\n      \"response_type\": \"phrase\",\n      \"occurrence_mode\": \"first_n\",\n      \"response_value\": \"string\",\n      \"occurrence_n\": 9273,\n      \"silence_duration\": 6293\n    }\n  ],\n  \"speaks_first_config\": {\n    \"speaks_first\": true,\n    \"mode\": \"ai_generated\",\n    \"message\": \"string\"\n  },\n  \"original_transcript\": \"string\",\n  \"formatted_transcript\": [\n    {\n      \"key_0\": \"string\"\n    },\n    {\n      \"key_0\": \"string\"\n    }\n  ],\n  \"enriched_playback\": [\n    {\n      \"key_0\": 2217,\n      \"key_1\": \"string\"\n    },\n    {\n      \"key_0\": 197\n    }\n  ],\n  \"livekit_metadata\": {\n    \"key_0\": 3499.6266074934492\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "189abc5a-3046-4c77-a555-19454aa4fde1",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "digital-human",
+                    ":digital_human_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "digital_human_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a03d6af8-b5a0-46db-b8b5-1b73873a6685",
+          "name": "Get Digital Humans By Simulation",
+          "request": {
+            "name": "Get Digital Humans By Simulation",
+            "description": {
+              "content": "Get digital humans by simulation ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "digital-humans-by-simulation",
+                ":simulation_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "simulation_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "57cb831e-9c8d-48c5-b98b-3805cacb062e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "digital-humans-by-simulation",
+                    ":simulation_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "simulation_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"digital_humans\": [\n    {\n      \"intent\": \"string\",\n      \"success_criteria\": \"string\",\n      \"id\": 7680,\n      \"tag\": \"string\",\n      \"name\": \"string\",\n      \"language\": \"vi\",\n      \"accent\": \"japanese\",\n      \"gender\": \"male\",\n      \"background_noise\": \"string\",\n      \"voice_speed\": \"string\",\n      \"audio_quality\": \"string\",\n      \"fluency\": \"string\",\n      \"verbosity\": \"string\",\n      \"phone_number\": \"string\",\n      \"outbound_text_number\": \"string\",\n      \"websocket_url\": \"string\",\n      \"background_noise_volume\": 7047.30231707968,\n      \"expected_tool_calls\": [\n        {\n          \"name\": \"string\",\n          \"parameters\": {\n            \"key_0\": 7798.345492631409,\n            \"key_1\": 5937\n          },\n          \"output\": {}\n        },\n        {\n          \"name\": \"string\",\n          \"parameters\": {\n            \"key_0\": \"string\"\n          },\n          \"output\": {}\n        }\n      ],\n      \"allow_end_call_tool\": false,\n      \"endpointing_delay\": 6066.876097464245,\n      \"creativity\": 5855.550755873269,\n      \"hangup_phrases\": [\n        \"string\",\n        \"string\"\n      ],\n      \"hangup_instructions\": \"string\",\n      \"allow_silence_tool\": true,\n      \"silence_tool_instructions\": \"string\",\n      \"silence_timeout\": 6300,\n      \"role_description\": \"string\",\n      \"created_at\": \"2020-04-03T04:21:15.663Z\",\n      \"traits\": [\n        {\n          \"trait_name\": \"string\",\n          \"trait_data_type\": \"BOOLEAN\",\n          \"value\": {},\n          \"is_sip_header\": false\n        },\n        {\n          \"trait_name\": \"string\",\n          \"trait_data_type\": \"DATE\",\n          \"value\": {},\n          \"is_sip_header\": false\n        }\n      ],\n      \"interruptions\": {\n        \"key_0\": \"string\"\n      },\n      \"scripted_responses\": [\n        {\n          \"match_type\": \"exact\",\n          \"match_phrase\": \"string\",\n          \"response_type\": \"dtmf\",\n          \"occurrence_mode\": \"always\",\n          \"response_value\": \"string\",\n          \"occurrence_n\": 5444,\n          \"silence_duration\": 120\n        },\n        {\n          \"match_type\": \"exact\",\n          \"match_phrase\": \"string\",\n          \"response_type\": \"phrase\",\n          \"occurrence_mode\": \"always\",\n          \"response_value\": \"string\",\n          \"occurrence_n\": 2289,\n          \"silence_duration\": 9963\n        }\n      ],\n      \"speaks_first_config\": {\n        \"speaks_first\": true,\n        \"mode\": \"custom\",\n        \"message\": \"string\"\n      },\n      \"original_transcript\": \"string\",\n      \"formatted_transcript\": [\n        {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      ],\n      \"enriched_playback\": [\n        {\n          \"key_0\": 7260,\n          \"key_1\": \"string\"\n        },\n        {\n          \"key_0\": 7451\n        }\n      ],\n      \"livekit_metadata\": {\n        \"key_0\": false\n      }\n    },\n    {\n      \"intent\": \"string\",\n      \"success_criteria\": \"string\",\n      \"id\": 4315,\n      \"tag\": \"string\",\n      \"name\": \"string\",\n      \"language\": \"ar\",\n      \"accent\": \"hindi\",\n      \"gender\": \"male\",\n      \"background_noise\": \"string\",\n      \"voice_speed\": \"string\",\n      \"audio_quality\": \"string\",\n      \"fluency\": \"string\",\n      \"verbosity\": \"string\",\n      \"phone_number\": \"string\",\n      \"outbound_text_number\": \"string\",\n      \"websocket_url\": \"string\",\n      \"background_noise_volume\": 9200.474252299984,\n      \"expected_tool_calls\": [\n        {\n          \"name\": \"string\",\n          \"parameters\": {\n            \"key_0\": 8854.133962732818,\n            \"key_1\": false\n          },\n          \"output\": {}\n        },\n        {\n          \"name\": \"string\",\n          \"parameters\": {\n            \"key_0\": false,\n            \"key_1\": false,\n            \"key_2\": 3300,\n            \"key_3\": false\n          },\n          \"output\": {}\n        }\n      ],\n      \"allow_end_call_tool\": false,\n      \"endpointing_delay\": 5508.061038638802,\n      \"creativity\": 561.5075319209195,\n      \"hangup_phrases\": [\n        \"string\",\n        \"string\"\n      ],\n      \"hangup_instructions\": \"string\",\n      \"allow_silence_tool\": false,\n      \"silence_tool_instructions\": \"string\",\n      \"silence_timeout\": 7691,\n      \"role_description\": \"string\",\n      \"created_at\": \"1990-11-10T11:23:42.240Z\",\n      \"traits\": [\n        {\n          \"trait_name\": \"string\",\n          \"trait_data_type\": \"NUMBER\",\n          \"value\": {},\n          \"is_sip_header\": false\n        },\n        {\n          \"trait_name\": \"string\",\n          \"trait_data_type\": \"BOOLEAN\",\n          \"value\": {},\n          \"is_sip_header\": false\n        }\n      ],\n      \"interruptions\": {\n        \"key_0\": 3223.933877436729,\n        \"key_1\": false\n      },\n      \"scripted_responses\": [\n        {\n          \"match_type\": \"context\",\n          \"match_phrase\": \"string\",\n          \"response_type\": \"phrase\",\n          \"occurrence_mode\": \"first_n\",\n          \"response_value\": \"string\",\n          \"occurrence_n\": 304,\n          \"silence_duration\": 6708\n        },\n        {\n          \"match_type\": \"context\",\n          \"match_phrase\": \"string\",\n          \"response_type\": \"dtmf\",\n          \"occurrence_mode\": \"first_n\",\n          \"response_value\": \"string\",\n          \"occurrence_n\": 7869,\n          \"silence_duration\": 1108\n        }\n      ],\n      \"speaks_first_config\": {\n        \"speaks_first\": true,\n        \"mode\": \"custom\",\n        \"message\": \"string\"\n      },\n      \"original_transcript\": \"string\",\n      \"formatted_transcript\": [\n        {\n          \"key_0\": \"string\"\n        },\n        {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      ],\n      \"enriched_playback\": [\n        {\n          \"key_0\": 1949,\n          \"key_1\": \"string\"\n        },\n        {\n          \"key_0\": \"string\",\n          \"key_1\": 5476,\n          \"key_2\": 1528,\n          \"key_3\": 6903\n        }\n      ],\n      \"livekit_metadata\": {\n        \"key_0\": 4750.888876109809\n      }\n    }\n  ],\n  \"total\": 3690,\n  \"simulation_id\": 9715\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab26dbb0-9da7-4d1c-821a-7cd160be0b4f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "digital-humans-by-simulation",
+                    ":simulation_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "simulation_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "781abf7d-54ee-47e5-9cd4-e0e13cd0af82",
+          "name": "Update Digital Human",
+          "request": {
+            "name": "Update Digital Human",
+            "description": {
+              "content": "Update a digital human by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "update-digital-human",
+                ":digital_human_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "digital_human_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"intent\": \"<string>\",\n  \"success_criteria\": \"<string>\",\n  \"name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"language\": \"<string>\",\n  \"accent\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"background_noise\": \"<string>\",\n  \"voice_speed\": \"<string>\",\n  \"audio_quality\": \"<string>\",\n  \"fluency\": \"<string>\",\n  \"verbosity\": \"<string>\",\n  \"phone_number\": \"<string>\",\n  \"outbound_text_number\": \"<string>\",\n  \"background_noise_volume\": \"<number>\",\n  \"expected_tool_calls\": [\n    {\n      \"name\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": 377.41741724692247\n      },\n      \"output\": {}\n    }\n  ],\n  \"allow_end_call_tool\": \"<boolean>\",\n  \"endpointing_delay\": \"<number>\",\n  \"creativity\": \"<number>\",\n  \"hangup_phrases\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hangup_instructions\": \"<string>\",\n  \"allow_silence_tool\": \"<boolean>\",\n  \"silence_tool_instructions\": \"<string>\",\n  \"silence_timeout\": \"<integer>\",\n  \"simulation_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"traits\": [\n    {\n      \"trait_name\": \"<string>\",\n      \"trait_data_type\": \"<string>\",\n      \"value\": {},\n      \"is_sip_header\": false\n    },\n    {\n      \"trait_name\": \"<string>\",\n      \"trait_data_type\": \"<string>\",\n      \"value\": {},\n      \"is_sip_header\": false\n    }\n  ],\n  \"interruptions\": {\n    \"type\": \"<string>\"\n  },\n  \"scripted_responses\": [\n    {\n      \"match_type\": \"<string>\",\n      \"match_phrase\": \"<string>\",\n      \"response_type\": \"<string>\",\n      \"occurrence_mode\": \"<string>\",\n      \"response_value\": \"<string>\",\n      \"occurrence_n\": \"<integer>\",\n      \"silence_duration\": \"<integer>\"\n    },\n    {\n      \"match_type\": \"<string>\",\n      \"match_phrase\": \"<string>\",\n      \"response_type\": \"<string>\",\n      \"occurrence_mode\": \"<string>\",\n      \"response_value\": \"<string>\",\n      \"occurrence_n\": \"<integer>\",\n      \"silence_duration\": \"<integer>\"\n    }\n  ],\n  \"role_description\": \"<string>\",\n  \"speaks_first_config\": {\n    \"speaks_first\": \"<boolean>\",\n    \"mode\": \"<string>\",\n    \"message\": \"<string>\"\n  },\n  \"original_transcript\": \"<string>\",\n  \"formatted_transcript\": [\n    {\n      \"key_0\": \"<string>\"\n    },\n    {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\",\n      \"key_2\": \"<string>\"\n    }\n  ],\n  \"enriched_playback\": [\n    {\n      \"key_0\": 4786.509223366159,\n      \"key_1\": \"string\"\n    },\n    {\n      \"key_0\": false,\n      \"key_1\": \"string\"\n    }\n  ],\n  \"num_runs\": \"<integer>\",\n  \"livekit_metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"always_on_mode\": \"<boolean>\",\n  \"always_on_active\": \"<boolean>\",\n  \"override_conflict\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1f1a13e3-c52a-4fba-b7ef-c4fec80f1667",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-digital-human",
+                    ":digital_human_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "digital_human_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"intent\": \"<string>\",\n  \"success_criteria\": \"<string>\",\n  \"name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"language\": \"ar\",\n  \"accent\": \"spanish\",\n  \"gender\": \"female\",\n  \"background_noise\": \"none\",\n  \"voice_speed\": \"fast\",\n  \"audio_quality\": \"medium\",\n  \"fluency\": \"native\",\n  \"verbosity\": \"high\",\n  \"phone_number\": \"<string>\",\n  \"outbound_text_number\": \"<string>\",\n  \"background_noise_volume\": \"<number>\",\n  \"expected_tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"parameters\": {\n        \"key_0\": true,\n        \"key_1\": false\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"parameters\": {\n        \"key_0\": true,\n        \"key_1\": 8232.359901659825\n      },\n      \"output\": {}\n    }\n  ],\n  \"allow_end_call_tool\": \"<boolean>\",\n  \"endpointing_delay\": \"<number>\",\n  \"creativity\": \"<number>\",\n  \"hangup_phrases\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hangup_instructions\": \"<string>\",\n  \"allow_silence_tool\": \"<boolean>\",\n  \"silence_tool_instructions\": \"<string>\",\n  \"silence_timeout\": \"<integer>\",\n  \"simulation_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"traits\": [\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"BOOLEAN\",\n      \"value\": {},\n      \"is_sip_header\": false\n    },\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"DATE\",\n      \"value\": {},\n      \"is_sip_header\": false\n    }\n  ],\n  \"interruptions\": {\n    \"type\": \"none\"\n  },\n  \"scripted_responses\": [\n    {\n      \"match_type\": \"context\",\n      \"match_phrase\": \"string\",\n      \"response_type\": \"phrase\",\n      \"occurrence_mode\": \"first_n\",\n      \"response_value\": \"string\",\n      \"occurrence_n\": 8280,\n      \"silence_duration\": 5340\n    },\n    {\n      \"match_type\": \"context\",\n      \"match_phrase\": \"string\",\n      \"response_type\": \"dtmf\",\n      \"occurrence_mode\": \"first_n\",\n      \"response_value\": \"string\",\n      \"occurrence_n\": 5697,\n      \"silence_duration\": 8816\n    }\n  ],\n  \"role_description\": \"<string>\",\n  \"speaks_first_config\": {\n    \"speaks_first\": false,\n    \"mode\": \"custom\",\n    \"message\": \"string\"\n  },\n  \"original_transcript\": \"<string>\",\n  \"formatted_transcript\": [\n    {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\",\n      \"key_2\": \"<string>\"\n    }\n  ],\n  \"enriched_playback\": [\n    {\n      \"key_0\": 1750,\n      \"key_1\": \"string\"\n    },\n    {\n      \"key_0\": \"string\",\n      \"key_1\": 1531.612095089787\n    }\n  ],\n  \"num_runs\": \"<integer>\",\n  \"livekit_metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"always_on_mode\": \"<boolean>\",\n  \"always_on_active\": \"<boolean>\",\n  \"override_conflict\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"digital_human\": {\n    \"intent\": \"string\",\n    \"success_criteria\": \"string\",\n    \"id\": 8048,\n    \"tag\": \"string\",\n    \"name\": \"string\",\n    \"language\": \"yue\",\n    \"accent\": \"american\",\n    \"gender\": \"male\",\n    \"background_noise\": \"string\",\n    \"voice_speed\": \"string\",\n    \"audio_quality\": \"string\",\n    \"fluency\": \"string\",\n    \"verbosity\": \"string\",\n    \"phone_number\": \"string\",\n    \"outbound_text_number\": \"string\",\n    \"websocket_url\": \"string\",\n    \"background_noise_volume\": 9399.503800750444,\n    \"expected_tool_calls\": [\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": 7494,\n          \"key_1\": true\n        },\n        \"output\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"parameters\": {\n          \"key_0\": 4162\n        },\n        \"output\": {}\n      }\n    ],\n    \"allow_end_call_tool\": false,\n    \"endpointing_delay\": 1008.8495304882728,\n    \"creativity\": 2640.1576184081077,\n    \"hangup_phrases\": [\n      \"string\",\n      \"string\"\n    ],\n    \"hangup_instructions\": \"string\",\n    \"allow_silence_tool\": false,\n    \"silence_tool_instructions\": \"string\",\n    \"silence_timeout\": 4768,\n    \"role_description\": \"string\",\n    \"created_at\": \"1988-10-15T01:18:03.913Z\",\n    \"traits\": [\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"STRING\",\n        \"value\": {},\n        \"is_sip_header\": false\n      },\n      {\n        \"trait_name\": \"string\",\n        \"trait_data_type\": \"DATE\",\n        \"value\": {},\n        \"is_sip_header\": false\n      }\n    ],\n    \"interruptions\": {\n      \"key_0\": 132,\n      \"key_1\": false\n    },\n    \"scripted_responses\": [\n      {\n        \"match_type\": \"context\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"silence\",\n        \"occurrence_mode\": \"always\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 7746,\n        \"silence_duration\": 1177\n      },\n      {\n        \"match_type\": \"context\",\n        \"match_phrase\": \"string\",\n        \"response_type\": \"phrase\",\n        \"occurrence_mode\": \"first_n\",\n        \"response_value\": \"string\",\n        \"occurrence_n\": 6148,\n        \"silence_duration\": 6402\n      }\n    ],\n    \"speaks_first_config\": {\n      \"speaks_first\": false,\n      \"mode\": \"ai_generated\",\n      \"message\": \"string\"\n    },\n    \"original_transcript\": \"string\",\n    \"formatted_transcript\": [\n      {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      },\n      {\n        \"key_0\": \"string\"\n      }\n    ],\n    \"enriched_playback\": [\n      {\n        \"key_0\": 951,\n        \"key_1\": 4814\n      },\n      {\n        \"key_0\": \"string\",\n        \"key_1\": 6876\n      }\n    ],\n    \"livekit_metadata\": {\n      \"key_0\": true,\n      \"key_1\": 3268.5450840611484,\n      \"key_2\": true,\n      \"key_3\": \"string\"\n    }\n  },\n  \"simulation_ids\": [\n    8783,\n    9396\n  ],\n  \"simulation_id\": 5037\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e7bb92f-5934-43cf-8e8e-d76bdf66b451",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-digital-human",
+                    ":digital_human_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "digital_human_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"intent\": \"<string>\",\n  \"success_criteria\": \"<string>\",\n  \"name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"language\": \"ar\",\n  \"accent\": \"spanish\",\n  \"gender\": \"female\",\n  \"background_noise\": \"none\",\n  \"voice_speed\": \"fast\",\n  \"audio_quality\": \"medium\",\n  \"fluency\": \"native\",\n  \"verbosity\": \"high\",\n  \"phone_number\": \"<string>\",\n  \"outbound_text_number\": \"<string>\",\n  \"background_noise_volume\": \"<number>\",\n  \"expected_tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"parameters\": {\n        \"key_0\": true,\n        \"key_1\": false\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"parameters\": {\n        \"key_0\": true,\n        \"key_1\": 8232.359901659825\n      },\n      \"output\": {}\n    }\n  ],\n  \"allow_end_call_tool\": \"<boolean>\",\n  \"endpointing_delay\": \"<number>\",\n  \"creativity\": \"<number>\",\n  \"hangup_phrases\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"hangup_instructions\": \"<string>\",\n  \"allow_silence_tool\": \"<boolean>\",\n  \"silence_tool_instructions\": \"<string>\",\n  \"silence_timeout\": \"<integer>\",\n  \"simulation_ids\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"traits\": [\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"BOOLEAN\",\n      \"value\": {},\n      \"is_sip_header\": false\n    },\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"DATE\",\n      \"value\": {},\n      \"is_sip_header\": false\n    }\n  ],\n  \"interruptions\": {\n    \"type\": \"none\"\n  },\n  \"scripted_responses\": [\n    {\n      \"match_type\": \"context\",\n      \"match_phrase\": \"string\",\n      \"response_type\": \"phrase\",\n      \"occurrence_mode\": \"first_n\",\n      \"response_value\": \"string\",\n      \"occurrence_n\": 8280,\n      \"silence_duration\": 5340\n    },\n    {\n      \"match_type\": \"context\",\n      \"match_phrase\": \"string\",\n      \"response_type\": \"dtmf\",\n      \"occurrence_mode\": \"first_n\",\n      \"response_value\": \"string\",\n      \"occurrence_n\": 5697,\n      \"silence_duration\": 8816\n    }\n  ],\n  \"role_description\": \"<string>\",\n  \"speaks_first_config\": {\n    \"speaks_first\": false,\n    \"mode\": \"custom\",\n    \"message\": \"string\"\n  },\n  \"original_transcript\": \"<string>\",\n  \"formatted_transcript\": [\n    {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\",\n      \"key_2\": \"<string>\"\n    }\n  ],\n  \"enriched_playback\": [\n    {\n      \"key_0\": 1750,\n      \"key_1\": \"string\"\n    },\n    {\n      \"key_0\": \"string\",\n      \"key_1\": 1531.612095089787\n    }\n  ],\n  \"num_runs\": \"<integer>\",\n  \"livekit_metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"always_on_mode\": \"<boolean>\",\n  \"always_on_active\": \"<boolean>\",\n  \"override_conflict\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "820fb1f1-d1c2-474c-a432-c7fd3fe1aca6",
+          "name": "Generate Objectives Endpoint",
+          "request": {
+            "name": "Generate Objectives Endpoint",
+            "description": {
+              "content": "Generate objectives for a test case from its intent.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "generate-objectives"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"test_case_id\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "abfa9744-461a-4764-ab57-cf2afebb393e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-objectives"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"test_case_id\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"test_case_id\": 5950,\n  \"objectives\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "758fdbd1-a4e1-47e6-bd1f-6357b255aad3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-objectives"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"test_case_id\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "55ae4a54-4743-4e47-bb7e-2c27884b4d7e",
+          "name": "Generate Intent Summary Endpoint",
+          "request": {
+            "name": "Generate Intent Summary Endpoint",
+            "description": {
+              "content": "Generate intent summary for a test case (only if intent exceeds character limit).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "generate-intent-summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"test_case_id\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "881f382f-4905-4a0a-b8ab-3632f96b37bd",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-intent-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"test_case_id\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"test_case_id\": 9367,\n  \"intent_summary\": \"string\",\n  \"skipped\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "92392e88-bd68-480f-ade9-8bb9b0e7c755",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-intent-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"test_case_id\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6dd14b0a-df3c-4f17-9c97-f624cd4ae275",
+          "name": "Generate Prompt Summary Endpoint",
+          "request": {
+            "name": "Generate Prompt Summary Endpoint",
+            "description": {
+              "content": "Generate prompt summary for a prompt (only if prompt exceeds character limit).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "generate-prompt-summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prompt_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1e7be2a2-de06-4277-ab40-7d637326d638",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-prompt-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"prompt_id\": \"string\",\n  \"prompt_summary\": \"string\",\n  \"skipped\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3628e2e-6444-408c-b03e-f14564a03d71",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-prompt-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bfd3d6fa-01fe-4d40-ba7d-75f65d39e321",
+          "name": "Generate Formatted Transcript Endpoint",
+          "request": {
+            "name": "Generate Formatted Transcript Endpoint",
+            "description": {
+              "content": "Take a raw transcript and return the structured transcript, derived utterances, and speaks_first.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "generate-formatted-transcript"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"original_transcript\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "007c51ef-f936-4148-aa7c-4751c41c4631",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-formatted-transcript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"original_transcript\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"formatted_transcript\": [\n    {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    {\n      \"key_0\": \"string\"\n    }\n  ],\n  \"description\": \"string\",\n  \"speaks_first_config\": {\n    \"speaks_first\": false,\n    \"mode\": \"custom\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15d18335-c2e7-4be7-87e0-ea8dee856afc",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-formatted-transcript"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"original_transcript\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a9570cba-356e-4ec7-979a-adf3c57e15fc",
+    "name": "Bluejay Agents Digital Humans API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

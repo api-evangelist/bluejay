@@ -1,0 +1,392 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents Prompts API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Prompts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Prompt By Label Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "label",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "retrieve a single prompt by label under /agents/{agent_id}/prompts?label=... .\n\n- if label is missing -> 400\n- if label resolves to 0 -> 404; >1 -> 400 ambiguous (except latest which should be unique)"
+        },
+        {
+          "info": {
+            "name": "List Prompt Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/versions",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "label",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "list prompt versions with optional filters (label, version)."
+        },
+        {
+          "info": {
+            "name": "Create Prompt Version Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/versions",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "create a new prompt version under /agents/{agent_id}/prompts/versions."
+        },
+        {
+          "info": {
+            "name": "Delete Prompt Version By Label Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/versions",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "label",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "delete a prompt version by label.\n\n- if label is production -> 400 (must move production first)\n- if label resolves to 0 -> 404; >1 -> 400 ambiguous (except latest which should be unique)\n- if deleting latest, reassign latest to highest remaining version\n- cannot delete if it is the only version"
+        },
+        {
+          "info": {
+            "name": "Promote Production Label Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/promote",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "prompt_id",
+                "value": "",
+                "type": "query",
+                "description": "If set, attach the production label to this prompt version; otherwise attach to the latest version."
+              }
+            ]
+          },
+          "docs": "Move the production label to the latest prompt version, or to the version identified by prompt_id."
+        },
+        {
+          "info": {
+            "name": "Get Prompt Version Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/versions/:version",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Prompt Version Agent Scoped"
+        },
+        {
+          "info": {
+            "name": "Delete Prompt Version Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/versions/:version",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "delete a specific prompt version; cannot delete production; cannot delete only version.\n\nif deleting latest, reassign latest to highest remaining version.\nreturns metadata about the deletion."
+        },
+        {
+          "info": {
+            "name": "Get Prompt By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/:prompt_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "prompt_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Prompt By Id"
+        },
+        {
+          "info": {
+            "name": "Delete Prompt By Id Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/:prompt_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "prompt_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete Prompt By Id Agent Scoped"
+        },
+        {
+          "info": {
+            "name": "List Prompt Version Labels Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/versions/:version/labels",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Prompt Version Labels Agent Scoped"
+        },
+        {
+          "info": {
+            "name": "Add Prompt Version Labels Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/versions/:version/labels",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add Prompt Version Labels Agent Scoped"
+        },
+        {
+          "info": {
+            "name": "Remove Prompt Version Labels Agent Scoped",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/agents/:agent_id/prompts/versions/:version/labels",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Remove Prompt Version Labels Agent Scoped"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

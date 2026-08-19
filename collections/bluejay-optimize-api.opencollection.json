@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents Optimize API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Optimize",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Optimize Metric Prompt",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/optimize/metric-prompt",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Accept a custom metric prompt and return an optimized version using an LLM.\nThe optimized prompt is clearer, more precise, and easier for evaluators to apply consistently."
+        },
+        {
+          "info": {
+            "name": "Optimize Metric Prompt With Diff",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/optimize/metric-prompt-with-diff",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Optimize a metric prompt using human vs AI evaluation comparisons.\nevaluation_diffs is required and must not be empty."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

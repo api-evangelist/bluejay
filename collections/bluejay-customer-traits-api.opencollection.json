@@ -1,0 +1,168 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents Customer Traits API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customer Traits",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Customer Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/create-customer-trait",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new customer trait definition for an agent.\n\nArgs:\n    trait_request: The trait creation request data\n    request: FastAPI request object\n    auth: Authentication credentials\n\nReturns:\n    CustomerTraitResponse with the created trait details"
+        },
+        {
+          "info": {
+            "name": "Get Customer Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/customer-trait/:trait_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "trait_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific customer trait by ID.\n\nArgs:\n    trait_id: UUID of the customer trait\n    request: FastAPI request object\n    auth: Authentication credentials\n\nReturns:\n    CustomerTraitResponse with the trait details"
+        },
+        {
+          "info": {
+            "name": "Delete Customer Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/customer-trait/:trait_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "trait_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a customer trait definition.\n\nArgs:\n    trait_id: UUID of the customer trait to delete\n    request: FastAPI request object\n    auth: Authentication credentials\n\nReturns:\n    DeleteCustomerTraitResponse confirming the deletion"
+        },
+        {
+          "info": {
+            "name": "Get Customer Traits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/customer-traits",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get all customer traits, optionally filtered by agent_id.\n\nArgs:\n    request: FastAPI request object\n    agent_id: Optional agent ID to filter traits by\n    auth: Authentication credentials\n\nReturns:\n    CustomerTraitsListResponse with list of traits and total count"
+        },
+        {
+          "info": {
+            "name": "Update Customer Trait",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.getbluejay.ai/v1/update-customer-trait/:trait_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "trait_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a customer trait definition.\n\nArgs:\n    trait_id: UUID of the customer trait to update\n    trait_request: The trait update request data\n    request: FastAPI request object\n    auth: Authentication credentials\n\nReturns:\n    CustomerTraitResponse with the updated trait details"
+        },
+        {
+          "info": {
+            "name": "Generate Trait Values Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.getbluejay.ai/v1/generate-trait-values",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate trait values for each scenario for a single trait.\n\nRequest:\n    - scenarios: list of scenario descriptions (intents), one per scenario\n    - traits: exactly one trait (name + data_type)\n\nResponse:\n    - dict mapping scenario index -> list of trait dicts\n    - each trait dict has:\n        {\n            \"name\": <trait_name>,       # same as the input trait name\n            \"data_type\": <data_type>,   # normalized data type string\n            \"value\": <generated_value>, # value for that s"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

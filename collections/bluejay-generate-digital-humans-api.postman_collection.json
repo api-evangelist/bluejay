@@ -1,0 +1,219 @@
+{
+  "item": [
+    {
+      "id": "69e1d42c-5ace-4c4a-b129-282de57d9427",
+      "name": "Generate Digital Humans",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9cc8c9d9-799e-41f5-8469-e98492c14eb4",
+          "name": "Generate Digital Humans",
+          "request": {
+            "name": "Generate Digital Humans",
+            "description": {
+              "content": "Given an agent this endpoint generates digital humans to test that agent based on varying simulation types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "generate-digital-humans"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"<string>\",\n  \"simulation_id\": \"<string>\",\n  \"prompt_id\": \"<uuid>\",\n  \"knowledge_base_id\": \"<uuid>\",\n  \"goal_adherence\": [\n    {\n      \"goal\": \"<string>\",\n      \"num_calls\": \"<integer>\"\n    },\n    {\n      \"goal\": \"<string>\",\n      \"num_calls\": \"<integer>\"\n    }\n  ],\n  \"workflow_adherence\": {\n    \"key_0\": \"<integer>\",\n    \"key_1\": \"<integer>\",\n    \"key_2\": \"<integer>\"\n  },\n  \"workflow_adherence_v2\": {\n    \"key_0\": \"<integer>\",\n    \"key_1\": \"<integer>\"\n  },\n  \"replay_transcript\": [\n    {\n      \"transcript\": \"<string>\",\n      \"success_criteria\": \"<string>\",\n      \"mode\": \"smart\"\n    },\n    {\n      \"transcript\": \"<string>\",\n      \"success_criteria\": \"<string>\",\n      \"mode\": \"smart\"\n    }\n  ],\n  \"customer_personas\": [\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"goal\": \"<string>\",\n      \"num_calls\": \"<integer>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"goal\": \"<string>\",\n      \"num_calls\": \"<integer>\"\n    }\n  ],\n  \"load_testing\": \"<integer>\",\n  \"red_teaming\": \"<integer>\",\n  \"traits\": [\n    {\n      \"trait_name\": \"<string>\",\n      \"trait_data_type\": \"<string>\",\n      \"value\": {},\n      \"is_sip_header\": false\n    },\n    {\n      \"trait_name\": \"<string>\",\n      \"trait_data_type\": \"<string>\",\n      \"value\": {},\n      \"is_sip_header\": false\n    }\n  ],\n  \"num_runs\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fd529d2d-5cb3-4daa-9e7a-4662874d4182",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-digital-humans"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"simulation_id\": \"<string>\",\n  \"prompt_id\": \"<uuid>\",\n  \"knowledge_base_id\": \"<uuid>\",\n  \"goal_adherence\": [\n    {\n      \"goal\": \"string\",\n      \"num_calls\": 9734\n    },\n    {\n      \"goal\": \"string\",\n      \"num_calls\": 3479\n    }\n  ],\n  \"workflow_adherence\": {\n    \"key_0\": \"<integer>\",\n    \"key_1\": \"<integer>\"\n  },\n  \"workflow_adherence_v2\": {\n    \"key_0\": \"<integer>\"\n  },\n  \"replay_transcript\": [\n    {\n      \"transcript\": \"string\",\n      \"success_criteria\": \"string\",\n      \"mode\": \"smart\"\n    },\n    {\n      \"transcript\": \"string\",\n      \"success_criteria\": \"string\",\n      \"mode\": \"smart\"\n    }\n  ],\n  \"customer_personas\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"goal\": \"string\",\n      \"num_calls\": 9620\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"goal\": \"string\",\n      \"num_calls\": 6309\n    }\n  ],\n  \"load_testing\": \"<integer>\",\n  \"red_teaming\": \"<integer>\",\n  \"traits\": [\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"BOOLEAN\",\n      \"value\": {},\n      \"is_sip_header\": false\n    },\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"NUMBER\",\n      \"value\": {},\n      \"is_sip_header\": false\n    }\n  ],\n  \"num_runs\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"200\",\n  \"success\": true,\n  \"warning\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "abaef971-3148-446f-ab47-fc4678285efd",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "generate-digital-humans"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<string>\",\n  \"simulation_id\": \"<string>\",\n  \"prompt_id\": \"<uuid>\",\n  \"knowledge_base_id\": \"<uuid>\",\n  \"goal_adherence\": [\n    {\n      \"goal\": \"string\",\n      \"num_calls\": 9734\n    },\n    {\n      \"goal\": \"string\",\n      \"num_calls\": 3479\n    }\n  ],\n  \"workflow_adherence\": {\n    \"key_0\": \"<integer>\",\n    \"key_1\": \"<integer>\"\n  },\n  \"workflow_adherence_v2\": {\n    \"key_0\": \"<integer>\"\n  },\n  \"replay_transcript\": [\n    {\n      \"transcript\": \"string\",\n      \"success_criteria\": \"string\",\n      \"mode\": \"smart\"\n    },\n    {\n      \"transcript\": \"string\",\n      \"success_criteria\": \"string\",\n      \"mode\": \"smart\"\n    }\n  ],\n  \"customer_personas\": [\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"goal\": \"string\",\n      \"num_calls\": 9620\n    },\n    {\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"goal\": \"string\",\n      \"num_calls\": 6309\n    }\n  ],\n  \"load_testing\": \"<integer>\",\n  \"red_teaming\": \"<integer>\",\n  \"traits\": [\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"BOOLEAN\",\n      \"value\": {},\n      \"is_sip_header\": false\n    },\n    {\n      \"trait_name\": \"string\",\n      \"trait_data_type\": \"NUMBER\",\n      \"value\": {},\n      \"is_sip_header\": false\n    }\n  ],\n  \"num_runs\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "17d3e613-e066-4da1-8fcd-8c9cab81669c",
+    "name": "Bluejay Agents Generate Digital Humans API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}

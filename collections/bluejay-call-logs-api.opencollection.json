@@ -1,0 +1,228 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bluejay Agents Call Logs API",
+    "version": "0.1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Call Logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Call Logs Index",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/retrieve-call-logs",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieve Call Logs Index"
+        },
+        {
+          "info": {
+            "name": "Retrieve Call Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/retrieve-call-logs/:agent_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "label",
+                "value": "",
+                "type": "query",
+                "description": "Label of the agent to filter by"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Max calls per page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "last",
+                "value": "",
+                "type": "query",
+                "description": "Last X days to filter by"
+              }
+            ]
+          },
+          "docs": "Retrieve call logs for a specific agent given the agent ID.\nReturns a list of call objects, each with an additional \"evaluations\" field\ncontaining a list of evaluations joined via call_id."
+        },
+        {
+          "info": {
+            "name": "Retrieve Call Log Index",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/retrieve-call-log",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieve Call Log Index"
+        },
+        {
+          "info": {
+            "name": "Retrieve Call Log",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.getbluejay.ai/v1/retrieve-call-log/:call_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "call_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve call logs for a specific agent given the agent ID.\nReturns a list of call objects, each with an additional \"evaluations\" field\ncontaining a list of evaluations joined via call_id."
+        },
+        {
+          "info": {
+            "name": "Delete Call Log Index",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/call-log",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Delete Call Log Index"
+        },
+        {
+          "info": {
+            "name": "Delete Call Log",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/call-log/:call_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "call_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recording_only",
+                "value": "",
+                "type": "query",
+                "description": "If true, only delete the recording file and clear recording fields. If false, delete the entire call log including all data."
+              }
+            ]
+          },
+          "docs": "Delete a specific call log given its ID.\nValidates that the user has access to the call log by checking organization membership.\n\nArgs:\n    call_id: The ID of the call to delete\n    recording_only: If True, only delete the recording file and clear recording fields.\n                   If False (default), delete the entire call log."
+        },
+        {
+          "info": {
+            "name": "Bulk Delete Call Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.getbluejay.ai/v1/call-logs",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete multiple call logs given their IDs.\nValidates that the user has access to all call logs by checking organization membership.\n\nArgs:\n    body: Request body containing a list of call IDs to delete"
+        },
+        {
+          "info": {
+            "name": "Update Log",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.getbluejay.ai/v1/update-log/:call_id",
+            "headers": [
+              {
+                "name": "X-API-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "call_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a specific call log given its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

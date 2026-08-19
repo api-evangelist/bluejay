@@ -1,0 +1,1263 @@
+{
+  "item": [
+    {
+      "id": "845b26ce-1bda-4b6d-8500-2f8674ce1a88",
+      "name": "Call Logs",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4abcb726-fb99-4597-ade9-ab550835942b",
+          "name": "Retrieve Call Logs Index",
+          "request": {
+            "name": "Retrieve Call Logs Index",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "retrieve-call-logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b1b94c45-bd5e-43e9-a8bd-18bded6d575b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "retrieve-call-logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ff69c61e-571a-4d57-9b6a-990c1992cf99",
+          "name": "Retrieve Call Logs",
+          "request": {
+            "name": "Retrieve Call Logs",
+            "description": {
+              "content": "Retrieve call logs for a specific agent given the agent ID.\nReturns a list of call objects, each with an additional \"evaluations\" field\ncontaining a list of evaluations joined via call_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "retrieve-call-logs",
+                ":agent_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "label",
+                  "value": "<string>",
+                  "description": "Label of the agent to filter by"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "20",
+                  "description": "Max calls per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "last",
+                  "value": "1day",
+                  "description": "Last X days to filter by"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "agent_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "0ba099ab-9f17-47e8-b85e-ce100c8bafd3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "retrieve-call-logs",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "label",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "last",
+                      "value": "1day"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total_count\": 954,\n  \"page\": 5721,\n  \"page_size\": 5606,\n  \"total_pages\": 2128,\n  \"call_logs\": [\n    {\n      \"id\": \"string\",\n      \"agent_id\": \"string\",\n      \"recording_url\": \"string\",\n      \"start_time_utc\": \"string\",\n      \"participants\": [\n        {\n          \"role\": \"AGENT\",\n          \"spoke_first\": true,\n          \"name\": \"string\",\n          \"phone_number\": \"string\"\n        },\n        {\n          \"role\": \"AGENT\",\n          \"spoke_first\": true,\n          \"name\": \"string\",\n          \"phone_number\": \"string\"\n        }\n      ],\n      \"status\": \"EVALUATING\",\n      \"external_agent_id\": \"string\",\n      \"call_direction\": \"INBOUND\",\n      \"interface\": \"PHONE\",\n      \"created_at\": \"1994-02-06T19:38:41.492Z\",\n      \"transcript_url\": \"string\",\n      \"tool_calls\": [\n        {\n          \"name\": \"string\",\n          \"start_offset_ms\": 3683,\n          \"description\": \"string\",\n          \"parameters\": {\n            \"key_0\": \"string\",\n            \"key_1\": 7116\n          },\n          \"output\": {}\n        },\n        {\n          \"name\": \"string\",\n          \"start_offset_ms\": 6017,\n          \"description\": \"string\",\n          \"parameters\": {\n            \"key_0\": 3785.5663856347,\n            \"key_1\": true,\n            \"key_2\": true,\n            \"key_3\": 4750.087636504735\n          },\n          \"output\": {}\n        }\n      ],\n      \"events\": [\n        {\n          \"title\": \"string\",\n          \"start_offset_ms\": 4337,\n          \"description\": \"string\",\n          \"end_offset_ms\": 4975,\n          \"tags\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"metadata\": {\n            \"key_0\": 1486,\n            \"key_1\": 2243,\n            \"key_2\": true,\n            \"key_3\": 9493.325000891915\n          }\n        },\n        {\n          \"title\": \"string\",\n          \"start_offset_ms\": 5930,\n          \"description\": \"string\",\n          \"end_offset_ms\": 3137,\n          \"tags\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"metadata\": {\n            \"key_0\": 8805\n          }\n        }\n      ],\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"duration_ms\": 3811,\n      \"evaluations\": [\n        {\n          \"agent_speak_percentage\": 1791.9755170703854,\n          \"avg_agent_latency\": 6883.534147891935,\n          \"id\": \"string\",\n          \"created_at\": \"1977-05-15T23:48:26.625Z\",\n          \"hallucination\": true,\n          \"hallucination_reasoning\": \"string\",\n          \"redundancy\": true,\n          \"redundancy_reasoning\": \"string\",\n          \"latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"num_turns\": 4893,\n          \"call_summary\": \"string\",\n          \"custom_evals\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"custom_evals_success_rate\": 4421.453449297061,\n          \"goal_success\": false,\n          \"goal_reasoning\": \"string\",\n          \"pronunciation_score\": 4628.331398249917,\n          \"pronunciation_reasoning\": \"string\",\n          \"custom_metrics\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        {\n          \"agent_speak_percentage\": 5934.792483203349,\n          \"avg_agent_latency\": 8595.996276684338,\n          \"id\": \"string\",\n          \"created_at\": \"1957-09-29T11:15:17.140Z\",\n          \"hallucination\": true,\n          \"hallucination_reasoning\": \"string\",\n          \"redundancy\": false,\n          \"redundancy_reasoning\": \"string\",\n          \"latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"num_turns\": 1982,\n          \"call_summary\": \"string\",\n          \"custom_evals\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"custom_evals_success_rate\": 581.6961656172481,\n          \"goal_success\": true,\n          \"goal_reasoning\": \"string\",\n          \"pronunciation_score\": 8154.423779280376,\n          \"pronunciation_reasoning\": \"string\",\n          \"custom_metrics\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\"\n      },\n      \"conversation_ended_by\": \"AGENT\"\n    },\n    {\n      \"id\": \"string\",\n      \"agent_id\": \"string\",\n      \"recording_url\": \"string\",\n      \"start_time_utc\": \"string\",\n      \"participants\": [\n        {\n          \"role\": \"USER\",\n          \"spoke_first\": false,\n          \"name\": \"string\",\n          \"phone_number\": \"string\"\n        },\n        {\n          \"role\": \"AGENT\",\n          \"spoke_first\": true,\n          \"name\": \"string\",\n          \"phone_number\": \"string\"\n        }\n      ],\n      \"status\": \"COMPLETED\",\n      \"external_agent_id\": \"string\",\n      \"call_direction\": \"INBOUND\",\n      \"interface\": \"PHONE\",\n      \"created_at\": \"1947-04-04T11:32:02.522Z\",\n      \"transcript_url\": \"string\",\n      \"tool_calls\": [\n        {\n          \"name\": \"string\",\n          \"start_offset_ms\": 9360,\n          \"description\": \"string\",\n          \"parameters\": {\n            \"key_0\": \"string\",\n            \"key_1\": false\n          },\n          \"output\": {}\n        },\n        {\n          \"name\": \"string\",\n          \"start_offset_ms\": 7064,\n          \"description\": \"string\",\n          \"parameters\": {\n            \"key_0\": 7271,\n            \"key_1\": \"string\"\n          },\n          \"output\": {}\n        }\n      ],\n      \"events\": [\n        {\n          \"title\": \"string\",\n          \"start_offset_ms\": 8939,\n          \"description\": \"string\",\n          \"end_offset_ms\": 3749,\n          \"tags\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"metadata\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\",\n            \"key_2\": false\n          }\n        },\n        {\n          \"title\": \"string\",\n          \"start_offset_ms\": 4489,\n          \"description\": \"string\",\n          \"end_offset_ms\": 5844,\n          \"tags\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"metadata\": {\n            \"key_0\": false,\n            \"key_1\": 481.3681773415191\n          }\n        }\n      ],\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"duration_ms\": 4564,\n      \"evaluations\": [\n        {\n          \"agent_speak_percentage\": 4005.7560273735994,\n          \"avg_agent_latency\": 4140.558370306186,\n          \"id\": \"string\",\n          \"created_at\": \"1983-08-05T18:00:15.989Z\",\n          \"hallucination\": true,\n          \"hallucination_reasoning\": \"string\",\n          \"redundancy\": false,\n          \"redundancy_reasoning\": \"string\",\n          \"latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"num_turns\": 5058,\n          \"call_summary\": \"string\",\n          \"custom_evals\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"custom_evals_success_rate\": 8107.744487024902,\n          \"goal_success\": false,\n          \"goal_reasoning\": \"string\",\n          \"pronunciation_score\": 9161.80407685015,\n          \"pronunciation_reasoning\": \"string\",\n          \"custom_metrics\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        {\n          \"agent_speak_percentage\": 8492.452437823109,\n          \"avg_agent_latency\": 4145.033641293507,\n          \"id\": \"string\",\n          \"created_at\": \"1959-03-18T16:20:58.554Z\",\n          \"hallucination\": true,\n          \"hallucination_reasoning\": \"string\",\n          \"redundancy\": true,\n          \"redundancy_reasoning\": \"string\",\n          \"latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"num_turns\": 7235,\n          \"call_summary\": \"string\",\n          \"custom_evals\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"custom_evals_success_rate\": 1540.835104975311,\n          \"goal_success\": true,\n          \"goal_reasoning\": \"string\",\n          \"pronunciation_score\": 7070.981290932089,\n          \"pronunciation_reasoning\": \"string\",\n          \"custom_metrics\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      ],\n      \"metadata\": {\n        \"key_0\": 9904.571031821075,\n        \"key_1\": \"string\",\n        \"key_2\": true\n      },\n      \"conversation_ended_by\": \"USER\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4fac34cf-374a-43e0-9897-0b5090db22ad",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "retrieve-call-logs",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "label",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "last",
+                      "value": "1day"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c869d40a-7f13-4a40-8cd8-c40fd3f3a316",
+          "name": "Retrieve Call Log Index",
+          "request": {
+            "name": "Retrieve Call Log Index",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "retrieve-call-log"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "69025edd-ac43-4ea7-a75b-0286d9bca1cd",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "retrieve-call-log"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3737e1da-6a7f-4509-b328-61d574ec1345",
+          "name": "Retrieve Call Log",
+          "request": {
+            "name": "Retrieve Call Log",
+            "description": {
+              "content": "Retrieve call logs for a specific agent given the agent ID.\nReturns a list of call objects, each with an additional \"evaluations\" field\ncontaining a list of evaluations joined via call_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "retrieve-call-log",
+                ":call_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "call_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "a99edb94-db3b-4e14-b78b-a07666d172b3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "retrieve-call-log",
+                    ":call_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "call_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"call_log\": {\n    \"id\": \"string\",\n    \"agent_id\": \"string\",\n    \"recording_url\": \"string\",\n    \"start_time_utc\": \"string\",\n    \"participants\": [\n      {\n        \"role\": \"AGENT\",\n        \"spoke_first\": false,\n        \"name\": \"string\",\n        \"phone_number\": \"string\"\n      },\n      {\n        \"role\": \"USER\",\n        \"spoke_first\": false,\n        \"name\": \"string\",\n        \"phone_number\": \"string\"\n      }\n    ],\n    \"status\": \"QUEUED\",\n    \"external_agent_id\": \"string\",\n    \"call_direction\": \"INBOUND\",\n    \"interface\": \"PHONE\",\n    \"created_at\": \"2017-01-10T06:14:33.924Z\",\n    \"transcript_url\": \"string\",\n    \"tool_calls\": [\n      {\n        \"name\": \"string\",\n        \"start_offset_ms\": 3084,\n        \"description\": \"string\",\n        \"parameters\": {\n          \"key_0\": 2527,\n          \"key_1\": 3146,\n          \"key_2\": 8164.889605279994\n        },\n        \"output\": {}\n      },\n      {\n        \"name\": \"string\",\n        \"start_offset_ms\": 3341,\n        \"description\": \"string\",\n        \"parameters\": {\n          \"key_0\": true,\n          \"key_1\": 7428.274850641951\n        },\n        \"output\": {}\n      }\n    ],\n    \"events\": [\n      {\n        \"title\": \"string\",\n        \"start_offset_ms\": 8677,\n        \"description\": \"string\",\n        \"end_offset_ms\": 6958,\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ],\n        \"metadata\": {\n          \"key_0\": 335\n        }\n      },\n      {\n        \"title\": \"string\",\n        \"start_offset_ms\": 3520,\n        \"description\": \"string\",\n        \"end_offset_ms\": 2371,\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ],\n        \"metadata\": {\n          \"key_0\": 7272.951243085033,\n          \"key_1\": \"string\"\n        }\n      }\n    ],\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ],\n    \"duration_ms\": 3610,\n    \"evaluations\": [\n      {\n        \"agent_speak_percentage\": 7258.098614096654,\n        \"avg_agent_latency\": 561.843379193856,\n        \"id\": \"string\",\n        \"created_at\": \"2015-12-26T12:55:14.566Z\",\n        \"hallucination\": true,\n        \"hallucination_reasoning\": \"string\",\n        \"redundancy\": false,\n        \"redundancy_reasoning\": \"string\",\n        \"latency\": {\n          \"avg_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"max_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p50_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p90_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p95_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p99_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"filler_ignored_latency\": {\n          \"avg_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p50_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p90_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p95_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p99_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"num_turns\": 9186,\n        \"call_summary\": \"string\",\n        \"custom_evals_success_rate\": 5501.538963983808,\n        \"goal_success\": true,\n        \"goal_reasoning\": \"string\",\n        \"pronunciation_score\": 7227.735745642798,\n        \"pronunciation_reasoning\": \"string\",\n        \"custom_metrics\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      {\n        \"agent_speak_percentage\": 6580.888723638911,\n        \"avg_agent_latency\": 8643.839333465536,\n        \"id\": \"string\",\n        \"created_at\": \"1951-09-12T10:55:48.050Z\",\n        \"hallucination\": true,\n        \"hallucination_reasoning\": \"string\",\n        \"redundancy\": true,\n        \"redundancy_reasoning\": \"string\",\n        \"latency\": {\n          \"avg_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"max_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p50_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p90_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p95_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p99_agent_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"filler_ignored_latency\": {\n          \"avg_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p50_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p90_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p95_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"p99_filler_ignored_latency\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"num_turns\": 7034,\n        \"call_summary\": \"string\",\n        \"custom_evals_success_rate\": 6110.188322540829,\n        \"goal_success\": true,\n        \"goal_reasoning\": \"string\",\n        \"pronunciation_score\": 6019.624255340023,\n        \"pronunciation_reasoning\": \"string\",\n        \"custom_metrics\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      }\n    ],\n    \"metadata\": {\n      \"key_0\": \"string\"\n    },\n    \"conversation_ended_by\": \"AGENT\"\n  },\n  \"status\": \"200\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00400fc0-42ba-49f9-8312-33dfb4aec7be",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "retrieve-call-log",
+                    ":call_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "call_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2e05cb0-a401-4c85-8948-7e2794386ba5",
+          "name": "Delete Call Log Index",
+          "request": {
+            "name": "Delete Call Log Index",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "call-log"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "50ebfdc7-18fe-4d68-9166-92aff467a728",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "call-log"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1a9a3109-92bc-4c37-a18d-85737ca656d9",
+          "name": "Delete Call Log",
+          "request": {
+            "name": "Delete Call Log",
+            "description": {
+              "content": "Delete a specific call log given its ID.\nValidates that the user has access to the call log by checking organization membership.\n\nArgs:\n    call_id: The ID of the call to delete\n    recording_only: If True, only delete the recording file and clear recording fields.\n                   If False (default), delete the entire call log.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "call-log",
+                ":call_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "recording_only",
+                  "value": "false",
+                  "description": "If true, only delete the recording file and clear recording fields. If false, delete the entire call log including all data."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "call_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "38314810-7316-4312-b154-3dbd3d7453c3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "call-log",
+                    ":call_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recording_only",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "call_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"status\": \"200\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e31b18da-7985-4b7a-96f0-90bd7ea5ccaa",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "call-log",
+                    ":call_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "recording_only",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "call_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0cb06dcc-2fc1-4a4a-987f-8fdd58d85ee7",
+          "name": "Bulk Delete Call Logs",
+          "request": {
+            "name": "Bulk Delete Call Logs",
+            "description": {
+              "content": "Delete multiple call logs given their IDs.\nValidates that the user has access to all call logs by checking organization membership.\n\nArgs:\n    body: Request body containing a list of call IDs to delete",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "call-logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"call_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8124d918-5147-48a7-a178-343513e030a9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "call-logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"call_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"deleted_count\": 2651,\n  \"status\": \"200\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "76d009af-b9d3-4bed-b139-bee2e61c29a7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "call-logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"call_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "de0c7c88-e45b-4e75-9cfe-381432c1d681",
+          "name": "Update Log",
+          "request": {
+            "name": "Update Log",
+            "description": {
+              "content": "Update a specific call log given its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "update-log",
+                ":call_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "call_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key required to authenticate requests.",
+                "key": "X-API-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tool_calls\": [\n    {\n      \"name\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": 7989.781936609418,\n        \"key_3\": 347.81580519202214\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": false\n      },\n      \"output\": {}\n    }\n  ],\n  \"events\": [\n    {\n      \"title\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"metadata\": {\n        \"key_0\": 7655,\n        \"key_1\": true\n      }\n    },\n    {\n      \"title\": \"<string>\",\n      \"start_offset_ms\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"end_offset_ms\": \"<integer>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"metadata\": {\n        \"key_0\": true\n      }\n    }\n  ],\n  \"metadata\": {\n    \"key_0\": 1900.533698547321,\n    \"key_1\": 8517\n  },\n  \"reevaluate\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f6aa1b3c-56d9-4465-8446-58ee4b6669d8",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-log",
+                    ":call_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "call_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 6975,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": 7676.792335936389,\n        \"key_1\": 3363.031564766248,\n        \"key_2\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 3196,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": 9321,\n        \"key_1\": \"string\",\n        \"key_2\": 4187\n      },\n      \"output\": {}\n    }\n  ],\n  \"events\": [\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 7684,\n      \"description\": \"string\",\n      \"end_offset_ms\": 9788,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": 3717.9016517997698\n      }\n    },\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 3364,\n      \"description\": \"string\",\n      \"end_offset_ms\": 8287,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": 7856.443333643582,\n        \"key_1\": \"string\"\n      }\n    }\n  ],\n  \"metadata\": {\n    \"key_0\": 7098.598214064731\n  },\n  \"reevaluate\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"status\": \"200\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e37567c2-313b-4851-80be-ce265045a762",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "update-log",
+                    ":call_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "call_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key required to authenticate requests.",
+                    "key": "X-API-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tool_calls\": [\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 6975,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": 7676.792335936389,\n        \"key_1\": 3363.031564766248,\n        \"key_2\": \"string\"\n      },\n      \"output\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"start_offset_ms\": 3196,\n      \"description\": \"string\",\n      \"parameters\": {\n        \"key_0\": 9321,\n        \"key_1\": \"string\",\n        \"key_2\": 4187\n      },\n      \"output\": {}\n    }\n  ],\n  \"events\": [\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 7684,\n      \"description\": \"string\",\n      \"end_offset_ms\": 9788,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": 3717.9016517997698\n      }\n    },\n    {\n      \"title\": \"string\",\n      \"start_offset_ms\": 3364,\n      \"description\": \"string\",\n      \"end_offset_ms\": 8287,\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"metadata\": {\n        \"key_0\": 7856.443333643582,\n        \"key_1\": \"string\"\n      }\n    }\n  ],\n  \"metadata\": {\n    \"key_0\": 7098.598214064731\n  },\n  \"reevaluate\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.getbluejay.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f45223f3-2a27-4939-95af-ce79bee61ced",
+    "name": "Bluejay Agents Call Logs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Bluejay API",
+      "type": "text/plain"
+    }
+  }
+}
