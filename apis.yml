@@ -36,6 +36,18 @@ modified: '2026-07-18'
 image: https://framerusercontent.com/assets/0eWRRDcsziAELTSPQghHwloyXH0.jpg
 tags:
 - Company
+- Artificial Intelligence
+- AI Agents
+- Voice AI
+- Conversational AI
+- Agent Testing
+- Quality Assurance
+- Observability
+- Simulation
+- Evaluation
+- Monitoring
+tags_raw:
+- Company
 - Ai
 - AI Agents
 - Voice AI
@@ -81,6 +93,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - APIKeys
+  tags_raw:
   - Api Keys
   properties:
   - type: OpenAPI
@@ -849,6 +863,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - Vapi
+  tags_raw:
   - vapi
   properties:
   - type: OpenAPI
