@@ -1,0 +1,180 @@
+slug: bluejay
+provider: Bluejay
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 17
+edges:
+- tag: Subscription
+  spec_file: bluejay-subscription-api-openapi.yml
+  capability_id: BC-4240
+  capability_id_l1: BC-4240
+  capability_name: Subscription Lifecycle Management
+  confidence: 0.85
+  evidence: POST /v1/subscription/start-trial; GET /v1/subscription/active-package; POST /v1/subscription/cancel
+    "Cancel Subscription"
+  reason: Operations plainly cover subscription signup, trial start, active plan retrieval and cancellation
+    — SaaS subscription lifecycle. Spans provisioning and cancellation sub-capabilities, so L1 only.
+- tag: Generate Test Scenarios
+  spec_file: bluejay-generate-test-scenarios-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.82
+  evidence: POST /v1/generate-test-scenarios — 'Generate Test Scenarios'
+  reason: Explicit test-scenario authoring for agent testing; maps to test strategy/automated test suite
+    stewardship.
+- tag: Retrieve Simulation Result
+  spec_file: bluejay-retrieve-simulation-result-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.78
+  evidence: GET /v1/retrieve-simulation-result/{test_result_id} "Retrieve Simulation Result"; schemas
+    Evaluation, ExpectedToolCallDetail, ToolCallComparisonGroup
+  reason: Retrieval of test results with expected-vs-actual tool call comparison and evaluations is test
+    execution/result management for the agent under test, i.e. quality engineering rather than production
+    observability.
+- tag: Retrieve Simulation Results
+  spec_file: bluejay-retrieve-simulation-results-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.78
+  evidence: GET /v1/retrieve-simulation-results/{simulation_run_id}; schemas SimulationRunStatus, SimulationRunResultResponse,
+    Evaluation
+  reason: Reads the results and status of a simulation (test) run — automated test suite execution reporting,
+    mapping to Software Quality Engineering.
+- tag: Simulations
+  spec_file: bluejay-simulations-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.78
+  evidence: POST /v1/simulation/{simulation_id}/add-digital-humans "Add Digital Humans To Simulation";
+    SimulationType
+  reason: Configures simulation test definitions (including which synthetic personas participate) used
+    to evaluate conversational agents — test suite design and stewardship.
+- tag: Create Simulation
+  spec_file: bluejay-create-simulation-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.75
+  evidence: POST /v1/create-simulation  Create Simulation (SimulationRequest, DigitalHumansSettings)
+  reason: Creating simulations of conversations against an AI agent is test execution against the product
+    under test, i.e. quality engineering / automated test suite stewardship.
+- tag: Digital Humans
+  spec_file: bluejay-digital-humans-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.75
+  evidence: POST /v1/create-digital-human; GET /v1/digital-humans-by-simulation/{simulation_id}; schemas
+    ExpectedToolCall, ContextualInterruptionConfig, VoiceSpeedType
+  reason: Digital humans are the configurable synthetic testers driving simulations, with expected tool
+    calls acting as assertions — clearly test-asset definition for automated quality engineering of conversational
+    agents.
+- tag: Generate Digital Humans
+  spec_file: bluejay-generate-digital-humans-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.72
+  evidence: '''Generate Digital Humans'' with schemas DigitalHumanRequest, CustomerPersonaRequest, GoalAdherence,
+    ReplayTranscriptFromConversation'
+  reason: Creates synthetic simulated users used to test conversational agents (replay transcripts, goal
+    adherence scoring) — test asset creation within software quality engineering.
+- tag: Get Simulation Runs
+  spec_file: bluejay-get-simulation-runs-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.72
+  evidence: GET /v1/get-simulation-runs/{simulation_id} with SimulationRunStatus, SimulationRunRes
+  reason: Retrieval of test-run executions and their status — test execution tracking within software
+    quality engineering.
+- tag: Regeneration
+  spec_file: bluejay-regeneration-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.72
+  evidence: POST /v1/regenerate-test-scenarios-from-community — "Regenerate Test Scenarios From Community"
+  reason: The single operation regenerates test scenarios, i.e. maintenance of a test suite for the agent
+    under test — software quality engineering. Confidence tempered because the tag is a single generic
+    operation.
+- tag: Text Simulations
+  spec_file: bluejay-text-simulations-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.72
+  evidence: POST /v1/queue-sms-simulation-run "Queue Sms Simulation Run"; SimulationRunRequest
+  reason: Queues simulated SMS conversation test runs against the agent — execution of automated tests.
+    Second endpoint is channel ingest plumbing, lowering confidence slightly.
+- tag: Evaluate
+  spec_file: bluejay-evaluate-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.7
+  evidence: POST /v1/evaluate-call  Evaluate; schemas EvaluateCallResponse, TranscriptEntryRequest, ToolCall,
+    CallInterface
+  reason: Scoring agent calls and transcripts against evaluation criteria is defect/quality assessment
+    of the software under test, matching Software Quality Engineering; it is not contact-centre QA of
+    human agents given the AI-agent testing context.
+- tag: Get All Simulations
+  spec_file: bluejay-get-all-simulations-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.7
+  evidence: GET /v1/get-all-simulations — 'Get All Simulations', GetSimulationsResponse, SimulationRes
+  reason: Simulations are the test executions against conversational agents; listing them is part of test
+    suite management under software quality engineering.
+- tag: Queue Simulation Run
+  spec_file: bluejay-queue-simulation-run-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.7
+  evidence: '"Queue Simulation Run Endpoint", schema src__main__SimulationRunRequest'
+  reason: Triggers execution of simulation (test) runs against conversational agents — automated test
+    execution, i.e. software quality engineering for the vendor's testing platform.
+- tag: Regen Test Scenarios
+  spec_file: bluejay-regen-test-scenarios-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.7
+  evidence: POST /v1/regen-test-scenarios "Regen Test Scenarios Endpoint"
+  reason: Regeneration of test scenarios used to exercise agents — test suite generation/stewardship within
+    quality engineering.
+- tag: Simulation Results
+  spec_file: bluejay-simulation-results-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.7
+  evidence: POST /v1/update-simulation-result "Update Simulation Result"; schemas TranscriptEntryRequest,
+    ToolCall, ParticipantRole
+  reason: Writes transcript and tool-call data back onto a simulation (test) result record — part of test
+    result stewardship for the agent under test.
+- tag: Simulation Runs
+  spec_file: bluejay-simulation-runs-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.7
+  evidence: DELETE /v1/simulation-run/{simulation_run_id} "Delete Simulation Run"; DeleteSimulationResultResponse
+  reason: Lifecycle (deletion) of simulation test runs and their results is administration of the automated
+    test suite; only CRUD evidence, hence moderate confidence.
