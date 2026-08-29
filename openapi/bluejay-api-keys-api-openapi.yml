@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Api Keys API
+  title: Bluejay Api Keys API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -77,6 +77,20 @@ paths:
       - Api Keys
 components:
   schemas:
+    CreateKeyIn:
+      properties:
+        scope:
+          type: string
+          title: Scope
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - scope
+      title: CreateKeyIn
     HTTPValidationError:
       properties:
         detail:
@@ -86,27 +100,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     KeyOut:
       properties:
         id:
@@ -136,20 +129,27 @@ components:
       - created_at
       - revoked
       title: KeyOut
-    CreateKeyIn:
+    ValidationError:
       properties:
-        scope:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Scope
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - scope
-      title: CreateKeyIn
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

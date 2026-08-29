@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Bluejay Agents API
   description: Bluejay API
@@ -328,215 +328,23 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AgentWebhookKeyResponse:
+    AgentWebhookKeyRequest:
       properties:
-        signing_key:
-          type: string
-          title: Signing Key
-          description: Signing key
-        message:
-          type: string
-          title: Message
-          description: Message
-      type: object
-      required:
-      - signing_key
-      - message
-      title: AgentWebhookKeyResponse
-      description: Response model for agent webhook key
-    AgentPydantic:
-      properties:
-        id:
-          anyOf:
-          - type: string
-          - type: integer
-          - type: 'null'
-          title: Id
-        name:
-          type: string
-          title: Name
-        agent_description:
-          type: string
-          title: Agent Description
-        knowledge_base:
-          type: string
-          title: Knowledge Base
-        organization_id:
-          type: string
-          title: Organization Id
-        goals:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Goals
-        mode:
-          $ref: '#/components/schemas/AgentMode'
-        type:
-          anyOf:
-          - $ref: '#/components/schemas/AgentType'
-          - type: 'null'
-        connection_type:
-          anyOf:
-          - $ref: '#/components/schemas/ConnectionType'
-          - type: 'null'
-        phone_number:
+        agent_id:
           anyOf:
           - type: string
           - type: 'null'
-          title: Phone Number
-        websocket_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Url
-        redact_pii:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Redact Pii
-        folder_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Folder Id
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-        keyterms:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Keyterms
-        voice_provider:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Voice Provider
-        provider_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Provider Id
-        websocket_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Username
-        websocket_password:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Password
+          title: Agent Id
+          description: ID of the agent
         external_agent_id:
           anyOf:
           - type: string
           - type: 'null'
           title: External Agent Id
-        sip_uri:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sip Uri
-        custom_sip_headers:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Custom Sip Headers
-        sip_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sip Username
-        sip_password:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sip Password
-        simulation_notifications:
-          additionalProperties: true
-          type: object
-          title: Simulation Notifications
-        livekit_agent_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Livekit Agent Name
-        livekit_metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Livekit Metadata
-        pipecat_agent_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pipecat Agent Name
-        pipecat_agent_configuration:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Pipecat Agent Configuration
-        pipecat_room_properties:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Pipecat Room Properties
-        http_webhook:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Http Webhook
-        http_webhook_key:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Http Webhook Key
-        enable_outbound_call_auto_start:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enable Outbound Call Auto Start
+          description: External ID of the agent
       type: object
-      required:
-      - name
-      - agent_description
-      - knowledge_base
-      - organization_id
-      - mode
-      title: AgentPydantic
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: AgentWebhookKeyRequest
+      description: Request model for creating/getting an agent webhook key
     ConnectionType:
       type: string
       enum:
@@ -758,26 +566,6 @@ components:
       required:
       - agent_id
       title: AgentUpdateRequest
-    AgentUpdateResponse:
-      properties:
-        agent:
-          $ref: '#/components/schemas/AgentUpdateRequest'
-          description: Updated agent details
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-        http_webhook_key:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Http Webhook Key
-          description: Signing key for HTTP webhook (only provided if http_webhook was set)
-      type: object
-      required:
-      - agent
-      title: AgentUpdateResponse
     AgentRequest:
       properties:
         name:
@@ -958,23 +746,22 @@ components:
       - knowledge_base
       - goals
       title: AgentRequest
-    AgentWebhookKeyRequest:
+    AgentWebhookKeyResponse:
       properties:
-        agent_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent Id
-          description: ID of the agent
-        external_agent_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: External Agent Id
-          description: External ID of the agent
+        signing_key:
+          type: string
+          title: Signing Key
+          description: Signing key
+        message:
+          type: string
+          title: Message
+          description: Message
       type: object
-      title: AgentWebhookKeyRequest
-      description: Request model for creating/getting an agent webhook key
+      required:
+      - signing_key
+      - message
+      title: AgentWebhookKeyResponse
+      description: Response model for agent webhook key
     AgentUpdateWithExternalIdRequest:
       properties:
         external_agent_id:
@@ -1155,20 +942,178 @@ components:
       required:
       - external_agent_id
       title: AgentUpdateWithExternalIdRequest
-    AgentType:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: AgentType
-      description: Enum representing the type of agent
-    AgentMode:
-      type: string
-      enum:
-      - VOICE
-      - TEXT
-      title: AgentMode
-      description: Enum representing the mode of agent
+    AgentPydantic:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: integer
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          title: Name
+        agent_description:
+          type: string
+          title: Agent Description
+        knowledge_base:
+          type: string
+          title: Knowledge Base
+        organization_id:
+          type: string
+          title: Organization Id
+        goals:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Goals
+        mode:
+          $ref: '#/components/schemas/AgentMode'
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/AgentType'
+          - type: 'null'
+        connection_type:
+          anyOf:
+          - $ref: '#/components/schemas/ConnectionType'
+          - type: 'null'
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+        websocket_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Url
+        redact_pii:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redact Pii
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        keyterms:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keyterms
+        voice_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Provider
+        provider_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider Id
+        websocket_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Username
+        websocket_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Password
+        external_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Agent Id
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+        custom_sip_headers:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Custom Sip Headers
+        sip_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Username
+        sip_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Password
+        simulation_notifications:
+          additionalProperties: true
+          type: object
+          title: Simulation Notifications
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+        http_webhook:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook
+        http_webhook_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook Key
+        enable_outbound_call_auto_start:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Outbound Call Auto Start
+      type: object
+      required:
+      - name
+      - agent_description
+      - knowledge_base
+      - organization_id
+      - mode
+      title: AgentPydantic
     HTTPValidationError:
       properties:
         detail:
@@ -1178,6 +1123,61 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AgentMode:
+      type: string
+      enum:
+      - VOICE
+      - TEXT
+      title: AgentMode
+      description: Enum representing the mode of agent
+    AgentType:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: AgentType
+      description: Enum representing the type of agent
+    AgentUpdateResponse:
+      properties:
+        agent:
+          $ref: '#/components/schemas/AgentUpdateRequest'
+          description: Updated agent details
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+        http_webhook_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook Key
+          description: Signing key for HTTP webhook (only provided if http_webhook was set)
+      type: object
+      required:
+      - agent
+      title: AgentUpdateResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

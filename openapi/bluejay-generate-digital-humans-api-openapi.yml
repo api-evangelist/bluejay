@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Generate Digital Humans API
+  title: Bluejay Generate Digital Humans API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -48,118 +48,6 @@ paths:
       - Generate Digital Humans
 components:
   schemas:
-    ReplayTranscriptFromText:
-      properties:
-        transcript:
-          type: string
-          title: Transcript
-          description: The transcript text to analyze and replay
-        success_criteria:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Success Criteria
-          description: Success criteria for the scenario (auto-generated if not provided)
-        mode:
-          type: string
-          enum:
-          - strict
-          - smart
-          - persona
-          title: Mode
-          description: 'Mode for transcript replay: ''strict'' (extract specific utterances), ''smart'' (balanced approach - default), or ''persona'' (generate persona intent)'
-          default: smart
-      type: object
-      required:
-      - transcript
-      title: Replay Transcript From Text
-      description: Replay transcript by providing the transcript text directly
-    TraitDataType:
-      type: string
-      enum:
-      - BOOLEAN
-      - STRING
-      - DATE
-      - NUMBER
-      title: TraitDataType
-      description: Enum for trait data types.
-    Trait:
-      properties:
-        trait_name:
-          type: string
-          title: Trait Name
-          description: Name of the trait
-        trait_data_type:
-          $ref: '#/components/schemas/TraitDataType'
-          description: Data type of the trait
-        value:
-          title: Value
-          description: Value of the trait (stored as JSONB)
-        is_sip_header:
-          type: boolean
-          title: Is Sip Header
-          description: Whether this trait is a SIP header
-          default: false
-      type: object
-      required:
-      - trait_name
-      - trait_data_type
-      - value
-      title: Trait
-      description: Model for a single trait.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    src__main__DigitalHumanResponse:
-      properties:
-        digital_humans:
-          items: {}
-          type: array
-          title: Digital Humans
-          description: List of digital humans created for the simulation
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-        success:
-          type: boolean
-          title: Success
-          description: Whether the generation succeeded
-          default: true
-        test_scenarios:
-          anyOf:
-          - items: {}
-            type: array
-          - type: 'null'
-          title: Test Scenarios
-          description: Scenario view of created digital humans (includes original_transcript and formatted_transcript for transcript replays)
-        warning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Warning
-          description: Warning message if the request was modified (e.g. truncated due to exceeding the max limit)
-      type: object
-      title: DigitalHumanResponse
     DigitalHumanRequest:
       properties:
         agent_id:
@@ -263,6 +151,153 @@ components:
       - agent_id
       title: DigitalHumanRequest
       description: Pydantic model for digital humans (simulation type) request
+    src__main__DigitalHumanResponse:
+      properties:
+        digital_humans:
+          items: {}
+          type: array
+          title: Digital Humans
+          description: List of digital humans created for the simulation
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+        success:
+          type: boolean
+          title: Success
+          description: Whether the generation succeeded
+          default: true
+        test_scenarios:
+          anyOf:
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Test Scenarios
+          description: Scenario view of created digital humans (includes original_transcript and formatted_transcript for transcript replays)
+        warning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Warning
+          description: Warning message if the request was modified (e.g. truncated due to exceeding the max limit)
+      type: object
+      title: DigitalHumanResponse
+    ReplayTranscriptFromText:
+      properties:
+        transcript:
+          type: string
+          title: Transcript
+          description: The transcript text to analyze and replay
+        success_criteria:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Success Criteria
+          description: Success criteria for the scenario (auto-generated if not provided)
+        mode:
+          type: string
+          enum:
+          - strict
+          - smart
+          - persona
+          title: Mode
+          description: 'Mode for transcript replay: ''strict'' (extract specific utterances), ''smart'' (balanced approach - default), or ''persona'' (generate persona intent)'
+          default: smart
+      type: object
+      required:
+      - transcript
+      title: Replay Transcript From Text
+      description: Replay transcript by providing the transcript text directly
+    TraitDataType:
+      type: string
+      enum:
+      - BOOLEAN
+      - STRING
+      - DATE
+      - NUMBER
+      title: TraitDataType
+      description: Enum for trait data types.
+    Trait:
+      properties:
+        trait_name:
+          type: string
+          title: Trait Name
+          description: Name of the trait
+        trait_data_type:
+          $ref: '#/components/schemas/TraitDataType'
+          description: Data type of the trait
+        value:
+          title: Value
+          description: Value of the trait (stored as JSONB)
+        is_sip_header:
+          type: boolean
+          title: Is Sip Header
+          description: Whether this trait is a SIP header
+          default: false
+      type: object
+      required:
+      - trait_name
+      - trait_data_type
+      - value
+      title: Trait
+      description: Model for a single trait.
+    ReplayTranscriptFromConversation:
+      properties:
+        conversation_id:
+          type: string
+          title: Conversation Id
+          description: ID of an existing conversation log to retrieve transcript from
+        success_criteria:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Success Criteria
+          description: Success criteria for the scenario (auto-generated if not provided)
+        mode:
+          type: string
+          enum:
+          - strict
+          - smart
+          - persona
+          title: Mode
+          description: 'Mode for transcript replay: ''strict'' (extract specific utterances), ''smart'' (balanced approach - default), or ''persona'' (generate persona intent)'
+          default: smart
+      type: object
+      required:
+      - conversation_id
+      title: Replay Transcript From Conversation ID
+      description: Replay transcript by referencing an existing conversation ID
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     CustomerPersonaRequest:
       properties:
         name:
@@ -305,41 +340,6 @@ components:
       - num_calls
       title: GoalAdherence
       description: Pydantic model for goal adherence in simulation
-    ReplayTranscriptFromConversation:
-      properties:
-        conversation_id:
-          type: string
-          title: Conversation Id
-          description: ID of an existing conversation log to retrieve transcript from
-        success_criteria:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Success Criteria
-          description: Success criteria for the scenario (auto-generated if not provided)
-        mode:
-          type: string
-          enum:
-          - strict
-          - smart
-          - persona
-          title: Mode
-          description: 'Mode for transcript replay: ''strict'' (extract specific utterances), ''smart'' (balanced approach - default), or ''persona'' (generate persona intent)'
-          default: smart
-      type: object
-      required:
-      - conversation_id
-      title: Replay Transcript From Conversation ID
-      description: Replay transcript by referencing an existing conversation ID
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

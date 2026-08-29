@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Get All Simulations API
+  title: Bluejay Get All Simulations API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -42,27 +42,25 @@ paths:
       - Get All Simulations
 components:
   schemas:
-    ValidationError:
+    GetSimulationsResponse:
       properties:
-        loc:
+        simulations:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/SimulationRes'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Simulations
+          description: List of simulations
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: GetSimulationsResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     SimulationRes:
       properties:
         id:
@@ -97,25 +95,27 @@ components:
       - name
       - created_at
       title: SimulationRes
-    GetSimulationsResponse:
+    ValidationError:
       properties:
-        simulations:
+        loc:
           items:
-            $ref: '#/components/schemas/SimulationRes'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Simulations
-          description: List of simulations
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: GetSimulationsResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

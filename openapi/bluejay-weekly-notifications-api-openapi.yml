@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Weekly notifications API
+  title: Bluejay Weekly notifications API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -78,53 +78,6 @@ components:
       required:
       - targets
       title: WeeklyNotificationsBody
-    WeeklyNotificationsPostResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        first_generate_at_utc:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: First Generate At Utc
-          description: 'From summaries-cron: first generate job fire (ISO UTC), if registered.'
-        first_notify_at_utc:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: First Notify At Utc
-          description: 'From summaries-cron: first notify job fire (ISO UTC), if registered.'
-        deferred:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Deferred
-          description: True if first fire was deferred by at least one week for lead-time safety.
-      type: object
-      title: WeeklyNotificationsPostResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     WeeklyNotificationTarget:
       properties:
         type:
@@ -153,6 +106,53 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    WeeklyNotificationsPostResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        first_generate_at_utc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Generate At Utc
+          description: 'From summaries-cron: first generate job fire (ISO UTC), if registered.'
+        first_notify_at_utc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Notify At Utc
+          description: 'From summaries-cron: first notify job fire (ISO UTC), if registered.'
+        deferred:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Deferred
+          description: True if first fire was deferred by at least one week for lead-time safety.
+      type: object
+      title: WeeklyNotificationsPostResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

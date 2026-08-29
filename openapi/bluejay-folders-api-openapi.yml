@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Folders API
+  title: Bluejay Folders API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -295,6 +295,54 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ConnectionType:
+      type: string
+      enum:
+      - SMS
+      - HTTP_WEBHOOK
+      - PHONE
+      - SIP
+      - WEBSOCKET
+      - LIVEKIT
+      - PIPECAT
+      title: ConnectionType
+      description: Enum representing the connection type of the agent
+    FolderResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: ID of the folder
+        name:
+          type: string
+          title: Name
+          description: Name of the folder
+        organization_id:
+          type: string
+          title: Organization Id
+          description: Organization ID
+        created_at:
+          type: string
+          title: Created At
+          description: Timestamp when the folder was created
+      type: object
+      required:
+      - id
+      - name
+      - organization_id
+      - created_at
+      title: FolderResponse
+    FolderUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: New name for the folder
+      type: object
+      required:
+      - name
+      title: FolderUpdateRequest
     MoveAgentRequest:
       properties:
         agent_id:
@@ -312,6 +360,28 @@ components:
       required:
       - agent_id
       title: MoveAgentRequest
+    MoveAgentResponse:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the agent
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+          description: ID of the folder (null if disassociated)
+        status:
+          type: string
+          title: Status
+          description: Status of the operation
+          default: success
+      type: object
+      required:
+      - agent_id
+      title: MoveAgentResponse
     AgentPydantic:
       properties:
         id:
@@ -484,45 +554,15 @@ components:
       - organization_id
       - mode
       title: AgentPydantic
-    AgentType:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: AgentType
-      description: Enum representing the type of agent
-    MoveAgentResponse:
+    HTTPValidationError:
       properties:
-        agent_id:
-          type: integer
-          title: Agent Id
-          description: ID of the agent
-        folder_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Folder Id
-          description: ID of the folder (null if disassociated)
-        status:
-          type: string
-          title: Status
-          description: Status of the operation
-          default: success
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - agent_id
-      title: MoveAgentResponse
-    FolderCreateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the folder
-      type: object
-      required:
-      - name
-      title: FolderCreateRequest
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -544,44 +584,23 @@ components:
       - msg
       - type
       title: ValidationError
-    FolderResponse:
+    AgentMode:
+      type: string
+      enum:
+      - VOICE
+      - TEXT
+      title: AgentMode
+      description: Enum representing the mode of agent
+    FolderCreateRequest:
       properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-          description: ID of the folder
         name:
           type: string
           title: Name
           description: Name of the folder
-        organization_id:
-          type: string
-          title: Organization Id
-          description: Organization ID
-        created_at:
-          type: string
-          title: Created At
-          description: Timestamp when the folder was created
       type: object
       required:
-      - id
       - name
-      - organization_id
-      - created_at
-      title: FolderResponse
-    ConnectionType:
-      type: string
-      enum:
-      - SMS
-      - HTTP_WEBHOOK
-      - PHONE
-      - SIP
-      - WEBSOCKET
-      - LIVEKIT
-      - PIPECAT
-      title: ConnectionType
-      description: Enum representing the connection type of the agent
+      title: FolderCreateRequest
     FolderDeleteResponse:
       properties:
         folder_id:
@@ -598,32 +617,13 @@ components:
       required:
       - folder_id
       title: FolderDeleteResponse
-    FolderUpdateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: New name for the folder
-      type: object
-      required:
-      - name
-      title: FolderUpdateRequest
-    AgentMode:
+    AgentType:
       type: string
       enum:
-      - VOICE
-      - TEXT
-      title: AgentMode
-      description: Enum representing the mode of agent
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - INBOUND
+      - OUTBOUND
+      title: AgentType
+      description: Enum representing the type of agent
   securitySchemes:
     apiKeyAuth:
       type: apiKey

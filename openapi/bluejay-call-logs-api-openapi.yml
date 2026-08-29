@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Call Logs API
+  title: Bluejay Call Logs API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -315,41 +315,189 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    UpdateCallLogRequest:
+    Evaluation:
       properties:
-        tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ToolCall'
-            type: array
-          - type: 'null'
-          title: Tool Calls
-          description: List of tool calls to update
-        events:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Event'
-            type: array
-          - type: 'null'
-          title: Events
-          description: List of events to update
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: Metadata to update
-        reevaluate:
+        id:
+          type: string
+          title: Id
+          description: Unique identifier for the evaluation result
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When this evaluation result was created (defaults to now in UTC)
+        hallucination:
           anyOf:
           - type: boolean
           - type: 'null'
-          title: Reevaluate
-          description: Whether to reevaluate the log
-          default: false
+          title: Hallucination
+          description: Whether the agent exhibited hallucination during the call
+        hallucination_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Hallucination Reasoning
+          description: Reasoning behind the hallucination, if applicable
+        redundancy:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redundancy
+          description: Whether the agent exhibited redundancy during the call
+        redundancy_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Redundancy Reasoning
+          description: Reasoning behind the redundancy, if applicable
+        agent_speak_percentage:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Agent Speak Percentage
+          description: Percentage of the call where the agent was speaking
+        avg_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Agent Latency
+          description: Average latency of the agent's responses during the call
+        latency:
+          anyOf:
+          - $ref: '#/components/schemas/Latency'
+          - type: 'null'
+          description: Latency metrics for the agent's responses
+        filler_ignored_latency:
+          anyOf:
+          - $ref: '#/components/schemas/FillerIgnoredLatency'
+          - type: 'null'
+          description: Filler ignored latency metrics
+        num_turns:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Num Turns
+          description: Total number of turns taken by the agent during the call
+        call_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Summary
+          description: Summary of the call, if applicable
+        custom_evals:
+          anyOf:
+          - items: {}
+            type: array
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Custom Evals
+          description: List of custom evaluations performed during the call
+        custom_evals_success_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Custom Evals Success Rate
+          description: Success rate of the custom evaluations performed during the call
+        goal_success:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Goal Success
+          description: Whether the goal was successfully achieved during the call
+        goal_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal Reasoning
+          description: Reasoning behind the goal success, if applicable
+        pronunciation_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Pronunciation Score
+          description: Pronunciation score of the agent during the call
+        pronunciation_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pronunciation Reasoning
+          description: Reasoning behind the pronunciation score, if applicable
+        custom_metrics:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/src__models__api_custom_metric__CustomMetric'
+            type: array
+          - type: 'null'
+          title: Custom Metrics
+          description: Custom metrics associated with the evaluation
       type: object
-      title: UpdateCallLogRequest
-    DeleteCallLogResponse:
+      required:
+      - agent_speak_percentage
+      - avg_agent_latency
+      title: Evaluation
+      description: Pydantic model for evaluation result
+    CallDirection:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: CallDirection
+      description: Enum representing the direction of a call.
+    Latency:
+      properties:
+        avg_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Agent Latency
+          description: Average latency
+          default: 0
+        max_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Agent Latency
+          description: Maximum latency
+          default: 0
+        p50_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Agent Latency
+          description: 50th percentile latency
+          default: 0
+        p90_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Agent Latency
+          description: 90th percentile latency
+          default: 0
+        p95_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Agent Latency
+          description: 95th percentile latency
+          default: 0
+        p99_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Agent Latency
+          description: 99th percentile latency
+          default: 0
+      type: object
+      title: Latency
+    ParticipantRole:
+      type: string
+      enum:
+      - AGENT
+      - USER
+      title: ParticipantRole
+      description: Enum representing the role of a participant in a call.
+    UpdateLogResponse:
       properties:
         message:
           type: string
@@ -363,90 +511,27 @@ components:
       type: object
       required:
       - message
-      title: DeleteCallLogResponse
-    Event:
+      title: UpdateLogResponse
+    BulkDeleteCallLogsResponse:
       properties:
-        title:
+        message:
           type: string
-          title: Title
-          description: Title of the event
-        start_offset_ms:
+          title: Message
+          description: Success message
+        deleted_count:
           type: integer
-          title: Start Offset Ms
-          description: Start offset of the event in milliseconds
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the event
-        end_offset_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: End Offset Ms
-          description: End offset of the event in milliseconds
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-          description: List of tags associated with the event
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: Additional metadata associated with the event
+          title: Deleted Count
+          description: Number of calls successfully deleted
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
       type: object
       required:
-      - title
-      - start_offset_ms
-      title: Event
-      description: Pydantic model for event data
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RetrieveCallLogsResponse:
-      properties:
-        call_logs:
-          items:
-            $ref: '#/components/schemas/CallLog'
-          type: array
-          title: Call Logs
-          description: List of calls retrieved from the database
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of calls for this agent
-        page:
-          type: integer
-          title: Page
-          description: Current page (1-based)
-        page_size:
-          type: integer
-          title: Page Size
-          description: Page size
-        total_pages:
-          type: integer
-          title: Total Pages
-          description: Total number of pages
-      type: object
-      required:
-      - total_count
-      - page
-      - page_size
-      - total_pages
-      title: RetrieveCallLogsResponse
+      - message
+      - deleted_count
+      title: BulkDeleteCallLogsResponse
     RetrieveCallLogResponse:
       properties:
         call_log:
@@ -461,6 +546,89 @@ components:
       required:
       - call_log
       title: RetrieveCallLogResponse
+    src__models__api_custom_metric__CustomMetric:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the custom metric
+        description:
+          type: string
+          title: Description
+          description: The description of the custom metric
+        response_type:
+          type: string
+          title: Response Type
+          description: The response type of the custom metric
+        response_value:
+          type: string
+          title: Response Value
+          description: The response value of the custom metric
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+          description: The reasoning of the custom metric
+        min_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Value
+          description: The minimum value of the custom metric
+        max_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Value
+          description: The maximum value of the custom metric
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+          description: The category of the custom metric
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: The tags of the custom metric
+        scoring_guidance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scoring Guidance
+          description: The scoring guidance of the custom metric
+        enum_options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum Options
+          description: The enum options of the custom metric
+      type: object
+      required:
+      - name
+      - description
+      - response_type
+      - response_value
+      title: Custom Metric
+    BulkDeleteCallLogsRequest:
+      properties:
+        call_ids:
+          items:
+            type: string
+          type: array
+          title: Call Ids
+          description: List of call IDs to delete
+      type: object
+      required:
+      - call_ids
+      title: BulkDeleteCallLogsRequest
     CallLog:
       properties:
         id:
@@ -590,35 +758,12 @@ components:
       - participants
       - status
       title: CallLog
-    CallInterface:
-      type: string
-      enum:
-      - PHONE
-      - WEB
-      title: CallInterface
-      description: Enum representing the interface used for a call.
-    BulkDeleteCallLogsRequest:
-      properties:
-        call_ids:
-          items:
-            type: string
-          type: array
-          title: Call Ids
-          description: List of call IDs to delete
-      type: object
-      required:
-      - call_ids
-      title: BulkDeleteCallLogsRequest
-    BulkDeleteCallLogsResponse:
+    DeleteCallLogResponse:
       properties:
         message:
           type: string
           title: Message
           description: Success message
-        deleted_count:
-          type: integer
-          title: Deleted Count
-          description: Number of calls successfully deleted
         status:
           type: string
           title: Status
@@ -627,8 +772,153 @@ components:
       type: object
       required:
       - message
-      - deleted_count
-      title: BulkDeleteCallLogsResponse
+      title: DeleteCallLogResponse
+    CallStatus:
+      type: string
+      enum:
+      - INITIALIZING
+      - QUEUED
+      - EVALUATING
+      - COMPLETED
+      - INCOMPLETED
+      title: CallStatus
+      description: Enum representing the possible states of a call.
+    ParticipantResponse:
+      properties:
+        role:
+          $ref: '#/components/schemas/ParticipantRole'
+          description: Role of the participant in the call
+        spoke_first:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Spoke First
+          description: Whether the participant spoke first in the call
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the participant
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number of the participant (if applicable)
+      type: object
+      required:
+      - role
+      title: ParticipantResponse
+      description: Pydantic model for participant data
+    UpdateCallLogRequest:
+      properties:
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolCall'
+            type: array
+          - type: 'null'
+          title: Tool Calls
+          description: List of tool calls to update
+        events:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Event'
+            type: array
+          - type: 'null'
+          title: Events
+          description: List of events to update
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Metadata to update
+        reevaluate:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Reevaluate
+          description: Whether to reevaluate the log
+          default: false
+      type: object
+      title: UpdateCallLogRequest
+    RetrieveCallLogsResponse:
+      properties:
+        call_logs:
+          items:
+            $ref: '#/components/schemas/CallLog'
+          type: array
+          title: Call Logs
+          description: List of calls retrieved from the database
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of calls for this agent
+        page:
+          type: integer
+          title: Page
+          description: Current page (1-based)
+        page_size:
+          type: integer
+          title: Page Size
+          description: Page size
+        total_pages:
+          type: integer
+          title: Total Pages
+          description: Total number of pages
+      type: object
+      required:
+      - total_count
+      - page
+      - page_size
+      - total_pages
+      title: RetrieveCallLogsResponse
+    Event:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the event
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the event in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the event
+        end_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: End Offset Ms
+          description: End offset of the event in milliseconds
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: List of tags associated with the event
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Additional metadata associated with the event
+      type: object
+      required:
+      - title
+      - start_offset_ms
+      title: Event
+      description: Pydantic model for event data
     FillerIgnoredLatency:
       properties:
         avg_filler_ignored_latency:
@@ -668,333 +958,6 @@ components:
           default: 0
       type: object
       title: FillerIgnoredLatency
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ParticipantRole:
-      type: string
-      enum:
-      - AGENT
-      - USER
-      title: ParticipantRole
-      description: Enum representing the role of a participant in a call.
-    Latency:
-      properties:
-        avg_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Agent Latency
-          description: Average latency
-          default: 0
-        max_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Agent Latency
-          description: Maximum latency
-          default: 0
-        p50_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Agent Latency
-          description: 50th percentile latency
-          default: 0
-        p90_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Agent Latency
-          description: 90th percentile latency
-          default: 0
-        p95_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Agent Latency
-          description: 95th percentile latency
-          default: 0
-        p99_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Agent Latency
-          description: 99th percentile latency
-          default: 0
-      type: object
-      title: Latency
-    UpdateLogResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - message
-      title: UpdateLogResponse
-    CallStatus:
-      type: string
-      enum:
-      - INITIALIZING
-      - QUEUED
-      - EVALUATING
-      - COMPLETED
-      - INCOMPLETED
-      title: CallStatus
-      description: Enum representing the possible states of a call.
-    ParticipantResponse:
-      properties:
-        role:
-          $ref: '#/components/schemas/ParticipantRole'
-          description: Role of the participant in the call
-        spoke_first:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Spoke First
-          description: Whether the participant spoke first in the call
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the participant
-        phone_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phone Number
-          description: Phone number of the participant (if applicable)
-      type: object
-      required:
-      - role
-      title: ParticipantResponse
-      description: Pydantic model for participant data
-    src__models__api_custom_metric__CustomMetric:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The name of the custom metric
-        description:
-          type: string
-          title: Description
-          description: The description of the custom metric
-        response_type:
-          type: string
-          title: Response Type
-          description: The response type of the custom metric
-        response_value:
-          type: string
-          title: Response Value
-          description: The response value of the custom metric
-        reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reasoning
-          description: The reasoning of the custom metric
-        min_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Min Value
-          description: The minimum value of the custom metric
-        max_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Value
-          description: The maximum value of the custom metric
-        category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Category
-          description: The category of the custom metric
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-          description: The tags of the custom metric
-        scoring_guidance:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Scoring Guidance
-          description: The scoring guidance of the custom metric
-        enum_options:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Enum Options
-          description: The enum options of the custom metric
-      type: object
-      required:
-      - name
-      - description
-      - response_type
-      - response_value
-      title: Custom Metric
-    CallDirection:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: CallDirection
-      description: Enum representing the direction of a call.
-    Evaluation:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: Unique identifier for the evaluation result
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: When this evaluation result was created (defaults to now in UTC)
-        hallucination:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Hallucination
-          description: Whether the agent exhibited hallucination during the call
-        hallucination_reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Hallucination Reasoning
-          description: Reasoning behind the hallucination, if applicable
-        redundancy:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Redundancy
-          description: Whether the agent exhibited redundancy during the call
-        redundancy_reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Redundancy Reasoning
-          description: Reasoning behind the redundancy, if applicable
-        agent_speak_percentage:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Agent Speak Percentage
-          description: Percentage of the call where the agent was speaking
-        avg_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Agent Latency
-          description: Average latency of the agent's responses during the call
-        latency:
-          anyOf:
-          - $ref: '#/components/schemas/Latency'
-          - type: 'null'
-          description: Latency metrics for the agent's responses
-        filler_ignored_latency:
-          anyOf:
-          - $ref: '#/components/schemas/FillerIgnoredLatency'
-          - type: 'null'
-          description: Filler ignored latency metrics
-        num_turns:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Num Turns
-          description: Total number of turns taken by the agent during the call
-        call_summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Call Summary
-          description: Summary of the call, if applicable
-        custom_evals:
-          anyOf:
-          - items: {}
-            type: array
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Custom Evals
-          description: List of custom evaluations performed during the call
-        custom_evals_success_rate:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Custom Evals Success Rate
-          description: Success rate of the custom evaluations performed during the call
-        goal_success:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Goal Success
-          description: Whether the goal was successfully achieved during the call
-        goal_reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Goal Reasoning
-          description: Reasoning behind the goal success, if applicable
-        pronunciation_score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Pronunciation Score
-          description: Pronunciation score of the agent during the call
-        pronunciation_reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pronunciation Reasoning
-          description: Reasoning behind the pronunciation score, if applicable
-        custom_metrics:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/src__models__api_custom_metric__CustomMetric'
-            type: array
-          - type: 'null'
-          title: Custom Metrics
-          description: Custom metrics associated with the evaluation
-      type: object
-      required:
-      - agent_speak_percentage
-      - avg_agent_latency
-      title: Evaluation
-      description: Pydantic model for evaluation result
     ToolCall:
       properties:
         name:
@@ -1031,6 +994,43 @@ components:
       - start_offset_ms
       title: ToolCall
       description: Represents a tool call during a conversation.
+    CallInterface:
+      type: string
+      enum:
+      - PHONE
+      - WEB
+      title: CallInterface
+      description: Enum representing the interface used for a call.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

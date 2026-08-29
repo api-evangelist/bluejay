@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Knowledge Bases API
+  title: Bluejay Knowledge Bases API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -506,6 +506,54 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    KnowledgeBaseResponse:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+          description: the id of the knowledge base
+        kb_text:
+          type: string
+          title: Kb Text
+          description: the knowledge base content
+        commit_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Commit Message
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+          description: labels associated with the knowledge base
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: arbitrary JSON metadata
+        version:
+          type: integer
+          title: Version
+          description: the version number of the knowledge base
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: id of the agent that owns this knowledge base
+      type: object
+      required:
+      - kb_text
+      - version
+      - agent_id
+      title: KnowledgeBaseResponse
+      description: response model for knowledge base without created_at.
     CreateKnowledgeBaseVersionBody:
       properties:
         kb_text:
@@ -560,16 +608,15 @@ components:
         override_label: when true, adding an existing label moves its association
 
         to the requested resource; when false, conflicts return 409.'
-    LabelListResponse:
+    HTTPValidationError:
       properties:
-        labels:
+        detail:
           items:
-            type: string
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Labels
+          title: Detail
       type: object
-      title: LabelListResponse
-      description: response wrapper for just a list of labels.
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -591,63 +638,16 @@ components:
       - msg
       - type
       title: ValidationError
-    KnowledgeBaseResponse:
+    LabelListResponse:
       properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-          description: the id of the knowledge base
-        kb_text:
-          type: string
-          title: Kb Text
-          description: the knowledge base content
-        commit_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Commit Message
         labels:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Labels
-          description: labels associated with the knowledge base
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: arbitrary JSON metadata
-        version:
-          type: integer
-          title: Version
-          description: the version number of the knowledge base
-        agent_id:
-          type: integer
-          title: Agent Id
-          description: id of the agent that owns this knowledge base
-      type: object
-      required:
-      - kb_text
-      - version
-      - agent_id
-      title: KnowledgeBaseResponse
-      description: response model for knowledge base without created_at.
-    HTTPValidationError:
-      properties:
-        detail:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
           type: array
-          title: Detail
+          title: Labels
       type: object
-      title: HTTPValidationError
+      title: LabelListResponse
+      description: response wrapper for just a list of labels.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

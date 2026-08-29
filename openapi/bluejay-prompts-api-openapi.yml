@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Prompts API
+  title: Bluejay Prompts API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -554,33 +554,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    LabelDeltaRequest:
-      properties:
-        labels:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Labels
-        override_label:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Override Label
-          default: false
-      type: object
-      title: LabelDeltaRequest
-      description: 'request body for add/remove label operations.
-
-
-        labels: list of labels to add or remove. empty/null means no-op for add,
-
-        and clear-all for remove (callers decide the semantics).
-
-        override_label: when true, adding an existing label moves its association
-
-        to the requested resource; when false, conflicts return 409.'
     CreatePromptVersionBody:
       properties:
         prompt_text:
@@ -609,37 +582,6 @@ components:
       - prompt_text
       title: CreatePromptVersionBody
       description: body for agent-scoped create version endpoint (agent_id in path).
-    LabelListResponse:
-      properties:
-        labels:
-          items:
-            type: string
-          type: array
-          title: Labels
-      type: object
-      title: LabelListResponse
-      description: response wrapper for just a list of labels.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     PromptResponse:
       properties:
         id:
@@ -688,6 +630,33 @@ components:
       - agent_id
       title: PromptResponse
       description: response model for prompt without created_at.
+    LabelDeltaRequest:
+      properties:
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        override_label:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Override Label
+          default: false
+      type: object
+      title: LabelDeltaRequest
+      description: 'request body for add/remove label operations.
+
+
+        labels: list of labels to add or remove. empty/null means no-op for add,
+
+        and clear-all for remove (callers decide the semantics).
+
+        override_label: when true, adding an existing label moves its association
+
+        to the requested resource; when false, conflicts return 409.'
     HTTPValidationError:
       properties:
         detail:
@@ -697,6 +666,37 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    LabelListResponse:
+      properties:
+        labels:
+          items:
+            type: string
+          type: array
+          title: Labels
+      type: object
+      title: LabelListResponse
+      description: response wrapper for just a list of labels.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

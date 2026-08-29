@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Compare Experiment Runs API
+  title: Bluejay Compare Experiment Runs API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -48,6 +48,44 @@ paths:
       - Compare Experiment Runs
 components:
   schemas:
+    ComparisonRequest:
+      properties:
+        experiment_run_ids:
+          items:
+            type: integer
+          type: array
+          title: Experiment Run Ids
+          description: List of experiment run IDs to compare
+      type: object
+      required:
+      - experiment_run_ids
+      title: ComparisonRequest
+      description: Pydantic model for experiment run comparison request
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ComparisonResponse:
+      properties:
+        summary:
+          type: string
+          title: Summary
+          description: AI-generated comparison summary of the experiment runs
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - summary
+      title: ComparisonResponse
+      description: Pydantic model for experiment run comparison response
     ValidationError:
       properties:
         loc:
@@ -69,44 +107,6 @@ components:
       - msg
       - type
       title: ValidationError
-    ComparisonRequest:
-      properties:
-        experiment_run_ids:
-          items:
-            type: integer
-          type: array
-          title: Experiment Run Ids
-          description: List of experiment run IDs to compare
-      type: object
-      required:
-      - experiment_run_ids
-      title: ComparisonRequest
-      description: Pydantic model for experiment run comparison request
-    ComparisonResponse:
-      properties:
-        summary:
-          type: string
-          title: Summary
-          description: AI-generated comparison summary of the experiment runs
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - summary
-      title: ComparisonResponse
-      description: Pydantic model for experiment run comparison response
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

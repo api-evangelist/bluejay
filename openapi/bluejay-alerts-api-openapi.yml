@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Alerts API
+  title: Bluejay Alerts API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -126,6 +126,19 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    Operator:
+      type: string
+      enum:
+      - equals
+      - not_equals
+      - greater_than
+      - less_than
+      - greater_than_or_equal
+      - less_than_or_equal
+      - contains
+      - not_contains
+      title: Operator
+      description: Enum representing the comparison operators for alerts.
     EntityType:
       type: string
       enum:
@@ -134,6 +147,114 @@ components:
       - custom_metric
       title: EntityType
       description: Enum representing the entity types for alerts.
+    SourceScope:
+      type: string
+      enum:
+      - all
+      - observability
+      - simulation
+      title: SourceScope
+      description: 'Allowed data source scope for when an alert fires: all, observability only, or simulation only.'
+    DeleteAlertResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_alert_id:
+          type: string
+          title: Deleted Alert Id
+          description: ID of the deleted alert
+      type: object
+      required:
+      - message
+      - deleted_alert_id
+      title: DeleteAlertResponse
+      description: Response model for deleting an alert
+    UpdateAlertRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the alert
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the alert
+        is_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Enabled
+          description: Whether the alert is enabled
+        entity_type:
+          anyOf:
+          - $ref: '#/components/schemas/EntityType'
+          - type: 'null'
+          description: Type of entity being monitored
+        entity_field:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entity Field
+          description: The specific field/metric being monitored
+        operator:
+          anyOf:
+          - $ref: '#/components/schemas/Operator'
+          - type: 'null'
+          description: Comparison operator
+        comparison_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Comparison Value
+          description: Value to compare against
+        notification_channels:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/NotificationChannelRequest'
+            type: array
+          - type: 'null'
+          title: Notification Channels
+          description: Notification channels configuration
+        applies_to_all_agents:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Applies To All Agents
+          description: Whether the alert applies to all agents
+        agent_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Agent Ids
+          description: Agent IDs to associate with this alert
+        threshold_time_interval:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Threshold Time Interval
+          description: Time window in seconds for the alert (e.g. 600 for 10 minutes)
+        min_events:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Events
+          description: Minimum number of events to trigger the alert
+        source_scope:
+          anyOf:
+          - $ref: '#/components/schemas/SourceScope'
+          - type: 'null'
+          description: 'Which data source fires this alert: ''all'', ''observability'', or ''simulation'''
+      type: object
+      title: UpdateAlertRequest
+      description: Request model for updating an alert
     CreateAlertRequest:
       properties:
         name:
@@ -207,22 +328,6 @@ components:
       - comparison_value
       title: CreateAlertRequest
       description: Request model for creating an alert
-    DeleteAlertResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_alert_id:
-          type: string
-          title: Deleted Alert Id
-          description: ID of the deleted alert
-      type: object
-      required:
-      - message
-      - deleted_alert_id
-      title: DeleteAlertResponse
-      description: Response model for deleting an alert
     AlertResponse:
       properties:
         id:
@@ -343,114 +448,15 @@ components:
       - in_alert
       title: AlertResponse
       description: Response model for alert operations
-    NotificationChannelRequest:
+    HTTPValidationError:
       properties:
-        type:
-          type: string
-          title: Type
-          description: 'Type of notification: ''email'', ''slack'', or ''webhook'''
-        target:
-          type: string
-          title: Target
-          description: Target for the notification (email address, slack channel, webhook URL)
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - type
-      - target
-      title: NotificationChannelRequest
-      description: Notification channel configuration
-    SourceScope:
-      type: string
-      enum:
-      - all
-      - observability
-      - simulation
-      title: SourceScope
-      description: 'Allowed data source scope for when an alert fires: all, observability only, or simulation only.'
-    UpdateAlertRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the alert
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the alert
-        is_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Enabled
-          description: Whether the alert is enabled
-        entity_type:
-          anyOf:
-          - $ref: '#/components/schemas/EntityType'
-          - type: 'null'
-          description: Type of entity being monitored
-        entity_field:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Entity Field
-          description: The specific field/metric being monitored
-        operator:
-          anyOf:
-          - $ref: '#/components/schemas/Operator'
-          - type: 'null'
-          description: Comparison operator
-        comparison_value:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Comparison Value
-          description: Value to compare against
-        notification_channels:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/NotificationChannelRequest'
-            type: array
-          - type: 'null'
-          title: Notification Channels
-          description: Notification channels configuration
-        applies_to_all_agents:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Applies To All Agents
-          description: Whether the alert applies to all agents
-        agent_ids:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Agent Ids
-          description: Agent IDs to associate with this alert
-        threshold_time_interval:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Threshold Time Interval
-          description: Time window in seconds for the alert (e.g. 600 for 10 minutes)
-        min_events:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Min Events
-          description: Minimum number of events to trigger the alert
-        source_scope:
-          anyOf:
-          - $ref: '#/components/schemas/SourceScope'
-          - type: 'null'
-          description: 'Which data source fires this alert: ''all'', ''observability'', or ''simulation'''
-      type: object
-      title: UpdateAlertRequest
-      description: Request model for updating an alert
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -472,28 +478,22 @@ components:
       - msg
       - type
       title: ValidationError
-    Operator:
-      type: string
-      enum:
-      - equals
-      - not_equals
-      - greater_than
-      - less_than
-      - greater_than_or_equal
-      - less_than_or_equal
-      - contains
-      - not_contains
-      title: Operator
-      description: Enum representing the comparison operators for alerts.
-    HTTPValidationError:
+    NotificationChannelRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        type:
+          type: string
+          title: Type
+          description: 'Type of notification: ''email'', ''slack'', or ''webhook'''
+        target:
+          type: string
+          title: Target
+          description: Target for the notification (email address, slack channel, webhook URL)
       type: object
-      title: HTTPValidationError
+      required:
+      - type
+      - target
+      title: NotificationChannelRequest
+      description: Notification channel configuration
   securitySchemes:
     apiKeyAuth:
       type: apiKey

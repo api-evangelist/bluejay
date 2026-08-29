@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Customer Traits API
+  title: Bluejay Customer Traits API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -239,6 +239,128 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    CreateCustomerTraitRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the agent this trait belongs to
+        name:
+          type: string
+          title: Name
+          description: Name of the trait
+        data_type:
+          $ref: '#/components/schemas/TraitDataType'
+          description: Data type of the trait
+        default_value:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Default Value
+          description: Default value for this trait (will be converted based on data_type)
+      type: object
+      required:
+      - agent_id
+      - name
+      - data_type
+      title: CreateCustomerTraitRequest
+      description: Request model for creating a customer trait definition.
+    GenerateTraitValuesRequest:
+      properties:
+        scenarios:
+          items:
+            type: string
+          type: array
+          title: Scenarios
+          description: List of intents (one per scenario) to generate values for
+        traits:
+          items:
+            $ref: '#/components/schemas/TraitInput'
+          type: array
+          title: Traits
+          description: List of traits (name + data_type) to generate values for
+        agent_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Prompt
+          description: Optional agent description for context
+        knowledge_base:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Knowledge Base
+          description: Optional knowledge base text for context
+      type: object
+      required:
+      - scenarios
+      - traits
+      title: GenerateTraitValuesRequest
+      description: 'Request: list of scenarios and list of traits; values are generated per scenario per trait.'
+    TraitInput:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the trait
+        data_type:
+          $ref: '#/components/schemas/TraitDataType'
+          description: Data type of the trait (BOOLEAN, STRING, NUMBER, DATE)
+      type: object
+      required:
+      - name
+      - data_type
+      title: TraitInput
+      description: One trait to generate values for.
+    TraitDataType:
+      type: string
+      enum:
+      - BOOLEAN
+      - STRING
+      - DATE
+      - NUMBER
+      title: TraitDataType
+      description: Enum for trait data types.
+    CustomerTraitsListResponse:
+      properties:
+        traits:
+          items:
+            $ref: '#/components/schemas/CustomerTraitResponse'
+          type: array
+          title: Traits
+          description: List of customer traits
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of traits
+      type: object
+      required:
+      - traits
+      - total_count
+      title: CustomerTraitsListResponse
+      description: Response model for listing customer traits.
+    UpdateCustomerTraitRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the trait
+        data_type:
+          anyOf:
+          - $ref: '#/components/schemas/TraitDataType'
+          - type: 'null'
+          description: Data type of the trait
+        default_value:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Default Value
+          description: Default value for this trait (will be converted based on data_type)
+      type: object
+      title: UpdateCustomerTraitRequest
+      description: Request model for updating a customer trait definition.
     DeleteCustomerTraitResponse:
       properties:
         message:
@@ -255,6 +377,36 @@ components:
       - deleted_trait_id
       title: DeleteCustomerTraitResponse
       description: Response model for deleting a customer trait.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     CustomerTraitResponse:
       properties:
         id:
@@ -292,158 +444,6 @@ components:
       - created_at
       title: CustomerTraitResponse
       description: Response model for customer trait operations.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    GenerateTraitValuesRequest:
-      properties:
-        scenarios:
-          items:
-            type: string
-          type: array
-          title: Scenarios
-          description: List of intents (one per scenario) to generate values for
-        traits:
-          items:
-            $ref: '#/components/schemas/TraitInput'
-          type: array
-          title: Traits
-          description: List of traits (name + data_type) to generate values for
-        agent_prompt:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent Prompt
-          description: Optional agent description for context
-        knowledge_base:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Knowledge Base
-          description: Optional knowledge base text for context
-      type: object
-      required:
-      - scenarios
-      - traits
-      title: GenerateTraitValuesRequest
-      description: 'Request: list of scenarios and list of traits; values are generated per scenario per trait.'
-    UpdateCustomerTraitRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the trait
-        data_type:
-          anyOf:
-          - $ref: '#/components/schemas/TraitDataType'
-          - type: 'null'
-          description: Data type of the trait
-        default_value:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Default Value
-          description: Default value for this trait (will be converted based on data_type)
-      type: object
-      title: UpdateCustomerTraitRequest
-      description: Request model for updating a customer trait definition.
-    CreateCustomerTraitRequest:
-      properties:
-        agent_id:
-          type: integer
-          title: Agent Id
-          description: ID of the agent this trait belongs to
-        name:
-          type: string
-          title: Name
-          description: Name of the trait
-        data_type:
-          $ref: '#/components/schemas/TraitDataType'
-          description: Data type of the trait
-        default_value:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Default Value
-          description: Default value for this trait (will be converted based on data_type)
-      type: object
-      required:
-      - agent_id
-      - name
-      - data_type
-      title: CreateCustomerTraitRequest
-      description: Request model for creating a customer trait definition.
-    CustomerTraitsListResponse:
-      properties:
-        traits:
-          items:
-            $ref: '#/components/schemas/CustomerTraitResponse'
-          type: array
-          title: Traits
-          description: List of customer traits
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of traits
-      type: object
-      required:
-      - traits
-      - total_count
-      title: CustomerTraitsListResponse
-      description: Response model for listing customer traits.
-    TraitInput:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the trait
-        data_type:
-          $ref: '#/components/schemas/TraitDataType'
-          description: Data type of the trait (BOOLEAN, STRING, NUMBER, DATE)
-      type: object
-      required:
-      - name
-      - data_type
-      title: TraitInput
-      description: One trait to generate values for.
-    TraitDataType:
-      type: string
-      enum:
-      - BOOLEAN
-      - STRING
-      - DATE
-      - NUMBER
-      title: TraitDataType
-      description: Enum for trait data types.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

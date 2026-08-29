@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents vapi API
+  title: Bluejay Vapi API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -107,6 +107,37 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    SyncVapiAgentsRequest:
+      properties:
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+        dry_run:
+          type: boolean
+          title: Dry Run
+          default: true
+      type: object
+      title: SyncVapiAgentsRequest
+    SyncSingleAgentFromVapiRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+      type: object
+      required:
+      - agent_id
+      title: SyncSingleAgentFromVapiRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -128,37 +159,6 @@ components:
       - msg
       - type
       title: ValidationError
-    SyncSingleAgentFromVapiRequest:
-      properties:
-        agent_id:
-          type: integer
-          title: Agent Id
-      type: object
-      required:
-      - agent_id
-      title: SyncSingleAgentFromVapiRequest
-    SyncVapiAgentsRequest:
-      properties:
-        organization_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Organization Id
-        dry_run:
-          type: boolean
-          title: Dry Run
-          default: true
-      type: object
-      title: SyncVapiAgentsRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

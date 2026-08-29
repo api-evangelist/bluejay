@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Translation API
+  title: Bluejay Translation API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -72,6 +72,33 @@ components:
       - target_language
       title: TranslateTranscriptResponse
       description: Response model for translated transcript.
+    TranslateSimulationTranscriptRequest:
+      properties:
+        simulation_result_id:
+          type: integer
+          title: Simulation Result Id
+          description: ID of the simulation result (test_result) to translate
+        target_language:
+          type: string
+          maxLength: 10
+          minLength: 2
+          title: Target Language
+          description: Target language code (e.g., 'en', 'es', 'fr', 'de'). Defaults to 'en' (English).
+          default: en
+      type: object
+      required:
+      - simulation_result_id
+      title: Translate Simulation Transcript
+      description: Translate a simulation transcript by providing the simulation result ID
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -93,24 +120,6 @@ components:
       - msg
       - type
       title: ValidationError
-    TranslateSimulationTranscriptRequest:
-      properties:
-        simulation_result_id:
-          type: integer
-          title: Simulation Result Id
-          description: ID of the simulation result (test_result) to translate
-        target_language:
-          type: string
-          maxLength: 10
-          minLength: 2
-          title: Target Language
-          description: Target language code (e.g., 'en', 'es', 'fr', 'de'). Defaults to 'en' (English).
-          default: en
-      type: object
-      required:
-      - simulation_result_id
-      title: Translate Simulation Transcript
-      description: Translate a simulation transcript by providing the simulation result ID
     TranslateObservabilityTranscriptRequest:
       properties:
         conversation_id:
@@ -129,15 +138,6 @@ components:
       - conversation_id
       title: Translate Observability Transcript
       description: Translate a production conversation transcript by providing the conversation ID
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

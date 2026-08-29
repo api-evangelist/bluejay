@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Workflows API
+  title: Bluejay Workflows API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -321,27 +321,35 @@ components:
       type: object
       title: UpdateWorkflowV2Request
       description: Partial update for workflows_v2.
-    ValidationError:
+    DuplicateWorkflowV2Request:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+          description: Name for the copy. Omit or null for "Copy of {original name}".
+      type: object
+      title: DuplicateWorkflowV2Request
+      description: Duplicate an existing workflow (new row, same definition and agent links).
+    DeleteWorkflowV2Response:
+      properties:
+        message:
           type: string
           title: Message
-        type:
+          description: Success message
+        deleted_workflow_id:
           type: string
-          title: Error Type
+          title: Deleted Workflow Id
+          description: ID of the deleted workflow
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - message
+      - deleted_workflow_id
+      title: DeleteWorkflowV2Response
+      description: Delete confirmation.
     CreateWorkflowV2Request:
       properties:
         name:
@@ -404,19 +412,36 @@ components:
             type: single
         description: Password reset IVR
         name: Support reset flow
-    DuplicateWorkflowV2Request:
+    HTTPValidationError:
       properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
-          title: Name
-          description: Name for the copy. Omit or null for "Copy of {original name}".
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      title: DuplicateWorkflowV2Request
-      description: Duplicate an existing workflow (new row, same definition and agent links).
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     WorkflowsV2ListResponse:
       properties:
         workflows:
@@ -435,31 +460,6 @@ components:
       - total_count
       title: WorkflowsV2ListResponse
       description: List workflows_v2 for the organization.
-    DeleteWorkflowV2Response:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_workflow_id:
-          type: string
-          title: Deleted Workflow Id
-          description: ID of the deleted workflow
-      type: object
-      required:
-      - message
-      - deleted_workflow_id
-      title: DeleteWorkflowV2Response
-      description: Delete confirmation.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

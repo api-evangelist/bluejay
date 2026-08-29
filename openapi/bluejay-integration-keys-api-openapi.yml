@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Integration Keys API
+  title: Bluejay Integration Keys API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -150,32 +150,15 @@ components:
       required:
       - value
       title: IntegrationKeyResponse
-    IntegrationsUpdateResponse:
+    HTTPValidationError:
       properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether the update succeeded
-          default: true
-        message:
-          type: string
-          title: Message
-          description: Human-readable result message
-        status:
-          type: string
-          title: Status
-          description: Status code string for clients
-          default: '200'
-        integrations:
-          additionalProperties: true
-          type: object
-          title: Integrations
-          description: Current integration row with secrets masked (same shape as GET /integrations)
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - message
-      - integrations
-      title: IntegrationsUpdateResponse
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -207,15 +190,32 @@ components:
       required:
       - field
       title: IntegrationKeyRequest
-    HTTPValidationError:
+    IntegrationsUpdateResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        success:
+          type: boolean
+          title: Success
+          description: Whether the update succeeded
+          default: true
+        message:
+          type: string
+          title: Message
+          description: Human-readable result message
+        status:
+          type: string
+          title: Status
+          description: Status code string for clients
+          default: '200'
+        integrations:
+          additionalProperties: true
+          type: object
+          title: Integrations
+          description: Current integration row with secrets masked (same shape as GET /integrations)
       type: object
-      title: HTTPValidationError
+      required:
+      - message
+      - integrations
+      title: IntegrationsUpdateResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

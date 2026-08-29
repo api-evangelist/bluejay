@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Create Simulation API
+  title: Bluejay Create Simulation API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -51,21 +51,6 @@ paths:
       - Create Simulation
 components:
   schemas:
-    SimulationResponse:
-      properties:
-        simulation_id:
-          type: integer
-          title: Simulation Id
-          description: ID of the created simulation
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - simulation_id
-      title: SimulationResponse
     SimulationRequest:
       properties:
         agent_id:
@@ -186,27 +171,21 @@ components:
       - agent_id
       title: SimulationRequest
       description: Pydantic model for simulation request
-    ValidationError:
+    SimulationResponse:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        simulation_id:
+          type: integer
+          title: Simulation Id
+          description: ID of the created simulation
+        status:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Status
+          description: Status of the response
+          default: '200'
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - simulation_id
+      title: SimulationResponse
     DigitalHumansSettings:
       properties:
         default_name:
@@ -264,6 +243,27 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

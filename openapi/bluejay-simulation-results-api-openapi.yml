@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Simulation Results API
+  title: Bluejay Simulation Results API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -96,72 +96,6 @@ components:
       required:
       - simulation_result_id
       title: UpdateSimulationRequest
-    UpdateSimulationResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: success
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Optional message providing additional information about the response
-      type: object
-      title: UpdateSimulationResponse
-    TranscriptEntryRequest:
-      properties:
-        start_offset_ms:
-          type: integer
-          title: Start Offset Ms
-          description: Start offset of the utterance in milliseconds
-        end_offset_ms:
-          type: integer
-          title: End Offset Ms
-          description: End offset of the utterance in milliseconds
-        speaker:
-          $ref: '#/components/schemas/ParticipantRole'
-          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
-        utterance:
-          type: string
-          title: Utterance
-          description: Transcribed text of the utterance
-        filler_utterance:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Filler Utterance
-          description: Whether the utterance is a filler utterance
-      type: object
-      required:
-      - start_offset_ms
-      - end_offset_ms
-      - speaker
-      - utterance
-      title: TranscriptEntryRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ParticipantRole:
       type: string
       enum:
@@ -205,6 +139,81 @@ components:
       - start_offset_ms
       title: ToolCall
       description: Represents a tool call during a conversation.
+    TranscriptEntryRequest:
+      properties:
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the utterance in milliseconds
+        end_offset_ms:
+          type: integer
+          title: End Offset Ms
+          description: End offset of the utterance in milliseconds
+        speaker:
+          $ref: '#/components/schemas/ParticipantRole'
+          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
+        utterance:
+          type: string
+          title: Utterance
+          description: Transcribed text of the utterance
+        filler_utterance:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Filler Utterance
+          description: Whether the utterance is a filler utterance
+      type: object
+      required:
+      - start_offset_ms
+      - end_offset_ms
+      - speaker
+      - utterance
+      title: TranscriptEntryRequest
+    UpdateSimulationResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Optional message providing additional information about the response
+      type: object
+      title: UpdateSimulationResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Event:
       properties:
         title:
@@ -248,15 +257,6 @@ components:
       - start_offset_ms
       title: Event
       description: Pydantic model for event data
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents Communities API
+  title: Bluejay Communities API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -240,24 +240,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CommunitiesListResponse:
-      properties:
-        communities:
-          items:
-            $ref: '#/components/schemas/CommunityResponse'
-          type: array
-          title: Communities
-          description: List of communities
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of communities
-      type: object
-      required:
-      - communities
-      - total_count
-      title: CommunitiesListResponse
-      description: Response model for listing communities
     CommunityResponse:
       properties:
         id:
@@ -292,30 +274,33 @@ components:
       - created_at
       title: CommunityResponse
       description: Response model for community operations
-    CreateCommunityRequest:
+    CommunitiesListResponse:
       properties:
-        title:
-          type: string
-          title: Title
-          description: Title of the community
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the community
-        digital_human_ids:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Digital Human Ids
-          description: List of digital human (test case) IDs to associate this community with
+        communities:
+          items:
+            $ref: '#/components/schemas/CommunityResponse'
+          type: array
+          title: Communities
+          description: List of communities
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of communities
       type: object
       required:
-      - title
-      title: CreateCommunityRequest
+      - communities
+      - total_count
+      title: CommunitiesListResponse
+      description: Response model for listing communities
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -337,6 +322,18 @@ components:
       - msg
       - type
       title: ValidationError
+    AddToCommunityRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: List of digital human (test case) IDs to add to this community
+      type: object
+      required:
+      - digital_human_ids
+      title: AddToCommunityRequest
     UpdateCommunityRequest:
       properties:
         title:
@@ -361,27 +358,30 @@ components:
           description: List of digital human (test case) IDs to associate this community with (replaces existing associations)
       type: object
       title: UpdateCommunityRequest
-    AddToCommunityRequest:
+    CreateCommunityRequest:
       properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the community
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the community
         digital_human_ids:
-          items:
-            type: integer
-          type: array
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
           title: Digital Human Ids
-          description: List of digital human (test case) IDs to add to this community
+          description: List of digital human (test case) IDs to associate this community with
       type: object
       required:
-      - digital_human_ids
-      title: AddToCommunityRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - title
+      title: CreateCommunityRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey

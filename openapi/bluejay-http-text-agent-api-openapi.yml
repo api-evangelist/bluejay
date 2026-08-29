@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bluejay Agents HTTP Text Agent API
+  title: Bluejay HTTP Text Agent API
   description: Bluejay API
   version: 0.1.0
 servers:
@@ -89,27 +89,34 @@ paths:
         description: API key required to authenticate requests.
 components:
   schemas:
-    HttpTextMessageResponse:
+    HttpSimulationRunResponse:
       properties:
-        simulation_result_id:
+        simulation_run_id:
           type: string
-          title: Simulation Result Id
-          description: Simulation result ID
+          title: Simulation Run Id
+          description: ID of the created simulation run (experiment_run)
+        simulation_result_ids:
+          items:
+            type: string
+          type: array
+          title: Simulation Result Ids
+          description: IDs of the created simulation results (test results)
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent associated with the simulation run
         status:
           type: string
           title: Status
           description: Status of the response
           default: success
-        end_conversation:
-          type: boolean
-          title: End Conversation
-          description: Whether the conversation has ended
-          default: false
       type: object
       required:
-      - simulation_result_id
-      title: HttpTextMessageResponse
-      description: Response model for HTTP text message
+      - simulation_run_id
+      - simulation_result_ids
+      - agent_id
+      title: HttpSimulationRunResponse
+      description: Response model for HTTP simulation run
     HttpSimulationRunRequest:
       properties:
         simulation_id:
@@ -177,6 +184,15 @@ components:
       - simulation_result_id
       title: HttpTextMessageRequest
       description: Request model for HTTP text message
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -198,43 +214,27 @@ components:
       - msg
       - type
       title: ValidationError
-    HttpSimulationRunResponse:
+    HttpTextMessageResponse:
       properties:
-        simulation_run_id:
+        simulation_result_id:
           type: string
-          title: Simulation Run Id
-          description: ID of the created simulation run (experiment_run)
-        simulation_result_ids:
-          items:
-            type: string
-          type: array
-          title: Simulation Result Ids
-          description: IDs of the created simulation results (test results)
-        agent_id:
-          type: string
-          title: Agent Id
-          description: ID of the agent associated with the simulation run
+          title: Simulation Result Id
+          description: Simulation result ID
         status:
           type: string
           title: Status
           description: Status of the response
           default: success
+        end_conversation:
+          type: boolean
+          title: End Conversation
+          description: Whether the conversation has ended
+          default: false
       type: object
       required:
-      - simulation_run_id
-      - simulation_result_ids
-      - agent_id
-      title: HttpSimulationRunResponse
-      description: Response model for HTTP simulation run
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - simulation_result_id
+      title: HttpTextMessageResponse
+      description: Response model for HTTP text message
   securitySchemes:
     apiKeyAuth:
       type: apiKey

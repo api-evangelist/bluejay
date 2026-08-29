@@ -927,6 +927,16 @@ apis:
     url: https://docs.getbluejay.ai/
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-bluejay-api-api
+  name: Bluejay Bluejay API
+  description: The Bluejay API API from Bluejay — 0 operation(s) for bluejay api.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Bluejay API
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-bluejay-api-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
