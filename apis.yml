@@ -121,6 +121,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - Bland
+  tags_raw:
   - bland
   properties:
   - type: OpenAPI
@@ -875,7 +877,7 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
-  - Vapi
+  - vapi
   tags_raw:
   - vapi
   properties:
