@@ -1,16 +1,13 @@
 aid: bluejay
 name: Bluejay
-description: >-
-  Bluejay is the testing, monitoring, and improvement layer for conversational
-  AI agents. Enterprises, startups, and developers use Bluejay to evaluate voice
-  and chat agents, run lifelike simulations with synthetic "digital humans"
-  across voice, chat, SMS, and text channels, load-test and replay production
-  calls, and catch regressions before they reach customers. The platform pairs a
-  simulation engine with production observability - automated evaluation of tone,
-  accuracy, task completion, and custom metrics, plus dashboards and alerts. It
-  exposes a REST API (X-API-Key auth, /v1), a hosted MCP server, event webhooks,
-  a first-party Python SDK, and integrations with Vapi, Retell, ElevenLabs,
-  Bland, LiveKit, Google Dialogflow CX / CES, and Kore.ai. Backed by Homebrew.
+description: Bluejay is the testing, monitoring, and improvement layer for conversational AI agents. Enterprises,
+  startups, and developers use Bluejay to evaluate voice and chat agents, run lifelike simulations with
+  synthetic "digital humans" across voice, chat, SMS, and text channels, load-test and replay production
+  calls, and catch regressions before they reach customers. The platform pairs a simulation engine with
+  production observability - automated evaluation of tone, accuracy, task completion, and custom metrics,
+  plus dashboards and alerts. It exposes a REST API (X-API-Key auth, /v1), a hosted MCP server, event
+  webhooks, a first-party Python SDK, and integrations with Vapi, Retell, ElevenLabs, Bland, LiveKit,
+  Google Dialogflow CX / CES, and Kore.ai. Backed by Homebrew.
 url: https://raw.githubusercontent.com/api-evangelist/bluejay/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -45,7 +42,7 @@ accessModel:
   method: derived
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-09-16'
 image: https://framerusercontent.com/assets/0eWRRDcsziAELTSPQghHwloyXH0.jpg
 tags:
 - Company
@@ -148,8 +145,8 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-check-queue-simulation-run-api
   name: Bluejay Check Queue Simulation Run API
-  description: >-
-    The Check Queue Simulation Run API from Bluejay — 1 operation(s) for check queue simulation run.
+  description: The Check Queue Simulation Run API from Bluejay — 1 operation(s) for check queue simulation
+    run.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -177,8 +174,7 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-compare-experiment-runs-api
   name: Bluejay Compare Experiment Runs API
-  description: >-
-    The Compare Experiment Runs API from Bluejay — 1 operation(s) for compare experiment runs.
+  description: The Compare Experiment Runs API from Bluejay — 1 operation(s) for compare experiment runs.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -346,8 +342,7 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-generate-custom-metrics-api
   name: Bluejay Generate Custom Metrics API
-  description: >-
-    The Generate Custom Metrics API from Bluejay — 1 operation(s) for generate custom metrics.
+  description: The Generate Custom Metrics API from Bluejay — 1 operation(s) for generate custom metrics.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -361,8 +356,8 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-generate-customer-personas-api
   name: Bluejay Generate Customer Personas API
-  description: >-
-    The Generate Customer Personas API from Bluejay — 1 operation(s) for generate customer personas.
+  description: The Generate Customer Personas API from Bluejay — 1 operation(s) for generate customer
+    personas.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -376,8 +371,7 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-generate-digital-humans-api
   name: Bluejay Generate Digital Humans API
-  description: >-
-    The Generate Digital Humans API from Bluejay — 1 operation(s) for generate digital humans.
+  description: The Generate Digital Humans API from Bluejay — 1 operation(s) for generate digital humans.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -391,8 +385,7 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-generate-test-scenarios-api
   name: Bluejay Generate Test Scenarios API
-  description: >-
-    The Generate Test Scenarios API from Bluejay — 1 operation(s) for generate test scenarios.
+  description: The Generate Test Scenarios API from Bluejay — 1 operation(s) for generate test scenarios.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -406,8 +399,8 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-generate-translated-transcript-api
   name: Bluejay Generate Translated Transcript API
-  description: >-
-    The Generate Translated Transcript API from Bluejay — 1 operation(s) for generate translated transcript.
+  description: The Generate Translated Transcript API from Bluejay — 1 operation(s) for generate translated
+    transcript.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -449,8 +442,7 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-get-simulations-by-agent-api
   name: Bluejay Get Simulations By Agent API
-  description: >-
-    The Get Simulations By Agent API from Bluejay — 1 operation(s) for get simulations by agent.
+  description: The Get Simulations By Agent API from Bluejay — 1 operation(s) for get simulations by agent.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -548,8 +540,7 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-move-regen-test-scenarios-api
   name: Bluejay Move Regen Test Scenarios API
-  description: >-
-    The Move Regen Test Scenarios API from Bluejay — 1 operation(s) for move regen test scenarios.
+  description: The Move Regen Test Scenarios API from Bluejay — 1 operation(s) for move regen test scenarios.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -577,8 +568,7 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-phone-number-management-api
   name: Bluejay Phone Number Management API
-  description: >-
-    The Phone Number Management API from Bluejay — 2 operation(s) for phone number management.
+  description: The Phone Number Management API from Bluejay — 2 operation(s) for phone number management.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -704,8 +694,8 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-retrieve-simulation-result-api
   name: Bluejay Retrieve Simulation Result API
-  description: >-
-    The Retrieve Simulation Result API from Bluejay — 1 operation(s) for retrieve simulation result.
+  description: The Retrieve Simulation Result API from Bluejay — 1 operation(s) for retrieve simulation
+    result.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -719,8 +709,8 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-retrieve-simulation-results-api
   name: Bluejay Retrieve Simulation Results API
-  description: >-
-    The Retrieve Simulation Results API from Bluejay — 1 operation(s) for retrieve simulation results.
+  description: The Retrieve Simulation Results API from Bluejay — 1 operation(s) for retrieve simulation
+    results.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -931,7 +921,7 @@ apis:
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-bluejay-api-api
-  name: Bluejay Bluejay API
+  name: Bluejay API
   description: The Bluejay API API from Bluejay — 0 operation(s) for bluejay api.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
