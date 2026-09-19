@@ -770,6 +770,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - Simulation
+  tags_raw:
   - Simulations
   properties:
   - type: OpenAPI
