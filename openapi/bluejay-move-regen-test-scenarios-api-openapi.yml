@@ -14,7 +14,24 @@ paths:
   /v1/move-regen-test-scenarios:
     post:
       summary: Move Regen Test Scenarios Endpoint
-      description: "Regenerates test scenarios with a new goal while preserving scenario descriptions.\n\nAccepts a request with the following structure:\n{\n    agent: Agent;\n    promptId?: string;\n    knowledgeBaseId?: string;\n    scenarios: TestScenario[];\n    newGoal: string;\n}"
+      description: 'Regenerates test scenarios with a new goal while preserving scenario descriptions.
+
+
+        Accepts a request with the following structure:
+
+        {
+
+        agent: Agent;
+
+        promptId?: string;
+
+        knowledgeBaseId?: string;
+
+        scenarios: TestScenario[];
+
+        newGoal: string;
+
+        }'
       operationId: move_regen_test_scenarios_endpoint_v1_move_regen_test_scenarios_post
       security:
       - HTTPBearer: []

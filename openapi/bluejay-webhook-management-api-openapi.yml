@@ -83,6 +83,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    WebhookKeyRequest:
+      properties:
+        webhook_id:
+          type: string
+          format: uuid
+          title: Webhook Id
+          description: ID of the webhook
+      type: object
+      required:
+      - webhook_id
+      title: WebhookKeyRequest
+      description: Request model for creating a webhook
     WebhookKeyResponse:
       properties:
         signing_key:
@@ -99,15 +120,6 @@ components:
       - message
       title: WebhookKeyResponse
       description: Response model for creating a webhook
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -129,18 +141,6 @@ components:
       - msg
       - type
       title: ValidationError
-    WebhookKeyRequest:
-      properties:
-        webhook_id:
-          type: string
-          format: uuid
-          title: Webhook Id
-          description: ID of the webhook
-      type: object
-      required:
-      - webhook_id
-      title: WebhookKeyRequest
-      description: Request model for creating a webhook
   securitySchemes:
     apiKeyAuth:
       type: apiKey

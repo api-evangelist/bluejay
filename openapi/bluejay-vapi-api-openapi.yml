@@ -9,12 +9,12 @@ servers:
 security:
 - apiKeyAuth: []
 tags:
-- name: vapi
+- name: Vapi
 paths:
   /v1/integrations/vapi:
     post:
       tags:
-      - vapi
+      - Vapi
       summary: Handle Webhook
       description: Handle VAPI webhook events.
       operationId: handle_webhook_v1_integrations_vapi_post
@@ -34,7 +34,7 @@ paths:
   /v1/integrations/vapi/sync:
     post:
       tags:
-      - vapi
+      - Vapi
       summary: Sync Vapi Agents
       description: 'Trigger an async sync of all Vapi assistants into Bluejay agents.
 
@@ -74,7 +74,7 @@ paths:
   /v1/integrations/vapi/sync-agent:
     post:
       tags:
-      - vapi
+      - Vapi
       summary: Sync Single Agent From Vapi
       description: Trigger an async sync of a single Vapi agent's name and prompt from Vapi.
       operationId: sync_single_agent_from_vapi_v1_integrations_vapi_sync_agent_post
@@ -107,6 +107,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     SyncVapiAgentsRequest:
       properties:
         organization_id:
@@ -129,15 +138,6 @@ components:
       required:
       - agent_id
       title: SyncSingleAgentFromVapiRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:

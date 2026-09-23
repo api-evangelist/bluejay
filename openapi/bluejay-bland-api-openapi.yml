@@ -9,12 +9,12 @@ servers:
 security:
 - apiKeyAuth: []
 tags:
-- name: bland
+- name: Bland
 paths:
   /v1/integrations/bland:
     post:
       tags:
-      - bland
+      - Bland
       summary: Handle Webhook
       operationId: handle_webhook_v1_integrations_bland_post
       responses:

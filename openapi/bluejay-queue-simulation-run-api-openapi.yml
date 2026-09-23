@@ -48,6 +48,42 @@ paths:
       - Queue Simulation Run
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    src__main__SimulationRunResponse:
+      properties:
+        simulation_run_id:
+          type: string
+          title: Simulation Run Id
+          description: ID of the created simulation run
+        simulation_result_ids:
+          items:
+            type: string
+          type: array
+          title: Simulation Result Ids
+          description: IDs of the created simulation results (test results)
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent associated with the simulation run
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+      type: object
+      required:
+      - simulation_run_id
+      - simulation_result_ids
+      - agent_id
+      title: SimulationRunResponse
     src__main__SimulationRunRequest:
       properties:
         simulation_id:
@@ -126,42 +162,6 @@ components:
       - simulation_id
       title: SimulationRunRequest
       description: Pydantic model for simulation run request
-    src__main__SimulationRunResponse:
-      properties:
-        simulation_run_id:
-          type: string
-          title: Simulation Run Id
-          description: ID of the created simulation run
-        simulation_result_ids:
-          items:
-            type: string
-          type: array
-          title: Simulation Result Ids
-          description: IDs of the created simulation results (test results)
-        agent_id:
-          type: string
-          title: Agent Id
-          description: ID of the agent associated with the simulation run
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: success
-      type: object
-      required:
-      - simulation_run_id
-      - simulation_result_ids
-      - agent_id
-      title: SimulationRunResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:

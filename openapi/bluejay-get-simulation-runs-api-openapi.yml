@@ -48,16 +48,6 @@ paths:
       - Get Simulation Runs
 components:
   schemas:
-    SimulationRunStatus:
-      type: string
-      enum:
-      - INITIALIZING
-      - RUNNING
-      - COMPLETED
-      - INCOMPLETED
-      - INSUFFICIENT_FUNDS
-      title: SimulationRunStatus
-      description: Enum representing the possible states of a simulation run.
     HTTPValidationError:
       properties:
         detail:
@@ -67,27 +57,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     GetSimulationRunsResponse:
       properties:
         simulation_runs:
@@ -171,6 +140,37 @@ components:
       - created_at
       - status
       title: SimulationRunRes
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SimulationRunStatus:
+      type: string
+      enum:
+      - INITIALIZING
+      - RUNNING
+      - COMPLETED
+      - INCOMPLETED
+      - INSUFFICIENT_FUNDS
+      title: SimulationRunStatus
+      description: Enum representing the possible states of a simulation run.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

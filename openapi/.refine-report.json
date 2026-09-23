@@ -157,13 +157,15 @@
     "bluejay-openapi-original.json: declared missing tag: Workflows",
     "bluejay-openapi-original.json: declared missing tag: bland",
     "bluejay-openapi-original.json: declared missing tag: retell",
-    "bluejay-openapi-original.json: declared missing tag: vapi"
+    "bluejay-openapi-original.json: declared missing tag: vapi",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "bluejay-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bluejay-alerts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bluejay-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bluejay-bland-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bluejay-bluejay-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bluejay-call-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bluejay-check-queue-simulation-run-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bluejay-communities-api-openapi.yml: previously refined output, superseded by openapi/_original/",

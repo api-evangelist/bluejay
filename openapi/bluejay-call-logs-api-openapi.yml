@@ -198,7 +198,18 @@ paths:
       tags:
       - Call Logs
       summary: Delete Call Log
-      description: "Delete a specific call log given its ID.\nValidates that the user has access to the call log by checking organization membership.\n\nArgs:\n    call_id: The ID of the call to delete\n    recording_only: If True, only delete the recording file and clear recording fields.\n                   If False (default), delete the entire call log."
+      description: 'Delete a specific call log given its ID.
+
+        Validates that the user has access to the call log by checking organization membership.
+
+
+        Args:
+
+        call_id: The ID of the call to delete
+
+        recording_only: If True, only delete the recording file and clear recording fields.
+
+        If False (default), delete the entire call log.'
       operationId: delete_call_log_v1_call_log__call_id__delete
       security:
       - HTTPBearer: []
@@ -242,7 +253,14 @@ paths:
       tags:
       - Call Logs
       summary: Bulk Delete Call Logs
-      description: "Delete multiple call logs given their IDs.\nValidates that the user has access to all call logs by checking organization membership.\n\nArgs:\n    body: Request body containing a list of call IDs to delete"
+      description: 'Delete multiple call logs given their IDs.
+
+        Validates that the user has access to all call logs by checking organization membership.
+
+
+        Args:
+
+        body: Request body containing a list of call IDs to delete'
       operationId: bulk_delete_call_logs_v1_call_logs_delete
       security:
       - HTTPBearer: []
@@ -315,6 +333,142 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CallDirection:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: CallDirection
+      description: Enum representing the direction of a call.
+    Event:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the event
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the event in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the event
+        end_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: End Offset Ms
+          description: End offset of the event in milliseconds
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: List of tags associated with the event
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Additional metadata associated with the event
+      type: object
+      required:
+      - title
+      - start_offset_ms
+      title: Event
+      description: Pydantic model for event data
+    Latency:
+      properties:
+        avg_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Agent Latency
+          description: Average latency
+          default: 0
+        max_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Agent Latency
+          description: Maximum latency
+          default: 0
+        p50_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Agent Latency
+          description: 50th percentile latency
+          default: 0
+        p90_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Agent Latency
+          description: 90th percentile latency
+          default: 0
+        p95_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Agent Latency
+          description: 95th percentile latency
+          default: 0
+        p99_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Agent Latency
+          description: 99th percentile latency
+          default: 0
+      type: object
+      title: Latency
+    RetrieveCallLogsResponse:
+      properties:
+        call_logs:
+          items:
+            $ref: '#/components/schemas/CallLog'
+          type: array
+          title: Call Logs
+          description: List of calls retrieved from the database
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of calls for this agent
+        page:
+          type: integer
+          title: Page
+          description: Current page (1-based)
+        page_size:
+          type: integer
+          title: Page Size
+          description: Page size
+        total_pages:
+          type: integer
+          title: Total Pages
+          description: Total number of pages
+      type: object
+      required:
+      - total_count
+      - page
+      - page_size
+      - total_pages
+      title: RetrieveCallLogsResponse
     Evaluation:
       properties:
         id:
@@ -437,72 +591,11 @@ components:
       - avg_agent_latency
       title: Evaluation
       description: Pydantic model for evaluation result
-    CallDirection:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: CallDirection
-      description: Enum representing the direction of a call.
-    Latency:
+    RetrieveCallLogResponse:
       properties:
-        avg_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Agent Latency
-          description: Average latency
-          default: 0
-        max_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Agent Latency
-          description: Maximum latency
-          default: 0
-        p50_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Agent Latency
-          description: 50th percentile latency
-          default: 0
-        p90_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Agent Latency
-          description: 90th percentile latency
-          default: 0
-        p95_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Agent Latency
-          description: 95th percentile latency
-          default: 0
-        p99_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Agent Latency
-          description: 99th percentile latency
-          default: 0
-      type: object
-      title: Latency
-    ParticipantRole:
-      type: string
-      enum:
-      - AGENT
-      - USER
-      title: ParticipantRole
-      description: Enum representing the role of a participant in a call.
-    UpdateLogResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
+        call_log:
+          $ref: '#/components/schemas/CallLog'
+          description: Details of the retrieved call log
         status:
           type: string
           title: Status
@@ -510,8 +603,20 @@ components:
           default: '200'
       type: object
       required:
-      - message
-      title: UpdateLogResponse
+      - call_log
+      title: RetrieveCallLogResponse
+    BulkDeleteCallLogsRequest:
+      properties:
+        call_ids:
+          items:
+            type: string
+          type: array
+          title: Call Ids
+          description: List of call IDs to delete
+      type: object
+      required:
+      - call_ids
+      title: BulkDeleteCallLogsRequest
     BulkDeleteCallLogsResponse:
       properties:
         message:
@@ -532,20 +637,6 @@ components:
       - message
       - deleted_count
       title: BulkDeleteCallLogsResponse
-    RetrieveCallLogResponse:
-      properties:
-        call_log:
-          $ref: '#/components/schemas/CallLog'
-          description: Details of the retrieved call log
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - call_log
-      title: RetrieveCallLogResponse
     src__models__api_custom_metric__CustomMetric:
       properties:
         name:
@@ -617,18 +708,180 @@ components:
       - response_type
       - response_value
       title: Custom Metric
-    BulkDeleteCallLogsRequest:
+    CallInterface:
+      type: string
+      enum:
+      - PHONE
+      - WEB
+      title: CallInterface
+      description: Enum representing the interface used for a call.
+    ParticipantRole:
+      type: string
+      enum:
+      - AGENT
+      - USER
+      title: ParticipantRole
+      description: Enum representing the role of a participant in a call.
+    ToolCall:
       properties:
-        call_ids:
-          items:
-            type: string
-          type: array
-          title: Call Ids
-          description: List of call IDs to delete
+        name:
+          type: string
+          title: Name
+          description: Name of the tool called
+        start_offset_ms:
+          type: integer
+          minimum: 0.0
+          title: Start Offset Ms
+          description: Start offset of the tool call in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the tool call
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Parameters passed to the tool call
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Output returned by the tool call
       type: object
       required:
-      - call_ids
-      title: BulkDeleteCallLogsRequest
+      - name
+      - start_offset_ms
+      title: ToolCall
+      description: Represents a tool call during a conversation.
+    UpdateLogResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - message
+      title: UpdateLogResponse
+    DeleteCallLogResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - message
+      title: DeleteCallLogResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UpdateCallLogRequest:
+      properties:
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolCall'
+            type: array
+          - type: 'null'
+          title: Tool Calls
+          description: List of tool calls to update
+        events:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Event'
+            type: array
+          - type: 'null'
+          title: Events
+          description: List of events to update
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Metadata to update
+        reevaluate:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Reevaluate
+          description: Whether to reevaluate the log
+          default: false
+      type: object
+      title: UpdateCallLogRequest
+    FillerIgnoredLatency:
+      properties:
+        avg_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Filler Ignored Latency
+          description: Average filler ignored latency
+          default: 0
+        p50_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Filler Ignored Latency
+          description: 50th percentile filler ignored latency
+          default: 0
+        p90_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Filler Ignored Latency
+          description: 90th percentile filler ignored latency
+          default: 0
+        p95_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Filler Ignored Latency
+          description: 95th percentile filler ignored latency
+          default: 0
+        p99_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Filler Ignored Latency
+          description: 99th percentile filler ignored latency
+          default: 0
+      type: object
+      title: FillerIgnoredLatency
     CallLog:
       properties:
         id:
@@ -758,31 +1011,6 @@ components:
       - participants
       - status
       title: CallLog
-    DeleteCallLogResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - message
-      title: DeleteCallLogResponse
-    CallStatus:
-      type: string
-      enum:
-      - INITIALIZING
-      - QUEUED
-      - EVALUATING
-      - COMPLETED
-      - INCOMPLETED
-      title: CallStatus
-      description: Enum representing the possible states of a call.
     ParticipantResponse:
       properties:
         role:
@@ -811,226 +1039,16 @@ components:
       - role
       title: ParticipantResponse
       description: Pydantic model for participant data
-    UpdateCallLogRequest:
-      properties:
-        tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ToolCall'
-            type: array
-          - type: 'null'
-          title: Tool Calls
-          description: List of tool calls to update
-        events:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Event'
-            type: array
-          - type: 'null'
-          title: Events
-          description: List of events to update
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: Metadata to update
-        reevaluate:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Reevaluate
-          description: Whether to reevaluate the log
-          default: false
-      type: object
-      title: UpdateCallLogRequest
-    RetrieveCallLogsResponse:
-      properties:
-        call_logs:
-          items:
-            $ref: '#/components/schemas/CallLog'
-          type: array
-          title: Call Logs
-          description: List of calls retrieved from the database
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of calls for this agent
-        page:
-          type: integer
-          title: Page
-          description: Current page (1-based)
-        page_size:
-          type: integer
-          title: Page Size
-          description: Page size
-        total_pages:
-          type: integer
-          title: Total Pages
-          description: Total number of pages
-      type: object
-      required:
-      - total_count
-      - page
-      - page_size
-      - total_pages
-      title: RetrieveCallLogsResponse
-    Event:
-      properties:
-        title:
-          type: string
-          title: Title
-          description: Title of the event
-        start_offset_ms:
-          type: integer
-          title: Start Offset Ms
-          description: Start offset of the event in milliseconds
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the event
-        end_offset_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: End Offset Ms
-          description: End offset of the event in milliseconds
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-          description: List of tags associated with the event
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: Additional metadata associated with the event
-      type: object
-      required:
-      - title
-      - start_offset_ms
-      title: Event
-      description: Pydantic model for event data
-    FillerIgnoredLatency:
-      properties:
-        avg_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Filler Ignored Latency
-          description: Average filler ignored latency
-          default: 0
-        p50_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Filler Ignored Latency
-          description: 50th percentile filler ignored latency
-          default: 0
-        p90_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Filler Ignored Latency
-          description: 90th percentile filler ignored latency
-          default: 0
-        p95_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Filler Ignored Latency
-          description: 95th percentile filler ignored latency
-          default: 0
-        p99_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Filler Ignored Latency
-          description: 99th percentile filler ignored latency
-          default: 0
-      type: object
-      title: FillerIgnoredLatency
-    ToolCall:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the tool called
-        start_offset_ms:
-          type: integer
-          minimum: 0.0
-          title: Start Offset Ms
-          description: Start offset of the tool call in milliseconds
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the tool call
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Parameters passed to the tool call
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Output returned by the tool call
-      type: object
-      required:
-      - name
-      - start_offset_ms
-      title: ToolCall
-      description: Represents a tool call during a conversation.
-    CallInterface:
+    CallStatus:
       type: string
       enum:
-      - PHONE
-      - WEB
-      title: CallInterface
-      description: Enum representing the interface used for a call.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - INITIALIZING
+      - QUEUED
+      - EVALUATING
+      - COMPLETED
+      - INCOMPLETED
+      title: CallStatus
+      description: Enum representing the possible states of a call.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

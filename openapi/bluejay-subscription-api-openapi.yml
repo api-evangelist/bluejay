@@ -143,6 +143,45 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SignupResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the signup was successful
+        message:
+          type: string
+          title: Message
+          description: Response message
+      type: object
+      required:
+      - success
+      - message
+      title: SignupResponse
+    SignupRequest:
+      properties:
+        payment_method_id:
+          type: string
+          title: Payment Method Id
+          description: Stripe payment method ID
+        package_id:
+          type: string
+          title: Package Id
+          description: Metronome Package ID
+      type: object
+      required:
+      - payment_method_id
+      - package_id
+      title: SignupRequest
     CancelResponse:
       properties:
         success:
@@ -158,6 +197,37 @@ components:
       - success
       - message
       title: CancelResponse
+    StartTrialRequest:
+      properties:
+        payment_method_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method Id
+          description: Optional Stripe payment method ID; trial can start without a card
+      type: object
+      title: StartTrialRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ActivePackageResponse:
       properties:
         package_id:
@@ -180,76 +250,6 @@ components:
       required:
       - has_active_contract
       title: ActivePackageResponse
-    StartTrialRequest:
-      properties:
-        payment_method_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Payment Method Id
-          description: Optional Stripe payment method ID; trial can start without a card
-      type: object
-      title: StartTrialRequest
-    SignupResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether the signup was successful
-        message:
-          type: string
-          title: Message
-          description: Response message
-      type: object
-      required:
-      - success
-      - message
-      title: SignupResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SignupRequest:
-      properties:
-        payment_method_id:
-          type: string
-          title: Payment Method Id
-          description: Stripe payment method ID
-        package_id:
-          type: string
-          title: Package Id
-          description: Metronome Package ID
-      type: object
-      required:
-      - payment_method_id
-      - package_id
-      title: SignupRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey

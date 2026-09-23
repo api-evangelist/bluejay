@@ -47,88 +47,15 @@ paths:
       - Create Schedule
 components:
   schemas:
-    MonthlySchedule:
+    HTTPValidationError:
       properties:
-        frequency:
-          type: string
-          const: monthly
-          title: Frequency
-        day_of_month:
-          type: integer
-          maximum: 31.0
-          minimum: 1.0
-          title: Day Of Month
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - frequency
-      - day_of_month
-      - time
-      title: MonthlySchedule
-    DailySchedule:
-      properties:
-        frequency:
-          type: string
-          const: daily
-          title: Frequency
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-          description: HH:MM 24hr time
-      type: object
-      required:
-      - frequency
-      - time
-      title: DailySchedule
-    CreateCronJobRequest:
-      properties:
-        simulation_id:
-          type: string
-          title: Simulation Id
-          description: The unique identifier for the associated simulation.
-        schedule:
-          anyOf:
-          - $ref: '#/components/schemas/EveryNMinutesSchedule'
-          - $ref: '#/components/schemas/EveryNHoursSchedule'
-          - $ref: '#/components/schemas/DailySchedule'
-          - $ref: '#/components/schemas/WeeklySchedule'
-          - $ref: '#/components/schemas/MonthlySchedule'
-          - $ref: '#/components/schemas/CronSchedule'
-          title: Schedule
-          description: The schedule for the cron job.
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-          description: Whether the cron job should be enabled upon creation.
-          default: true
-      type: object
-      required:
-      - simulation_id
-      - schedule
-      title: CreateCronJobRequest
-    EveryNMinutesSchedule:
-      properties:
-        frequency:
-          type: string
-          const: every_n_minutes
-          title: Frequency
-        interval:
-          type: integer
-          maximum: 59.0
-          exclusiveMinimum: 0.0
-          title: Interval
-          description: Repeat every N minutes (max 59)
-      type: object
-      required:
-      - frequency
-      - interval
-      title: EveryNMinutesSchedule
+      title: HTTPValidationError
     CreateCronJobResponse:
       properties:
         id:
@@ -182,15 +109,23 @@ components:
       - day_of_week
       - time
       title: WeeklySchedule
-    HTTPValidationError:
+    EveryNMinutesSchedule:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        frequency:
+          type: string
+          const: every_n_minutes
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 59.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N minutes (max 59)
       type: object
-      title: HTTPValidationError
+      required:
+      - frequency
+      - interval
+      title: EveryNMinutesSchedule
     ValidationError:
       properties:
         loc:
@@ -244,6 +179,71 @@ components:
       - frequency
       - interval
       title: EveryNHoursSchedule
+    DailySchedule:
+      properties:
+        frequency:
+          type: string
+          const: daily
+          title: Frequency
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+          description: HH:MM 24hr time
+      type: object
+      required:
+      - frequency
+      - time
+      title: DailySchedule
+    MonthlySchedule:
+      properties:
+        frequency:
+          type: string
+          const: monthly
+          title: Frequency
+        day_of_month:
+          type: integer
+          maximum: 31.0
+          minimum: 1.0
+          title: Day Of Month
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+      type: object
+      required:
+      - frequency
+      - day_of_month
+      - time
+      title: MonthlySchedule
+    CreateCronJobRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: The unique identifier for the associated simulation.
+        schedule:
+          anyOf:
+          - $ref: '#/components/schemas/EveryNMinutesSchedule'
+          - $ref: '#/components/schemas/EveryNHoursSchedule'
+          - $ref: '#/components/schemas/DailySchedule'
+          - $ref: '#/components/schemas/WeeklySchedule'
+          - $ref: '#/components/schemas/MonthlySchedule'
+          - $ref: '#/components/schemas/CronSchedule'
+          title: Schedule
+          description: The schedule for the cron job.
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+          description: Whether the cron job should be enabled upon creation.
+          default: true
+      type: object
+      required:
+      - simulation_id
+      - schedule
+      title: CreateCronJobRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey

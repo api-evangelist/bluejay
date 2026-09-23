@@ -14,7 +14,17 @@ paths:
   /v1/retrieve-simulation-result/{test_result_id}:
     get:
       summary: Retrieve Simulation Result
-      description: "Retrieve a single test result and its associated custom metrics.\n\nArgs:\n    test_result_id: the ID of the test result to retrieve.\n\nReturns:\n    the test result along with its custom metric results."
+      description: 'Retrieve a single test result and its associated custom metrics.
+
+
+        Args:
+
+        test_result_id: the ID of the test result to retrieve.
+
+
+        Returns:
+
+        the test result along with its custom metric results.'
       operationId: retrieve_simulation_result_v1_retrieve_simulation_result__test_result_id__get
       security:
       - HTTPBearer: []
@@ -48,6 +58,240 @@ paths:
       - Retrieve Simulation Result
 components:
   schemas:
+    FillerIgnoredLatency:
+      properties:
+        avg_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Filler Ignored Latency
+          description: Average filler ignored latency
+          default: 0
+        p50_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Filler Ignored Latency
+          description: 50th percentile filler ignored latency
+          default: 0
+        p90_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Filler Ignored Latency
+          description: 90th percentile filler ignored latency
+          default: 0
+        p95_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Filler Ignored Latency
+          description: 95th percentile filler ignored latency
+          default: 0
+        p99_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Filler Ignored Latency
+          description: 99th percentile filler ignored latency
+          default: 0
+      type: object
+      title: FillerIgnoredLatency
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ActualToolCallDetail:
+      properties:
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Parameters passed to the tool
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Output returned by the tool
+        start_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Start Offset Ms
+          description: When the tool was called relative to conversation start, in milliseconds
+      type: object
+      title: ActualToolCallDetail
+    Event:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the event
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the event in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the event
+        end_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: End Offset Ms
+          description: End offset of the event in milliseconds
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: List of tags associated with the event
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Additional metadata associated with the event
+      type: object
+      required:
+      - title
+      - start_offset_ms
+      title: Event
+      description: Pydantic model for event data
+    SingleSimulationResultResponse:
+      properties:
+        simulation_result:
+          $ref: '#/components/schemas/SimulationResultResponse'
+          description: The requested simulation result
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - simulation_result
+      title: SingleSimulationResultResponse
+    ToolCallComparisonGroup:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Tool name
+        expected:
+          items:
+            $ref: '#/components/schemas/ExpectedToolCallDetail'
+          type: array
+          title: Expected
+          description: Expected invocations of this tool
+        actual:
+          items:
+            $ref: '#/components/schemas/ActualToolCallDetail'
+          type: array
+          title: Actual
+          description: Actual invocations of this tool during the simulation
+      type: object
+      required:
+      - name
+      title: ToolCallComparisonGroup
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ExpectedToolCallDetail:
+      properties:
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Expected parameters
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Expected output
+      type: object
+      title: ExpectedToolCallDetail
+    Latency:
+      properties:
+        avg_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Agent Latency
+          description: Average latency
+          default: 0
+        max_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Agent Latency
+          description: Maximum latency
+          default: 0
+        p50_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Agent Latency
+          description: 50th percentile latency
+          default: 0
+        p90_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Agent Latency
+          description: 90th percentile latency
+          default: 0
+        p95_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Agent Latency
+          description: 95th percentile latency
+          default: 0
+        p99_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Agent Latency
+          description: 99th percentile latency
+          default: 0
+      type: object
+      title: Latency
     SimulationResultResponse:
       properties:
         id:
@@ -343,240 +587,6 @@ components:
       - response_type
       - response_value
       title: Custom Metric
-    ExpectedToolCallDetail:
-      properties:
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Expected parameters
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Expected output
-      type: object
-      title: ExpectedToolCallDetail
-    ActualToolCallDetail:
-      properties:
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Parameters passed to the tool
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Output returned by the tool
-        start_offset_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Start Offset Ms
-          description: When the tool was called relative to conversation start, in milliseconds
-      type: object
-      title: ActualToolCallDetail
-    FillerIgnoredLatency:
-      properties:
-        avg_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Filler Ignored Latency
-          description: Average filler ignored latency
-          default: 0
-        p50_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Filler Ignored Latency
-          description: 50th percentile filler ignored latency
-          default: 0
-        p90_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Filler Ignored Latency
-          description: 90th percentile filler ignored latency
-          default: 0
-        p95_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Filler Ignored Latency
-          description: 95th percentile filler ignored latency
-          default: 0
-        p99_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Filler Ignored Latency
-          description: 99th percentile filler ignored latency
-          default: 0
-      type: object
-      title: FillerIgnoredLatency
-    SingleSimulationResultResponse:
-      properties:
-        simulation_result:
-          $ref: '#/components/schemas/SimulationResultResponse'
-          description: The requested simulation result
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - simulation_result
-      title: SingleSimulationResultResponse
-    Latency:
-      properties:
-        avg_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Agent Latency
-          description: Average latency
-          default: 0
-        max_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Agent Latency
-          description: Maximum latency
-          default: 0
-        p50_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Agent Latency
-          description: 50th percentile latency
-          default: 0
-        p90_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Agent Latency
-          description: 90th percentile latency
-          default: 0
-        p95_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Agent Latency
-          description: 95th percentile latency
-          default: 0
-        p99_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Agent Latency
-          description: 99th percentile latency
-          default: 0
-      type: object
-      title: Latency
-    ToolCallComparisonGroup:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Tool name
-        expected:
-          items:
-            $ref: '#/components/schemas/ExpectedToolCallDetail'
-          type: array
-          title: Expected
-          description: Expected invocations of this tool
-        actual:
-          items:
-            $ref: '#/components/schemas/ActualToolCallDetail'
-          type: array
-          title: Actual
-          description: Actual invocations of this tool during the simulation
-      type: object
-      required:
-      - name
-      title: ToolCallComparisonGroup
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Event:
-      properties:
-        title:
-          type: string
-          title: Title
-          description: Title of the event
-        start_offset_ms:
-          type: integer
-          title: Start Offset Ms
-          description: Start offset of the event in milliseconds
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the event
-        end_offset_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: End Offset Ms
-          description: End offset of the event in milliseconds
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-          description: List of tags associated with the event
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: Additional metadata associated with the event
-      type: object
-      required:
-      - title
-      - start_offset_ms
-      title: Event
-      description: Pydantic model for event data
   securitySchemes:
     apiKeyAuth:
       type: apiKey

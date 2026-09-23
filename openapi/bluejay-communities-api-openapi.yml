@@ -240,6 +240,39 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CreateCommunityRequest:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the community
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the community
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: List of digital human (test case) IDs to associate this community with
+      type: object
+      required:
+      - title
+      title: CreateCommunityRequest
     CommunityResponse:
       properties:
         id:
@@ -274,33 +307,6 @@ components:
       - created_at
       title: CommunityResponse
       description: Response model for community operations
-    CommunitiesListResponse:
-      properties:
-        communities:
-          items:
-            $ref: '#/components/schemas/CommunityResponse'
-          type: array
-          title: Communities
-          description: List of communities
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of communities
-      type: object
-      required:
-      - communities
-      - total_count
-      title: CommunitiesListResponse
-      description: Response model for listing communities
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -322,6 +328,24 @@ components:
       - msg
       - type
       title: ValidationError
+    CommunitiesListResponse:
+      properties:
+        communities:
+          items:
+            $ref: '#/components/schemas/CommunityResponse'
+          type: array
+          title: Communities
+          description: List of communities
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of communities
+      type: object
+      required:
+      - communities
+      - total_count
+      title: CommunitiesListResponse
+      description: Response model for listing communities
     AddToCommunityRequest:
       properties:
         digital_human_ids:
@@ -358,30 +382,6 @@ components:
           description: List of digital human (test case) IDs to associate this community with (replaces existing associations)
       type: object
       title: UpdateCommunityRequest
-    CreateCommunityRequest:
-      properties:
-        title:
-          type: string
-          title: Title
-          description: Title of the community
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the community
-        digital_human_ids:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Digital Human Ids
-          description: List of digital human (test case) IDs to associate this community with
-      type: object
-      required:
-      - title
-      title: CreateCommunityRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey

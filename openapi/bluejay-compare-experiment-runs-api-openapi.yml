@@ -48,19 +48,6 @@ paths:
       - Compare Experiment Runs
 components:
   schemas:
-    ComparisonRequest:
-      properties:
-        experiment_run_ids:
-          items:
-            type: integer
-          type: array
-          title: Experiment Run Ids
-          description: List of experiment run IDs to compare
-      type: object
-      required:
-      - experiment_run_ids
-      title: ComparisonRequest
-      description: Pydantic model for experiment run comparison request
     HTTPValidationError:
       properties:
         detail:
@@ -86,6 +73,19 @@ components:
       - summary
       title: ComparisonResponse
       description: Pydantic model for experiment run comparison response
+    ComparisonRequest:
+      properties:
+        experiment_run_ids:
+          items:
+            type: integer
+          type: array
+          title: Experiment Run Ids
+          description: List of experiment run IDs to compare
+      type: object
+      required:
+      - experiment_run_ids
+      title: ComparisonRequest
+      description: Pydantic model for experiment run comparison request
     ValidationError:
       properties:
         loc:

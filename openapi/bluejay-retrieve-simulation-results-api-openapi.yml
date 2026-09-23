@@ -51,6 +51,310 @@ paths:
       - Retrieve Simulation Results
 components:
   schemas:
+    FillerIgnoredLatency:
+      properties:
+        avg_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Filler Ignored Latency
+          description: Average filler ignored latency
+          default: 0
+        p50_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Filler Ignored Latency
+          description: 50th percentile filler ignored latency
+          default: 0
+        p90_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Filler Ignored Latency
+          description: 90th percentile filler ignored latency
+          default: 0
+        p95_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Filler Ignored Latency
+          description: 95th percentile filler ignored latency
+          default: 0
+        p99_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Filler Ignored Latency
+          description: 99th percentile filler ignored latency
+          default: 0
+      type: object
+      title: FillerIgnoredLatency
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SimulationRunResultResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: ID of the simulation run
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: ID of the simulation associated with the run
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: Summary of the simulation run
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/SimulationRunStatus'
+          - type: 'null'
+          description: Current status of the simulation run
+        total_tests:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Tests
+          description: Total number of tests in the simulation run
+        tests_passed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Passed
+          description: Number of tests that passed in the simulation run
+        tests_failed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Failed
+          description: Number of tests that failed in the simulation run
+        tests_completed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Completed
+          description: Number of tests that were completed in the simulation run
+        tests_incompleted:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Incompleted
+          description: Number of tests that were not completed in the simulation run
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When the simulation run was created
+      type: object
+      required:
+      - id
+      - simulation_id
+      - created_at
+      title: SimulationRunResultResponse
+    ActualToolCallDetail:
+      properties:
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Parameters passed to the tool
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Output returned by the tool
+        start_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Start Offset Ms
+          description: When the tool was called relative to conversation start, in milliseconds
+      type: object
+      title: ActualToolCallDetail
+    Event:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the event
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the event in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the event
+        end_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: End Offset Ms
+          description: End offset of the event in milliseconds
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: List of tags associated with the event
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Additional metadata associated with the event
+      type: object
+      required:
+      - title
+      - start_offset_ms
+      title: Event
+      description: Pydantic model for event data
+    SimulationResultsResponse:
+      properties:
+        simulation_run:
+          $ref: '#/components/schemas/SimulationRunResultResponse'
+          description: Details of the simulation run
+        simulation_results:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SimulationResultResponse'
+            type: array
+          - type: 'null'
+          title: Simulation Results
+          description: List of results from the simulation run
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - simulation_run
+      title: SimulationResultsResponse
+    ToolCallComparisonGroup:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Tool name
+        expected:
+          items:
+            $ref: '#/components/schemas/ExpectedToolCallDetail'
+          type: array
+          title: Expected
+          description: Expected invocations of this tool
+        actual:
+          items:
+            $ref: '#/components/schemas/ActualToolCallDetail'
+          type: array
+          title: Actual
+          description: Actual invocations of this tool during the simulation
+      type: object
+      required:
+      - name
+      title: ToolCallComparisonGroup
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ExpectedToolCallDetail:
+      properties:
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Expected parameters
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Expected output
+      type: object
+      title: ExpectedToolCallDetail
+    Latency:
+      properties:
+        avg_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Agent Latency
+          description: Average latency
+          default: 0
+        max_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Agent Latency
+          description: Maximum latency
+          default: 0
+        p50_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Agent Latency
+          description: 50th percentile latency
+          default: 0
+        p90_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Agent Latency
+          description: 90th percentile latency
+          default: 0
+        p95_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Agent Latency
+          description: 95th percentile latency
+          default: 0
+        p99_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Agent Latency
+          description: 99th percentile latency
+          default: 0
+      type: object
+      title: Latency
     SimulationResultResponse:
       properties:
         id:
@@ -275,6 +579,16 @@ components:
       - avg_agent_latency
       title: Evaluation
       description: Pydantic model for evaluation result
+    SimulationRunStatus:
+      type: string
+      enum:
+      - INITIALIZING
+      - RUNNING
+      - COMPLETED
+      - INCOMPLETED
+      - INSUFFICIENT_FUNDS
+      title: SimulationRunStatus
+      description: Enum representing the possible states of a simulation run.
     src__models__api_custom_metric__CustomMetric:
       properties:
         name:
@@ -346,320 +660,6 @@ components:
       - response_type
       - response_value
       title: Custom Metric
-    ExpectedToolCallDetail:
-      properties:
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Expected parameters
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Expected output
-      type: object
-      title: ExpectedToolCallDetail
-    ActualToolCallDetail:
-      properties:
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Parameters passed to the tool
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Output returned by the tool
-        start_offset_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Start Offset Ms
-          description: When the tool was called relative to conversation start, in milliseconds
-      type: object
-      title: ActualToolCallDetail
-    FillerIgnoredLatency:
-      properties:
-        avg_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Filler Ignored Latency
-          description: Average filler ignored latency
-          default: 0
-        p50_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Filler Ignored Latency
-          description: 50th percentile filler ignored latency
-          default: 0
-        p90_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Filler Ignored Latency
-          description: 90th percentile filler ignored latency
-          default: 0
-        p95_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Filler Ignored Latency
-          description: 95th percentile filler ignored latency
-          default: 0
-        p99_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Filler Ignored Latency
-          description: 99th percentile filler ignored latency
-          default: 0
-      type: object
-      title: FillerIgnoredLatency
-    SimulationRunStatus:
-      type: string
-      enum:
-      - INITIALIZING
-      - RUNNING
-      - COMPLETED
-      - INCOMPLETED
-      - INSUFFICIENT_FUNDS
-      title: SimulationRunStatus
-      description: Enum representing the possible states of a simulation run.
-    Latency:
-      properties:
-        avg_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Agent Latency
-          description: Average latency
-          default: 0
-        max_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Agent Latency
-          description: Maximum latency
-          default: 0
-        p50_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Agent Latency
-          description: 50th percentile latency
-          default: 0
-        p90_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Agent Latency
-          description: 90th percentile latency
-          default: 0
-        p95_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Agent Latency
-          description: 95th percentile latency
-          default: 0
-        p99_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Agent Latency
-          description: 99th percentile latency
-          default: 0
-      type: object
-      title: Latency
-    SimulationResultsResponse:
-      properties:
-        simulation_run:
-          $ref: '#/components/schemas/SimulationRunResultResponse'
-          description: Details of the simulation run
-        simulation_results:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/SimulationResultResponse'
-            type: array
-          - type: 'null'
-          title: Simulation Results
-          description: List of results from the simulation run
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - simulation_run
-      title: SimulationResultsResponse
-    ToolCallComparisonGroup:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Tool name
-        expected:
-          items:
-            $ref: '#/components/schemas/ExpectedToolCallDetail'
-          type: array
-          title: Expected
-          description: Expected invocations of this tool
-        actual:
-          items:
-            $ref: '#/components/schemas/ActualToolCallDetail'
-          type: array
-          title: Actual
-          description: Actual invocations of this tool during the simulation
-      type: object
-      required:
-      - name
-      title: ToolCallComparisonGroup
-    SimulationRunResultResponse:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: ID of the simulation run
-        simulation_id:
-          type: string
-          title: Simulation Id
-          description: ID of the simulation associated with the run
-        summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Summary
-          description: Summary of the simulation run
-        status:
-          anyOf:
-          - $ref: '#/components/schemas/SimulationRunStatus'
-          - type: 'null'
-          description: Current status of the simulation run
-        total_tests:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Tests
-          description: Total number of tests in the simulation run
-        tests_passed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tests Passed
-          description: Number of tests that passed in the simulation run
-        tests_failed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tests Failed
-          description: Number of tests that failed in the simulation run
-        tests_completed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tests Completed
-          description: Number of tests that were completed in the simulation run
-        tests_incompleted:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tests Incompleted
-          description: Number of tests that were not completed in the simulation run
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: When the simulation run was created
-      type: object
-      required:
-      - id
-      - simulation_id
-      - created_at
-      title: SimulationRunResultResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Event:
-      properties:
-        title:
-          type: string
-          title: Title
-          description: Title of the event
-        start_offset_ms:
-          type: integer
-          title: Start Offset Ms
-          description: Start offset of the event in milliseconds
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the event
-        end_offset_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: End Offset Ms
-          description: End offset of the event in milliseconds
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-          description: List of tags associated with the event
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: Additional metadata associated with the event
-      type: object
-      required:
-      - title
-      - start_offset_ms
-      title: Event
-      description: Pydantic model for event data
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -89,6 +89,93 @@ paths:
         description: API key required to authenticate requests.
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    HttpTextMessageResponse:
+      properties:
+        simulation_result_id:
+          type: string
+          title: Simulation Result Id
+          description: Simulation result ID
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+        end_conversation:
+          type: boolean
+          title: End Conversation
+          description: Whether the conversation has ended
+          default: false
+      type: object
+      required:
+      - simulation_result_id
+      title: HttpTextMessageResponse
+      description: Response model for HTTP text message
+    HttpTextMessageRequest:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Text message to send
+        simulation_result_id:
+          type: string
+          title: Simulation Result Id
+          description: ID of the simulation result (test result)
+        end_conversation:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: End Conversation
+          description: If true, skip lambda and end/evaluate the conversation
+          default: false
+        end_turn:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: End Turn
+          description: If true, process the message now; if false, stack it for later
+          default: true
+        message_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message Id
+          description: Unique message ID for deduping within a conversation
+      type: object
+      required:
+      - message
+      - simulation_result_id
+      title: HttpTextMessageRequest
+      description: Request model for HTTP text message
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HttpSimulationRunResponse:
       properties:
         simulation_run_id:
@@ -148,93 +235,6 @@ components:
       - simulation_id
       title: HttpSimulationRunRequest
       description: Request model for HTTP simulation run
-    HttpTextMessageRequest:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Text message to send
-        simulation_result_id:
-          type: string
-          title: Simulation Result Id
-          description: ID of the simulation result (test result)
-        end_conversation:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: End Conversation
-          description: If true, skip lambda and end/evaluate the conversation
-          default: false
-        end_turn:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: End Turn
-          description: If true, process the message now; if false, stack it for later
-          default: true
-        message_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message Id
-          description: Unique message ID for deduping within a conversation
-      type: object
-      required:
-      - message
-      - simulation_result_id
-      title: HttpTextMessageRequest
-      description: Request model for HTTP text message
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HttpTextMessageResponse:
-      properties:
-        simulation_result_id:
-          type: string
-          title: Simulation Result Id
-          description: Simulation result ID
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: success
-        end_conversation:
-          type: boolean
-          title: End Conversation
-          description: Whether the conversation has ended
-          default: false
-      type: object
-      required:
-      - simulation_result_id
-      title: HttpTextMessageResponse
-      description: Response model for HTTP text message
   securitySchemes:
     apiKeyAuth:
       type: apiKey

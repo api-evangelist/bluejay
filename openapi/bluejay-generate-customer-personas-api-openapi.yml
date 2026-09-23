@@ -47,6 +47,15 @@ paths:
       - Generate Customer Personas
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     GenerateCustomPersonasRequest:
       properties:
         agent_id:
@@ -82,15 +91,6 @@ components:
       required:
       - agent_id
       title: GenerateCustomPersonasRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:

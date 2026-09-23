@@ -16,7 +16,21 @@ paths:
       tags:
       - Customer Traits
       summary: Create Customer Trait
-      description: "Create a new customer trait definition for an agent.\n\nArgs:\n    trait_request: The trait creation request data\n    request: FastAPI request object\n    auth: Authentication credentials\n\nReturns:\n    CustomerTraitResponse with the created trait details"
+      description: 'Create a new customer trait definition for an agent.
+
+
+        Args:
+
+        trait_request: The trait creation request data
+
+        request: FastAPI request object
+
+        auth: Authentication credentials
+
+
+        Returns:
+
+        CustomerTraitResponse with the created trait details'
       operationId: create_customer_trait_v1_create_customer_trait_post
       security:
       - HTTPBearer: []
@@ -51,7 +65,21 @@ paths:
       tags:
       - Customer Traits
       summary: Get Customer Trait
-      description: "Get a specific customer trait by ID.\n\nArgs:\n    trait_id: UUID of the customer trait\n    request: FastAPI request object\n    auth: Authentication credentials\n\nReturns:\n    CustomerTraitResponse with the trait details"
+      description: 'Get a specific customer trait by ID.
+
+
+        Args:
+
+        trait_id: UUID of the customer trait
+
+        request: FastAPI request object
+
+        auth: Authentication credentials
+
+
+        Returns:
+
+        CustomerTraitResponse with the trait details'
       operationId: get_customer_trait_v1_customer_trait__trait_id__get
       security:
       - HTTPBearer: []
@@ -86,7 +114,21 @@ paths:
       tags:
       - Customer Traits
       summary: Delete Customer Trait
-      description: "Delete a customer trait definition.\n\nArgs:\n    trait_id: UUID of the customer trait to delete\n    request: FastAPI request object\n    auth: Authentication credentials\n\nReturns:\n    DeleteCustomerTraitResponse confirming the deletion"
+      description: 'Delete a customer trait definition.
+
+
+        Args:
+
+        trait_id: UUID of the customer trait to delete
+
+        request: FastAPI request object
+
+        auth: Authentication credentials
+
+
+        Returns:
+
+        DeleteCustomerTraitResponse confirming the deletion'
       operationId: delete_customer_trait_v1_customer_trait__trait_id__delete
       security:
       - HTTPBearer: []
@@ -122,7 +164,21 @@ paths:
       tags:
       - Customer Traits
       summary: Get Customer Traits
-      description: "Get all customer traits, optionally filtered by agent_id.\n\nArgs:\n    request: FastAPI request object\n    agent_id: Optional agent ID to filter traits by\n    auth: Authentication credentials\n\nReturns:\n    CustomerTraitsListResponse with list of traits and total count"
+      description: 'Get all customer traits, optionally filtered by agent_id.
+
+
+        Args:
+
+        request: FastAPI request object
+
+        agent_id: Optional agent ID to filter traits by
+
+        auth: Authentication credentials
+
+
+        Returns:
+
+        CustomerTraitsListResponse with list of traits and total count'
       operationId: get_customer_traits_v1_customer_traits_get
       security:
       - HTTPBearer: []
@@ -159,7 +215,23 @@ paths:
       tags:
       - Customer Traits
       summary: Update Customer Trait
-      description: "Update a customer trait definition.\n\nArgs:\n    trait_id: UUID of the customer trait to update\n    trait_request: The trait update request data\n    request: FastAPI request object\n    auth: Authentication credentials\n\nReturns:\n    CustomerTraitResponse with the updated trait details"
+      description: 'Update a customer trait definition.
+
+
+        Args:
+
+        trait_id: UUID of the customer trait to update
+
+        trait_request: The trait update request data
+
+        request: FastAPI request object
+
+        auth: Authentication credentials
+
+
+        Returns:
+
+        CustomerTraitResponse with the updated trait details'
       operationId: update_customer_trait_v1_update_customer_trait__trait_id__put
       security:
       - HTTPBearer: []
@@ -201,7 +273,40 @@ paths:
       tags:
       - Customer Traits
       summary: Generate Trait Values Endpoint
-      description: "Generate trait values for each scenario for a single trait.\n\nRequest:\n    - scenarios: list of scenario descriptions (intents), one per scenario\n    - traits: exactly one trait (name + data_type)\n\nResponse:\n    - dict mapping scenario index -> list of trait dicts\n    - each trait dict has:\n        {\n            \"name\": <trait_name>,       # same as the input trait name\n            \"data_type\": <data_type>,   # normalized data type string\n            \"value\": <generated_value>, # value for that scenario + trait\n        }\n\nFrontend mapping:\n    - for scenario index i:\n        const traitsForScenario = res[i]; // array of trait dicts\n        const value = traitsForScenario.find(t => t.name === traitName)?.value;"
+      description: 'Generate trait values for each scenario for a single trait.
+
+
+        Request:
+
+        - scenarios: list of scenario descriptions (intents), one per scenario
+
+        - traits: exactly one trait (name + data_type)
+
+
+        Response:
+
+        - dict mapping scenario index -> list of trait dicts
+
+        - each trait dict has:
+
+        {
+
+        "name": , # same as the input trait name
+
+        "data_type": , # normalized data type string
+
+        "value": , # value for that scenario + trait
+
+        }
+
+
+        Frontend mapping:
+
+        - for scenario index i:
+
+        const traitsForScenario = res[i]; // array of trait dicts
+
+        const value = traitsForScenario.find(t => t.name === traitName)?.value;'
       operationId: generate_trait_values_endpoint_v1_generate_trait_values_post
       security:
       - HTTPBearer: []
@@ -239,6 +344,37 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UpdateCustomerTraitRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the trait
+        data_type:
+          anyOf:
+          - $ref: '#/components/schemas/TraitDataType'
+          - type: 'null'
+          description: Data type of the trait
+        default_value:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Default Value
+          description: Default value for this trait (will be converted based on data_type)
+      type: object
+      title: UpdateCustomerTraitRequest
+      description: Request model for updating a customer trait definition.
     CreateCustomerTraitRequest:
       properties:
         agent_id:
@@ -265,6 +401,89 @@ components:
       - data_type
       title: CreateCustomerTraitRequest
       description: Request model for creating a customer trait definition.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TraitDataType:
+      type: string
+      enum:
+      - BOOLEAN
+      - STRING
+      - DATE
+      - NUMBER
+      title: TraitDataType
+      description: Enum for trait data types.
+    CustomerTraitResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Unique identifier for the customer trait
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the agent this trait belongs to
+        name:
+          type: string
+          title: Name
+          description: Name of the trait
+        data_type:
+          $ref: '#/components/schemas/TraitDataType'
+          description: Data type of the trait
+        default_value:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Default Value
+          description: Default value for this trait (stored as JSONB)
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When the trait was created
+      type: object
+      required:
+      - id
+      - agent_id
+      - name
+      - data_type
+      - created_at
+      title: CustomerTraitResponse
+      description: Response model for customer trait operations.
+    DeleteCustomerTraitResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_trait_id:
+          type: string
+          title: Deleted Trait Id
+          description: ID of the deleted trait
+      type: object
+      required:
+      - message
+      - deleted_trait_id
+      title: DeleteCustomerTraitResponse
+      description: Response model for deleting a customer trait.
     GenerateTraitValuesRequest:
       properties:
         scenarios:
@@ -312,15 +531,6 @@ components:
       - data_type
       title: TraitInput
       description: One trait to generate values for.
-    TraitDataType:
-      type: string
-      enum:
-      - BOOLEAN
-      - STRING
-      - DATE
-      - NUMBER
-      title: TraitDataType
-      description: Enum for trait data types.
     CustomerTraitsListResponse:
       properties:
         traits:
@@ -339,111 +549,6 @@ components:
       - total_count
       title: CustomerTraitsListResponse
       description: Response model for listing customer traits.
-    UpdateCustomerTraitRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the trait
-        data_type:
-          anyOf:
-          - $ref: '#/components/schemas/TraitDataType'
-          - type: 'null'
-          description: Data type of the trait
-        default_value:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Default Value
-          description: Default value for this trait (will be converted based on data_type)
-      type: object
-      title: UpdateCustomerTraitRequest
-      description: Request model for updating a customer trait definition.
-    DeleteCustomerTraitResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_trait_id:
-          type: string
-          title: Deleted Trait Id
-          description: ID of the deleted trait
-      type: object
-      required:
-      - message
-      - deleted_trait_id
-      title: DeleteCustomerTraitResponse
-      description: Response model for deleting a customer trait.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CustomerTraitResponse:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: Unique identifier for the customer trait
-        agent_id:
-          type: integer
-          title: Agent Id
-          description: ID of the agent this trait belongs to
-        name:
-          type: string
-          title: Name
-          description: Name of the trait
-        data_type:
-          $ref: '#/components/schemas/TraitDataType'
-          description: Data type of the trait
-        default_value:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Default Value
-          description: Default value for this trait (stored as JSONB)
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: When the trait was created
-      type: object
-      required:
-      - id
-      - agent_id
-      - name
-      - data_type
-      - created_at
-      title: CustomerTraitResponse
-      description: Response model for customer trait operations.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -84,23 +84,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ReEvaluateSimulationResultResponse:
+    HTTPValidationError:
       properties:
-        status:
-          type: string
-          title: Status
-        simulation_result_id:
-          type: integer
-          title: Simulation Result Id
-        message:
-          type: string
-          title: Message
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - status
-      - simulation_result_id
-      - message
-      title: ReEvaluateSimulationResultResponse
+      title: HTTPValidationError
     ReEvaluateCallResponse:
       properties:
         status:
@@ -118,15 +110,23 @@ components:
       - call_id
       - message
       title: ReEvaluateCallResponse
-    HTTPValidationError:
+    ReEvaluateSimulationResultResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        status:
+          type: string
+          title: Status
+        simulation_result_id:
+          type: integer
+          title: Simulation Result Id
+        message:
+          type: string
+          title: Message
       type: object
-      title: HTTPValidationError
+      required:
+      - status
+      - simulation_result_id
+      - message
+      title: ReEvaluateSimulationResultResponse
     ValidationError:
       properties:
         loc:

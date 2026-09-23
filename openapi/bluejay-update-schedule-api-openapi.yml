@@ -53,91 +53,15 @@ paths:
       - Update Schedule
 components:
   schemas:
-    MonthlySchedule:
+    HTTPValidationError:
       properties:
-        frequency:
-          type: string
-          const: monthly
-          title: Frequency
-        day_of_month:
-          type: integer
-          maximum: 31.0
-          minimum: 1.0
-          title: Day Of Month
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - frequency
-      - day_of_month
-      - time
-      title: MonthlySchedule
-    DailySchedule:
-      properties:
-        frequency:
-          type: string
-          const: daily
-          title: Frequency
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-          description: HH:MM 24hr time
-      type: object
-      required:
-      - frequency
-      - time
-      title: DailySchedule
-    EveryNMinutesSchedule:
-      properties:
-        frequency:
-          type: string
-          const: every_n_minutes
-          title: Frequency
-        interval:
-          type: integer
-          maximum: 59.0
-          exclusiveMinimum: 0.0
-          title: Interval
-          description: Repeat every N minutes (max 59)
-      type: object
-      required:
-      - frequency
-      - interval
-      title: EveryNMinutesSchedule
-    UpdateCronJobResponse:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: The unique identifier for the updated cron job.
-        simulation_id:
-          type: string
-          title: Simulation Id
-          description: The unique identifier for the associated simulation.
-        cron_expression:
-          type: string
-          title: Cron Expression
-          description: The cron expression defining the job schedule.
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-          description: Whether the cron job is enabled.
-        created_at:
-          type: string
-          title: Created At
-          description: The timestamp when the cron job was created.
-      type: object
-      required:
-      - id
-      - simulation_id
-      - cron_expression
-      - created_at
-      title: UpdateCronJobResponse
+      title: HTTPValidationError
     WeeklySchedule:
       properties:
         frequency:
@@ -165,15 +89,23 @@ components:
       - day_of_week
       - time
       title: WeeklySchedule
-    HTTPValidationError:
+    EveryNMinutesSchedule:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        frequency:
+          type: string
+          const: every_n_minutes
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 59.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N minutes (max 59)
       type: object
-      title: HTTPValidationError
+      required:
+      - frequency
+      - interval
+      title: EveryNMinutesSchedule
     ValidationError:
       properties:
         loc:
@@ -227,6 +159,74 @@ components:
       - frequency
       - interval
       title: EveryNHoursSchedule
+    DailySchedule:
+      properties:
+        frequency:
+          type: string
+          const: daily
+          title: Frequency
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+          description: HH:MM 24hr time
+      type: object
+      required:
+      - frequency
+      - time
+      title: DailySchedule
+    MonthlySchedule:
+      properties:
+        frequency:
+          type: string
+          const: monthly
+          title: Frequency
+        day_of_month:
+          type: integer
+          maximum: 31.0
+          minimum: 1.0
+          title: Day Of Month
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+      type: object
+      required:
+      - frequency
+      - day_of_month
+      - time
+      title: MonthlySchedule
+    UpdateCronJobResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: The unique identifier for the updated cron job.
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: The unique identifier for the associated simulation.
+        cron_expression:
+          type: string
+          title: Cron Expression
+          description: The cron expression defining the job schedule.
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+          description: Whether the cron job is enabled.
+        created_at:
+          type: string
+          title: Created At
+          description: The timestamp when the cron job was created.
+      type: object
+      required:
+      - id
+      - simulation_id
+      - cron_expression
+      - created_at
+      title: UpdateCronJobResponse
     UpdateCronJobRequest:
       properties:
         schedule:
