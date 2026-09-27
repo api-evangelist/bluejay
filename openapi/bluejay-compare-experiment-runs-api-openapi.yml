@@ -48,31 +48,6 @@ paths:
       - Compare Experiment Runs
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ComparisonResponse:
-      properties:
-        summary:
-          type: string
-          title: Summary
-          description: AI-generated comparison summary of the experiment runs
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - summary
-      title: ComparisonResponse
-      description: Pydantic model for experiment run comparison response
     ComparisonRequest:
       properties:
         experiment_run_ids:
@@ -86,6 +61,15 @@ components:
       - experiment_run_ids
       title: ComparisonRequest
       description: Pydantic model for experiment run comparison request
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -107,6 +91,22 @@ components:
       - msg
       - type
       title: ValidationError
+    ComparisonResponse:
+      properties:
+        summary:
+          type: string
+          title: Summary
+          description: AI-generated comparison summary of the experiment runs
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - summary
+      title: ComparisonResponse
+      description: Pydantic model for experiment run comparison response
   securitySchemes:
     apiKeyAuth:
       type: apiKey

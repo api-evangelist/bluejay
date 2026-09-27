@@ -83,6 +83,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     DeleteSimulationRunResponse:
       properties:
         message:
@@ -115,15 +124,6 @@ components:
       - deleted_simulation_result_id
       title: DeleteSimulationResultResponse
       description: Response model for the delete simulation result API (customer-facing).
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:

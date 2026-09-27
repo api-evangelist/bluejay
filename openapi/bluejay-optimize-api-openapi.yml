@@ -87,15 +87,17 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    OptimizeMetricPromptResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        optimized_prompt:
+          type: string
+          title: Optimized Prompt
+          description: The optimized version of the custom metric prompt.
       type: object
-      title: HTTPValidationError
+      required:
+      - optimized_prompt
+      title: OptimizeMetricPromptResponse
+      description: Response containing the optimized prompt.
     OptimizeMetricPromptWithDiffRequest:
       properties:
         name:
@@ -155,17 +157,39 @@ components:
       - msg
       - type
       title: ValidationError
-    OptimizeMetricPromptResponse:
+    HTTPValidationError:
       properties:
-        optimized_prompt:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OptimizeMetricPromptRequest:
+      properties:
+        name:
           type: string
-          title: Optimized Prompt
-          description: The optimized version of the custom metric prompt.
+          minLength: 1
+          title: Name
+          description: The name of the custom metric to optimize.
+        prompt:
+          type: string
+          minLength: 1
+          title: Prompt
+          description: The current evaluation system prompt to optimize.
+        additional_instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Additional Instructions
+          description: Additional instructions for the optimization.
       type: object
       required:
-      - optimized_prompt
-      title: OptimizeMetricPromptResponse
-      description: Response containing the optimized prompt.
+      - name
+      - prompt
+      title: OptimizeMetricPromptRequest
+      description: Request body for optimizing a metric prompt (no evaluation diffs).
     EvaluationDiffItem:
       properties:
         call_id:
@@ -207,30 +231,6 @@ components:
       type: object
       title: EvaluationDiffItem
       description: One human vs AI evaluation comparison for a conversation.
-    OptimizeMetricPromptRequest:
-      properties:
-        name:
-          type: string
-          minLength: 1
-          title: Name
-          description: The name of the custom metric to optimize.
-        prompt:
-          type: string
-          minLength: 1
-          title: Prompt
-          description: The current evaluation system prompt to optimize.
-        additional_instructions:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Additional Instructions
-          description: Additional instructions for the optimization.
-      type: object
-      required:
-      - name
-      - prompt
-      title: OptimizeMetricPromptRequest
-      description: Request body for optimizing a metric prompt (no evaluation diffs).
   securitySchemes:
     apiKeyAuth:
       type: apiKey

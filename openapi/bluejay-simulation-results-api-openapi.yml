@@ -47,22 +47,21 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    UpdateSimulationResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Optional message providing additional information about the response
       type: object
-      title: HTTPValidationError
-    ParticipantRole:
-      type: string
-      enum:
-      - AGENT
-      - USER
-      title: ParticipantRole
-      description: Enum representing the role of a participant in a call.
+      title: UpdateSimulationResponse
     Event:
       properties:
         title:
@@ -106,42 +105,13 @@ components:
       - start_offset_ms
       title: Event
       description: Pydantic model for event data
-    ToolCall:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the tool called
-        start_offset_ms:
-          type: integer
-          minimum: 0.0
-          title: Start Offset Ms
-          description: Start offset of the tool call in milliseconds
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the tool call
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Parameters passed to the tool call
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Output returned by the tool call
-      type: object
-      required:
-      - name
-      - start_offset_ms
-      title: ToolCall
-      description: Represents a tool call during a conversation.
+    ParticipantRole:
+      type: string
+      enum:
+      - AGENT
+      - USER
+      title: ParticipantRole
+      description: Enum representing the role of a participant in a call.
     ValidationError:
       properties:
         loc:
@@ -193,21 +163,15 @@ components:
       - speaker
       - utterance
       title: TranscriptEntryRequest
-    UpdateSimulationResponse:
+    HTTPValidationError:
       properties:
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: success
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Optional message providing additional information about the response
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      title: UpdateSimulationResponse
+      title: HTTPValidationError
     src__api__update_simulation_result__UpdateSimulationRequest:
       properties:
         simulation_result_id:
@@ -257,6 +221,42 @@ components:
       required:
       - simulation_result_id
       title: UpdateSimulationRequest
+    ToolCall:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the tool called
+        start_offset_ms:
+          type: integer
+          minimum: 0.0
+          title: Start Offset Ms
+          description: Start offset of the tool call in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the tool call
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Parameters passed to the tool call
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Output returned by the tool call
+      type: object
+      required:
+      - name
+      - start_offset_ms
+      title: ToolCall
+      description: Represents a tool call during a conversation.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

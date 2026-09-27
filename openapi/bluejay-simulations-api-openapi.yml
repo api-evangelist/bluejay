@@ -207,177 +207,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RemoveDigitalHumansFromSimulationResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: success message
-      type: object
-      required:
-      - message
-      title: RemoveDigitalHumansFromSimulationResponse
-      description: response body for removing digital humans from a simulation (does not delete the digital humans).
-    SimulationType:
-      type: string
-      enum:
-      - sequential
-      - parallel
-      - max_concurrent
-      title: SimulationType
-    AddDigitalHumansToSimulationResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: success message
-      type: object
-      required:
-      - message
-      title: AddDigitalHumansToSimulationResponse
-      description: response body for adding digital humans to a simulation.
-    DeleteSimulationResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_simulation_id:
-          type: integer
-          title: Deleted Simulation Id
-          description: ID of the deleted simulation
-      type: object
-      required:
-      - message
-      - deleted_simulation_id
-      title: DeleteSimulationResponse
-      description: Response model for deleting a simulation
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AddDigitalHumansToSimulationRequest:
-      properties:
-        digital_human_ids:
-          items:
-            type: integer
-          type: array
-          title: Digital Human Ids
-          description: array of existing digital human IDs to add to the simulation
-      type: object
-      required:
-      - digital_human_ids
-      title: AddDigitalHumansToSimulationRequest
-      description: request body for adding existing digital humans to a simulation.
-    RemoveDigitalHumansFromSimulationRequest:
-      properties:
-        digital_human_ids:
-          items:
-            type: integer
-          type: array
-          title: Digital Human Ids
-          description: array of digital human IDs to remove from this simulation
-      type: object
-      required:
-      - digital_human_ids
-      title: RemoveDigitalHumansFromSimulationRequest
-      description: request body for removing digital humans from a simulation (unlink only).
-    SimulationPydantic:
-      properties:
-        id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Id
-        agent_id:
-          type: integer
-          title: Agent Id
-        name:
-          type: string
-          title: Name
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-        settings:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Settings
-        type:
-          $ref: '#/components/schemas/SimulationType'
-        max_concurrent:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Concurrent
-        max_turns:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Turns
-        ringing_timeout:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Ringing Timeout
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        pinned:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Pinned
-        always_on:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Always On
-      type: object
-      required:
-      - agent_id
-      - name
-      - type
-      title: SimulationPydantic
     src__api__simulations__UpdateSimulationRequest:
       properties:
         name:
@@ -499,6 +328,177 @@ components:
 
 
         all fields are optional; only provided fields will be updated.'
+    SimulationType:
+      type: string
+      enum:
+      - sequential
+      - parallel
+      - max_concurrent
+      title: SimulationType
+    AddDigitalHumansToSimulationRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: array of existing digital human IDs to add to the simulation
+      type: object
+      required:
+      - digital_human_ids
+      title: AddDigitalHumansToSimulationRequest
+      description: request body for adding existing digital humans to a simulation.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DeleteSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_simulation_id:
+          type: integer
+          title: Deleted Simulation Id
+          description: ID of the deleted simulation
+      type: object
+      required:
+      - message
+      - deleted_simulation_id
+      title: DeleteSimulationResponse
+      description: Response model for deleting a simulation
+    RemoveDigitalHumansFromSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: success message
+      type: object
+      required:
+      - message
+      title: RemoveDigitalHumansFromSimulationResponse
+      description: response body for removing digital humans from a simulation (does not delete the digital humans).
+    SimulationPydantic:
+      properties:
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+        agent_id:
+          type: integer
+          title: Agent Id
+        name:
+          type: string
+          title: Name
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Settings
+        type:
+          $ref: '#/components/schemas/SimulationType'
+        max_concurrent:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Concurrent
+        max_turns:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Turns
+        ringing_timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Ringing Timeout
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        pinned:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Pinned
+        always_on:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Always On
+      type: object
+      required:
+      - agent_id
+      - name
+      - type
+      title: SimulationPydantic
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AddDigitalHumansToSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: success message
+      type: object
+      required:
+      - message
+      title: AddDigitalHumansToSimulationResponse
+      description: response body for adding digital humans to a simulation.
+    RemoveDigitalHumansFromSimulationRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: array of digital human IDs to remove from this simulation
+      type: object
+      required:
+      - digital_human_ids
+      title: RemoveDigitalHumansFromSimulationRequest
+      description: request body for removing digital humans from a simulation (unlink only).
   securitySchemes:
     apiKeyAuth:
       type: apiKey

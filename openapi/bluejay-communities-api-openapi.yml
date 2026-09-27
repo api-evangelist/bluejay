@@ -240,19 +240,12 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CreateCommunityRequest:
+    UpdateCommunityRequest:
       properties:
         title:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Title
           description: Title of the community
         description:
@@ -268,11 +261,69 @@ components:
             type: array
           - type: 'null'
           title: Digital Human Ids
-          description: List of digital human (test case) IDs to associate this community with
+          description: List of digital human (test case) IDs to associate this community with (replaces existing associations)
+      type: object
+      title: UpdateCommunityRequest
+    CommunitiesListResponse:
+      properties:
+        communities:
+          items:
+            $ref: '#/components/schemas/CommunityResponse'
+          type: array
+          title: Communities
+          description: List of communities
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of communities
       type: object
       required:
-      - title
-      title: CreateCommunityRequest
+      - communities
+      - total_count
+      title: CommunitiesListResponse
+      description: Response model for listing communities
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AddToCommunityRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: List of digital human (test case) IDs to add to this community
+      type: object
+      required:
+      - digital_human_ids
+      title: AddToCommunityRequest
     CommunityResponse:
       properties:
         id:
@@ -307,63 +358,10 @@ components:
       - created_at
       title: CommunityResponse
       description: Response model for community operations
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CommunitiesListResponse:
-      properties:
-        communities:
-          items:
-            $ref: '#/components/schemas/CommunityResponse'
-          type: array
-          title: Communities
-          description: List of communities
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of communities
-      type: object
-      required:
-      - communities
-      - total_count
-      title: CommunitiesListResponse
-      description: Response model for listing communities
-    AddToCommunityRequest:
-      properties:
-        digital_human_ids:
-          items:
-            type: integer
-          type: array
-          title: Digital Human Ids
-          description: List of digital human (test case) IDs to add to this community
-      type: object
-      required:
-      - digital_human_ids
-      title: AddToCommunityRequest
-    UpdateCommunityRequest:
+    CreateCommunityRequest:
       properties:
         title:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Title
           description: Title of the community
         description:
@@ -379,9 +377,11 @@ components:
             type: array
           - type: 'null'
           title: Digital Human Ids
-          description: List of digital human (test case) IDs to associate this community with (replaces existing associations)
+          description: List of digital human (test case) IDs to associate this community with
       type: object
-      title: UpdateCommunityRequest
+      required:
+      - title
+      title: CreateCommunityRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey

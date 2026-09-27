@@ -56,24 +56,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    DeleteCronJobResponse:
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-          - error
-          title: Status
-          description: The status of the delete operation.
-        message:
-          type: string
-          title: Message
-          description: A message providing additional details about the operation.
-      type: object
-      required:
-      - status
-      - message
-      title: DeleteCronJobResponse
     ValidationError:
       properties:
         loc:
@@ -95,6 +77,24 @@ components:
       - msg
       - type
       title: ValidationError
+    DeleteCronJobResponse:
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          - error
+          title: Status
+          description: The status of the delete operation.
+        message:
+          type: string
+          title: Message
+          description: A message providing additional details about the operation.
+      type: object
+      required:
+      - status
+      - message
+      title: DeleteCronJobResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

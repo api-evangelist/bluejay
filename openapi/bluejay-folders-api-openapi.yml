@@ -295,32 +295,13 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    MoveAgentRequest:
-      properties:
-        agent_id:
-          type: integer
-          title: Agent Id
-          description: ID of the agent to move
-        folder_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Folder Id
-          description: ID of the target folder (null to disassociate from any folder)
-      type: object
-      required:
-      - agent_id
-      title: MoveAgentRequest
+    AgentType:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: AgentType
+      description: Enum representing the type of agent
     ConnectionType:
       type: string
       enum:
@@ -333,16 +314,6 @@ components:
       - PIPECAT
       title: ConnectionType
       description: Enum representing the connection type of the agent
-    FolderUpdateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: New name for the folder
-      type: object
-      required:
-      - name
-      title: FolderUpdateRequest
     MoveAgentResponse:
       properties:
         agent_id:
@@ -365,6 +336,44 @@ components:
       required:
       - agent_id
       title: MoveAgentResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FolderCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the folder
+      type: object
+      required:
+      - name
+      title: FolderCreateRequest
+    AgentMode:
+      type: string
+      enum:
+      - VOICE
+      - TEXT
+      title: AgentMode
+      description: Enum representing the mode of agent
     AgentPydantic:
       properties:
         id:
@@ -537,60 +546,32 @@ components:
       - organization_id
       - mode
       title: AgentPydantic
-    AgentType:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: AgentType
-      description: Enum representing the type of agent
-    FolderCreateRequest:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the folder
-      type: object
-      required:
-      - name
-      title: FolderCreateRequest
-    FolderDeleteResponse:
-      properties:
-        folder_id:
-          type: string
-          format: uuid
-          title: Folder Id
-          description: ID of the deleted folder
-        status:
-          type: string
-          title: Status
-          description: Status of the deletion
-          default: success
-      type: object
-      required:
-      - folder_id
-      title: FolderDeleteResponse
-    ValidationError:
-      properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MoveAgentRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the agent to move
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+          description: ID of the target folder (null to disassociate from any folder)
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - agent_id
+      title: MoveAgentRequest
     FolderResponse:
       properties:
         id:
@@ -617,13 +598,32 @@ components:
       - organization_id
       - created_at
       title: FolderResponse
-    AgentMode:
-      type: string
-      enum:
-      - VOICE
-      - TEXT
-      title: AgentMode
-      description: Enum representing the mode of agent
+    FolderUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: New name for the folder
+      type: object
+      required:
+      - name
+      title: FolderUpdateRequest
+    FolderDeleteResponse:
+      properties:
+        folder_id:
+          type: string
+          format: uuid
+          title: Folder Id
+          description: ID of the deleted folder
+        status:
+          type: string
+          title: Status
+          description: Status of the deletion
+          default: success
+      type: object
+      required:
+      - folder_id
+      title: FolderDeleteResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

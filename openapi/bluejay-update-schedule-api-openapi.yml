@@ -53,128 +53,6 @@ paths:
       - Update Schedule
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    WeeklySchedule:
-      properties:
-        frequency:
-          type: string
-          const: weekly
-          title: Frequency
-        day_of_week:
-          type: string
-          enum:
-          - monday
-          - tuesday
-          - wednesday
-          - thursday
-          - friday
-          - saturday
-          - sunday
-          title: Day Of Week
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-      type: object
-      required:
-      - frequency
-      - day_of_week
-      - time
-      title: WeeklySchedule
-    EveryNMinutesSchedule:
-      properties:
-        frequency:
-          type: string
-          const: every_n_minutes
-          title: Frequency
-        interval:
-          type: integer
-          maximum: 59.0
-          exclusiveMinimum: 0.0
-          title: Interval
-          description: Repeat every N minutes (max 59)
-      type: object
-      required:
-      - frequency
-      - interval
-      title: EveryNMinutesSchedule
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CronSchedule:
-      properties:
-        frequency:
-          type: string
-          const: cron
-          title: Frequency
-        expression:
-          type: string
-          title: Expression
-          description: Cron expression
-      type: object
-      required:
-      - frequency
-      - expression
-      title: CronSchedule
-    EveryNHoursSchedule:
-      properties:
-        frequency:
-          type: string
-          const: every_n_hours
-          title: Frequency
-        interval:
-          type: integer
-          maximum: 23.0
-          exclusiveMinimum: 0.0
-          title: Interval
-          description: Repeat every N hours (max 23)
-      type: object
-      required:
-      - frequency
-      - interval
-      title: EveryNHoursSchedule
-    DailySchedule:
-      properties:
-        frequency:
-          type: string
-          const: daily
-          title: Frequency
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-          description: HH:MM 24hr time
-      type: object
-      required:
-      - frequency
-      - time
-      title: DailySchedule
     MonthlySchedule:
       properties:
         frequency:
@@ -196,6 +74,106 @@ components:
       - day_of_month
       - time
       title: MonthlySchedule
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    EveryNHoursSchedule:
+      properties:
+        frequency:
+          type: string
+          const: every_n_hours
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 23.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N hours (max 23)
+      type: object
+      required:
+      - frequency
+      - interval
+      title: EveryNHoursSchedule
+    CronSchedule:
+      properties:
+        frequency:
+          type: string
+          const: cron
+          title: Frequency
+        expression:
+          type: string
+          title: Expression
+          description: Cron expression
+      type: object
+      required:
+      - frequency
+      - expression
+      title: CronSchedule
+    EveryNMinutesSchedule:
+      properties:
+        frequency:
+          type: string
+          const: every_n_minutes
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 59.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N minutes (max 59)
+      type: object
+      required:
+      - frequency
+      - interval
+      title: EveryNMinutesSchedule
+    UpdateCronJobRequest:
+      properties:
+        schedule:
+          anyOf:
+          - $ref: '#/components/schemas/EveryNMinutesSchedule'
+          - $ref: '#/components/schemas/EveryNHoursSchedule'
+          - $ref: '#/components/schemas/DailySchedule'
+          - $ref: '#/components/schemas/WeeklySchedule'
+          - $ref: '#/components/schemas/MonthlySchedule'
+          - $ref: '#/components/schemas/CronSchedule'
+          - type: 'null'
+          title: Schedule
+          description: The new schedule for the cron job.
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+          description: Whether to enable or disable the cron job.
+      type: object
+      title: UpdateCronJobRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     UpdateCronJobResponse:
       properties:
         id:
@@ -227,27 +205,49 @@ components:
       - cron_expression
       - created_at
       title: UpdateCronJobResponse
-    UpdateCronJobRequest:
+    WeeklySchedule:
       properties:
-        schedule:
-          anyOf:
-          - $ref: '#/components/schemas/EveryNMinutesSchedule'
-          - $ref: '#/components/schemas/EveryNHoursSchedule'
-          - $ref: '#/components/schemas/DailySchedule'
-          - $ref: '#/components/schemas/WeeklySchedule'
-          - $ref: '#/components/schemas/MonthlySchedule'
-          - $ref: '#/components/schemas/CronSchedule'
-          - type: 'null'
-          title: Schedule
-          description: The new schedule for the cron job.
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-          description: Whether to enable or disable the cron job.
+        frequency:
+          type: string
+          const: weekly
+          title: Frequency
+        day_of_week:
+          type: string
+          enum:
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          - saturday
+          - sunday
+          title: Day Of Week
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
       type: object
-      title: UpdateCronJobRequest
+      required:
+      - frequency
+      - day_of_week
+      - time
+      title: WeeklySchedule
+    DailySchedule:
+      properties:
+        frequency:
+          type: string
+          const: daily
+          title: Frequency
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+          description: HH:MM 24hr time
+      type: object
+      required:
+      - frequency
+      - time
+      title: DailySchedule
   securitySchemes:
     apiKeyAuth:
       type: apiKey

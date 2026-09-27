@@ -140,15 +140,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     IntegrationsUpdateResponse:
       properties:
         success:
@@ -175,37 +187,15 @@ components:
       - message
       - integrations
       title: IntegrationsUpdateResponse
-    IntegrationKeyResponse:
+    HTTPValidationError:
       properties:
-        value:
-          type: string
-          title: Value
-          description: The decrypted plaintext value
-      type: object
-      required:
-      - value
-      title: IntegrationKeyResponse
-    ValidationError:
-      properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
     IntegrationKeyRequest:
       properties:
         field:
@@ -216,6 +206,16 @@ components:
       required:
       - field
       title: IntegrationKeyRequest
+    IntegrationKeyResponse:
+      properties:
+        value:
+          type: string
+          title: Value
+          description: The decrypted plaintext value
+      type: object
+      required:
+      - value
+      title: IntegrationKeyResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -117,7 +117,7 @@ apis:
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-bland-api
-  name: Bluejay bland API
+  name: Bluejay Bland API
   description: The bland API from Bluejay — 1 operation(s) for bland.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
@@ -167,6 +167,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - Community
+  tags_raw:
   - Communities
   properties:
   - type: OpenAPI
@@ -682,7 +684,7 @@ apis:
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-retell-api
-  name: Bluejay retell API
+  name: Bluejay Retell API
   description: The retell API from Bluejay — 1 operation(s) for retell.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
@@ -868,7 +870,7 @@ apis:
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-vapi-api
-  name: Bluejay vapi API
+  name: Bluejay Vapi API
   description: The vapi API from Bluejay — 3 operation(s) for vapi.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai

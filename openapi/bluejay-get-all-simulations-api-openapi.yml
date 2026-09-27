@@ -42,6 +42,46 @@ paths:
       - Get All Simulations
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GetSimulationsResponse:
+      properties:
+        simulations:
+          items:
+            $ref: '#/components/schemas/SimulationRes'
+          type: array
+          title: Simulations
+          description: List of simulations
+      type: object
+      title: GetSimulationsResponse
     SimulationRes:
       properties:
         id:
@@ -76,46 +116,6 @@ components:
       - name
       - created_at
       title: SimulationRes
-    GetSimulationsResponse:
-      properties:
-        simulations:
-          items:
-            $ref: '#/components/schemas/SimulationRes'
-          type: array
-          title: Simulations
-          description: List of simulations
-      type: object
-      title: GetSimulationsResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

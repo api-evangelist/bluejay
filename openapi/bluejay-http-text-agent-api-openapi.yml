@@ -89,15 +89,55 @@ paths:
         description: API key required to authenticate requests.
 components:
   schemas:
-    HTTPValidationError:
+    HttpSimulationRunResponse:
       properties:
-        detail:
+        simulation_run_id:
+          type: string
+          title: Simulation Run Id
+          description: ID of the created simulation run (experiment_run)
+        simulation_result_ids:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
           type: array
-          title: Detail
+          title: Simulation Result Ids
+          description: IDs of the created simulation results (test results)
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent associated with the simulation run
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
       type: object
-      title: HTTPValidationError
+      required:
+      - simulation_run_id
+      - simulation_result_ids
+      - agent_id
+      title: HttpSimulationRunResponse
+      description: Response model for HTTP simulation run
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HttpTextMessageResponse:
       properties:
         simulation_result_id:
@@ -155,55 +195,15 @@ components:
       - simulation_result_id
       title: HttpTextMessageRequest
       description: Request model for HTTP text message
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HttpSimulationRunResponse:
-      properties:
-        simulation_run_id:
-          type: string
-          title: Simulation Run Id
-          description: ID of the created simulation run (experiment_run)
-        simulation_result_ids:
-          items:
-            type: string
-          type: array
-          title: Simulation Result Ids
-          description: IDs of the created simulation results (test results)
-        agent_id:
-          type: string
-          title: Agent Id
-          description: ID of the agent associated with the simulation run
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: success
-      type: object
-      required:
-      - simulation_run_id
-      - simulation_result_ids
-      - agent_id
-      title: HttpSimulationRunResponse
-      description: Response model for HTTP simulation run
+      title: HTTPValidationError
     HttpSimulationRunRequest:
       properties:
         simulation_id:

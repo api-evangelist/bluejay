@@ -48,15 +48,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     WeeklyNotificationsPostResponse:
       properties:
         success:
@@ -83,46 +95,15 @@ components:
           description: True if first fire was deferred by at least one week for lead-time safety.
       type: object
       title: WeeklyNotificationsPostResponse
-    WeeklyNotificationTarget:
+    HTTPValidationError:
       properties:
-        type:
-          type: string
-          enum:
-          - email
-          - slack
-          title: Type
-          description: Channel type
-        target:
-          type: string
-          minLength: 1
-          title: Target
-          description: Email address or Slack channel ID
-      type: object
-      required:
-      - type
-      - target
-      title: WeeklyNotificationTarget
-    ValidationError:
-      properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
     WeeklyNotificationsBody:
       properties:
         targets:
@@ -153,6 +134,25 @@ components:
       required:
       - targets
       title: WeeklyNotificationsBody
+    WeeklyNotificationTarget:
+      properties:
+        type:
+          type: string
+          enum:
+          - email
+          - slack
+          title: Type
+          description: Channel type
+        target:
+          type: string
+          minLength: 1
+          title: Target
+          description: Email address or Slack channel ID
+      type: object
+      required:
+      - type
+      - target
+      title: WeeklyNotificationTarget
   securitySchemes:
     apiKeyAuth:
       type: apiKey

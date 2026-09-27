@@ -107,28 +107,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SyncVapiAgentsRequest:
-      properties:
-        organization_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Organization Id
-        dry_run:
-          type: boolean
-          title: Dry Run
-          default: true
-      type: object
-      title: SyncVapiAgentsRequest
     SyncSingleAgentFromVapiRequest:
       properties:
         agent_id:
@@ -138,6 +116,15 @@ components:
       required:
       - agent_id
       title: SyncSingleAgentFromVapiRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -159,6 +146,19 @@ components:
       - msg
       - type
       title: ValidationError
+    SyncVapiAgentsRequest:
+      properties:
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+        dry_run:
+          type: boolean
+          title: Dry Run
+          default: true
+      type: object
+      title: SyncVapiAgentsRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey
