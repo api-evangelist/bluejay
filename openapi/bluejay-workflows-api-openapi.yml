@@ -240,6 +240,93 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    DeleteWorkflowV2Response:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_workflow_id:
+          type: string
+          title: Deleted Workflow Id
+          description: ID of the deleted workflow
+      type: object
+      required:
+      - message
+      - deleted_workflow_id
+      title: DeleteWorkflowV2Response
+      description: Delete confirmation.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CreateWorkflowV2Request:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+          description: Name of the workflow
+        agent_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Agent Ids
+          description: Owning agents (must belong to your organization). Omit or null for org-only workflow.
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Human-readable description of the workflow
+        definition:
+          additionalProperties: true
+          type: object
+          title: Definition
+          description: React Flow graph. Omitted `nodes` / `edges` default to []. With no `single` or `options` nodes, the graph is stored as a draft (only multiple-start is rejected). Once there is content, export rules apply (paths, branch_options, etc.).
+      type: object
+      required:
+      - name
+      - definition
+      title: CreateWorkflowV2Request
+      description: Create a workflow; ``definition`` is a React Flow graph (``nodes``, ``edges``, optional ``viewport``).
+      examples:
+      - agent_ids: []
+        definition:
+          edges:
+          - source: wf-start
+            target: n-greet
+          nodes:
+          - data:
+              id: wf-start
+            deletable: false
+            draggable: true
+            id: wf-start
+            position:
+              x: 100
+              y: 50
+            type: start
+          - data:
+              id: n-greet
+              message: Hi, how can I help?
+              speaker: agent
+              turn: 0
+              type: contextual
+            id: n-greet
+            position:
+              x: 200
+              y: 180
+            type: single
+        description: Password reset IVR
+        name: Support reset flow
     ValidationError:
       properties:
         loc:
@@ -274,31 +361,6 @@ components:
       type: object
       title: DuplicateWorkflowV2Request
       description: Duplicate an existing workflow (new row, same definition and agent links).
-    DeleteWorkflowV2Response:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_workflow_id:
-          type: string
-          title: Deleted Workflow Id
-          description: ID of the deleted workflow
-      type: object
-      required:
-      - message
-      - deleted_workflow_id
-      title: DeleteWorkflowV2Response
-      description: Delete confirmation.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     WorkflowsV2ListResponse:
       properties:
         workflows:
@@ -398,68 +460,6 @@ components:
       type: object
       title: UpdateWorkflowV2Request
       description: Partial update for workflows_v2.
-    CreateWorkflowV2Request:
-      properties:
-        name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Name
-          description: Name of the workflow
-        agent_ids:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Agent Ids
-          description: Owning agents (must belong to your organization). Omit or null for org-only workflow.
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Human-readable description of the workflow
-        definition:
-          additionalProperties: true
-          type: object
-          title: Definition
-          description: React Flow graph. Omitted `nodes` / `edges` default to []. With no `single` or `options` nodes, the graph is stored as a draft (only multiple-start is rejected). Once there is content, export rules apply (paths, branch_options, etc.).
-      type: object
-      required:
-      - name
-      - definition
-      title: CreateWorkflowV2Request
-      description: Create a workflow; ``definition`` is a React Flow graph (``nodes``, ``edges``, optional ``viewport``).
-      examples:
-      - agent_ids: []
-        definition:
-          edges:
-          - source: wf-start
-            target: n-greet
-          nodes:
-          - data:
-              id: wf-start
-            deletable: false
-            draggable: true
-            id: wf-start
-            position:
-              x: 100
-              y: 50
-            type: start
-          - data:
-              id: n-greet
-              message: Hi, how can I help?
-              speaker: agent
-              turn: 0
-              type: contextual
-            id: n-greet
-            position:
-              x: 200
-              y: 180
-            type: single
-        description: Password reset IVR
-        name: Support reset flow
   securitySchemes:
     apiKeyAuth:
       type: apiKey

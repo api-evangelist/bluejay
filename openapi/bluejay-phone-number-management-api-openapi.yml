@@ -81,22 +81,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ReleasePhoneNumberResponse:
+    HTTPValidationError:
       properties:
-        phone_number:
-          type: string
-          title: Phone Number
-          description: Released E.164 phone number
-        released:
-          type: boolean
-          title: Released
-          description: Whether the Twilio release was performed
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - phone_number
-      - released
-      title: ReleasePhoneNumberResponse
-      description: Response schema after releasing a Twilio number.
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -129,15 +122,22 @@ components:
       type: object
       title: AddPhoneNumberRequest
       description: Request schema for auto-purchasing a Twilio number for an organization.
-    HTTPValidationError:
+    ReleasePhoneNumberResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        phone_number:
+          type: string
+          title: Phone Number
+          description: Released E.164 phone number
+        released:
+          type: boolean
+          title: Released
+          description: Whether the Twilio release was performed
       type: object
-      title: HTTPValidationError
+      required:
+      - phone_number
+      - released
+      title: ReleasePhoneNumberResponse
+      description: Response schema after releasing a Twilio number.
     AddPhoneNumberResponse:
       properties:
         phone_number:

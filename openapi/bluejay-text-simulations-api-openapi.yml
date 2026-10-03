@@ -66,6 +66,46 @@ paths:
         description: API key required to authenticate requests.
 components:
   schemas:
+    src__text_agents__sms_text_agent_api__SimulationRunRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: ID of the simulation to be run
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: Prompt UUID associated with this run
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Knowledge base UUID associated with this run
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: Digital human IDs to be used in the simulation
+        terminate_overlapping_simulations:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Terminate Overlapping Simulations
+          description: If true, all overlapping conversations with same pair of phone numbers will be ended
+          default: false
+      type: object
+      required:
+      - simulation_id
+      title: SimulationRunRequest
+      description: Pydantic model for simulation run request
     HTTPValidationError:
       properties:
         detail:
@@ -132,46 +172,6 @@ components:
       - simulation_result_ids
       - agent_id
       title: SimulationRunResponse
-    src__text_agents__sms_text_agent_api__SimulationRunRequest:
-      properties:
-        simulation_id:
-          type: string
-          title: Simulation Id
-          description: ID of the simulation to be run
-        prompt_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Prompt Id
-          description: Prompt UUID associated with this run
-        knowledge_base_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Knowledge Base Id
-          description: Knowledge base UUID associated with this run
-        digital_human_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Digital Human Ids
-          description: Digital human IDs to be used in the simulation
-        terminate_overlapping_simulations:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Terminate Overlapping Simulations
-          description: If true, all overlapping conversations with same pair of phone numbers will be ended
-          default: false
-      type: object
-      required:
-      - simulation_id
-      title: SimulationRunRequest
-      description: Pydantic model for simulation run request
   securitySchemes:
     apiKeyAuth:
       type: apiKey

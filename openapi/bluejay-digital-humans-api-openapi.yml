@@ -333,68 +333,66 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    GeneratePromptSummaryRequest:
+    ScriptedResponse:
       properties:
-        prompt_id:
+        match_type:
+          $ref: '#/components/schemas/MatchType'
+          description: 'Type of match: ''exact'' or ''context'''
+        match_phrase:
           type: string
-          title: Prompt Id
-          description: ID of the prompt (UUID)
+          title: Match Phrase
+          description: The phrase to match against
+        response_type:
+          $ref: '#/components/schemas/src__models__digital_humans__enums__ResponseType'
+          description: 'Type of response: ''phrase'', ''silence'', or ''dtmf'''
+        response_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Response Value
+          description: The response text (required if response_type is 'phrase' or 'dtmf', optional for 'silence')
+        occurrence_mode:
+          $ref: '#/components/schemas/OccurrenceMode'
+          description: 'When to apply: ''always'' or ''first_n'''
+        occurrence_n:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Occurrence N
+          description: Number of times to apply (required if occurrence_mode is 'first_n', must be > 0)
+        silence_duration:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Silence Duration
+          description: Duration in seconds for silence period (only used when response_type is 'silence', must be > 0 if provided)
       type: object
       required:
-      - prompt_id
-      title: GeneratePromptSummaryRequest
-      description: Request model for generating prompt summary.
-    GenerateIntentSummaryRequest:
-      properties:
-        test_case_id:
-          type: integer
-          title: Test Case Id
-          description: ID of the test case
-      type: object
-      required:
-      - test_case_id
-      title: GenerateIntentSummaryRequest
-      description: Request model for generating intent summary.
-    KeywordsInterruptionConfig:
+      - match_type
+      - match_phrase
+      - response_type
+      - occurrence_mode
+      title: ScriptedResponse
+      description: Model for a scripted response configuration.
+    ContextualInterruptionConfig:
       properties:
         type:
           type: string
-          const: keywords
+          const: contextual
           title: Type
-          description: Type discriminator for keywords interruption (required)
-        keyword_responses:
-          items:
-            $ref: '#/components/schemas/KeywordResponse'
-          type: array
-          title: Keyword Responses
-          description: Array of keyword response objects, each with keyword, response, and optional probability
+          description: Type discriminator for contextual interruption
+        contextual_prompt:
+          type: string
+          title: Contextual Prompt
+          description: Contextual prompt for LLM-based interruptions
       type: object
       required:
       - type
-      - keyword_responses
-      title: Keywords
-      description: Keywords-based interruption configuration.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - contextual_prompt
+      title: Contextual
+      description: Contextual/LLM-based interruption configuration.
     DigitalHumansListResponse:
       properties:
         digital_humans:
@@ -418,59 +416,104 @@ components:
       - simulation_id
       title: DigitalHumansListResponse
       description: Response model for listing digital humans by simulation.
-    SpeaksFirstConfig:
+    ExpectedToolCall:
       properties:
-        speaks_first:
-          type: boolean
-          title: Speaks First
-          description: Whether the digital human speaks first in the call
-        mode:
+        name:
+          type: string
+          title: Name
+          description: Name of the expected tool call
+        parameters:
           anyOf:
-          - type: string
-            enum:
-            - custom
-            - ai_generated
+          - additionalProperties: true
+            type: object
           - type: 'null'
-          title: Mode
-          description: 'When speaks_first is true: ''custom'' (user-provided message) or ''ai_generated'' (no message)'
-        message:
+          title: Parameters
+          description: Expected parameters passed to the tool call
+        output:
           anyOf:
-          - type: string
+          - {}
           - type: 'null'
-          title: Message
-          description: When mode is 'custom', the message the digital human says first
+          title: Output
+          description: Expected output returned by the tool call
       type: object
       required:
-      - speaks_first
-      title: SpeaksFirstConfig
-      description: 'Configuration for whether the digital human speaks first and how.
-
-        Stored as JSONB in Supabase (speaks_first_config).'
-    FluencyType:
+      - name
+      title: ExpectedToolCall
+      description: Represents an expected tool call during a conversation.
+    KeywordResponse:
+      properties:
+        keyword:
+          type: string
+          title: Keyword
+          description: The keyword to listen for and interrupt on
+        response:
+          type: string
+          title: Response
+          description: Response to say when keyword is detected
+        probability:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Probability
+          description: Probability of responding (0.0-1.0) - defaults to 1.0
+          default: 1.0
+      type: object
+      required:
+      - keyword
+      - response
+      title: KeywordResponse
+      description: Model for a keyword response configuration.
+    src__models__digital_humans__digital_human_response__DigitalHumanResponse:
+      properties:
+        digital_human:
+          $ref: '#/components/schemas/DigitalHumanResponseData'
+          description: The digital human data
+        simulation_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Simulation Ids
+          description: List of simulation IDs associated with this digital human
+        simulation_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Simulation Id
+          description: ID of the associated simulation. Use simulation_ids instead.
+          deprecated: true
+      type: object
+      required:
+      - digital_human
+      title: DigitalHumanResponse
+      description: Response model for digital human operations with clear separation of digital human data and simulation context.
+    src__models__digital_humans__enums__ResponseType:
       type: string
       enum:
-      - beginner
-      - intermediate
-      - native
-      title: FluencyType
-      description: Enum for fluency level options.
-    ContextualInterruptionConfig:
+      - phrase
+      - silence
+      - dtmf
+      title: ResponseType
+      description: Enum for scripted response types.
+    OccurrenceMode:
+      type: string
+      enum:
+      - always
+      - first_n
+      title: OccurrenceMode
+      description: Enum for scripted response occurrence modes.
+    GenerateIntentSummaryRequest:
       properties:
-        type:
-          type: string
-          const: contextual
-          title: Type
-          description: Type discriminator for contextual interruption
-        contextual_prompt:
-          type: string
-          title: Contextual Prompt
-          description: Contextual prompt for LLM-based interruptions
+        test_case_id:
+          type: integer
+          title: Test Case Id
+          description: ID of the test case
       type: object
       required:
-      - type
-      - contextual_prompt
-      title: Contextual
-      description: Contextual/LLM-based interruption configuration.
+      - test_case_id
+      title: GenerateIntentSummaryRequest
+      description: Request model for generating intent summary.
     DigitalHumanRequestData:
       properties:
         intent:
@@ -715,6 +758,300 @@ components:
       - phone_number
       title: DigitalHumanRequestData
       description: Digital human data model for requests (without id and created_at).
+    Trait:
+      properties:
+        trait_name:
+          type: string
+          title: Trait Name
+          description: Name of the trait
+        trait_data_type:
+          $ref: '#/components/schemas/TraitDataType'
+          description: Data type of the trait
+        value:
+          title: Value
+          description: Value of the trait (stored as JSONB)
+        is_sip_header:
+          type: boolean
+          title: Is Sip Header
+          description: Whether this trait is a SIP header
+          default: false
+      type: object
+      required:
+      - trait_name
+      - trait_data_type
+      - value
+      title: Trait
+      description: Model for a single trait.
+    BackgroundNoiseType:
+      type: string
+      enum:
+      - none
+      - office
+      - talking
+      - traffic
+      - cafe
+      - park
+      - tv
+      title: BackgroundNoiseType
+      description: Enum for background noise options.
+    GenerateFormattedTranscriptRequest:
+      properties:
+        original_transcript:
+          type: string
+          title: Original Transcript
+          description: Raw transcript in any format
+      type: object
+      required:
+      - original_transcript
+      title: GenerateFormattedTranscriptRequest
+    AudioQualityType:
+      type: string
+      enum:
+      - high
+      - medium
+      - low
+      - horrible
+      title: AudioQualityType
+      description: Enum for audio quality options.
+    GeneratePromptSummaryResponse:
+      properties:
+        prompt_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Summary
+          description: The generated prompt summary, or null if prompt is short
+        prompt_id:
+          type: string
+          title: Prompt Id
+          description: ID of the prompt
+        skipped:
+          type: boolean
+          title: Skipped
+          description: True if summary was skipped because prompt is short
+          default: false
+      type: object
+      required:
+      - prompt_id
+      title: GeneratePromptSummaryResponse
+      description: Response model for generating prompt summary.
+    AccentType:
+      type: string
+      enum:
+      - multilingual
+      - american
+      - american2
+      - southern
+      - italian
+      - indian
+      - british
+      - australian
+      - mexican
+      - spanish
+      - portuguese
+      - french
+      - turkish
+      - japanese
+      - hindi
+      - arabic
+      - russian
+      - chinese
+      - german
+      title: AccentType
+      description: Enum for accent options.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CreateDigitalHumanRequest:
+      properties:
+        simulation_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Simulation Ids
+          description: List of simulation IDs to associate with this digital human
+        simulation_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Simulation Id
+          description: ID of the associated simulation. Use simulation_ids instead.
+          deprecated: true
+        digital_human:
+          $ref: '#/components/schemas/DigitalHumanRequestData'
+          description: The digital human data
+      type: object
+      required:
+      - digital_human
+      title: CreateDigitalHumanRequest
+      description: Request model for creating a digital human.
+    LanguageType:
+      type: string
+      enum:
+      - en
+      - es
+      - pt
+      - ja
+      - tr
+      - hi
+      - ar
+      - ru
+      - zh
+      - ml
+      - fr
+      - yue
+      - vi
+      - de
+      title: LanguageType
+      description: Enum for supported language types.
+    TraitDataType:
+      type: string
+      enum:
+      - BOOLEAN
+      - STRING
+      - DATE
+      - NUMBER
+      title: TraitDataType
+      description: Enum for trait data types.
+    VerbosityType:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      title: VerbosityType
+      description: Enum for verbosity level options.
+    FluencyType:
+      type: string
+      enum:
+      - beginner
+      - intermediate
+      - native
+      title: FluencyType
+      description: Enum for fluency level options.
+    GenerateObjectivesResponse:
+      properties:
+        objectives:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Objectives
+          description: The generated objectives as a formatted string
+        test_case_id:
+          type: integer
+          title: Test Case Id
+          description: ID of the test case
+      type: object
+      required:
+      - test_case_id
+      title: GenerateObjectivesResponse
+      description: Response model for generating objectives.
+    GenderType:
+      type: string
+      enum:
+      - male
+      - female
+      title: GenderType
+      description: Enum for gender options.
+    MatchType:
+      type: string
+      enum:
+      - exact
+      - context
+      title: MatchType
+      description: Enum for scripted response match types.
+    GenerateObjectivesRequest:
+      properties:
+        test_case_id:
+          type: integer
+          title: Test Case Id
+          description: ID of the test case
+      type: object
+      required:
+      - test_case_id
+      title: GenerateObjectivesRequest
+      description: Request model for generating objectives.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    KeywordsInterruptionConfig:
+      properties:
+        type:
+          type: string
+          const: keywords
+          title: Type
+          description: Type discriminator for keywords interruption (required)
+        keyword_responses:
+          items:
+            $ref: '#/components/schemas/KeywordResponse'
+          type: array
+          title: Keyword Responses
+          description: Array of keyword response objects, each with keyword, response, and optional probability
+      type: object
+      required:
+      - type
+      - keyword_responses
+      title: Keywords
+      description: Keywords-based interruption configuration.
+    GenerateIntentSummaryResponse:
+      properties:
+        intent_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Intent Summary
+          description: The generated intent summary, or null if intent is short
+        test_case_id:
+          type: integer
+          title: Test Case Id
+          description: ID of the test case
+        skipped:
+          type: boolean
+          title: Skipped
+          description: True if summary was skipped because intent is short
+          default: false
+      type: object
+      required:
+      - test_case_id
+      title: GenerateIntentSummaryResponse
+      description: Response model for generating intent summary.
+    GeneratePromptSummaryRequest:
+      properties:
+        prompt_id:
+          type: string
+          title: Prompt Id
+          description: ID of the prompt (UUID)
+      type: object
+      required:
+      - prompt_id
+      title: GeneratePromptSummaryRequest
+      description: Request model for generating prompt summary.
     DigitalHumanResponseData:
       properties:
         id:
@@ -952,52 +1289,6 @@ components:
       - success_criteria
       title: DigitalHumanResponseData
       description: Response model for digital human data.
-    BackgroundNoiseType:
-      type: string
-      enum:
-      - none
-      - office
-      - talking
-      - traffic
-      - cafe
-      - park
-      - tv
-      title: BackgroundNoiseType
-      description: Enum for background noise options.
-    KeywordResponse:
-      properties:
-        keyword:
-          type: string
-          title: Keyword
-          description: The keyword to listen for and interrupt on
-        response:
-          type: string
-          title: Response
-          description: Response to say when keyword is detected
-        probability:
-          type: number
-          maximum: 1.0
-          minimum: 0.0
-          title: Probability
-          description: Probability of responding (0.0-1.0) - defaults to 1.0
-          default: 1.0
-      type: object
-      required:
-      - keyword
-      - response
-      title: KeywordResponse
-      description: Model for a keyword response configuration.
-    GenerateObjectivesRequest:
-      properties:
-        test_case_id:
-          type: integer
-          title: Test Case Id
-          description: ID of the test case
-      type: object
-      required:
-      - test_case_id
-      title: GenerateObjectivesRequest
-      description: Request model for generating objectives.
     UpdateDigitalHumanRequest:
       properties:
         intent:
@@ -1257,57 +1548,6 @@ components:
       type: object
       title: UpdateDigitalHumanRequest
       description: Request model for updating a digital human - contains only the digital human data.
-    GenerateObjectivesResponse:
-      properties:
-        objectives:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Objectives
-          description: The generated objectives as a formatted string
-        test_case_id:
-          type: integer
-          title: Test Case Id
-          description: ID of the test case
-      type: object
-      required:
-      - test_case_id
-      title: GenerateObjectivesResponse
-      description: Response model for generating objectives.
-    src__models__digital_humans__digital_human_response__DigitalHumanResponse:
-      properties:
-        digital_human:
-          $ref: '#/components/schemas/DigitalHumanResponseData'
-          description: The digital human data
-        simulation_ids:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Simulation Ids
-          description: List of simulation IDs associated with this digital human
-        simulation_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Simulation Id
-          description: ID of the associated simulation. Use simulation_ids instead.
-          deprecated: true
-      type: object
-      required:
-      - digital_human
-      title: DigitalHumanResponse
-      description: Response model for digital human operations with clear separation of digital human data and simulation context.
-    TraitDataType:
-      type: string
-      enum:
-      - BOOLEAN
-      - STRING
-      - DATE
-      - NUMBER
-      title: TraitDataType
-      description: Enum for trait data types.
     VoiceSpeedType:
       type: string
       enum:
@@ -1318,47 +1558,6 @@ components:
       - fastest
       title: VoiceSpeedType
       description: Enum for voice speed options.
-    SimpleInterruptionConfig:
-      properties:
-        type:
-          type: string
-          enum:
-          - none
-          - low
-          - medium
-          - high
-          title: Type
-          description: 'Interruption level: none, low, medium, or high'
-      type: object
-      required:
-      - type
-      title: Default
-      description: Simple interruption configuration with predefined levels.
-    CreateDigitalHumanRequest:
-      properties:
-        simulation_ids:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Simulation Ids
-          description: List of simulation IDs to associate with this digital human
-        simulation_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Simulation Id
-          description: ID of the associated simulation. Use simulation_ids instead.
-          deprecated: true
-        digital_human:
-          $ref: '#/components/schemas/DigitalHumanRequestData'
-          description: The digital human data
-      type: object
-      required:
-      - digital_human
-      title: CreateDigitalHumanRequest
-      description: Request model for creating a digital human.
     GenerateFormattedTranscriptResponse:
       properties:
         formatted_transcript:
@@ -1383,249 +1582,50 @@ components:
       - formatted_transcript
       - description
       title: GenerateFormattedTranscriptResponse
-    ScriptedResponse:
+    SimpleInterruptionConfig:
       properties:
-        match_type:
-          $ref: '#/components/schemas/MatchType'
-          description: 'Type of match: ''exact'' or ''context'''
-        match_phrase:
+        type:
           type: string
-          title: Match Phrase
-          description: The phrase to match against
-        response_type:
-          $ref: '#/components/schemas/src__models__digital_humans__enums__ResponseType'
-          description: 'Type of response: ''phrase'', ''silence'', or ''dtmf'''
-        response_value:
+          enum:
+          - none
+          - low
+          - medium
+          - high
+          title: Type
+          description: 'Interruption level: none, low, medium, or high'
+      type: object
+      required:
+      - type
+      title: Default
+      description: Simple interruption configuration with predefined levels.
+    SpeaksFirstConfig:
+      properties:
+        speaks_first:
+          type: boolean
+          title: Speaks First
+          description: Whether the digital human speaks first in the call
+        mode:
+          anyOf:
+          - type: string
+            enum:
+            - custom
+            - ai_generated
+          - type: 'null'
+          title: Mode
+          description: 'When speaks_first is true: ''custom'' (user-provided message) or ''ai_generated'' (no message)'
+        message:
           anyOf:
           - type: string
           - type: 'null'
-          title: Response Value
-          description: The response text (required if response_type is 'phrase' or 'dtmf', optional for 'silence')
-        occurrence_mode:
-          $ref: '#/components/schemas/OccurrenceMode'
-          description: 'When to apply: ''always'' or ''first_n'''
-        occurrence_n:
-          anyOf:
-          - type: integer
-            exclusiveMinimum: 0.0
-          - type: 'null'
-          title: Occurrence N
-          description: Number of times to apply (required if occurrence_mode is 'first_n', must be > 0)
-        silence_duration:
-          anyOf:
-          - type: integer
-            exclusiveMinimum: 0.0
-          - type: 'null'
-          title: Silence Duration
-          description: Duration in seconds for silence period (only used when response_type is 'silence', must be > 0 if provided)
+          title: Message
+          description: When mode is 'custom', the message the digital human says first
       type: object
       required:
-      - match_type
-      - match_phrase
-      - response_type
-      - occurrence_mode
-      title: ScriptedResponse
-      description: Model for a scripted response configuration.
-    OccurrenceMode:
-      type: string
-      enum:
-      - always
-      - first_n
-      title: OccurrenceMode
-      description: Enum for scripted response occurrence modes.
-    ExpectedToolCall:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the expected tool call
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Expected parameters passed to the tool call
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Expected output returned by the tool call
-      type: object
-      required:
-      - name
-      title: ExpectedToolCall
-      description: Represents an expected tool call during a conversation.
-    LanguageType:
-      type: string
-      enum:
-      - en
-      - es
-      - pt
-      - ja
-      - tr
-      - hi
-      - ar
-      - ru
-      - zh
-      - ml
-      - fr
-      - yue
-      - vi
-      - de
-      title: LanguageType
-      description: Enum for supported language types.
-    src__models__digital_humans__enums__ResponseType:
-      type: string
-      enum:
-      - phrase
-      - silence
-      - dtmf
-      title: ResponseType
-      description: Enum for scripted response types.
-    AudioQualityType:
-      type: string
-      enum:
-      - high
-      - medium
-      - low
-      - horrible
-      title: AudioQualityType
-      description: Enum for audio quality options.
-    GenerateFormattedTranscriptRequest:
-      properties:
-        original_transcript:
-          type: string
-          title: Original Transcript
-          description: Raw transcript in any format
-      type: object
-      required:
-      - original_transcript
-      title: GenerateFormattedTranscriptRequest
-    Trait:
-      properties:
-        trait_name:
-          type: string
-          title: Trait Name
-          description: Name of the trait
-        trait_data_type:
-          $ref: '#/components/schemas/TraitDataType'
-          description: Data type of the trait
-        value:
-          title: Value
-          description: Value of the trait (stored as JSONB)
-        is_sip_header:
-          type: boolean
-          title: Is Sip Header
-          description: Whether this trait is a SIP header
-          default: false
-      type: object
-      required:
-      - trait_name
-      - trait_data_type
-      - value
-      title: Trait
-      description: Model for a single trait.
-    GeneratePromptSummaryResponse:
-      properties:
-        prompt_summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Prompt Summary
-          description: The generated prompt summary, or null if prompt is short
-        prompt_id:
-          type: string
-          title: Prompt Id
-          description: ID of the prompt
-        skipped:
-          type: boolean
-          title: Skipped
-          description: True if summary was skipped because prompt is short
-          default: false
-      type: object
-      required:
-      - prompt_id
-      title: GeneratePromptSummaryResponse
-      description: Response model for generating prompt summary.
-    AccentType:
-      type: string
-      enum:
-      - multilingual
-      - american
-      - american2
-      - southern
-      - italian
-      - indian
-      - british
-      - australian
-      - mexican
-      - spanish
-      - portuguese
-      - french
-      - turkish
-      - japanese
-      - hindi
-      - arabic
-      - russian
-      - chinese
-      - german
-      title: AccentType
-      description: Enum for accent options.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    GenerateIntentSummaryResponse:
-      properties:
-        intent_summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Intent Summary
-          description: The generated intent summary, or null if intent is short
-        test_case_id:
-          type: integer
-          title: Test Case Id
-          description: ID of the test case
-        skipped:
-          type: boolean
-          title: Skipped
-          description: True if summary was skipped because intent is short
-          default: false
-      type: object
-      required:
-      - test_case_id
-      title: GenerateIntentSummaryResponse
-      description: Response model for generating intent summary.
-    GenderType:
-      type: string
-      enum:
-      - male
-      - female
-      title: GenderType
-      description: Enum for gender options.
-    VerbosityType:
-      type: string
-      enum:
-      - low
-      - medium
-      - high
-      title: VerbosityType
-      description: Enum for verbosity level options.
-    MatchType:
-      type: string
-      enum:
-      - exact
-      - context
-      title: MatchType
-      description: Enum for scripted response match types.
+      - speaks_first
+      title: SpeaksFirstConfig
+      description: 'Configuration for whether the digital human speaks first and how.
+
+        Stored as JSONB in Supabase (speaks_first_config).'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

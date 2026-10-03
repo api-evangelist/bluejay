@@ -207,6 +207,39 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    AddDigitalHumansToSimulationRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: array of existing digital human IDs to add to the simulation
+      type: object
+      required:
+      - digital_human_ids
+      title: AddDigitalHumansToSimulationRequest
+      description: request body for adding existing digital humans to a simulation.
+    RemoveDigitalHumansFromSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: success message
+      type: object
+      required:
+      - message
+      title: RemoveDigitalHumansFromSimulationResponse
+      description: response body for removing digital humans from a simulation (does not delete the digital humans).
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     src__api__simulations__UpdateSimulationRequest:
       properties:
         name:
@@ -328,26 +361,6 @@ components:
 
 
         all fields are optional; only provided fields will be updated.'
-    SimulationType:
-      type: string
-      enum:
-      - sequential
-      - parallel
-      - max_concurrent
-      title: SimulationType
-    AddDigitalHumansToSimulationRequest:
-      properties:
-        digital_human_ids:
-          items:
-            type: integer
-          type: array
-          title: Digital Human Ids
-          description: array of existing digital human IDs to add to the simulation
-      type: object
-      required:
-      - digital_human_ids
-      title: AddDigitalHumansToSimulationRequest
-      description: request body for adding existing digital humans to a simulation.
     ValidationError:
       properties:
         loc:
@@ -369,33 +382,6 @@ components:
       - msg
       - type
       title: ValidationError
-    DeleteSimulationResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_simulation_id:
-          type: integer
-          title: Deleted Simulation Id
-          description: ID of the deleted simulation
-      type: object
-      required:
-      - message
-      - deleted_simulation_id
-      title: DeleteSimulationResponse
-      description: Response model for deleting a simulation
-    RemoveDigitalHumansFromSimulationResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: success message
-      type: object
-      required:
-      - message
-      title: RemoveDigitalHumansFromSimulationResponse
-      description: response body for removing digital humans from a simulation (does not delete the digital humans).
     SimulationPydantic:
       properties:
         id:
@@ -466,26 +452,6 @@ components:
       - name
       - type
       title: SimulationPydantic
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AddDigitalHumansToSimulationResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: success message
-      type: object
-      required:
-      - message
-      title: AddDigitalHumansToSimulationResponse
-      description: response body for adding digital humans to a simulation.
     RemoveDigitalHumansFromSimulationRequest:
       properties:
         digital_human_ids:
@@ -499,6 +465,40 @@ components:
       - digital_human_ids
       title: RemoveDigitalHumansFromSimulationRequest
       description: request body for removing digital humans from a simulation (unlink only).
+    SimulationType:
+      type: string
+      enum:
+      - sequential
+      - parallel
+      - max_concurrent
+      title: SimulationType
+    AddDigitalHumansToSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: success message
+      type: object
+      required:
+      - message
+      title: AddDigitalHumansToSimulationResponse
+      description: response body for adding digital humans to a simulation.
+    DeleteSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_simulation_id:
+          type: integer
+          title: Deleted Simulation Id
+          description: ID of the deleted simulation
+      type: object
+      required:
+      - message
+      - deleted_simulation_id
+      title: DeleteSimulationResponse
+      description: Response model for deleting a simulation
   securitySchemes:
     apiKeyAuth:
       type: apiKey

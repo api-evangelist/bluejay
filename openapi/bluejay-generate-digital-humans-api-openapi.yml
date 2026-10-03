@@ -48,6 +48,60 @@ paths:
       - Generate Digital Humans
 components:
   schemas:
+    Trait:
+      properties:
+        trait_name:
+          type: string
+          title: Trait Name
+          description: Name of the trait
+        trait_data_type:
+          $ref: '#/components/schemas/TraitDataType'
+          description: Data type of the trait
+        value:
+          title: Value
+          description: Value of the trait (stored as JSONB)
+        is_sip_header:
+          type: boolean
+          title: Is Sip Header
+          description: Whether this trait is a SIP header
+          default: false
+      type: object
+      required:
+      - trait_name
+      - trait_data_type
+      - value
+      title: Trait
+      description: Model for a single trait.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     DigitalHumanRequest:
       properties:
         agent_id:
@@ -151,61 +205,6 @@ components:
       - agent_id
       title: DigitalHumanRequest
       description: Pydantic model for digital humans (simulation type) request
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    GoalAdherence:
-      properties:
-        goal:
-          type: string
-          title: Goal
-          description: Description of the goal
-        num_calls:
-          type: integer
-          title: Num Calls
-          description: Number of calls that adhered to the goal
-      type: object
-      required:
-      - goal
-      - num_calls
-      title: GoalAdherence
-      description: Pydantic model for goal adherence in simulation
-    TraitDataType:
-      type: string
-      enum:
-      - BOOLEAN
-      - STRING
-      - DATE
-      - NUMBER
-      title: TraitDataType
-      description: Enum for trait data types.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ReplayTranscriptFromConversation:
       properties:
         conversation_id:
@@ -232,32 +231,6 @@ components:
       - conversation_id
       title: Replay Transcript From Conversation ID
       description: Replay transcript by referencing an existing conversation ID
-    CustomerPersonaRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the customer persona
-        description:
-          type: string
-          title: Description
-          description: Description of the customer persona
-        goal:
-          type: string
-          title: Goal
-          description: Goal or objective of the customer persona
-        num_calls:
-          type: integer
-          title: Num Calls
-          description: Number of calls that matched the customer persona
-      type: object
-      required:
-      - name
-      - description
-      - goal
-      - num_calls
-      title: CustomerPersonaRequest
-      description: Pydantic model for customer persona in simulation
     src__main__DigitalHumanResponse:
       properties:
         digital_humans:
@@ -290,6 +263,57 @@ components:
           description: Warning message if the request was modified (e.g. truncated due to exceeding the max limit)
       type: object
       title: DigitalHumanResponse
+    GoalAdherence:
+      properties:
+        goal:
+          type: string
+          title: Goal
+          description: Description of the goal
+        num_calls:
+          type: integer
+          title: Num Calls
+          description: Number of calls that adhered to the goal
+      type: object
+      required:
+      - goal
+      - num_calls
+      title: GoalAdherence
+      description: Pydantic model for goal adherence in simulation
+    TraitDataType:
+      type: string
+      enum:
+      - BOOLEAN
+      - STRING
+      - DATE
+      - NUMBER
+      title: TraitDataType
+      description: Enum for trait data types.
+    CustomerPersonaRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the customer persona
+        description:
+          type: string
+          title: Description
+          description: Description of the customer persona
+        goal:
+          type: string
+          title: Goal
+          description: Goal or objective of the customer persona
+        num_calls:
+          type: integer
+          title: Num Calls
+          description: Number of calls that matched the customer persona
+      type: object
+      required:
+      - name
+      - description
+      - goal
+      - num_calls
+      title: CustomerPersonaRequest
+      description: Pydantic model for customer persona in simulation
     ReplayTranscriptFromText:
       properties:
         transcript:
@@ -316,30 +340,6 @@ components:
       - transcript
       title: Replay Transcript From Text
       description: Replay transcript by providing the transcript text directly
-    Trait:
-      properties:
-        trait_name:
-          type: string
-          title: Trait Name
-          description: Name of the trait
-        trait_data_type:
-          $ref: '#/components/schemas/TraitDataType'
-          description: Data type of the trait
-        value:
-          title: Value
-          description: Value of the trait (stored as JSONB)
-        is_sip_header:
-          type: boolean
-          title: Is Sip Header
-          description: Whether this trait is a SIP header
-          default: false
-      type: object
-      required:
-      - trait_name
-      - trait_data_type
-      - value
-      title: Trait
-      description: Model for a single trait.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

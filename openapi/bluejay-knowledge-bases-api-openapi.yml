@@ -533,16 +533,15 @@ components:
         override_label: when true, adding an existing label moves its association
 
         to the requested resource; when false, conflicts return 409.'
-    LabelListResponse:
+    HTTPValidationError:
       properties:
-        labels:
+        detail:
           items:
-            type: string
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Labels
+          title: Detail
       type: object
-      title: LabelListResponse
-      description: response wrapper for just a list of labels.
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -564,42 +563,16 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    LabelListResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CreateKnowledgeBaseVersionBody:
-      properties:
-        kb_text:
-          type: string
-          title: Kb Text
-        commit_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Commit Message
         labels:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
+          items:
+            type: string
+          type: array
           title: Labels
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
       type: object
-      required:
-      - kb_text
-      title: CreateKnowledgeBaseVersionBody
+      title: LabelListResponse
+      description: response wrapper for just a list of labels.
     KnowledgeBaseResponse:
       properties:
         id:
@@ -648,6 +621,33 @@ components:
       - agent_id
       title: KnowledgeBaseResponse
       description: response model for knowledge base without created_at.
+    CreateKnowledgeBaseVersionBody:
+      properties:
+        kb_text:
+          type: string
+          title: Kb Text
+        commit_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Commit Message
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+      type: object
+      required:
+      - kb_text
+      title: CreateKnowledgeBaseVersionBody
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -51,6 +51,51 @@ paths:
       - Create Simulation
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SimulationResponse:
+      properties:
+        simulation_id:
+          type: integer
+          title: Simulation Id
+          description: ID of the created simulation
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - simulation_id
+      title: SimulationResponse
     DigitalHumansSettings:
       properties:
         default_name:
@@ -99,36 +144,6 @@ components:
       type: object
       title: DigitalHumansSettings
       description: Pydantic model for digital humans settings in simulation
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     SimulationRequest:
       properties:
         agent_id:
@@ -249,21 +264,6 @@ components:
       - agent_id
       title: SimulationRequest
       description: Pydantic model for simulation request
-    SimulationResponse:
-      properties:
-        simulation_id:
-          type: integer
-          title: Simulation Id
-          description: ID of the created simulation
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - simulation_id
-      title: SimulationResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

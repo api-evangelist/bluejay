@@ -143,6 +143,61 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CancelResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the cancel request was accepted
+        message:
+          type: string
+          title: Message
+          description: Response message for the frontend
+      type: object
+      required:
+      - success
+      - message
+      title: CancelResponse
+    StartTrialRequest:
+      properties:
+        payment_method_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method Id
+          description: Optional Stripe payment method ID; trial can start without a card
+      type: object
+      title: StartTrialRequest
     SignupRequest:
       properties:
         payment_method_id:
@@ -173,36 +228,6 @@ components:
       - success
       - message
       title: SignupResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ActivePackageResponse:
       properties:
         package_id:
@@ -225,31 +250,6 @@ components:
       required:
       - has_active_contract
       title: ActivePackageResponse
-    StartTrialRequest:
-      properties:
-        payment_method_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Payment Method Id
-          description: Optional Stripe payment method ID; trial can start without a card
-      type: object
-      title: StartTrialRequest
-    CancelResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether the cancel request was accepted
-        message:
-          type: string
-          title: Message
-          description: Response message for the frontend
-      type: object
-      required:
-      - success
-      - message
-      title: CancelResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

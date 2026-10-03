@@ -107,15 +107,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    SyncSingleAgentFromVapiRequest:
-      properties:
-        agent_id:
-          type: integer
-          title: Agent Id
-      type: object
-      required:
-      - agent_id
-      title: SyncSingleAgentFromVapiRequest
     HTTPValidationError:
       properties:
         detail:
@@ -159,6 +150,15 @@ components:
           default: true
       type: object
       title: SyncVapiAgentsRequest
+    SyncSingleAgentFromVapiRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+      type: object
+      required:
+      - agent_id
+      title: SyncSingleAgentFromVapiRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey

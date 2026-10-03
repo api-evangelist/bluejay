@@ -140,6 +140,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -161,6 +170,16 @@ components:
       - msg
       - type
       title: ValidationError
+    IntegrationKeyRequest:
+      properties:
+        field:
+          type: string
+          title: Field
+          description: The secret field name to retrieve
+      type: object
+      required:
+      - field
+      title: IntegrationKeyRequest
     IntegrationsUpdateResponse:
       properties:
         success:
@@ -187,25 +206,6 @@ components:
       - message
       - integrations
       title: IntegrationsUpdateResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    IntegrationKeyRequest:
-      properties:
-        field:
-          type: string
-          title: Field
-          description: The secret field name to retrieve
-      type: object
-      required:
-      - field
-      title: IntegrationKeyRequest
     IntegrationKeyResponse:
       properties:
         value:

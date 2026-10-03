@@ -83,6 +83,22 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    WebhookKeyResponse:
+      properties:
+        signing_key:
+          type: string
+          title: Signing Key
+          description: Signing key
+        message:
+          type: string
+          title: Message
+          description: Message
+      type: object
+      required:
+      - signing_key
+      - message
+      title: WebhookKeyResponse
+      description: Response model for creating a webhook
     HTTPValidationError:
       properties:
         detail:
@@ -125,22 +141,6 @@ components:
       - webhook_id
       title: WebhookKeyRequest
       description: Request model for creating a webhook
-    WebhookKeyResponse:
-      properties:
-        signing_key:
-          type: string
-          title: Signing Key
-          description: Signing key
-        message:
-          type: string
-          title: Message
-          description: Message
-      type: object
-      required:
-      - signing_key
-      - message
-      title: WebhookKeyResponse
-      description: Response model for creating a webhook
   securitySchemes:
     apiKeyAuth:
       type: apiKey

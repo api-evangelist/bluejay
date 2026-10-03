@@ -47,6 +47,107 @@ paths:
       - Create Schedule
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    EveryNHoursSchedule:
+      properties:
+        frequency:
+          type: string
+          const: every_n_hours
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 23.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N hours (max 23)
+      type: object
+      required:
+      - frequency
+      - interval
+      title: EveryNHoursSchedule
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    MonthlySchedule:
+      properties:
+        frequency:
+          type: string
+          const: monthly
+          title: Frequency
+        day_of_month:
+          type: integer
+          maximum: 31.0
+          minimum: 1.0
+          title: Day Of Month
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+      type: object
+      required:
+      - frequency
+      - day_of_month
+      - time
+      title: MonthlySchedule
+    DailySchedule:
+      properties:
+        frequency:
+          type: string
+          const: daily
+          title: Frequency
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+          description: HH:MM 24hr time
+      type: object
+      required:
+      - frequency
+      - time
+      title: DailySchedule
+    EveryNMinutesSchedule:
+      properties:
+        frequency:
+          type: string
+          const: every_n_minutes
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 59.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N minutes (max 59)
+      type: object
+      required:
+      - frequency
+      - interval
+      title: EveryNMinutesSchedule
     CreateCronJobRequest:
       properties:
         simulation_id:
@@ -75,97 +176,6 @@ components:
       - simulation_id
       - schedule
       title: CreateCronJobRequest
-    MonthlySchedule:
-      properties:
-        frequency:
-          type: string
-          const: monthly
-          title: Frequency
-        day_of_month:
-          type: integer
-          maximum: 31.0
-          minimum: 1.0
-          title: Day Of Month
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-      type: object
-      required:
-      - frequency
-      - day_of_month
-      - time
-      title: MonthlySchedule
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    EveryNHoursSchedule:
-      properties:
-        frequency:
-          type: string
-          const: every_n_hours
-          title: Frequency
-        interval:
-          type: integer
-          maximum: 23.0
-          exclusiveMinimum: 0.0
-          title: Interval
-          description: Repeat every N hours (max 23)
-      type: object
-      required:
-      - frequency
-      - interval
-      title: EveryNHoursSchedule
-    CronSchedule:
-      properties:
-        frequency:
-          type: string
-          const: cron
-          title: Frequency
-        expression:
-          type: string
-          title: Expression
-          description: Cron expression
-      type: object
-      required:
-      - frequency
-      - expression
-      title: CronSchedule
-    EveryNMinutesSchedule:
-      properties:
-        frequency:
-          type: string
-          const: every_n_minutes
-          title: Frequency
-        interval:
-          type: integer
-          maximum: 59.0
-          exclusiveMinimum: 0.0
-          title: Interval
-          description: Repeat every N minutes (max 59)
-      type: object
-      required:
-      - frequency
-      - interval
-      title: EveryNMinutesSchedule
     CreateCronJobResponse:
       properties:
         id:
@@ -192,15 +202,21 @@ components:
       - simulation_id
       - cron_expression
       title: CreateCronJobResponse
-    HTTPValidationError:
+    CronSchedule:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        frequency:
+          type: string
+          const: cron
+          title: Frequency
+        expression:
+          type: string
+          title: Expression
+          description: Cron expression
       type: object
-      title: HTTPValidationError
+      required:
+      - frequency
+      - expression
+      title: CronSchedule
     WeeklySchedule:
       properties:
         frequency:
@@ -228,22 +244,6 @@ components:
       - day_of_week
       - time
       title: WeeklySchedule
-    DailySchedule:
-      properties:
-        frequency:
-          type: string
-          const: daily
-          title: Frequency
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-          description: HH:MM 24hr time
-      type: object
-      required:
-      - frequency
-      - time
-      title: DailySchedule
   securitySchemes:
     apiKeyAuth:
       type: apiKey

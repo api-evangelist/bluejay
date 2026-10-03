@@ -64,15 +64,6 @@ paths:
       - End Conversations
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     EndConversationsResponse:
       properties:
         success:
@@ -123,6 +114,15 @@ components:
       - test_result_ids
       title: EndConversationsRequest
       description: Pydantic model for ending multiple conversations
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:

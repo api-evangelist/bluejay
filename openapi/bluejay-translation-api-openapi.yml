@@ -69,6 +69,15 @@ components:
       - simulation_result_id
       title: Translate Simulation Transcript
       description: Translate a simulation transcript by providing the simulation result ID
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -90,15 +99,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     TranslateTranscriptResponse:
       properties:
         translated_transcript_url:
