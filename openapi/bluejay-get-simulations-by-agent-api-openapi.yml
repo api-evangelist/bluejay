@@ -48,16 +48,6 @@ paths:
       - Get Simulations By Agent
 components:
   schemas:
-    GetSimulationsResponse:
-      properties:
-        simulations:
-          items:
-            $ref: '#/components/schemas/SimulationRes'
-          type: array
-          title: Simulations
-          description: List of simulations
-      type: object
-      title: GetSimulationsResponse
     HTTPValidationError:
       properties:
         detail:
@@ -88,6 +78,16 @@ components:
       - msg
       - type
       title: ValidationError
+    GetSimulationsResponse:
+      properties:
+        simulations:
+          items:
+            $ref: '#/components/schemas/SimulationRes'
+          type: array
+          title: Simulations
+          description: List of simulations
+      type: object
+      title: GetSimulationsResponse
     SimulationRes:
       properties:
         id:

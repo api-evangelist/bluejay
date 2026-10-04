@@ -48,28 +48,22 @@ paths:
       - Compare Experiment Runs
 components:
   schemas:
-    ComparisonRequest:
+    ComparisonResponse:
       properties:
-        experiment_run_ids:
-          items:
-            type: integer
-          type: array
-          title: Experiment Run Ids
-          description: List of experiment run IDs to compare
+        summary:
+          type: string
+          title: Summary
+          description: AI-generated comparison summary of the experiment runs
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
       type: object
       required:
-      - experiment_run_ids
-      title: ComparisonRequest
-      description: Pydantic model for experiment run comparison request
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - summary
+      title: ComparisonResponse
+      description: Pydantic model for experiment run comparison response
     ValidationError:
       properties:
         loc:
@@ -91,22 +85,28 @@ components:
       - msg
       - type
       title: ValidationError
-    ComparisonResponse:
+    HTTPValidationError:
       properties:
-        summary:
-          type: string
-          title: Summary
-          description: AI-generated comparison summary of the experiment runs
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ComparisonRequest:
+      properties:
+        experiment_run_ids:
+          items:
+            type: integer
+          type: array
+          title: Experiment Run Ids
+          description: List of experiment run IDs to compare
       type: object
       required:
-      - summary
-      title: ComparisonResponse
-      description: Pydantic model for experiment run comparison response
+      - experiment_run_ids
+      title: ComparisonRequest
+      description: Pydantic model for experiment run comparison request
   securitySchemes:
     apiKeyAuth:
       type: apiKey

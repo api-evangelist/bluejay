@@ -81,15 +81,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -111,17 +102,6 @@ components:
       - msg
       - type
       title: ValidationError
-    AddPhoneNumberRequest:
-      properties:
-        area_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Area Code
-          description: Optional US area code to bias phone number search (e.g. 415)
-      type: object
-      title: AddPhoneNumberRequest
-      description: Request schema for auto-purchasing a Twilio number for an organization.
     ReleasePhoneNumberResponse:
       properties:
         phone_number:
@@ -138,6 +118,26 @@ components:
       - released
       title: ReleasePhoneNumberResponse
       description: Response schema after releasing a Twilio number.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AddPhoneNumberRequest:
+      properties:
+        area_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Area Code
+          description: Optional US area code to bias phone number search (e.g. 415)
+      type: object
+      title: AddPhoneNumberRequest
+      description: Request schema for auto-purchasing a Twilio number for an organization.
     AddPhoneNumberResponse:
       properties:
         phone_number:

@@ -47,32 +47,6 @@ paths:
       - Create Schedule
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    EveryNHoursSchedule:
-      properties:
-        frequency:
-          type: string
-          const: every_n_hours
-          title: Frequency
-        interval:
-          type: integer
-          maximum: 23.0
-          exclusiveMinimum: 0.0
-          title: Interval
-          description: Repeat every N hours (max 23)
-      type: object
-      required:
-      - frequency
-      - interval
-      title: EveryNHoursSchedule
     ValidationError:
       properties:
         loc:
@@ -115,6 +89,58 @@ components:
       - day_of_month
       - time
       title: MonthlySchedule
+    CreateCronJobRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: The unique identifier for the associated simulation.
+        schedule:
+          anyOf:
+          - $ref: '#/components/schemas/EveryNMinutesSchedule'
+          - $ref: '#/components/schemas/EveryNHoursSchedule'
+          - $ref: '#/components/schemas/DailySchedule'
+          - $ref: '#/components/schemas/WeeklySchedule'
+          - $ref: '#/components/schemas/MonthlySchedule'
+          - $ref: '#/components/schemas/CronSchedule'
+          title: Schedule
+          description: The schedule for the cron job.
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+          description: Whether the cron job should be enabled upon creation.
+          default: true
+      type: object
+      required:
+      - simulation_id
+      - schedule
+      title: CreateCronJobRequest
+    CronSchedule:
+      properties:
+        frequency:
+          type: string
+          const: cron
+          title: Frequency
+        expression:
+          type: string
+          title: Expression
+          description: Cron expression
+      type: object
+      required:
+      - frequency
+      - expression
+      title: CronSchedule
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     DailySchedule:
       properties:
         frequency:
@@ -148,75 +174,6 @@ components:
       - frequency
       - interval
       title: EveryNMinutesSchedule
-    CreateCronJobRequest:
-      properties:
-        simulation_id:
-          type: string
-          title: Simulation Id
-          description: The unique identifier for the associated simulation.
-        schedule:
-          anyOf:
-          - $ref: '#/components/schemas/EveryNMinutesSchedule'
-          - $ref: '#/components/schemas/EveryNHoursSchedule'
-          - $ref: '#/components/schemas/DailySchedule'
-          - $ref: '#/components/schemas/WeeklySchedule'
-          - $ref: '#/components/schemas/MonthlySchedule'
-          - $ref: '#/components/schemas/CronSchedule'
-          title: Schedule
-          description: The schedule for the cron job.
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-          description: Whether the cron job should be enabled upon creation.
-          default: true
-      type: object
-      required:
-      - simulation_id
-      - schedule
-      title: CreateCronJobRequest
-    CreateCronJobResponse:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: The unique identifier for the created cron job.
-        simulation_id:
-          type: string
-          title: Simulation Id
-          description: The unique identifier for the associated simulation.
-        cron_expression:
-          type: string
-          title: Cron Expression
-          description: The cron expression defining the job schedule.
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-          description: Whether the cron job is enabled.
-      type: object
-      required:
-      - id
-      - simulation_id
-      - cron_expression
-      title: CreateCronJobResponse
-    CronSchedule:
-      properties:
-        frequency:
-          type: string
-          const: cron
-          title: Frequency
-        expression:
-          type: string
-          title: Expression
-          description: Cron expression
-      type: object
-      required:
-      - frequency
-      - expression
-      title: CronSchedule
     WeeklySchedule:
       properties:
         frequency:
@@ -244,6 +201,49 @@ components:
       - day_of_week
       - time
       title: WeeklySchedule
+    EveryNHoursSchedule:
+      properties:
+        frequency:
+          type: string
+          const: every_n_hours
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 23.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N hours (max 23)
+      type: object
+      required:
+      - frequency
+      - interval
+      title: EveryNHoursSchedule
+    CreateCronJobResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: The unique identifier for the created cron job.
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: The unique identifier for the associated simulation.
+        cron_expression:
+          type: string
+          title: Cron Expression
+          description: The cron expression defining the job schedule.
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+          description: Whether the cron job is enabled.
+      type: object
+      required:
+      - id
+      - simulation_id
+      - cron_expression
+      title: CreateCronJobResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

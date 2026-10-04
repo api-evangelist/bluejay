@@ -199,37 +199,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    UpdateCustomerPersonaRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the customer persona
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the customer persona
-        goal:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Goal
-          description: Goal of the customer persona
-      type: object
-      title: UpdateCustomerPersonaRequest
     ValidationError:
       properties:
         loc:
@@ -251,32 +220,6 @@ components:
       - msg
       - type
       title: ValidationError
-    CreateCustomerPersonaRequest:
-      properties:
-        agent_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Agent Id
-          description: ID of the agent this persona belongs to
-        name:
-          type: string
-          title: Name
-          description: Name of the customer persona
-        description:
-          type: string
-          title: Description
-          description: Description of the customer persona
-        goal:
-          type: string
-          title: Goal
-          description: Goal of the customer persona
-      type: object
-      required:
-      - name
-      - description
-      - goal
-      title: CreateCustomerPersonaRequest
     CustomerPersonaPydantic:
       properties:
         id:
@@ -315,6 +258,63 @@ components:
       type: object
       title: CustomerPersonaPydantic
       description: Pydantic version of CustomerPersona for validation and serialization.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UpdateCustomerPersonaRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the customer persona
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the customer persona
+        goal:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal
+          description: Goal of the customer persona
+      type: object
+      title: UpdateCustomerPersonaRequest
+    CreateCustomerPersonaRequest:
+      properties:
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent this persona belongs to
+        name:
+          type: string
+          title: Name
+          description: Name of the customer persona
+        description:
+          type: string
+          title: Description
+          description: Description of the customer persona
+        goal:
+          type: string
+          title: Goal
+          description: Goal of the customer persona
+      type: object
+      required:
+      - name
+      - description
+      - goal
+      title: CreateCustomerPersonaRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey

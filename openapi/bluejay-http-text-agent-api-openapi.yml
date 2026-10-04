@@ -89,15 +89,6 @@ paths:
         description: API key required to authenticate requests.
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -119,6 +110,27 @@ components:
       - msg
       - type
       title: ValidationError
+    HttpTextMessageResponse:
+      properties:
+        simulation_result_id:
+          type: string
+          title: Simulation Result Id
+          description: Simulation result ID
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+        end_conversation:
+          type: boolean
+          title: End Conversation
+          description: Whether the conversation has ended
+          default: false
+      type: object
+      required:
+      - simulation_result_id
+      title: HttpTextMessageResponse
+      description: Response model for HTTP text message
     HttpSimulationRunResponse:
       properties:
         simulation_run_id:
@@ -147,6 +159,15 @@ components:
       - agent_id
       title: HttpSimulationRunResponse
       description: Response model for HTTP simulation run
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     HttpSimulationRunRequest:
       properties:
         simulation_id:
@@ -178,27 +199,6 @@ components:
       - simulation_id
       title: HttpSimulationRunRequest
       description: Request model for HTTP simulation run
-    HttpTextMessageResponse:
-      properties:
-        simulation_result_id:
-          type: string
-          title: Simulation Result Id
-          description: Simulation result ID
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: success
-        end_conversation:
-          type: boolean
-          title: End Conversation
-          description: Whether the conversation has ended
-          default: false
-      type: object
-      required:
-      - simulation_result_id
-      title: HttpTextMessageResponse
-      description: Response model for HTTP text message
     HttpTextMessageRequest:
       properties:
         message:

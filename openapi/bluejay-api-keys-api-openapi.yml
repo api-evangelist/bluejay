@@ -77,35 +77,6 @@ paths:
       - API Keys
 components:
   schemas:
-    KeyOut:
-      properties:
-        id:
-          type: string
-          title: Id
-        api_key:
-          type: string
-          title: Api Key
-        scope:
-          type: string
-          title: Scope
-        name:
-          type: string
-          title: Name
-        created_at:
-          type: string
-          title: Created At
-        revoked:
-          type: boolean
-          title: Revoked
-      type: object
-      required:
-      - id
-      - api_key
-      - scope
-      - name
-      - created_at
-      - revoked
-      title: KeyOut
     HTTPValidationError:
       properties:
         detail:
@@ -150,6 +121,35 @@ components:
       - msg
       - type
       title: ValidationError
+    KeyOut:
+      properties:
+        id:
+          type: string
+          title: Id
+        api_key:
+          type: string
+          title: Api Key
+        scope:
+          type: string
+          title: Scope
+        name:
+          type: string
+          title: Name
+        created_at:
+          type: string
+          title: Created At
+        revoked:
+          type: boolean
+          title: Revoked
+      type: object
+      required:
+      - id
+      - api_key
+      - scope
+      - name
+      - created_at
+      - revoked
+      title: KeyOut
   securitySchemes:
     apiKeyAuth:
       type: apiKey

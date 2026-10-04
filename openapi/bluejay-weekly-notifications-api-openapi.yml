@@ -48,15 +48,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -78,6 +69,34 @@ components:
       - msg
       - type
       title: ValidationError
+    WeeklyNotificationTarget:
+      properties:
+        type:
+          type: string
+          enum:
+          - email
+          - slack
+          title: Type
+          description: Channel type
+        target:
+          type: string
+          minLength: 1
+          title: Target
+          description: Email address or Slack channel ID
+      type: object
+      required:
+      - type
+      - target
+      title: WeeklyNotificationTarget
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     WeeklyNotificationsBody:
       properties:
         targets:
@@ -108,25 +127,6 @@ components:
       required:
       - targets
       title: WeeklyNotificationsBody
-    WeeklyNotificationTarget:
-      properties:
-        type:
-          type: string
-          enum:
-          - email
-          - slack
-          title: Type
-          description: Channel type
-        target:
-          type: string
-          minLength: 1
-          title: Target
-          description: Email address or Slack channel ID
-      type: object
-      required:
-      - type
-      - target
-      title: WeeklyNotificationTarget
     WeeklyNotificationsPostResponse:
       properties:
         success:

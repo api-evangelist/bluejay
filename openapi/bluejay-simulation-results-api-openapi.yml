@@ -47,87 +47,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ToolCall:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the tool called
-        start_offset_ms:
-          type: integer
-          minimum: 0.0
-          title: Start Offset Ms
-          description: Start offset of the tool call in milliseconds
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the tool call
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Parameters passed to the tool call
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Output returned by the tool call
-      type: object
-      required:
-      - name
-      - start_offset_ms
-      title: ToolCall
-      description: Represents a tool call during a conversation.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    UpdateSimulationResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: success
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Optional message providing additional information about the response
-      type: object
-      title: UpdateSimulationResponse
     ParticipantRole:
       type: string
       enum:
@@ -184,36 +103,27 @@ components:
       required:
       - simulation_result_id
       title: UpdateSimulationRequest
-    TranscriptEntryRequest:
+    ValidationError:
       properties:
-        start_offset_ms:
-          type: integer
-          title: Start Offset Ms
-          description: Start offset of the utterance in milliseconds
-        end_offset_ms:
-          type: integer
-          title: End Offset Ms
-          description: End offset of the utterance in milliseconds
-        speaker:
-          $ref: '#/components/schemas/ParticipantRole'
-          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
-        utterance:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Utterance
-          description: Transcribed text of the utterance
-        filler_utterance:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Filler Utterance
-          description: Whether the utterance is a filler utterance
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - start_offset_ms
-      - end_offset_ms
-      - speaker
-      - utterance
-      title: TranscriptEntryRequest
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Event:
       properties:
         title:
@@ -257,6 +167,96 @@ components:
       - start_offset_ms
       title: Event
       description: Pydantic model for event data
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TranscriptEntryRequest:
+      properties:
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the utterance in milliseconds
+        end_offset_ms:
+          type: integer
+          title: End Offset Ms
+          description: End offset of the utterance in milliseconds
+        speaker:
+          $ref: '#/components/schemas/ParticipantRole'
+          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
+        utterance:
+          type: string
+          title: Utterance
+          description: Transcribed text of the utterance
+        filler_utterance:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Filler Utterance
+          description: Whether the utterance is a filler utterance
+      type: object
+      required:
+      - start_offset_ms
+      - end_offset_ms
+      - speaker
+      - utterance
+      title: TranscriptEntryRequest
+    UpdateSimulationResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Optional message providing additional information about the response
+      type: object
+      title: UpdateSimulationResponse
+    ToolCall:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the tool called
+        start_offset_ms:
+          type: integer
+          minimum: 0.0
+          title: Start Offset Ms
+          description: Start offset of the tool call in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the tool call
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Parameters passed to the tool call
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Output returned by the tool call
+      type: object
+      required:
+      - name
+      - start_offset_ms
+      title: ToolCall
+      description: Represents a tool call during a conversation.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

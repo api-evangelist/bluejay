@@ -207,19 +207,97 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AddDigitalHumansToSimulationRequest:
+    ValidationError:
       properties:
-        digital_human_ids:
+        loc:
           items:
-            type: integer
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Digital Human Ids
-          description: array of existing digital human IDs to add to the simulation
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - digital_human_ids
-      title: AddDigitalHumansToSimulationRequest
-      description: request body for adding existing digital humans to a simulation.
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SimulationPydantic:
+      properties:
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+        agent_id:
+          type: integer
+          title: Agent Id
+        name:
+          type: string
+          title: Name
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Settings
+        type:
+          $ref: '#/components/schemas/SimulationType'
+        max_concurrent:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Concurrent
+        max_turns:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Turns
+        ringing_timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Ringing Timeout
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        pinned:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Pinned
+        always_on:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Always On
+      type: object
+      required:
+      - agent_id
+      - name
+      - type
+      title: SimulationPydantic
     RemoveDigitalHumansFromSimulationResponse:
       properties:
         message:
@@ -231,6 +309,19 @@ components:
       - message
       title: RemoveDigitalHumansFromSimulationResponse
       description: response body for removing digital humans from a simulation (does not delete the digital humans).
+    RemoveDigitalHumansFromSimulationRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: array of digital human IDs to remove from this simulation
+      type: object
+      required:
+      - digital_human_ids
+      title: RemoveDigitalHumansFromSimulationRequest
+      description: request body for removing digital humans from a simulation (unlink only).
     HTTPValidationError:
       properties:
         detail:
@@ -240,6 +331,29 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    SimulationType:
+      type: string
+      enum:
+      - sequential
+      - parallel
+      - max_concurrent
+      title: SimulationType
+    DeleteSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_simulation_id:
+          type: integer
+          title: Deleted Simulation Id
+          description: ID of the deleted simulation
+      type: object
+      required:
+      - message
+      - deleted_simulation_id
+      title: DeleteSimulationResponse
+      description: Response model for deleting a simulation
     src__api__simulations__UpdateSimulationRequest:
       properties:
         name:
@@ -361,117 +475,6 @@ components:
 
 
         all fields are optional; only provided fields will be updated.'
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SimulationPydantic:
-      properties:
-        id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Id
-        agent_id:
-          type: integer
-          title: Agent Id
-        name:
-          type: string
-          title: Name
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-        settings:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Settings
-        type:
-          $ref: '#/components/schemas/SimulationType'
-        max_concurrent:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Concurrent
-        max_turns:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Turns
-        ringing_timeout:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Ringing Timeout
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        pinned:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Pinned
-        always_on:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Always On
-      type: object
-      required:
-      - agent_id
-      - name
-      - type
-      title: SimulationPydantic
-    RemoveDigitalHumansFromSimulationRequest:
-      properties:
-        digital_human_ids:
-          items:
-            type: integer
-          type: array
-          title: Digital Human Ids
-          description: array of digital human IDs to remove from this simulation
-      type: object
-      required:
-      - digital_human_ids
-      title: RemoveDigitalHumansFromSimulationRequest
-      description: request body for removing digital humans from a simulation (unlink only).
-    SimulationType:
-      type: string
-      enum:
-      - sequential
-      - parallel
-      - max_concurrent
-      title: SimulationType
     AddDigitalHumansToSimulationResponse:
       properties:
         message:
@@ -483,22 +486,19 @@ components:
       - message
       title: AddDigitalHumansToSimulationResponse
       description: response body for adding digital humans to a simulation.
-    DeleteSimulationResponse:
+    AddDigitalHumansToSimulationRequest:
       properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_simulation_id:
-          type: integer
-          title: Deleted Simulation Id
-          description: ID of the deleted simulation
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: array of existing digital human IDs to add to the simulation
       type: object
       required:
-      - message
-      - deleted_simulation_id
-      title: DeleteSimulationResponse
-      description: Response model for deleting a simulation
+      - digital_human_ids
+      title: AddDigitalHumansToSimulationRequest
+      description: request body for adding existing digital humans to a simulation.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

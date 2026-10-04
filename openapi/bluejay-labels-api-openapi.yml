@@ -224,15 +224,16 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    CreateLabelBody:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        label_text:
+          type: string
+          title: Label Text
+          description: text for the label
       type: object
-      title: HTTPValidationError
+      required:
+      - label_text
+      title: CreateLabelBody
     ValidationError:
       properties:
         loc:
@@ -254,6 +255,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     LabelPydantic:
       properties:
         id:
@@ -307,16 +317,6 @@ components:
       required:
       - label_text
       title: UpdateLabelBody
-    CreateLabelBody:
-      properties:
-        label_text:
-          type: string
-          title: Label Text
-          description: text for the label
-      type: object
-      required:
-      - label_text
-      title: CreateLabelBody
   securitySchemes:
     apiKeyAuth:
       type: apiKey

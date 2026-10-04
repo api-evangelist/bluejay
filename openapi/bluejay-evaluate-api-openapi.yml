@@ -95,128 +95,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CallInterface:
-      type: string
-      enum:
-      - PHONE
-      - WEB
-      title: CallInterface
-      description: Enum representing the interface used for a call.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CallDirection:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: CallDirection
-      description: Enum representing the direction of a call.
-    ToolCall:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the tool called
-        start_offset_ms:
-          type: integer
-          minimum: 0.0
-          title: Start Offset Ms
-          description: Start offset of the tool call in milliseconds
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the tool call
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Parameters passed to the tool call
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Output returned by the tool call
-      type: object
-      required:
-      - name
-      - start_offset_ms
-      title: ToolCall
-      description: Represents a tool call during a conversation.
-    EvaluateCallResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-        call_id:
-          type: string
-          title: Call Id
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - status
-      - call_id
-      - message
-      title: EvaluateCallResponse
-    Participant:
-      properties:
-        role:
-          $ref: '#/components/schemas/ParticipantRole'
-        spoke_first:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Spoke First
-          description: Only provide if you would like to override the auto-detected spoke first behavior.
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        phone_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phone Number
-      type: object
-      required:
-      - role
-      title: Participant
-      description: Represents a participant in a call.
     ParticipantRole:
       type: string
       enum:
@@ -385,36 +263,76 @@ components:
       - start_time_utc
       - participants
       title: Call Request Using External Agent ID
-    TranscriptEntryRequest:
+    Participant:
       properties:
-        start_offset_ms:
-          type: integer
-          title: Start Offset Ms
-          description: Start offset of the utterance in milliseconds
-        end_offset_ms:
-          type: integer
-          title: End Offset Ms
-          description: End offset of the utterance in milliseconds
-        speaker:
+        role:
           $ref: '#/components/schemas/ParticipantRole'
-          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
-        utterance:
-          type: string
-          title: Utterance
-          description: Transcribed text of the utterance
-        filler_utterance:
+        spoke_first:
           anyOf:
           - type: boolean
           - type: 'null'
-          title: Filler Utterance
-          description: Whether the utterance is a filler utterance
+          title: Spoke First
+          description: Only provide if you would like to override the auto-detected spoke first behavior.
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
       type: object
       required:
-      - start_offset_ms
-      - end_offset_ms
-      - speaker
-      - utterance
-      title: TranscriptEntryRequest
+      - role
+      title: Participant
+      description: Represents a participant in a call.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    EvaluateCallResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+        call_id:
+          type: string
+          title: Call Id
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - status
+      - call_id
+      - message
+      title: EvaluateCallResponse
+    CallInterface:
+      type: string
+      enum:
+      - PHONE
+      - WEB
+      title: CallInterface
+      description: Enum representing the interface used for a call.
     Event:
       properties:
         title:
@@ -458,6 +376,52 @@ components:
       - start_offset_ms
       title: Event
       description: Pydantic model for event data
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TranscriptEntryRequest:
+      properties:
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the utterance in milliseconds
+        end_offset_ms:
+          type: integer
+          title: End Offset Ms
+          description: End offset of the utterance in milliseconds
+        speaker:
+          $ref: '#/components/schemas/ParticipantRole'
+          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
+        utterance:
+          type: string
+          title: Utterance
+          description: Transcribed text of the utterance
+        filler_utterance:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Filler Utterance
+          description: Whether the utterance is a filler utterance
+      type: object
+      required:
+      - start_offset_ms
+      - end_offset_ms
+      - speaker
+      - utterance
+      title: TranscriptEntryRequest
+    CallDirection:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: CallDirection
+      description: Enum representing the direction of a call.
     CallRequestUsingAgentId:
       properties:
         agent_id:
@@ -618,6 +582,42 @@ components:
       - start_time_utc
       - participants
       title: Call Request Using Bluejay Agent ID
+    ToolCall:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the tool called
+        start_offset_ms:
+          type: integer
+          minimum: 0.0
+          title: Start Offset Ms
+          description: Start offset of the tool call in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the tool call
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Parameters passed to the tool call
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Output returned by the tool call
+      type: object
+      required:
+      - name
+      - start_offset_ms
+      title: ToolCall
+      description: Represents a tool call during a conversation.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

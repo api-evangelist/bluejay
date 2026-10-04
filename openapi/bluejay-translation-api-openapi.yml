@@ -51,33 +51,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TranslateSimulationTranscriptRequest:
-      properties:
-        simulation_result_id:
-          type: integer
-          title: Simulation Result Id
-          description: ID of the simulation result (test_result) to translate
-        target_language:
-          type: string
-          maxLength: 10
-          minLength: 2
-          title: Target Language
-          description: Target language code (e.g., 'en', 'es', 'fr', 'de'). Defaults to 'en' (English).
-          default: en
-      type: object
-      required:
-      - simulation_result_id
-      title: Translate Simulation Transcript
-      description: Translate a simulation transcript by providing the simulation result ID
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -120,6 +93,33 @@ components:
       - target_language
       title: TranslateTranscriptResponse
       description: Response model for translated transcript.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TranslateSimulationTranscriptRequest:
+      properties:
+        simulation_result_id:
+          type: integer
+          title: Simulation Result Id
+          description: ID of the simulation result (test_result) to translate
+        target_language:
+          type: string
+          maxLength: 10
+          minLength: 2
+          title: Target Language
+          description: Target language code (e.g., 'en', 'es', 'fr', 'de'). Defaults to 'en' (English).
+          default: en
+      type: object
+      required:
+      - simulation_result_id
+      title: Translate Simulation Transcript
+      description: Translate a simulation transcript by providing the simulation result ID
     TranslateObservabilityTranscriptRequest:
       properties:
         conversation_id:

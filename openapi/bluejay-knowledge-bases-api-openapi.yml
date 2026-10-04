@@ -506,42 +506,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    LabelDeltaRequest:
-      properties:
-        labels:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Labels
-        override_label:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Override Label
-          default: false
-      type: object
-      title: LabelDeltaRequest
-      description: 'request body for add/remove label operations.
-
-
-        labels: list of labels to add or remove. empty/null means no-op for add,
-
-        and clear-all for remove (callers decide the semantics).
-
-        override_label: when true, adding an existing label moves its association
-
-        to the requested resource; when false, conflicts return 409.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -563,6 +527,33 @@ components:
       - msg
       - type
       title: ValidationError
+    CreateKnowledgeBaseVersionBody:
+      properties:
+        kb_text:
+          type: string
+          title: Kb Text
+        commit_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Commit Message
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+      type: object
+      required:
+      - kb_text
+      title: CreateKnowledgeBaseVersionBody
     LabelListResponse:
       properties:
         labels:
@@ -573,6 +564,15 @@ components:
       type: object
       title: LabelListResponse
       description: response wrapper for just a list of labels.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     KnowledgeBaseResponse:
       properties:
         id:
@@ -621,16 +621,8 @@ components:
       - agent_id
       title: KnowledgeBaseResponse
       description: response model for knowledge base without created_at.
-    CreateKnowledgeBaseVersionBody:
+    LabelDeltaRequest:
       properties:
-        kb_text:
-          type: string
-          title: Kb Text
-        commit_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Commit Message
         labels:
           anyOf:
           - items:
@@ -638,16 +630,24 @@ components:
             type: array
           - type: 'null'
           title: Labels
-        metadata:
+        override_label:
           anyOf:
-          - additionalProperties: true
-            type: object
+          - type: boolean
           - type: 'null'
-          title: Metadata
+          title: Override Label
+          default: false
       type: object
-      required:
-      - kb_text
-      title: CreateKnowledgeBaseVersionBody
+      title: LabelDeltaRequest
+      description: 'request body for add/remove label operations.
+
+
+        labels: list of labels to add or remove. empty/null means no-op for add,
+
+        and clear-all for remove (callers decide the semantics).
+
+        override_label: when true, adding an existing label moves its association
+
+        to the requested resource; when false, conflicts return 409.'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

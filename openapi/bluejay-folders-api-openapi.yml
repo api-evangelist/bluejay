@@ -295,15 +295,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -325,45 +316,6 @@ components:
       - msg
       - type
       title: ValidationError
-    AgentType:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: AgentType
-      description: Enum representing the type of agent
-    MoveAgentResponse:
-      properties:
-        agent_id:
-          type: integer
-          title: Agent Id
-          description: ID of the agent
-        folder_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Folder Id
-          description: ID of the folder (null if disassociated)
-        status:
-          type: string
-          title: Status
-          description: Status of the operation
-          default: success
-      type: object
-      required:
-      - agent_id
-      title: MoveAgentResponse
-    FolderUpdateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: New name for the folder
-      type: object
-      required:
-      - name
-      title: FolderUpdateRequest
     AgentMode:
       type: string
       enum:
@@ -371,65 +323,6 @@ components:
       - TEXT
       title: AgentMode
       description: Enum representing the mode of agent
-    FolderDeleteResponse:
-      properties:
-        folder_id:
-          type: string
-          format: uuid
-          title: Folder Id
-          description: ID of the deleted folder
-        status:
-          type: string
-          title: Status
-          description: Status of the deletion
-          default: success
-      type: object
-      required:
-      - folder_id
-      title: FolderDeleteResponse
-    FolderResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-          description: ID of the folder
-        name:
-          type: string
-          title: Name
-          description: Name of the folder
-        organization_id:
-          type: string
-          title: Organization Id
-          description: Organization ID
-        created_at:
-          type: string
-          title: Created At
-          description: Timestamp when the folder was created
-      type: object
-      required:
-      - id
-      - name
-      - organization_id
-      - created_at
-      title: FolderResponse
-    MoveAgentRequest:
-      properties:
-        agent_id:
-          type: integer
-          title: Agent Id
-          description: ID of the agent to move
-        folder_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Folder Id
-          description: ID of the target folder (null to disassociate from any folder)
-      type: object
-      required:
-      - agent_id
-      title: MoveAgentRequest
     AgentPydantic:
       properties:
         id:
@@ -602,16 +495,15 @@ components:
       - organization_id
       - mode
       title: AgentPydantic
-    FolderCreateRequest:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the folder
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      title: FolderCreateRequest
+      title: HTTPValidationError
     ConnectionType:
       type: string
       enum:
@@ -624,6 +516,114 @@ components:
       - PIPECAT
       title: ConnectionType
       description: Enum representing the connection type of the agent
+    FolderUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: New name for the folder
+      type: object
+      required:
+      - name
+      title: FolderUpdateRequest
+    FolderCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the folder
+      type: object
+      required:
+      - name
+      title: FolderCreateRequest
+    AgentType:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: AgentType
+      description: Enum representing the type of agent
+    FolderDeleteResponse:
+      properties:
+        folder_id:
+          type: string
+          format: uuid
+          title: Folder Id
+          description: ID of the deleted folder
+        status:
+          type: string
+          title: Status
+          description: Status of the deletion
+          default: success
+      type: object
+      required:
+      - folder_id
+      title: FolderDeleteResponse
+    MoveAgentResponse:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the agent
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+          description: ID of the folder (null if disassociated)
+        status:
+          type: string
+          title: Status
+          description: Status of the operation
+          default: success
+      type: object
+      required:
+      - agent_id
+      title: MoveAgentResponse
+    FolderResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: ID of the folder
+        name:
+          type: string
+          title: Name
+          description: Name of the folder
+        organization_id:
+          type: string
+          title: Organization Id
+          description: Organization ID
+        created_at:
+          type: string
+          title: Created At
+          description: Timestamp when the folder was created
+      type: object
+      required:
+      - id
+      - name
+      - organization_id
+      - created_at
+      title: FolderResponse
+    MoveAgentRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the agent to move
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+          description: ID of the target folder (null to disassociate from any folder)
+      type: object
+      required:
+      - agent_id
+      title: MoveAgentRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey
