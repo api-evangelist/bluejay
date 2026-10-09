@@ -1,0 +1,95 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://getbluejay.ai/pricing
+sources:
+- https://getbluejay.ai/pricing
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T104522
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-07'
+  managed_tier: Growth
+published: true
+note: Tiered subscription with credit-based usage; comparison table lists minute/reply estimates noted
+  as estimates only.
+plan_count: 4
+currency: USD
+plans:
+- name: Pay-as-you-go
+  price_text: $0 /mo + usage
+  price: 0
+  currency: USD
+  period: month
+  unit: credits/minutes
+  included_quota: $25 in free credits to start; up to 25 concurrent simulations; unlimited seats & agents;
+    14 days data retention
+  overage: No overage
+- name: Growth
+  price_text: $500 /month
+  price: 500
+  currency: USD
+  period: month
+  included_quota: Up to 100 concurrent simulations; up to 1,500 simulation minutes; up to 13,000 production
+    monitoring minutes; 30 days data retention
+  overage: 1.8x (burn rate on overage credits)
+- name: Scale
+  price_text: $1,000 /month
+  price: 1000
+  currency: USD
+  period: month
+  included_quota: Up to 200 concurrent simulations & load testing; up to 4,000 simulation minutes; up
+    to 34,000 production monitoring minutes; 90 days data retention
+  overage: 1.5x (burn rate on overage credits)
+- name: Enterprise
+  price_text: Custom
+  period: none
+  included_quota: Customizable concurrency, custom simulation & monitoring minutes, SSO/SAML, custom uptime
+    SLA up to 99.9%
+  overage: Negotiated
+rate_limit_statements:
+- Up to 25 concurrent simulations
+- Up to 100 concurrent simulations
+- Up to 200 concurrent simulations & load testing
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - metered
+  units: []
+  plans:
+  - name: Pay-as-you-go
+    access: other
+    model: metered
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Growth
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Scale
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods:
+    - none
