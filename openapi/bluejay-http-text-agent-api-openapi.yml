@@ -159,6 +159,42 @@ components:
       - agent_id
       title: HttpSimulationRunResponse
       description: Response model for HTTP simulation run
+    HttpTextMessageRequest:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Text message to send
+        simulation_result_id:
+          type: string
+          title: Simulation Result Id
+          description: ID of the simulation result (test result)
+        end_conversation:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: End Conversation
+          description: If true, skip lambda and end/evaluate the conversation
+          default: false
+        end_turn:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: End Turn
+          description: If true, process the message now; if false, stack it for later
+          default: true
+        message_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message Id
+          description: Unique message ID for deduping within a conversation
+      type: object
+      required:
+      - message
+      - simulation_result_id
+      title: HttpTextMessageRequest
+      description: Request model for HTTP text message
     HTTPValidationError:
       properties:
         detail:
@@ -199,42 +235,6 @@ components:
       - simulation_id
       title: HttpSimulationRunRequest
       description: Request model for HTTP simulation run
-    HttpTextMessageRequest:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Text message to send
-        simulation_result_id:
-          type: string
-          title: Simulation Result Id
-          description: ID of the simulation result (test result)
-        end_conversation:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: End Conversation
-          description: If true, skip lambda and end/evaluate the conversation
-          default: false
-        end_turn:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: End Turn
-          description: If true, process the message now; if false, stack it for later
-          default: true
-        message_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message Id
-          description: Unique message ID for deduping within a conversation
-      type: object
-      required:
-      - message
-      - simulation_result_id
-      title: HttpTextMessageRequest
-      description: Request model for HTTP text message
   securitySchemes:
     apiKeyAuth:
       type: apiKey

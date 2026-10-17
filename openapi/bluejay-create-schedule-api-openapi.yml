@@ -68,6 +68,22 @@ components:
       - msg
       - type
       title: ValidationError
+    DailySchedule:
+      properties:
+        frequency:
+          type: string
+          const: daily
+          title: Frequency
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+          description: HH:MM 24hr time
+      type: object
+      required:
+      - frequency
+      - time
+      title: DailySchedule
     MonthlySchedule:
       properties:
         frequency:
@@ -117,6 +133,23 @@ components:
       - simulation_id
       - schedule
       title: CreateCronJobRequest
+    EveryNMinutesSchedule:
+      properties:
+        frequency:
+          type: string
+          const: every_n_minutes
+          title: Frequency
+        interval:
+          type: integer
+          maximum: 59.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N minutes (max 59)
+      type: object
+      required:
+      - frequency
+      - interval
+      title: EveryNMinutesSchedule
     CronSchedule:
       properties:
         frequency:
@@ -141,66 +174,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    DailySchedule:
-      properties:
-        frequency:
-          type: string
-          const: daily
-          title: Frequency
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-          description: HH:MM 24hr time
-      type: object
-      required:
-      - frequency
-      - time
-      title: DailySchedule
-    EveryNMinutesSchedule:
-      properties:
-        frequency:
-          type: string
-          const: every_n_minutes
-          title: Frequency
-        interval:
-          type: integer
-          maximum: 59.0
-          exclusiveMinimum: 0.0
-          title: Interval
-          description: Repeat every N minutes (max 59)
-      type: object
-      required:
-      - frequency
-      - interval
-      title: EveryNMinutesSchedule
-    WeeklySchedule:
-      properties:
-        frequency:
-          type: string
-          const: weekly
-          title: Frequency
-        day_of_week:
-          type: string
-          enum:
-          - monday
-          - tuesday
-          - wednesday
-          - thursday
-          - friday
-          - saturday
-          - sunday
-          title: Day Of Week
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-      type: object
-      required:
-      - frequency
-      - day_of_week
-      - time
-      title: WeeklySchedule
     EveryNHoursSchedule:
       properties:
         frequency:
@@ -244,6 +217,33 @@ components:
       - simulation_id
       - cron_expression
       title: CreateCronJobResponse
+    WeeklySchedule:
+      properties:
+        frequency:
+          type: string
+          const: weekly
+          title: Frequency
+        day_of_week:
+          type: string
+          enum:
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          - saturday
+          - sunday
+          title: Day Of Week
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+      type: object
+      required:
+      - frequency
+      - day_of_week
+      - time
+      title: WeeklySchedule
   securitySchemes:
     apiKeyAuth:
       type: apiKey

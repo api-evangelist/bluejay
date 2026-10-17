@@ -240,6 +240,24 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    CommunitiesListResponse:
+      properties:
+        communities:
+          items:
+            $ref: '#/components/schemas/CommunityResponse'
+          type: array
+          title: Communities
+          description: List of communities
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of communities
+      type: object
+      required:
+      - communities
+      - total_count
+      title: CommunitiesListResponse
+      description: Response model for listing communities
     ValidationError:
       properties:
         loc:
@@ -261,27 +279,6 @@ components:
       - msg
       - type
       title: ValidationError
-    AddToCommunityRequest:
-      properties:
-        digital_human_ids:
-          items:
-            type: integer
-          type: array
-          title: Digital Human Ids
-          description: List of digital human (test case) IDs to add to this community
-      type: object
-      required:
-      - digital_human_ids
-      title: AddToCommunityRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     CommunityResponse:
       properties:
         id:
@@ -340,6 +337,27 @@ components:
           description: List of digital human (test case) IDs to associate this community with (replaces existing associations)
       type: object
       title: UpdateCommunityRequest
+    AddToCommunityRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: List of digital human (test case) IDs to add to this community
+      type: object
+      required:
+      - digital_human_ids
+      title: AddToCommunityRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     CreateCommunityRequest:
       properties:
         title:
@@ -364,24 +382,6 @@ components:
       required:
       - title
       title: CreateCommunityRequest
-    CommunitiesListResponse:
-      properties:
-        communities:
-          items:
-            $ref: '#/components/schemas/CommunityResponse'
-          type: array
-          title: Communities
-          description: List of communities
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of communities
-      type: object
-      required:
-      - communities
-      - total_count
-      title: CommunitiesListResponse
-      description: Response model for listing communities
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -161,6 +161,16 @@ components:
       - msg
       - type
       title: ValidationError
+    IntegrationKeyResponse:
+      properties:
+        value:
+          type: string
+          title: Value
+          description: The decrypted plaintext value
+      type: object
+      required:
+      - value
+      title: IntegrationKeyResponse
     IntegrationKeyRequest:
       properties:
         field:
@@ -171,15 +181,6 @@ components:
       required:
       - field
       title: IntegrationKeyRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     IntegrationsUpdateResponse:
       properties:
         success:
@@ -206,16 +207,15 @@ components:
       - message
       - integrations
       title: IntegrationsUpdateResponse
-    IntegrationKeyResponse:
+    HTTPValidationError:
       properties:
-        value:
-          type: string
-          title: Value
-          description: The decrypted plaintext value
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - value
-      title: IntegrationKeyResponse
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey

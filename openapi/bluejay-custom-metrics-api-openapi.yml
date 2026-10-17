@@ -325,6 +325,103 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    src__models__custom_metric__CustomMetric:
+      properties:
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        response_type:
+          $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
+        min_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Value
+        max_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Value
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+          description: Unique identifier for the custom metric
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+        tags:
+          items:
+            type: string
+          type: array
+          title: Tags
+        scoring_guidance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scoring Guidance
+        eval_route:
+          anyOf:
+          - $ref: '#/components/schemas/EvalRoute'
+          - type: 'null'
+          default: AUTO
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+        audio_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Model
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+        enum_options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum Options
+        organization_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Organization Id
+        allow_not_applicable:
+          type: boolean
+          title: Allow Not Applicable
+          default: false
+      type: object
+      required:
+      - name
+      - description
+      - response_type
+      title: CustomMetric
+      description: Represents a custom metric entry in the database.
     ValidationError:
       properties:
         loc:
@@ -346,25 +443,15 @@ components:
       - msg
       - type
       title: ValidationError
-    UpdateCustomMetricRequest:
+    CreateCustomMetricRequest:
       properties:
-        name:
+        agent_id:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
-          title: Name
-          description: Name of the custom metric
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of what this metric measures
-        response_type:
-          anyOf:
-          - $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
-          - type: 'null'
-          description: Type of response expected
+          title: Agent Id
+          description: ID of the agent this metric belongs to (deprecated, use agent_ids instead)
+          deprecated: true
         agent_ids:
           anyOf:
           - items:
@@ -372,7 +459,18 @@ components:
             type: array
           - type: 'null'
           title: Agent Ids
-          description: List of agent IDs to associate this metric with (replaces existing associations)
+          description: List of agent IDs to associate this metric with
+        name:
+          type: string
+          title: Name
+          description: Name of the custom metric
+        description:
+          type: string
+          title: Description
+          description: Description of what this metric measures
+        response_type:
+          $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
+          description: Type of response expected
         min_value:
           anyOf:
           - type: number
@@ -438,14 +536,69 @@ components:
           title: Enum Options
           description: Options for enum metrics
         allow_not_applicable:
-          anyOf:
-          - type: boolean
-          - type: 'null'
+          type: boolean
           title: Allow Not Applicable
           description: Whether this metric allows 'not applicable' responses.
+          default: false
       type: object
-      title: UpdateCustomMetricRequest
-      description: Request model for updating a custom metric
+      required:
+      - name
+      - description
+      - response_type
+      title: CreateCustomMetricRequest
+      description: Request model for creating a custom metric
+    BulkUpdateCustomMetricsRequest:
+      properties:
+        metric_ids:
+          items:
+            type: string
+          type: array
+          title: Metric Ids
+          description: UUIDs of custom metrics to update
+        updates:
+          $ref: '#/components/schemas/CustomMetricUpdates'
+          description: Fields to update (only present keys are applied; value including null is written)
+      type: object
+      required:
+      - metric_ids
+      - updates
+      title: BulkUpdateCustomMetricsRequest
+      description: Request for bulk updating custom metrics (same patch applied to each metric).
+    BulkUpdateCustomMetricsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the operation succeeded
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Human-readable summary; frontend falls back to 'Updated N custom metric(s)' if missing
+        updated:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Updated
+          description: Number of metrics updated
+      type: object
+      title: BulkUpdateCustomMetricsResponse
+      description: Response for bulk update (success, message, updated count).
+    CreateCustomMetricsBulkRequest:
+      properties:
+        metrics:
+          items:
+            $ref: '#/components/schemas/CreateCustomMetricRequest'
+          type: array
+          title: Metrics
+          description: List of custom metrics to create
+      type: object
+      required:
+      - metrics
+      title: CreateCustomMetricsBulkRequest
+      description: Request model for creating multiple custom metrics
     CustomMetricResponse:
       properties:
         id:
@@ -551,19 +704,14 @@ components:
       - created_at
       title: CustomMetricResponse
       description: Response model for custom metric operations
-    CreateCustomMetricsBulkResponse:
-      properties:
-        metrics:
-          items:
-            $ref: '#/components/schemas/CustomMetricResponse'
-          type: array
-          title: Metrics
-          description: List of created custom metrics
-      type: object
-      required:
-      - metrics
-      title: CreateCustomMetricsBulkResponse
-      description: Response model for bulk creating custom metrics
+    EvalRoute:
+      type: string
+      enum:
+      - AUDIO
+      - TEXT
+      - AUTO
+      title: EvalRoute
+      description: Enum representing the evaluation route of a call.
     HTTPValidationError:
       properties:
         detail:
@@ -616,15 +764,87 @@ components:
       type: object
       title: CustomMetricUpdates
       description: Patch payload; only keys that are present are applied; each value (including null) is written.
-    CreateCustomMetricRequest:
+    CreateCustomMetricsBulkResponse:
       properties:
-        agent_id:
+        metrics:
+          items:
+            $ref: '#/components/schemas/CustomMetricResponse'
+          type: array
+          title: Metrics
+          description: List of created custom metrics
+      type: object
+      required:
+      - metrics
+      title: CreateCustomMetricsBulkResponse
+      description: Response model for bulk creating custom metrics
+    src__models__custom_metric__ResponseType:
+      type: string
+      enum:
+      - pass_fail
+      - yes_no
+      - qualitative
+      - quantitative
+      - json
+      - enum
+      title: ResponseType
+      description: Enum representing the possible response types for custom metrics.
+    CustomMetricsListResponse:
+      properties:
+        metrics:
+          items:
+            $ref: '#/components/schemas/CustomMetricResponse'
+          type: array
+          title: Metrics
+          description: List of custom metrics
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of metrics across all pages
+        page:
+          type: integer
+          title: Page
+          description: Current page number
+        page_size:
+          type: integer
+          title: Page Size
+          description: Requested number of items per page
+        items_in_page:
+          type: integer
+          title: Items In Page
+          description: Actual number of items in current page
+        total_pages:
+          type: integer
+          title: Total Pages
+          description: Total number of pages
+      type: object
+      required:
+      - metrics
+      - total_count
+      - page
+      - page_size
+      - items_in_page
+      - total_pages
+      title: CustomMetricsListResponse
+      description: Response model for listing custom metrics
+    UpdateCustomMetricRequest:
+      properties:
+        name:
           anyOf:
-          - type: integer
+          - type: string
           - type: 'null'
-          title: Agent Id
-          description: ID of the agent this metric belongs to (deprecated, use agent_ids instead)
-          deprecated: true
+          title: Name
+          description: Name of the custom metric
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of what this metric measures
+        response_type:
+          anyOf:
+          - $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
+          - type: 'null'
+          description: Type of response expected
         agent_ids:
           anyOf:
           - items:
@@ -632,18 +852,7 @@ components:
             type: array
           - type: 'null'
           title: Agent Ids
-          description: List of agent IDs to associate this metric with
-        name:
-          type: string
-          title: Name
-          description: Name of the custom metric
-        description:
-          type: string
-          title: Description
-          description: Description of what this metric measures
-        response_type:
-          $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
-          description: Type of response expected
+          description: List of agent IDs to associate this metric with (replaces existing associations)
         min_value:
           anyOf:
           - type: number
@@ -709,223 +918,14 @@ components:
           title: Enum Options
           description: Options for enum metrics
         allow_not_applicable:
-          type: boolean
+          anyOf:
+          - type: boolean
+          - type: 'null'
           title: Allow Not Applicable
           description: Whether this metric allows 'not applicable' responses.
-          default: false
       type: object
-      required:
-      - name
-      - description
-      - response_type
-      title: CreateCustomMetricRequest
-      description: Request model for creating a custom metric
-    BulkUpdateCustomMetricsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether the operation succeeded
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Human-readable summary; frontend falls back to 'Updated N custom metric(s)' if missing
-        updated:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Updated
-          description: Number of metrics updated
-      type: object
-      title: BulkUpdateCustomMetricsResponse
-      description: Response for bulk update (success, message, updated count).
-    CreateCustomMetricsBulkRequest:
-      properties:
-        metrics:
-          items:
-            $ref: '#/components/schemas/CreateCustomMetricRequest'
-          type: array
-          title: Metrics
-          description: List of custom metrics to create
-      type: object
-      required:
-      - metrics
-      title: CreateCustomMetricsBulkRequest
-      description: Request model for creating multiple custom metrics
-    EvalRoute:
-      type: string
-      enum:
-      - AUDIO
-      - TEXT
-      - AUTO
-      title: EvalRoute
-      description: Enum representing the evaluation route of a call.
-    CustomMetricsListResponse:
-      properties:
-        metrics:
-          items:
-            $ref: '#/components/schemas/CustomMetricResponse'
-          type: array
-          title: Metrics
-          description: List of custom metrics
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of metrics across all pages
-        page:
-          type: integer
-          title: Page
-          description: Current page number
-        page_size:
-          type: integer
-          title: Page Size
-          description: Requested number of items per page
-        items_in_page:
-          type: integer
-          title: Items In Page
-          description: Actual number of items in current page
-        total_pages:
-          type: integer
-          title: Total Pages
-          description: Total number of pages
-      type: object
-      required:
-      - metrics
-      - total_count
-      - page
-      - page_size
-      - items_in_page
-      - total_pages
-      title: CustomMetricsListResponse
-      description: Response model for listing custom metrics
-    src__models__custom_metric__ResponseType:
-      type: string
-      enum:
-      - pass_fail
-      - yes_no
-      - qualitative
-      - quantitative
-      - json
-      - enum
-      title: ResponseType
-      description: Enum representing the possible response types for custom metrics.
-    BulkUpdateCustomMetricsRequest:
-      properties:
-        metric_ids:
-          items:
-            type: string
-          type: array
-          title: Metric Ids
-          description: UUIDs of custom metrics to update
-        updates:
-          $ref: '#/components/schemas/CustomMetricUpdates'
-          description: Fields to update (only present keys are applied; value including null is written)
-      type: object
-      required:
-      - metric_ids
-      - updates
-      title: BulkUpdateCustomMetricsRequest
-      description: Request for bulk updating custom metrics (same patch applied to each metric).
-    src__models__custom_metric__CustomMetric:
-      properties:
-        agent_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Agent Id
-        name:
-          type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-        response_type:
-          $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
-        min_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Min Value
-        max_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Value
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-          description: Unique identifier for the custom metric
-        category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Category
-        tags:
-          items:
-            type: string
-          type: array
-          title: Tags
-        scoring_guidance:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Scoring Guidance
-        eval_route:
-          anyOf:
-          - $ref: '#/components/schemas/EvalRoute'
-          - type: 'null'
-          default: AUTO
-        model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model
-        audio_model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Audio Model
-        temperature:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Temperature
-        enum_options:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Enum Options
-        organization_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Organization Id
-        allow_not_applicable:
-          type: boolean
-          title: Allow Not Applicable
-          default: false
-      type: object
-      required:
-      - name
-      - description
-      - response_type
-      title: CustomMetric
-      description: Represents a custom metric entry in the database.
+      title: UpdateCustomMetricRequest
+      description: Request model for updating a custom metric
   securitySchemes:
     apiKeyAuth:
       type: apiKey

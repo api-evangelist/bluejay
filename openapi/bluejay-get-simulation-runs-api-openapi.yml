@@ -79,25 +79,6 @@ components:
           description: List of simulation runs
       type: object
       title: GetSimulationRunsResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SimulationRunStatus:
-      type: string
-      enum:
-      - INITIALIZING
-      - RUNNING
-      - COMPLETED
-      - INCOMPLETED
-      - INSUFFICIENT_FUNDS
-      title: SimulationRunStatus
-      description: Enum representing the possible states of a simulation run.
     SimulationRunRes:
       properties:
         id:
@@ -171,6 +152,25 @@ components:
       - created_at
       - status
       title: SimulationRunRes
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SimulationRunStatus:
+      type: string
+      enum:
+      - INITIALIZING
+      - RUNNING
+      - COMPLETED
+      - INCOMPLETED
+      - INSUFFICIENT_FUNDS
+      title: SimulationRunStatus
+      description: Enum representing the possible states of a simulation run.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

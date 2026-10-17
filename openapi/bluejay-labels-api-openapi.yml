@@ -224,16 +224,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CreateLabelBody:
-      properties:
-        label_text:
-          type: string
-          title: Label Text
-          description: text for the label
-      type: object
-      required:
-      - label_text
-      title: CreateLabelBody
     ValidationError:
       properties:
         loc:
@@ -255,6 +245,16 @@ components:
       - msg
       - type
       title: ValidationError
+    CreateLabelBody:
+      properties:
+        label_text:
+          type: string
+          title: Label Text
+          description: text for the label
+      type: object
+      required:
+      - label_text
+      title: CreateLabelBody
     HTTPValidationError:
       properties:
         detail:

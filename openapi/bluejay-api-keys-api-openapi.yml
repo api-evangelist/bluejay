@@ -86,20 +86,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    CreateKeyIn:
-      properties:
-        scope:
-          type: string
-          title: Scope
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-      type: object
-      required:
-      - scope
-      title: CreateKeyIn
     ValidationError:
       properties:
         loc:
@@ -121,6 +107,20 @@ components:
       - msg
       - type
       title: ValidationError
+    CreateKeyIn:
+      properties:
+        scope:
+          type: string
+          title: Scope
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - scope
+      title: CreateKeyIn
     KeyOut:
       properties:
         id:

@@ -84,44 +84,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ReEvaluateCallResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-        call_id:
-          type: string
-          title: Call Id
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - status
-      - call_id
-      - message
-      title: ReEvaluateCallResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -148,6 +110,44 @@ components:
       - simulation_result_id
       - message
       title: ReEvaluateSimulationResultResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReEvaluateCallResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+        call_id:
+          type: string
+          title: Call Id
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - status
+      - call_id
+      - message
+      title: ReEvaluateCallResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey

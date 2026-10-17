@@ -51,6 +51,42 @@ paths:
       - Create Simulation
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SimulationResponse:
+      properties:
+        simulation_id:
+          type: integer
+          title: Simulation Id
+          description: ID of the created simulation
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - simulation_id
+      title: SimulationResponse
     SimulationRequest:
       properties:
         agent_id:
@@ -171,27 +207,6 @@ components:
       - agent_id
       title: SimulationRequest
       description: Pydantic model for simulation request
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -201,21 +216,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SimulationResponse:
-      properties:
-        simulation_id:
-          type: integer
-          title: Simulation Id
-          description: ID of the created simulation
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-      type: object
-      required:
-      - simulation_id
-      title: SimulationResponse
     DigitalHumansSettings:
       properties:
         default_name:

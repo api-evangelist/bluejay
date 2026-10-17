@@ -554,16 +554,33 @@ components:
       required:
       - kb_text
       title: CreateKnowledgeBaseVersionBody
-    LabelListResponse:
+    LabelDeltaRequest:
       properties:
         labels:
-          items:
-            type: string
-          type: array
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
           title: Labels
+        override_label:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Override Label
+          default: false
       type: object
-      title: LabelListResponse
-      description: response wrapper for just a list of labels.
+      title: LabelDeltaRequest
+      description: 'request body for add/remove label operations.
+
+
+        labels: list of labels to add or remove. empty/null means no-op for add,
+
+        and clear-all for remove (callers decide the semantics).
+
+        override_label: when true, adding an existing label moves its association
+
+        to the requested resource; when false, conflicts return 409.'
     HTTPValidationError:
       properties:
         detail:
@@ -621,33 +638,16 @@ components:
       - agent_id
       title: KnowledgeBaseResponse
       description: response model for knowledge base without created_at.
-    LabelDeltaRequest:
+    LabelListResponse:
       properties:
         labels:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
+          items:
+            type: string
+          type: array
           title: Labels
-        override_label:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Override Label
-          default: false
       type: object
-      title: LabelDeltaRequest
-      description: 'request body for add/remove label operations.
-
-
-        labels: list of labels to add or remove. empty/null means no-op for add,
-
-        and clear-all for remove (callers decide the semantics).
-
-        override_label: when true, adding an existing label moves its association
-
-        to the requested resource; when false, conflicts return 409.'
+      title: LabelListResponse
+      description: response wrapper for just a list of labels.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

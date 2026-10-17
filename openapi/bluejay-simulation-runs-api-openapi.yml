@@ -99,27 +99,6 @@ components:
       - deleted_simulation_run_id
       title: DeleteSimulationRunResponse
       description: Response model for deleting a simulation run.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -145,6 +124,27 @@ components:
       - deleted_simulation_result_id
       title: DeleteSimulationResultResponse
       description: Response model for the delete simulation result API (customer-facing).
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
