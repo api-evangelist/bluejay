@@ -1,0 +1,46 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Stripe Webhook API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Stripe Webhook
+paths:
+  /v1/stripe/webhook:
+    post:
+      tags:
+      - Stripe Webhook
+      summary: Receive Stripe Webhook
+      operationId: receive_stripe_webhook_v1_stripe_webhook_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Receive Stripe Webhook V1 Stripe Webhook Post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

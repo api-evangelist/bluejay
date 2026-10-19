@@ -1,0 +1,818 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Dashboards API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Dashboards
+paths:
+  /v1/dashboards:
+    get:
+      tags:
+      - Dashboards
+      summary: List Dashboards
+      description: List all dashboards in the organization, newest first.
+      operationId: list_dashboards_v1_dashboards_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: data_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - observability
+            - simulation
+            type: string
+          - type: 'null'
+          title: Data Type
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DashboardModel'
+                title: Response List Dashboards V1 Dashboards Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Dashboards
+      summary: Create Dashboard
+      description: Create an empty dashboard. Add widgets with POST /v1/widgets, passing this dashboard's id.
+      operationId: create_dashboard_v1_dashboards_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDashboardBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dashboards/{dashboard_id}:
+    get:
+      tags:
+      - Dashboards
+      summary: Get Dashboard
+      description: Get a dashboard with its widgets (including each widget's metrics and layout), ordered by layout position.
+      operationId: get_dashboard_v1_dashboards__dashboard_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: dashboard_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dashboard Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardWithWidgetsModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Dashboards
+      summary: Update Dashboard
+      description: Rename a dashboard or change its description (empty string clears it).
+      operationId: update_dashboard_v1_dashboards__dashboard_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: dashboard_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dashboard Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDashboardBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Dashboards
+      summary: Delete Dashboard
+      description: Delete a dashboard and every widget on it (widgets and their metrics cascade). A default dashboard cannot be deleted.
+      operationId: delete_dashboard_v1_dashboards__dashboard_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: dashboard_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dashboard Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dashboards/{dashboard_id}/duplicate:
+    post:
+      tags:
+      - Dashboards
+      summary: Duplicate Dashboard
+      description: 'Duplicate a dashboard: new dashboard named '' (Copy)'' with its own copy of every widget, laid out the same way.'
+      operationId: duplicate_dashboard_v1_dashboards__dashboard_id__duplicate_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: dashboard_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dashboard Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dashboards/{dashboard_id}/layout:
+    put:
+      tags:
+      - Dashboards
+      summary: Update Dashboard Layout
+      description: Set widget positions/sizes on a dashboard. Widgets that are not on the dashboard are ignored.
+      operationId: update_dashboard_layout_v1_dashboards__dashboard_id__layout_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: dashboard_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Dashboard Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLayoutBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    WidgetCenterLabelModel:
+      properties:
+        slice:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slice
+          description: Slice whose share fills the hole. Omit for the largest slice.
+        clamp_pct:
+          anyOf:
+          - type: number
+            exclusiveMaximum: 50.0
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Clamp Pct
+          description: 'Collapses the rounding edges: 1 turns 99.6% into ''>99%'' and 0.4% into ''<1%''. An exact 0 or 100 is left alone.'
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: Caption under the percentage
+        benchmark:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Benchmark
+          description: 'Numeric line and bar charts and histograms: draws a dashed reference line at this value, e.g. a target score. 0 or more, since chart axes start at 0.'
+        compare_previous:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Compare Previous
+          description: 'KPI only: false hides the change against the previous period. Omit to show it.'
+        unit:
+          anyOf:
+          - type: string
+            maxLength: 12
+          - type: 'null'
+          title: Unit
+          description: Shown after values, e.g. "pts". Ignored for metrics with their own unit (latency, duration, %).
+      type: object
+      title: WidgetCenterLabelModel
+      description: 'Pie: what the donut hole says. Numeric charts: a benchmark line and a unit. KPI: the previous-period change.'
+    WidgetMetricModel:
+      properties:
+        metric:
+          type: string
+          title: Metric
+          description: Metric key, e.g. 'call_count', 'latency', 'custom_metric', 'goal', 'tool_call', 'trace_attribute'
+        custom_metric_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Metric Id
+          description: 'Required when metric=''custom_metric'': id from the custom metrics API'
+        goal:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal
+          description: Goal text when metric='goal'
+        tool_call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Call Id
+          description: Required when metric='tool_call'
+        metadata_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadata Path
+          description: Trace attribute path when metric='trace_attribute'
+        threshold_operator:
+          anyOf:
+          - type: string
+            enum:
+            - lt
+            - lte
+            - gt
+            - gte
+          - type: 'null'
+          title: Threshold Operator
+          description: 'With threshold_value: graph the share of conversations meeting the condition instead of the metric''s own value'
+        threshold_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Threshold Value
+          description: Compared against the metric's per-conversation value; set together with threshold_operator
+        metadata_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadata Type
+          description: Trace attribute value type when metric='trace_attribute'
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        widget_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Widget Id
+      type: object
+      required:
+      - metric
+      title: WidgetMetricModel
+    DashboardModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        is_curated:
+          type: boolean
+          title: Is Curated
+          default: false
+        created_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        data_type:
+          type: string
+          title: Data Type
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Link to this dashboard in the Bluejay app
+      type: object
+      required:
+      - id
+      - name
+      - data_type
+      title: DashboardModel
+    LayoutItem:
+      properties:
+        widget_id:
+          type: string
+          title: Widget Id
+        layout:
+          $ref: '#/components/schemas/WidgetLayoutModel'
+      type: object
+      required:
+      - widget_id
+      - layout
+      title: LayoutItem
+    UpdateDashboardBody:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Empty string clears the description
+      type: object
+      title: UpdateDashboardBody
+    UpdateLayoutBody:
+      properties:
+        layouts:
+          items:
+            $ref: '#/components/schemas/LayoutItem'
+          type: array
+          title: Layouts
+          description: Layout per widget already on the dashboard
+      type: object
+      required:
+      - layouts
+      title: UpdateLayoutBody
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DashboardWithWidgetsModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        is_curated:
+          type: boolean
+          title: Is Curated
+          default: false
+        created_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        data_type:
+          type: string
+          title: Data Type
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Link to this dashboard in the Bluejay app
+        widgets:
+          items:
+            $ref: '#/components/schemas/WidgetModel'
+          type: array
+          title: Widgets
+          default: []
+      type: object
+      required:
+      - id
+      - name
+      - data_type
+      title: DashboardWithWidgetsModel
+    WidgetLayoutModel:
+      properties:
+        x:
+          type: integer
+          minimum: 1.0
+          title: X
+          description: Row, 1-based, top to bottom
+        y:
+          type: integer
+          maximum: 6.0
+          minimum: 1.0
+          title: Y
+          description: Column within the row, 1..6
+        w:
+          type: integer
+          maximum: 6.0
+          minimum: 1.0
+          title: W
+          description: Width in columns, 1..6
+        h:
+          type: integer
+          maximum: 18.0
+          minimum: 2.0
+          title: H
+          description: Height in 50px steps, 2..18 (100px..900px)
+      type: object
+      required:
+      - x
+      - y
+      - w
+      - h
+      title: WidgetLayoutModel
+      description: 'Where a widget sits on a dashboard and how big it is.
+
+
+        The field names are older than the grid they describe: x is the row and y is the column, both
+
+        1-based. The dashboard is six columns wide, and height is counted in 50px steps, so h=6 is the
+
+        300px a widget used to be and the range 2..18 is 100px..900px.'
+    WidgetModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        chart_type:
+          type: string
+          title: Chart Type
+        chart_mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chart Mode
+        data_type:
+          type: string
+          title: Data Type
+        applies_to_all_agents:
+          type: boolean
+          title: Applies To All Agents
+          default: true
+        bar_mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bar Mode
+        aggregation:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Aggregation
+        time_bucket:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Time Bucket
+        group_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Group By
+        simulation_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Simulation Ids
+        show_indeterminate:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Show Indeterminate
+        filters:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Filters
+          description: Extra conversation filters applied on top of the dashboard scope
+        column_visibility:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Column Visibility
+          description: 'Table (observability) widgets only: column visibility map'
+        color_overrides:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Color Overrides
+          description: The colour the chart draws each series or slice in, keyed by its label lowercased. Written whole when a widget is saved, so it names every label rather than only the ones a person changed.
+        center_label:
+          anyOf:
+          - $ref: '#/components/schemas/WidgetCenterLabelModel'
+          - type: 'null'
+          description: 'Chart options: the pie donut hole, a benchmark line on numeric line and bar charts and histograms, a unit, and the KPI previous-period change'
+        show_legend:
+          type: boolean
+          title: Show Legend
+          description: Whether the chart draws its colour key
+          default: true
+        created_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Updated At
+        widget_metrics:
+          items:
+            $ref: '#/components/schemas/WidgetMetricModel'
+          type: array
+          title: Widget Metrics
+          default: []
+        layout:
+          anyOf:
+          - $ref: '#/components/schemas/WidgetLayoutModel'
+          - type: 'null'
+          description: Only populated when returned as part of a dashboard
+      type: object
+      required:
+      - id
+      - name
+      - chart_type
+      - data_type
+      title: WidgetModel
+    CreateDashboardBody:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: Dashboard name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        data_type:
+          type: string
+          enum:
+          - observability
+          - simulation
+          title: Data Type
+          description: Which data the dashboard visualizes
+          default: observability
+      type: object
+      required:
+      - name
+      title: CreateDashboardBody
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

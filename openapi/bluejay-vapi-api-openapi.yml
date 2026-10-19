@@ -31,6 +31,48 @@ paths:
         schema:
           type: string
         description: API key required to authenticate requests.
+  /v1/integrations/vapi/squad:
+    post:
+      tags:
+      - Vapi
+      summary: Create Vapi Squad
+      operationId: create_vapi_squad_v1_integrations_vapi_squad_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVapiSquadRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Vapi Squad V1 Integrations Vapi Squad Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /v1/integrations/vapi/sync:
     post:
       tags:
@@ -46,6 +88,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -81,6 +129,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -105,26 +159,201 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/vapi/tools:
+    get:
+      tags:
+      - Vapi
+      summary: List Vapi Tools
+      operationId: list_vapi_tools_v1_integrations_vapi_tools_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Vapi Tools V1 Integrations Vapi Tools Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/vapi/agents/{agent_id}/tools:
+    get:
+      tags:
+      - Vapi
+      summary: List Vapi Assistant Tools
+      operationId: list_vapi_assistant_tools_v1_integrations_vapi_agents__agent_id__tools_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Vapi Assistant Tools V1 Integrations Vapi Agents  Agent Id  Tools Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Vapi
+      summary: Add Vapi Assistant Tool
+      operationId: add_vapi_assistant_tool_v1_integrations_vapi_agents__agent_id__tools_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachVapiToolRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Add Vapi Assistant Tool V1 Integrations Vapi Agents  Agent Id  Tools Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/vapi/agents/{agent_id}/tools/{tool_id}:
+    delete:
+      tags:
+      - Vapi
+      summary: Remove Vapi Assistant Tool
+      operationId: remove_vapi_assistant_tool_v1_integrations_vapi_agents__agent_id__tools__tool_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: tool_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Tool Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Remove Vapi Assistant Tool V1 Integrations Vapi Agents  Agent Id  Tools  Tool Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    SyncSingleAgentFromVapiRequest:
+    CreateVapiSquadRequest:
       properties:
-        agent_id:
-          type: integer
-          title: Agent Id
+        name:
+          type: string
+          title: Name
+        member_agent_ids:
+          items:
+            type: integer
+          type: array
+          title: Member Agent Ids
+        folder_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Folder Id
       type: object
       required:
-      - agent_id
-      title: SyncSingleAgentFromVapiRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - name
+      - member_agent_ids
+      title: CreateVapiSquadRequest
     SyncVapiAgentsRequest:
       properties:
         organization_id:
@@ -138,6 +367,15 @@ components:
           default: true
       type: object
       title: SyncVapiAgentsRequest
+    SyncSingleAgentFromVapiRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+      type: object
+      required:
+      - agent_id
+      title: SyncSingleAgentFromVapiRequest
     ValidationError:
       properties:
         loc:
@@ -153,15 +391,42 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
       - loc
       - msg
       - type
       title: ValidationError
+    AttachVapiToolRequest:
+      properties:
+        tool_id:
+          type: string
+          title: Tool Id
+      type: object
+      required:
+      - tool_id
+      title: AttachVapiToolRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

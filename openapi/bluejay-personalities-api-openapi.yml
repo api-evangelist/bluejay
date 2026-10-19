@@ -1,0 +1,751 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Personalities API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Personalities
+paths:
+  /v1/personalities:
+    get:
+      tags:
+      - Personalities
+      summary: List Personalities
+      description: The organization's personality library.
+      operationId: list_personalities_v1_personalities_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonalityPydantic'
+                title: Response List Personalities V1 Personalities Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Personalities
+      summary: Create Personalities
+      operationId: create_personalities_v1_personalities_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePersonalitiesRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonalityPydantic'
+                title: Response Create Personalities V1 Personalities Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/personalities/{personality_id}:
+    patch:
+      tags:
+      - Personalities
+      summary: Update Personality
+      operationId: update_personality_v1_personalities__personality_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: personality_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Personality Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePersonalityRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonalityPydantic'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Personalities
+      summary: Delete Personality
+      description: 'Removes it from the library and from every simulation selecting it. Past runs keep
+
+        their results: a conversation records the personality it ran as by id.'
+      operationId: delete_personality_v1_personalities__personality_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: personality_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Personality Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/simulations/{simulation_id}/personalities:
+    get:
+      tags:
+      - Personalities
+      summary: List Simulation Personalities
+      description: The personalities this simulation runs against.
+      operationId: list_simulation_personalities_v1_simulations__simulation_id__personalities_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonalityPydantic'
+                title: Response List Simulation Personalities V1 Simulations  Simulation Id  Personalities Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Personalities
+      summary: Set Simulation Personalities
+      description: 'Replace the selection. Each run then queues one conversation per digital human per
+
+        selected personality; an empty selection is one conversation per digital human.'
+      operationId: set_simulation_personalities_v1_simulations__simulation_id__personalities_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetSimulationPersonalitiesRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonalityPydantic'
+                title: Response Set Simulation Personalities V1 Simulations  Simulation Id  Personalities Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CreatePersonalitiesRequest:
+      properties:
+        personalities:
+          items:
+            $ref: '#/components/schemas/PersonalityDraft'
+          type: array
+          minItems: 1
+          title: Personalities
+      type: object
+      required:
+      - personalities
+      title: CreatePersonalitiesRequest
+    UpdatePersonalityRequest:
+      properties:
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+          description: Language code, e.g. 'en'
+        accent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accent
+          description: Accent, e.g. 'american'
+        gender:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Gender
+          description: Voice gender; with language and accent this picks the stock voice
+        background_noise:
+          anyOf:
+          - $ref: '#/components/schemas/BackgroundNoiseType'
+          - type: 'null'
+        background_noise_volume:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Background Noise Volume
+        custom_background_noise_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Background Noise Url
+        voice_speed:
+          anyOf:
+          - type: string
+            enum:
+            - slowest
+            - slow
+            - normal
+            - fast
+            - fastest
+          - type: 'null'
+          title: Voice Speed
+        audio_quality:
+          anyOf:
+          - type: string
+            enum:
+            - horrible
+            - low
+            - medium
+            - high
+          - type: 'null'
+          title: Audio Quality
+        fluency:
+          anyOf:
+          - type: string
+            enum:
+            - beginner
+            - intermediate
+            - native
+          - type: 'null'
+          title: Fluency
+        verbosity:
+          anyOf:
+          - type: string
+            enum:
+            - low
+            - medium
+            - high
+          - type: 'null'
+          title: Verbosity
+        endpointing_delay:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Endpointing Delay
+        silence_timeout:
+          anyOf:
+          - type: integer
+            minimum: 15.0
+          - type: 'null'
+          title: Silence Timeout
+        temperature:
+          anyOf:
+          - type: number
+            maximum: 2.0
+            minimum: 0.0
+          - type: 'null'
+          title: Temperature
+        interruption_configs:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Interruption Configs
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+          description: 'Personality: who the caller is and how they come across. Replaces the digital human''s own when this personality runs.'
+        name:
+          anyOf:
+          - type: string
+            minLength: 1
+          - type: 'null'
+          title: Name
+      type: object
+      title: UpdatePersonalityRequest
+    SetSimulationPersonalitiesRequest:
+      properties:
+        personality_ids:
+          items:
+            type: string
+          type: array
+          title: Personality Ids
+          description: Replaces the selection. Empty means every digital human runs once, as itself.
+      type: object
+      title: SetSimulationPersonalitiesRequest
+    BackgroundNoiseType:
+      type: string
+      enum:
+      - none
+      - office
+      - talking
+      - traffic
+      - cafe
+      - park
+      - tv
+      - noisy_restaurant
+      - hospital
+      - airport
+      - birdsong
+      - bus_station
+      - car_interior
+      - city_night
+      - city_traffic
+      - construction
+      - driving
+      - factory
+      - hotel_lobby
+      - hotel_restaurant
+      - keyboard_typing
+      - light_rain
+      - night_insects
+      - office_open_plan
+      - playground
+      - pub
+      - quiet_home
+      - rain
+      - restaurant_busy
+      - restaurant_party
+      - road_traffic
+      - school
+      - shopping_centre
+      - street
+      - subway_station
+      - subway_train
+      - supermarket
+      - thunderstorm
+      - train_station
+      - urban
+      - urban_park
+      - wind
+      - kitchen
+      - living_room
+      - meeting_room
+      - small_office
+      - cafeteria
+      - restaurant
+      - town_square
+      - bus_ride
+      - babble_light
+      - babble_crowd
+      - custom
+      title: BackgroundNoiseType
+      description: Enum for background noise options.
+    PersonalityDraft:
+      properties:
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+          description: Language code, e.g. 'en'
+        accent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accent
+          description: Accent, e.g. 'american'
+        gender:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Gender
+          description: Voice gender; with language and accent this picks the stock voice
+        background_noise:
+          anyOf:
+          - $ref: '#/components/schemas/BackgroundNoiseType'
+          - type: 'null'
+        background_noise_volume:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Background Noise Volume
+        custom_background_noise_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Background Noise Url
+        voice_speed:
+          anyOf:
+          - type: string
+            enum:
+            - slowest
+            - slow
+            - normal
+            - fast
+            - fastest
+          - type: 'null'
+          title: Voice Speed
+        audio_quality:
+          anyOf:
+          - type: string
+            enum:
+            - horrible
+            - low
+            - medium
+            - high
+          - type: 'null'
+          title: Audio Quality
+        fluency:
+          anyOf:
+          - type: string
+            enum:
+            - beginner
+            - intermediate
+            - native
+          - type: 'null'
+          title: Fluency
+        verbosity:
+          anyOf:
+          - type: string
+            enum:
+            - low
+            - medium
+            - high
+          - type: 'null'
+          title: Verbosity
+        endpointing_delay:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Endpointing Delay
+        silence_timeout:
+          anyOf:
+          - type: integer
+            minimum: 15.0
+          - type: 'null'
+          title: Silence Timeout
+        temperature:
+          anyOf:
+          - type: number
+            maximum: 2.0
+            minimum: 0.0
+          - type: 'null'
+          title: Temperature
+        interruption_configs:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Interruption Configs
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+          description: 'Personality: who the caller is and how they come across. Replaces the digital human''s own when this personality runs.'
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: Shown wherever the personality is listed, and on each result row
+      type: object
+      required:
+      - name
+      title: PersonalityDraft
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PersonalityPydantic:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        organization_id:
+          type: string
+          format: uuid
+          title: Organization Id
+        name:
+          type: string
+          title: Name
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+        accent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accent
+        gender:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Gender
+        background_noise:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Background Noise
+        background_noise_volume:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Background Noise Volume
+        custom_background_noise_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Background Noise Url
+        voice_speed:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Speed
+        audio_quality:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Quality
+        fluency:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fluency
+        verbosity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Verbosity
+        endpointing_delay:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Endpointing Delay
+        silence_timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Silence Timeout
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+        interruption_configs:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Interruption Configs
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        created_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Created By
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+      type: object
+      required:
+      - organization_id
+      - name
+      title: PersonalityPydantic
+      description: 'One named delivery configuration, persisted to `personalities`.
+
+
+        Organization-owned rather than tied to a digital human: a simulation selects the
+
+        personalities it runs against, and every digital human in the run executes each one.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

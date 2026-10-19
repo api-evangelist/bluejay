@@ -16,14 +16,17 @@ paths:
       tags:
       - Agents
       summary: Add Agent
-      description: 'Add a new agent to the system.
-
-
-        Returns the agent id and a status code.'
+      description: Add a new agent to the system.
       operationId: add_agent_v1_add_agent_post
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -59,6 +62,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -94,6 +103,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -135,6 +150,12 @@ paths:
         schema:
           type: integer
           title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -170,6 +191,12 @@ paths:
         schema:
           type: string
           title: External Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -199,6 +226,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -237,6 +270,12 @@ paths:
         schema:
           type: integer
           title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -266,6 +305,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -301,6 +346,98 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentWebhookKeyRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentWebhookKeyResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/generate-kore-inbound-token:
+    post:
+      tags:
+      - Agents
+      summary: Generate Kore Inbound Token
+      description: 'Generate (or rotate) the Bluejay-provisioned access token that Kore.ai pastes into
+
+        its Webhook channel "Access Token" field. The plaintext is returned ONCE — store it
+
+        encrypted at rest.'
+      operationId: generate_kore_inbound_token_v1_generate_kore_inbound_token_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentWebhookKeyRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentWebhookKeyResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/get-kore-inbound-token:
+    post:
+      tags:
+      - Agents
+      summary: Get Kore Inbound Token
+      description: Get the Bluejay-provisioned Kore inbound access token for an agent.
+      operationId: get_kore_inbound_token_v1_get_kore_inbound_token_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -328,57 +465,31 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AgentMode:
-      type: string
-      enum:
-      - VOICE
-      - TEXT
-      title: AgentMode
-      description: Enum representing the mode of agent
-    ValidationError:
+    AgentWebhookKeyResponse:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        signing_key:
+          type: string
+          title: Signing Key
+          description: Signing key
+        message:
           type: string
           title: Message
-        type:
-          type: string
-          title: Error Type
+          description: Message
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AgentResponse:
-      properties:
-        agent_id:
-          type: integer
-          title: Agent Id
-          description: ID of the created agent
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-        http_webhook_key:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Http Webhook Key
-          description: Signing key for HTTP webhook (only provided if http_webhook was set)
-      type: object
-      required:
-      - agent_id
-      title: AgentResponse
+      - signing_key
+      - message
+      title: AgentWebhookKeyResponse
+      description: Response model for agent webhook key
     AgentUpdateRequest:
       properties:
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bluejay As Code Id
+          description: Stable code-addressable identifier
         agent_id:
           anyOf:
           - type: string
@@ -403,12 +514,6 @@ components:
           - type: 'null'
           title: System Prompt
           description: System prompt for the agent
-        knowledge_base:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Knowledge Base
-          description: Knowledge base of the agent
         phone_number:
           anyOf:
           - type: string
@@ -448,6 +553,14 @@ components:
           - type: 'null'
           title: Keyterms
           description: List of keyterms for the agent
+        follow_up_sms_sender_numbers:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Follow Up Sms Sender Numbers
+          description: E.164 campaign numbers authorized to send this agent's follow-up SMS
         folder:
           anyOf:
           - type: string
@@ -498,6 +611,25 @@ components:
           - type: 'null'
           title: Custom Sip Headers
           description: Custom headers for SIP requests (Do not include `X-` prefix for the headers, these get added automatically)
+        dynamic_sip_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dynamic Sip Webhook Url
+          description: Per-call SIP endpoint webhook. When set (SIP connection), each call fetches its destination SIP URI from this URL at dial time.
+        outbound_trigger_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outbound Trigger Webhook Url
+          description: 'Customer-dialed sims: Bluejay POSTs a rendered payload to this URL at dispatch so the customer''s own flow dials their agent into the receiving digital human.'
+        outbound_trigger_payload_template:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Outbound Trigger Payload Template
+          description: JSON template for the outbound trigger webhook body; {{tokens}} like {{digital_human.phone_number}} are filled per call.
         redact_pii:
           anyOf:
           - type: boolean
@@ -517,6 +649,24 @@ components:
           - type: 'null'
           title: Livekit Metadata
           description: LiveKit metadata
+        livekit_customer_tool_topic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Customer Tool Topic
+          description: LiveKit customer tool topic
+        livekit_token_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Url
+          description: Webhook URL Bluejay calls per simulated call to fetch a LiveKit room token; alternative to storing the org's LiveKit API key/secret. Empty string clears the field.
+        livekit_token_webhook_auth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Auth
+          description: Value of the Authorization header Bluejay sends on the token-webhook POST (e.g. 'Bearer <token>'). Stored encrypted. Empty string clears the field.
         pipecat_agent_name:
           anyOf:
           - type: string
@@ -543,6 +693,12 @@ components:
           - type: 'null'
           title: Http Webhook
           description: HTTP webhook URL for text agent communication
+        http_webhook_sync_reply:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Http Webhook Sync Reply
+          description: 'HTTP_WEBHOOK text agents: your endpoint answers in the HTTP response body instead of calling /send-http-text-message. Bluejay reads the reply out of that response.'
         voice_provider:
           anyOf:
           - type: string
@@ -555,470 +711,260 @@ components:
           - type: 'null'
           title: Provider Id
           description: Provider ID for the agent
+        eleven_labs_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eleven Labs Agent Id
+          description: ElevenLabs Convai agent_id (for ELEVEN_LABS connection type; the xi-api-key lives in the org's integrations row)
+        retell_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Retell Agent Id
+          description: Retell agent_id (for RETELL connection type; the retell_key lives in the org's integrations row)
+        vapi_assistant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vapi Assistant Id
+          description: Vapi assistant_id (for VAPI connection type; the vapi_private_key lives in the org's integrations row)
+        ces_app_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces App Id
+          description: Google CES app id (for GOOGLE_CES_VOICE / GOOGLE_CES_CHAT; the WIF JSON lives in the org's integrations row)
+        ces_deployment_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces Deployment Id
+          description: Google CES deployment id (deployment is bound to a specific app version)
+        dfcx_project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Project Id
+          description: Google Dialogflow CX GCP project ID (for GOOGLE_DFCX_VOICE / GOOGLE_DFCX_CHAT; the WIF JSON lives in the org's integrations row)
+        dfcx_location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Location
+          description: Google Dialogflow CX location (e.g. us-central1, global)
+        dfcx_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Agent Id
+          description: Google Dialogflow CX agent UUID (from the DFCX agent resource)
+        amelia_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Base Url
+          description: Amelia deployment base URL including context root (e.g. https://tenant.amelia.com/Amelia)
+        amelia_domain_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Domain Code
+          description: Amelia domain code the conversation opens against (from /api/init -> domains[].code)
+        amelia_flow_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Flow Name
+          description: Which conversation flow in the Amelia domain this agent tracks (required for workflow sync)
+        amelia_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Agent Name
+          description: Which cognitive agent in the Amelia domain this agent tracks (takes precedence over amelia_flow_name for workflow sync)
+        kore_host:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Host
+          description: Kore.ai platform host (e.g. https://kb.est.k8s.qa.kore.aws.spctrm.net)
+        kore_bot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Bot Id
+          description: Kore.ai bot ID (e.g. st-d536681d-...)
+        kore_client_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Id
+          description: Kore.ai webhook app Client ID (cs-...)
+        kore_client_secret:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Secret
+          description: Kore.ai webhook app Client Secret (HS256); stored encrypted
+        openai_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Base Url
+          description: Base URL of an OpenAI-compatible API, e.g. https://example.com/v1; the driver appends /chat/completions
+        openai_api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Api Key
+          description: Bearer key for OPENAI_CHAT or OPENAI_REALTIME; stored encrypted. Omit for an agent behind no auth
+        openai_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Model
+          description: Model name sent in the request; many compatible servers ignore it
+        openai_realtime_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Realtime Url
+          description: OpenAI Realtime wss endpoint (for OPENAI_REALTIME); defaults to OpenAI's own, set it for Azure or a self-hosted server
+        openai_realtime_session:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Openai Realtime Session
+          description: 'Merged into the bridge''s session.update: instructions, voice, turn_detection, tools. Audio formats are set by Bluejay and cannot be overridden'
+        openai_prompt_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Id
+          description: Stored OpenAI prompt the agent is built from (pmpt_...). Referencing it tests the agent itself; pasting its instructions into openai_realtime_session tests a copy
+        openai_prompt_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Version
+          description: Prompt version to pin. Omit to open whatever the prompt's current revision is
+        email_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email Address
+          description: 'EMAIL connection: the customer agent''s inbox the digital human emails'
+        email_reply_addresses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Email Reply Addresses
+          description: 'EMAIL connection: other addresses the customer agent may reply from. The digital human always writes to email_address; a reply from any listed address is accepted once it authenticates.'
+        bland_pathway_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Pathway Id
+          description: Bland pathway id the agent runs (for BLAND_VOICE / BLAND_CHAT; the bland_api_key lives in the org's integrations row)
+        bland_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Agent Id
+          description: 'Bland web agent id bound to the pathway (required for BLAND_VOICE: a pathway itself cannot be dialled)'
+        sierra_agent_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Agent Token
+          description: 'Sierra agent token: the URL path segment naming the agent in the Sierra Voice Protocol (for SIERRA_VOICE; the org''s headless API token lives in the integrations row)'
+        sierra_release:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Release
+          description: 'Sierra release to pin the conversation to: a release target name (e.g. staging, production) or a release hash. Empty string clears the field.'
+        sierra_agent_parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Sierra Agent Parameters
+          description: 'Sierra agentParameters: a map of string key/value pairs the agent receives as request parameters at open (at most 512 entries)'
+        bland_call_settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Bland Call Settings
+          description: Bland send-call params for this agent's dispatch (voicemail_action, interruption_threshold, max_duration, voice...). Unset keys inherit Bland's own defaults; unknown keys are refused. Pass {} to clear.
+        provider_request_data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provider Request Data
+          description: Send-call request_data template for Bland outbound dispatch. Cooked advisor/match fields; each digital human's name, phone and email overlay at send time. Pass {} to clear.
         enable_outbound_call_auto_start:
           anyOf:
           - type: boolean
           - type: 'null'
           title: Enable Outbound Call Auto Start
           description: Automatically initiate an outbound call when a test result reaches READY state
+        simulations_disabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Simulations Disabled
+          description: Enable/disable simulations for this agent
+        workflow:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Workflow
+          description: Provider-specific workflow definition (e.g. full ElevenLabs Get Agent response). Parsing depends on `provider`.
+        provider:
+          anyOf:
+          - $ref: '#/components/schemas/Provider'
+          - type: 'null'
+          description: Source platform the agent's definition comes from.
       type: object
       required:
       - agent_id
       title: AgentUpdateRequest
-    AgentWebhookKeyRequest:
-      properties:
-        agent_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent Id
-          description: ID of the agent
-        external_agent_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: External Agent Id
-          description: External ID of the agent
-      type: object
-      title: AgentWebhookKeyRequest
-      description: Request model for creating/getting an agent webhook key
-    AgentUpdateResponse:
-      properties:
-        agent:
-          $ref: '#/components/schemas/AgentUpdateRequest'
-          description: Updated agent details
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: '200'
-        http_webhook_key:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Http Webhook Key
-          description: Signing key for HTTP webhook (only provided if http_webhook was set)
-      type: object
-      required:
-      - agent
-      title: AgentUpdateResponse
-    AgentRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the agent
-        system_prompt:
-          type: string
-          title: System Prompt
-          description: System prompt for the agent
-        knowledge_base:
-          type: string
-          title: Knowledge Base
-          description: Knowledge base of the agent
-        phone_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phone Number
-          description: Phone number associated with the agent
-        goals:
-          items:
-            type: string
-          type: array
-          title: Goals
-          description: List of goals for the agent
-        type:
-          anyOf:
-          - $ref: '#/components/schemas/AgentType'
-          - type: 'null'
-          description: 'INBOUND: Agent receives incoming calls from customers
-
-            OUTBOUND: Agent makes outgoing calls to customers'
-          default: INBOUND
-        connection_type:
-          anyOf:
-          - $ref: '#/components/schemas/ConnectionType'
-          - type: 'null'
-          description: Connection type of the agent (Livekit, Websocket, etc.)
-        mode:
-          anyOf:
-          - $ref: '#/components/schemas/AgentMode'
-          - type: 'null'
-          description: Modality of the agent
-          default: VOICE
-        keyterms:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Keyterms
-          description: List of keyterms for the agent
-        external_agent_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: External Agent Id
-          description: External agent ID for the agent
-        folder:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Folder
-          description: Name of the folder to put the agent in
-        websocket_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Url
-          description: WebSocket URL for real-time communication
-        websocket_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Username
-          description: Username for WebSocket authentication
-        websocket_password:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Password
-          description: Password for WebSocket authentication
-        sip_uri:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sip Uri
-          description: SIP URI for VoIP calls
-        sip_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sip Username
-          description: Username for SIP authentication
-        sip_password:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sip Password
-          description: Password for SIP authentication
-        custom_sip_headers:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Custom Sip Headers
-          description: Custom headers for SIP requests (Do not include `X-` prefix for the headers, these get added automatically)
-        redact_pii:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Redact Pii
-          description: Enable/disable PII redaction
-          default: false
-        livekit_agent_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Livekit Agent Name
-          description: LiveKit agent name
-        livekit_metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Livekit Metadata
-          description: LiveKit metadata
-        pipecat_agent_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pipecat Agent Name
-          description: Pipecat agent name
-        pipecat_agent_configuration:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Pipecat Agent Configuration
-          description: Pipecat agent configuration
-        pipecat_room_properties:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Pipecat Room Properties
-          description: Pipecat room properties
-        http_webhook:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Http Webhook
-          description: HTTP webhook URL for text agent communication
-        voice_provider:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Voice Provider
-          description: Voice provider for the agent
-        provider_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Provider Id
-          description: Provider ID for the agent
-        enable_outbound_call_auto_start:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enable Outbound Call Auto Start
-          description: Automatically initiate an outbound call when a test result reaches READY state
-      type: object
-      required:
-      - name
-      - system_prompt
-      - knowledge_base
-      - goals
-      title: AgentRequest
-    ConnectionType:
-      type: string
-      enum:
-      - SMS
-      - HTTP_WEBHOOK
-      - PHONE
-      - SIP
-      - WEBSOCKET
-      - LIVEKIT
-      - PIPECAT
-      title: ConnectionType
-      description: Enum representing the connection type of the agent
-    AgentUpdateWithExternalIdRequest:
-      properties:
-        external_agent_id:
-          type: string
-          title: External Agent Id
-          description: External agent ID for the agent
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the agent
-        system_prompt:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: System Prompt
-          description: System prompt for the agent
-        knowledge_base:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Knowledge Base
-          description: Knowledge base of the agent
-        phone_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phone Number
-          description: Phone number associated with the agent
-        goals:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Goals
-          description: List of goals for the agent
-        type:
-          anyOf:
-          - $ref: '#/components/schemas/AgentType'
-          - type: 'null'
-          description: 'INBOUND: Agent receives incoming calls from customers
-
-            OUTBOUND: Agent makes outgoing calls to customers'
-        connection_type:
-          anyOf:
-          - $ref: '#/components/schemas/ConnectionType'
-          - type: 'null'
-          description: Connection type of the agent (Livekit, Websocket, etc.)
-        mode:
-          anyOf:
-          - $ref: '#/components/schemas/AgentMode'
-          - type: 'null'
-          description: Modality of the agent
-        keyterms:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Keyterms
-          description: List of keyterms for the agent
-        folder:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Folder
-          description: Name of the folder to put the agent in
-        websocket_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Url
-          description: WebSocket URL for real-time communication
-        websocket_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Username
-          description: Username for WebSocket authentication
-        websocket_password:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Password
-          description: Password for WebSocket authentication
-        sip_uri:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sip Uri
-          description: SIP URI for VoIP calls
-        sip_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sip Username
-          description: Username for SIP authentication
-        sip_password:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sip Password
-          description: Password for SIP authentication
-        custom_sip_headers:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Custom Sip Headers
-          description: Custom headers for SIP requests
-        redact_pii:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Redact Pii
-          description: Enable/disable PII redaction
-        livekit_agent_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Livekit Agent Name
-          description: LiveKit agent name
-        livekit_metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Livekit Metadata
-          description: LiveKit metadata
-        pipecat_agent_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pipecat Agent Name
-          description: Pipecat agent name
-        pipecat_agent_configuration:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Pipecat Agent Configuration
-          description: Pipecat agent configuration
-        pipecat_room_properties:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Pipecat Room Properties
-          description: Pipecat room properties
-        http_webhook:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Http Webhook
-          description: HTTP webhook URL for text agent communication
-        voice_provider:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Voice Provider
-          description: Voice provider for the agent
-        provider_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Provider Id
-          description: Provider ID for the agent
-        enable_outbound_call_auto_start:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enable Outbound Call Auto Start
-          description: Automatically initiate an outbound call when a test result reaches READY state
-      type: object
-      required:
-      - external_agent_id
-      title: AgentUpdateWithExternalIdRequest
-    AgentWebhookKeyResponse:
-      properties:
-        signing_key:
-          type: string
-          title: Signing Key
-          description: Signing key
-        message:
-          type: string
-          title: Message
-          description: Message
-      type: object
-      required:
-      - signing_key
-      - message
-      title: AgentWebhookKeyResponse
-      description: Response model for agent webhook key
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     AgentPydantic:
       properties:
         id:
           anyOf:
-          - type: string
           - type: integer
+          - type: string
           - type: 'null'
           title: Id
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bluejay As Code Id
         name:
           type: string
           title: Name
         agent_description:
           type: string
           title: Agent Description
-        knowledge_base:
-          type: string
-          title: Knowledge Base
         organization_id:
           type: string
           title: Organization Id
+        workspace_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Workspace Id
         goals:
           anyOf:
           - items:
@@ -1041,6 +987,25 @@ components:
           - type: string
           - type: 'null'
           title: Phone Number
+        email_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email Address
+        email_reply_addresses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Email Reply Addresses
+        follow_up_sms_sender_numbers:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Follow Up Sms Sender Numbers
         websocket_url:
           anyOf:
           - type: string
@@ -1063,6 +1028,30 @@ components:
             format: date-time
           - type: 'null'
           title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+        updated_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By
+        updated_by_api_key:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By Api Key
+        created_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Created By
         keyterms:
           anyOf:
           - items:
@@ -1131,6 +1120,21 @@ components:
             type: object
           - type: 'null'
           title: Livekit Metadata
+        livekit_customer_tool_topic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Customer Tool Topic
+        livekit_token_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Url
+        livekit_token_webhook_auth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Auth
         pipecat_agent_name:
           anyOf:
           - type: string
@@ -1158,19 +1162,337 @@ components:
           - type: string
           - type: 'null'
           title: Http Webhook Key
+        http_webhook_sync_reply:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Http Webhook Sync Reply
+        dynamic_sip_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dynamic Sip Webhook Url
+        outbound_trigger_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outbound Trigger Webhook Url
+        outbound_trigger_payload_template:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Outbound Trigger Payload Template
+        eleven_labs_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eleven Labs Agent Id
+        retell_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Retell Agent Id
+        vapi_assistant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vapi Assistant Id
+        ces_app_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces App Id
+        ces_deployment_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces Deployment Id
+        dfcx_project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Project Id
+        dfcx_location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Location
+        dfcx_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Agent Id
+        amelia_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Base Url
+        amelia_domain_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Domain Code
+        amelia_flow_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Flow Name
+        amelia_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Agent Name
+        bland_pathway_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Pathway Id
+        bland_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Agent Id
+        bland_persona_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Persona Id
+        bland_call_settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Bland Call Settings
+        provider_request_data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provider Request Data
+        sierra_agent_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Agent Token
+        sierra_release:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Release
+        sierra_agent_parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Sierra Agent Parameters
+        kore_host:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Host
+        kore_bot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Bot Id
+        kore_client_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Id
+        kore_client_secret:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Secret
+        openai_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Base Url
+        openai_api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Api Key
+        openai_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Model
+        openai_realtime_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Realtime Url
+        openai_realtime_session:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Openai Realtime Session
+        openai_prompt_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Id
+        openai_prompt_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Version
+        kore_inbound_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Inbound Token
         enable_outbound_call_auto_start:
           anyOf:
           - type: boolean
           - type: 'null'
           title: Enable Outbound Call Auto Start
+        simulations_disabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Simulations Disabled
+          default: false
+        workflow:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Workflow
+        provider:
+          anyOf:
+          - $ref: '#/components/schemas/Provider'
+          - type: 'null'
+        red_team_profile:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Red Team Profile
       type: object
       required:
       - name
       - agent_description
-      - knowledge_base
       - organization_id
       - mode
       title: AgentPydantic
+    Provider:
+      type: string
+      enum:
+      - CUSTOM
+      - ELEVENLABS
+      - VAPI
+      - RETELL
+      - GOOGLE_CES_VOICE
+      - GOOGLE_CES_CHAT
+      - GOOGLE_DFCX_VOICE
+      - GOOGLE_DFCX_CHAT
+      - AMELIA
+      - BLAND
+      title: Provider
+      description: 'Source platform the agent''s definition (system prompt, workflow) comes from.
+
+
+        Distinct from `voice_provider` (TTS/STT vendor) and `provider_id` (handle on that vendor) —
+
+        this identifies where the agent''s *behavior* (prompt, multi-agent graph) is authored.'
+    AgentUpdateResponse:
+      properties:
+        agent:
+          $ref: '#/components/schemas/AgentUpdateRequest'
+          description: Updated agent details
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+        http_webhook_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook Key
+          description: Signing key for HTTP webhook (only provided if http_webhook was set)
+      type: object
+      required:
+      - agent
+      title: AgentUpdateResponse
+    AgentMode:
+      type: string
+      enum:
+      - VOICE
+      - TEXT
+      - EMAIL
+      title: AgentMode
+      description: Enum representing the mode of agent
+    ConnectionType:
+      type: string
+      enum:
+      - SMS
+      - HTTP_WEBHOOK
+      - PHONE
+      - SIP
+      - WEBSOCKET
+      - LIVEKIT
+      - PIPECAT
+      - ELEVEN_LABS
+      - RETELL
+      - VAPI
+      - KORE
+      - OPENAI_CHAT
+      - OPENAI_REALTIME
+      - SIERRA_VOICE
+      - AMELIA_CHAT
+      - AMELIA_VOICE
+      - GOOGLE_CES_CHAT
+      - GOOGLE_CES_VOICE
+      - GOOGLE_DFCX_VOICE
+      - GOOGLE_DFCX_CHAT
+      - BLAND_PHONE
+      - BLAND_VOICE
+      - BLAND_CHAT
+      - EMAIL
+      title: ConnectionType
+      description: Enum representing the connection type of the agent
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     AgentType:
       type: string
       enum:
@@ -1178,9 +1500,956 @@ components:
       - OUTBOUND
       title: AgentType
       description: Enum representing the type of agent
+    AgentResponse:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the created agent
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+        version:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Version
+          description: Bluejay version integer; always 1 on create
+        http_webhook_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook Key
+          description: Signing key for HTTP webhook (only provided if http_webhook was set)
+      type: object
+      required:
+      - agent_id
+      title: AgentResponse
+    AgentUpdateWithExternalIdRequest:
+      properties:
+        external_agent_id:
+          type: string
+          title: External Agent Id
+          description: External agent ID for the agent
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the agent
+        system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: System Prompt
+          description: System prompt for the agent
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number associated with the agent
+        goals:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Goals
+          description: List of goals for the agent
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/AgentType'
+          - type: 'null'
+          description: 'INBOUND: Agent receives incoming calls from customers
+
+            OUTBOUND: Agent makes outgoing calls to customers'
+        connection_type:
+          anyOf:
+          - $ref: '#/components/schemas/ConnectionType'
+          - type: 'null'
+          description: Connection type of the agent (Livekit, Websocket, etc.)
+        mode:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMode'
+          - type: 'null'
+          description: Modality of the agent
+        keyterms:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keyterms
+          description: List of keyterms for the agent
+        follow_up_sms_sender_numbers:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Follow Up Sms Sender Numbers
+          description: E.164 campaign numbers authorized to send this agent's follow-up SMS
+        folder:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Folder
+          description: Name of the folder to put the agent in
+        websocket_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Url
+          description: WebSocket URL for real-time communication
+        websocket_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Username
+          description: Username for WebSocket authentication
+        websocket_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Password
+          description: Password for WebSocket authentication
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+          description: SIP URI for VoIP calls
+        sip_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Username
+          description: Username for SIP authentication
+        sip_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Password
+          description: Password for SIP authentication
+        custom_sip_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Custom Sip Headers
+          description: Custom headers for SIP requests
+        dynamic_sip_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dynamic Sip Webhook Url
+          description: Per-call SIP endpoint webhook. When set (SIP connection), each call fetches its destination SIP URI from this URL at dial time.
+        outbound_trigger_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outbound Trigger Webhook Url
+          description: 'Customer-dialed sims: Bluejay POSTs a rendered payload to this URL at dispatch so the customer''s own flow dials their agent into the receiving digital human.'
+        outbound_trigger_payload_template:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Outbound Trigger Payload Template
+          description: JSON template for the outbound trigger webhook body; {{tokens}} like {{digital_human.phone_number}} are filled per call.
+        redact_pii:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redact Pii
+          description: Enable/disable PII redaction
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+          description: LiveKit agent name
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+          description: LiveKit metadata
+        livekit_customer_tool_topic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Customer Tool Topic
+          description: LiveKit customer tool topic
+        livekit_token_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Url
+          description: Webhook URL Bluejay calls per simulated call to fetch a LiveKit room token; alternative to storing the org's LiveKit API key/secret. Empty string clears the field.
+        livekit_token_webhook_auth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Auth
+          description: Value of the Authorization header Bluejay sends on the token-webhook POST (e.g. 'Bearer <token>'). Stored encrypted. Empty string clears the field.
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+          description: Pipecat agent name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+          description: Pipecat agent configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+          description: Pipecat room properties
+        http_webhook:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook
+          description: HTTP webhook URL for text agent communication
+        http_webhook_sync_reply:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Http Webhook Sync Reply
+          description: 'HTTP_WEBHOOK text agents: your endpoint answers in the HTTP response body instead of calling /send-http-text-message. Bluejay reads the reply out of that response.'
+        voice_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Provider
+          description: Voice provider for the agent
+        provider_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider Id
+          description: Provider ID for the agent
+        eleven_labs_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eleven Labs Agent Id
+          description: ElevenLabs Convai agent_id (for ELEVEN_LABS connection type; the xi-api-key lives in the org's integrations row)
+        retell_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Retell Agent Id
+          description: Retell agent_id (for RETELL connection type; the retell_key lives in the org's integrations row)
+        vapi_assistant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vapi Assistant Id
+          description: Vapi assistant_id (for VAPI connection type; the vapi_private_key lives in the org's integrations row)
+        ces_app_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces App Id
+          description: Google CES app id (for GOOGLE_CES_VOICE / GOOGLE_CES_CHAT; the WIF JSON lives in the org's integrations row)
+        ces_deployment_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces Deployment Id
+          description: Google CES deployment id (deployment is bound to a specific app version)
+        dfcx_project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Project Id
+          description: Google Dialogflow CX GCP project ID (for GOOGLE_DFCX_VOICE / GOOGLE_DFCX_CHAT; the WIF JSON lives in the org's integrations row)
+        dfcx_location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Location
+          description: Google Dialogflow CX location (e.g. us-central1, global)
+        dfcx_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Agent Id
+          description: Google Dialogflow CX agent UUID (from the DFCX agent resource)
+        amelia_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Base Url
+          description: Amelia deployment base URL including context root (e.g. https://tenant.amelia.com/Amelia)
+        amelia_domain_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Domain Code
+          description: Amelia domain code the conversation opens against (from /api/init -> domains[].code)
+        amelia_flow_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Flow Name
+          description: Which conversation flow in the Amelia domain this agent tracks (required for workflow sync)
+        amelia_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Agent Name
+          description: Which cognitive agent in the Amelia domain this agent tracks (takes precedence over amelia_flow_name for workflow sync)
+        kore_host:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Host
+          description: Kore.ai platform host (e.g. https://kb.est.k8s.qa.kore.aws.spctrm.net)
+        kore_bot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Bot Id
+          description: Kore.ai bot ID (e.g. st-d536681d-...)
+        kore_client_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Id
+          description: Kore.ai webhook app Client ID (cs-...)
+        kore_client_secret:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Secret
+          description: Kore.ai webhook app Client Secret (HS256); stored encrypted
+        openai_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Base Url
+          description: Base URL of an OpenAI-compatible API, e.g. https://example.com/v1; the driver appends /chat/completions
+        openai_api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Api Key
+          description: Bearer key for OPENAI_CHAT or OPENAI_REALTIME; stored encrypted. Omit for an agent behind no auth
+        openai_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Model
+          description: Model name sent in the request; many compatible servers ignore it
+        openai_realtime_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Realtime Url
+          description: OpenAI Realtime wss endpoint (for OPENAI_REALTIME); defaults to OpenAI's own, set it for Azure or a self-hosted server
+        openai_realtime_session:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Openai Realtime Session
+          description: 'Merged into the bridge''s session.update: instructions, voice, turn_detection, tools. Audio formats are set by Bluejay and cannot be overridden'
+        openai_prompt_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Id
+          description: Stored OpenAI prompt the agent is built from (pmpt_...). Referencing it tests the agent itself; pasting its instructions into openai_realtime_session tests a copy
+        openai_prompt_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Version
+          description: Prompt version to pin. Omit to open whatever the prompt's current revision is
+        email_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email Address
+          description: 'EMAIL connection: the customer agent''s inbox the digital human emails'
+        email_reply_addresses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Email Reply Addresses
+          description: 'EMAIL connection: other addresses the customer agent may reply from. The digital human always writes to email_address; a reply from any listed address is accepted once it authenticates.'
+        bland_pathway_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Pathway Id
+          description: Bland pathway id the agent runs (for BLAND_VOICE / BLAND_CHAT; the bland_api_key lives in the org's integrations row)
+        bland_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Agent Id
+          description: 'Bland web agent id bound to the pathway (required for BLAND_VOICE: a pathway itself cannot be dialled)'
+        sierra_agent_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Agent Token
+          description: 'Sierra agent token: the URL path segment naming the agent in the Sierra Voice Protocol (for SIERRA_VOICE; the org''s headless API token lives in the integrations row)'
+        sierra_release:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Release
+          description: 'Sierra release to pin the conversation to: a release target name (e.g. staging, production) or a release hash. Empty string clears the field.'
+        sierra_agent_parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Sierra Agent Parameters
+          description: 'Sierra agentParameters: a map of string key/value pairs the agent receives as request parameters at open (at most 512 entries)'
+        bland_call_settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Bland Call Settings
+          description: Bland send-call params for this agent's dispatch (voicemail_action, interruption_threshold, max_duration, voice...). Unset keys inherit Bland's own defaults; unknown keys are refused. Pass {} to clear.
+        provider_request_data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provider Request Data
+          description: Send-call request_data template for Bland outbound dispatch. Cooked advisor/match fields; each digital human's name, phone and email overlay at send time. Pass {} to clear.
+        enable_outbound_call_auto_start:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Outbound Call Auto Start
+          description: Automatically initiate an outbound call when a test result reaches READY state
+        simulations_disabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Simulations Disabled
+          description: Enable/disable simulations for this agent
+        workflow:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Workflow
+          description: Provider-specific workflow definition (e.g. full ElevenLabs Get Agent response). Parsing depends on `provider`.
+        provider:
+          anyOf:
+          - $ref: '#/components/schemas/Provider'
+          - type: 'null'
+          description: Source platform the agent's definition comes from.
+      type: object
+      required:
+      - external_agent_id
+      title: AgentUpdateWithExternalIdRequest
+    AgentRequest:
+      properties:
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bluejay As Code Id
+          description: Stable code-addressable identifier
+        name:
+          type: string
+          title: Name
+          description: Name of the agent
+        system_prompt:
+          type: string
+          title: System Prompt
+          description: System prompt for the agent
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number associated with the agent
+        goals:
+          items:
+            type: string
+          type: array
+          title: Goals
+          description: List of goals for the agent
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/AgentType'
+          - type: 'null'
+          description: 'INBOUND: Agent receives incoming calls from customers
+
+            OUTBOUND: Agent makes outgoing calls to customers'
+          default: INBOUND
+        connection_type:
+          anyOf:
+          - $ref: '#/components/schemas/ConnectionType'
+          - type: 'null'
+          description: Connection type of the agent (Livekit, Websocket, etc.)
+        mode:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMode'
+          - type: 'null'
+          description: Modality of the agent
+          default: VOICE
+        keyterms:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keyterms
+          description: List of keyterms for the agent
+        follow_up_sms_sender_numbers:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Follow Up Sms Sender Numbers
+          description: E.164 campaign numbers authorized to send this agent's follow-up SMS
+        external_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Agent Id
+          description: External agent ID for the agent
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+          description: Custom labels to attach to version 1 alongside production and latest
+        folder:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Folder
+          description: Name of the folder to put the agent in
+        websocket_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Url
+          description: WebSocket URL for real-time communication
+        websocket_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Username
+          description: Username for WebSocket authentication
+        websocket_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Password
+          description: Password for WebSocket authentication
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+          description: SIP URI for VoIP calls
+        sip_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Username
+          description: Username for SIP authentication
+        sip_password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Password
+          description: Password for SIP authentication
+        custom_sip_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Custom Sip Headers
+          description: Custom headers for SIP requests (Do not include `X-` prefix for the headers, these get added automatically)
+        dynamic_sip_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dynamic Sip Webhook Url
+          description: Per-call SIP endpoint webhook. When set (SIP connection), each call fetches its destination SIP URI from this URL at dial time.
+        outbound_trigger_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outbound Trigger Webhook Url
+          description: 'Customer-dialed sims: Bluejay POSTs a rendered payload to this URL at dispatch so the customer''s own flow dials their agent into the receiving digital human.'
+        outbound_trigger_payload_template:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Outbound Trigger Payload Template
+          description: JSON template for the outbound trigger webhook body; {{tokens}} like {{digital_human.phone_number}} are filled per call.
+        redact_pii:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Redact Pii
+          description: Enable/disable PII redaction
+          default: false
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+          description: LiveKit agent name
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+          description: LiveKit metadata
+        livekit_customer_tool_topic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Customer Tool Topic
+          description: LiveKit customer tool topic
+        livekit_token_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Url
+          description: Webhook URL Bluejay calls per simulated call to fetch a LiveKit room token; alternative to storing the org's LiveKit API key/secret. Empty string clears the field.
+        livekit_token_webhook_auth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Auth
+          description: Value of the Authorization header Bluejay sends on the token-webhook POST (e.g. 'Bearer <token>'). Stored encrypted. Empty string clears the field.
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+          description: Pipecat agent name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+          description: Pipecat agent configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+          description: Pipecat room properties
+        http_webhook:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Http Webhook
+          description: HTTP webhook URL for text agent communication
+        http_webhook_sync_reply:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Http Webhook Sync Reply
+          description: 'HTTP_WEBHOOK text agents: your endpoint answers in the HTTP response body instead of calling /send-http-text-message. Bluejay reads the reply out of that response.'
+        voice_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Provider
+          description: Voice provider for the agent
+        provider_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider Id
+          description: Provider ID for the agent
+        eleven_labs_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eleven Labs Agent Id
+          description: ElevenLabs Convai agent_id (for ELEVEN_LABS connection type; the xi-api-key lives in the org's integrations row)
+        retell_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Retell Agent Id
+          description: Retell agent_id (for RETELL connection type; the retell_key lives in the org's integrations row)
+        vapi_assistant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vapi Assistant Id
+          description: Vapi assistant_id (for VAPI connection type; the vapi_private_key lives in the org's integrations row)
+        ces_app_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces App Id
+          description: Google CES app id (for GOOGLE_CES_VOICE / GOOGLE_CES_CHAT; the WIF JSON lives in the org's integrations row)
+        ces_deployment_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces Deployment Id
+          description: Google CES deployment id (deployment is bound to a specific app version)
+        dfcx_project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Project Id
+          description: Google Dialogflow CX GCP project ID (for GOOGLE_DFCX_VOICE / GOOGLE_DFCX_CHAT; the WIF JSON lives in the org's integrations row)
+        dfcx_location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Location
+          description: Google Dialogflow CX location (e.g. us-central1, global)
+        dfcx_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Agent Id
+          description: Google Dialogflow CX agent UUID (from the DFCX agent resource)
+        amelia_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Base Url
+          description: Amelia deployment base URL including context root (e.g. https://tenant.amelia.com/Amelia)
+        amelia_domain_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Domain Code
+          description: Amelia domain code the conversation opens against (from /api/init -> domains[].code)
+        amelia_flow_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Flow Name
+          description: Which conversation flow in the Amelia domain this agent tracks (required for workflow sync)
+        amelia_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Agent Name
+          description: Which cognitive agent in the Amelia domain this agent tracks (takes precedence over amelia_flow_name for workflow sync)
+        kore_host:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Host
+          description: Kore.ai platform host (e.g. https://kb.est.k8s.qa.kore.aws.spctrm.net)
+        kore_bot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Bot Id
+          description: Kore.ai bot ID (e.g. st-d536681d-...)
+        kore_client_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Id
+          description: Kore.ai webhook app Client ID (cs-...)
+        kore_client_secret:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Secret
+          description: Kore.ai webhook app Client Secret (HS256); stored encrypted
+        openai_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Base Url
+          description: Base URL of an OpenAI-compatible API, e.g. https://example.com/v1; the driver appends /chat/completions
+        openai_api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Api Key
+          description: Bearer key for OPENAI_CHAT or OPENAI_REALTIME; stored encrypted. Omit for an agent behind no auth
+        openai_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Model
+          description: Model name sent in the request; many compatible servers ignore it
+        openai_realtime_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Realtime Url
+          description: OpenAI Realtime wss endpoint (for OPENAI_REALTIME); defaults to OpenAI's own, set it for Azure or a self-hosted server
+        openai_realtime_session:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Openai Realtime Session
+          description: 'Merged into the bridge''s session.update: instructions, voice, turn_detection, tools. Audio formats are set by Bluejay and cannot be overridden'
+        openai_prompt_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Id
+          description: Stored OpenAI prompt the agent is built from (pmpt_...). Referencing it tests the agent itself; pasting its instructions into openai_realtime_session tests a copy
+        openai_prompt_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Version
+          description: Prompt version to pin. Omit to open whatever the prompt's current revision is
+        email_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email Address
+          description: 'EMAIL connection: the customer agent''s inbox the digital human emails'
+        email_reply_addresses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Email Reply Addresses
+          description: 'EMAIL connection: other addresses the customer agent may reply from. The digital human always writes to email_address; a reply from any listed address is accepted once it authenticates.'
+        bland_pathway_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Pathway Id
+          description: Bland pathway id the agent runs (for BLAND_VOICE / BLAND_CHAT; the bland_api_key lives in the org's integrations row)
+        bland_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Agent Id
+          description: 'Bland web agent id bound to the pathway (required for BLAND_VOICE: a pathway itself cannot be dialled)'
+        sierra_agent_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Agent Token
+          description: 'Sierra agent token: the URL path segment naming the agent in the Sierra Voice Protocol (for SIERRA_VOICE; the org''s headless API token lives in the integrations row)'
+        sierra_release:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Release
+          description: 'Sierra release to pin the conversation to: a release target name (e.g. staging, production) or a release hash. Empty string clears the field.'
+        sierra_agent_parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Sierra Agent Parameters
+          description: 'Sierra agentParameters: a map of string key/value pairs the agent receives as request parameters at open (at most 512 entries)'
+        bland_call_settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Bland Call Settings
+          description: Bland send-call params for this agent's dispatch (voicemail_action, interruption_threshold, max_duration, voice...). Unset keys inherit Bland's own defaults; unknown keys are refused. Pass {} to clear.
+        provider_request_data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provider Request Data
+          description: Send-call request_data template for Bland outbound dispatch. Cooked advisor/match fields; each digital human's name, phone and email overlay at send time. Pass {} to clear.
+        enable_outbound_call_auto_start:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Outbound Call Auto Start
+          description: Automatically initiate an outbound call when a test result reaches READY state
+        simulations_disabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Simulations Disabled
+          description: Enable/disable simulations for this agent
+          default: false
+        workflow:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Workflow
+          description: Provider-specific workflow definition (e.g. full ElevenLabs Get Agent response). Parsing depends on `provider`.
+        provider:
+          anyOf:
+          - $ref: '#/components/schemas/Provider'
+          - type: 'null'
+          description: Source platform the agent's definition comes from. Defaults to ELEVENLABS for ELEVEN_LABS connection_type, otherwise CUSTOM.
+      type: object
+      required:
+      - name
+      - system_prompt
+      - goals
+      title: AgentRequest
+    AgentWebhookKeyRequest:
+      properties:
+        agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent
+        external_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Agent Id
+          description: External ID of the agent
+      type: object
+      title: AgentWebhookKeyRequest
+      description: Request model for creating/getting an agent webhook key
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

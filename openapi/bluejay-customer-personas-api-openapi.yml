@@ -21,6 +21,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -62,6 +68,12 @@ paths:
         schema:
           type: integer
           title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -101,6 +113,12 @@ paths:
           type: string
           format: uuid
           title: Persona Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -136,6 +154,12 @@ paths:
           type: string
           format: uuid
           title: Persona Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -172,6 +196,12 @@ paths:
           type: string
           format: uuid
           title: Persona Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -199,62 +229,28 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
+    UpdateCustomerPersonaRequest:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CreateCustomerPersonaRequest:
-      properties:
-        agent_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Agent Id
-          description: ID of the agent this persona belongs to
         name:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Name
           description: Name of the customer persona
         description:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Description
           description: Description of the customer persona
         goal:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Goal
           description: Goal of the customer persona
       type: object
-      required:
-      - name
-      - description
-      - goal
-      title: CreateCustomerPersonaRequest
+      title: UpdateCustomerPersonaRequest
     CustomerPersonaPydantic:
       properties:
         id:
@@ -293,31 +289,74 @@ components:
       type: object
       title: CustomerPersonaPydantic
       description: Pydantic version of CustomerPersona for validation and serialization.
-    UpdateCustomerPersonaRequest:
+    CreateCustomerPersonaRequest:
       properties:
-        name:
+        agent_id:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
+          title: Agent Id
+          description: ID of the agent this persona belongs to
+        name:
+          type: string
           title: Name
           description: Name of the customer persona
         description:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Description
           description: Description of the customer persona
         goal:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Goal
           description: Goal of the customer persona
       type: object
-      title: UpdateCustomerPersonaRequest
+      required:
+      - name
+      - description
+      - goal
+      title: CreateCustomerPersonaRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

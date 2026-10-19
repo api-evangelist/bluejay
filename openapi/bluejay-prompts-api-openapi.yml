@@ -15,14 +15,15 @@ paths:
     get:
       tags:
       - Prompts
-      summary: Get Prompt By Label Agent Scoped
+      summary: Get Agent Version By Label
       description: 'retrieve a single prompt by label under /agents/{agent_id}/prompts?label=... .
 
 
         - if label is missing -> 400
 
         - if label resolves to 0 -> 404; >1 -> 400 ambiguous (except latest which should be unique)'
-      operationId: get_prompt_by_label_agent_scoped_v1_agents__agent_id__prompts_get
+      operationId: get_agent_version_by_label_v1_agents__agent_id__prompts_get
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -40,6 +41,12 @@ paths:
           - type: string
           - type: 'null'
           title: Label
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -52,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromptResponse'
+                $ref: '#/components/schemas/AgentVersionResponse'
         '422':
           description: Validation Error
           content:
@@ -63,9 +70,10 @@ paths:
     post:
       tags:
       - Prompts
-      summary: Create Prompt Version Agent Scoped
+      summary: Create Agent Version
       description: create a new prompt version under /agents/{agent_id}/prompts/versions.
-      operationId: create_prompt_version_agent_scoped_v1_agents__agent_id__prompts_versions_post
+      operationId: create_agent_version_v1_agents__agent_id__prompts_versions_post
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -75,6 +83,12 @@ paths:
         schema:
           type: integer
           title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -86,14 +100,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreatePromptVersionBody'
+              $ref: '#/components/schemas/CreateAgentVersionBody'
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromptResponse'
+                $ref: '#/components/schemas/AgentVersionResponse'
         '422':
           description: Validation Error
           content:
@@ -103,9 +117,10 @@ paths:
     get:
       tags:
       - Prompts
-      summary: List Prompt Versions
+      summary: List Agent Versions
       description: list prompt versions with optional filters (label, version).
-      operationId: list_prompt_versions_v1_agents__agent_id__prompts_versions_get
+      operationId: list_agent_versions_v1_agents__agent_id__prompts_versions_get
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -138,6 +153,12 @@ paths:
           type: integer
           default: 50
           title: Limit
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -152,8 +173,8 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/PromptResponse'
-                title: Response List Prompt Versions V1 Agents  Agent Id  Prompts Versions Get
+                  $ref: '#/components/schemas/AgentVersionResponse'
+                title: Response List Agent Versions V1 Agents  Agent Id  Prompts Versions Get
         '422':
           description: Validation Error
           content:
@@ -163,7 +184,7 @@ paths:
     delete:
       tags:
       - Prompts
-      summary: Delete Prompt Version By Label Agent Scoped
+      summary: Delete Agent Version By Label
       description: 'delete a prompt version by label.
 
 
@@ -174,7 +195,8 @@ paths:
         - if deleting latest, reassign latest to highest remaining version
 
         - cannot delete if it is the only version'
-      operationId: delete_prompt_version_by_label_agent_scoped_v1_agents__agent_id__prompts_versions_delete
+      operationId: delete_agent_version_by_label_v1_agents__agent_id__prompts_versions_delete
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -192,6 +214,12 @@ paths:
           - type: string
           - type: 'null'
           title: Label
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -214,9 +242,10 @@ paths:
     post:
       tags:
       - Prompts
-      summary: Promote Production Label Agent Scoped
-      description: Move the production label to the latest prompt version, or to the version identified by prompt_id.
-      operationId: promote_production_label_agent_scoped_v1_agents__agent_id__prompts_promote_post
+      summary: Promote Production Label
+      description: Move the production label to the latest version, or to the version identified by version (or prompt_id).
+      operationId: promote_production_label_v1_agents__agent_id__prompts_promote_post
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -226,6 +255,16 @@ paths:
         schema:
           type: integer
           title: Agent Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: If set, attach the production label to this version number; otherwise attach to the latest version.
+          title: Version
+        description: If set, attach the production label to this version number; otherwise attach to the latest version.
       - name: prompt_id
         in: query
         required: false
@@ -234,9 +273,15 @@ paths:
           - type: string
             format: uuid
           - type: 'null'
-          description: If set, attach the production label to this prompt version; otherwise attach to the latest version.
+          description: 'Alias for version: the version''s uuid. Ignored when version is set.'
           title: Prompt Id
-        description: If set, attach the production label to this prompt version; otherwise attach to the latest version.
+        description: 'Alias for version: the version''s uuid. Ignored when version is set.'
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -249,7 +294,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromptResponse'
+                $ref: '#/components/schemas/AgentVersionResponse'
         '422':
           description: Validation Error
           content:
@@ -260,8 +305,9 @@ paths:
     get:
       tags:
       - Prompts
-      summary: Get Prompt Version Agent Scoped
-      operationId: get_prompt_version_agent_scoped_v1_agents__agent_id__prompts_versions__version__get
+      summary: Get Agent Version
+      operationId: get_agent_version_v1_agents__agent_id__prompts_versions__version__get
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -277,6 +323,12 @@ paths:
         schema:
           type: integer
           title: Version
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -289,7 +341,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromptResponse'
+                $ref: '#/components/schemas/AgentVersionResponse'
         '422':
           description: Validation Error
           content:
@@ -299,14 +351,15 @@ paths:
     delete:
       tags:
       - Prompts
-      summary: Delete Prompt Version Agent Scoped
+      summary: Delete Agent Version
       description: 'delete a specific prompt version; cannot delete production; cannot delete only version.
 
 
         if deleting latest, reassign latest to highest remaining version.
 
         returns metadata about the deletion.'
-      operationId: delete_prompt_version_agent_scoped_v1_agents__agent_id__prompts_versions__version__delete
+      operationId: delete_agent_version_v1_agents__agent_id__prompts_versions__version__delete
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -322,6 +375,12 @@ paths:
         schema:
           type: integer
           title: Version
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -344,8 +403,9 @@ paths:
     get:
       tags:
       - Prompts
-      summary: Get Prompt By Id
-      operationId: get_prompt_by_id_v1_agents__agent_id__prompts__prompt_id__get
+      summary: Get Agent Version By Id
+      operationId: get_agent_version_by_id_v1_agents__agent_id__prompts__prompt_id__get
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -362,6 +422,12 @@ paths:
           type: string
           format: uuid
           title: Prompt Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -374,7 +440,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromptResponse'
+                $ref: '#/components/schemas/AgentVersionResponse'
         '422':
           description: Validation Error
           content:
@@ -384,8 +450,9 @@ paths:
     delete:
       tags:
       - Prompts
-      summary: Delete Prompt By Id Agent Scoped
-      operationId: delete_prompt_by_id_agent_scoped_v1_agents__agent_id__prompts__prompt_id__delete
+      summary: Delete Agent Version By Id
+      operationId: delete_agent_version_by_id_v1_agents__agent_id__prompts__prompt_id__delete
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -402,6 +469,12 @@ paths:
           type: string
           format: uuid
           title: Prompt Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -424,8 +497,9 @@ paths:
     get:
       tags:
       - Prompts
-      summary: List Prompt Version Labels Agent Scoped
-      operationId: list_prompt_version_labels_agent_scoped_v1_agents__agent_id__prompts_versions__version__labels_get
+      summary: List Agent Version Labels Route
+      operationId: list_agent_version_labels_route_v1_agents__agent_id__prompts_versions__version__labels_get
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -441,6 +515,12 @@ paths:
         schema:
           type: integer
           title: Version
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -463,8 +543,9 @@ paths:
     post:
       tags:
       - Prompts
-      summary: Add Prompt Version Labels Agent Scoped
-      operationId: add_prompt_version_labels_agent_scoped_v1_agents__agent_id__prompts_versions__version__labels_post
+      summary: Add Agent Version Labels Route
+      operationId: add_agent_version_labels_route_v1_agents__agent_id__prompts_versions__version__labels_post
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -480,6 +561,12 @@ paths:
         schema:
           type: integer
           title: Version
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -508,8 +595,9 @@ paths:
     delete:
       tags:
       - Prompts
-      summary: Remove Prompt Version Labels Agent Scoped
-      operationId: remove_prompt_version_labels_agent_scoped_v1_agents__agent_id__prompts_versions__version__labels_delete
+      summary: Remove Agent Version Labels Route
+      operationId: remove_agent_version_labels_route_v1_agents__agent_id__prompts_versions__version__labels_delete
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -525,6 +613,12 @@ paths:
         schema:
           type: integer
           title: Version
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -554,32 +648,14 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CreatePromptVersionBody:
+    CreateAgentVersionBody:
       properties:
         prompt_text:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Prompt Text
+          description: Prompt content. Omit to copy the current latest version (MAX(version) / latest label) and increment. An empty string stores a blank prompt.
         commit_message:
           anyOf:
           - type: string
@@ -592,6 +668,13 @@ components:
             type: array
           - type: 'null'
           title: Labels
+        override_label:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Override Label
+          description: When true, a label that already points at another version (including production) moves here.
+          default: false
         metadata:
           anyOf:
           - additionalProperties: true
@@ -599,10 +682,18 @@ components:
           - type: 'null'
           title: Metadata
       type: object
-      required:
-      - prompt_text
-      title: CreatePromptVersionBody
+      title: CreateAgentVersionBody
       description: body for agent-scoped create version endpoint (agent_id in path).
+    LabelListResponse:
+      properties:
+        labels:
+          items:
+            type: string
+          type: array
+          title: Labels
+      type: object
+      title: LabelListResponse
+      description: response wrapper for just a list of labels.
     LabelDeltaRequest:
       properties:
         labels:
@@ -630,16 +721,7 @@ components:
         override_label: when true, adding an existing label moves its association
 
         to the requested resource; when false, conflicts return 409.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PromptResponse:
+    AgentVersionResponse:
       properties:
         id:
           anyOf:
@@ -685,21 +767,50 @@ components:
       - prompt_text
       - version
       - agent_id
-      title: PromptResponse
+      title: AgentVersionResponse
       description: response model for prompt without created_at.
-    LabelListResponse:
+    ValidationError:
       properties:
-        labels:
+        loc:
           items:
-            type: string
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Labels
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
-      title: LabelListResponse
-      description: response wrapper for just a list of labels.
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

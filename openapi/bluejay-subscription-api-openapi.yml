@@ -21,6 +21,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -46,6 +52,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/start-contract:
+    post:
+      tags:
+      - Subscription
+      summary: Start Contract
+      description: Collect the customer's card and start the custom plan staff loaded for their org.
+      operationId: start_contract_v1_subscription_start_contract_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartContractRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /v1/subscription/start-trial:
     post:
       tags:
@@ -56,6 +103,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -91,6 +144,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -122,6 +181,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -141,8 +206,380 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/buy-credits:
+    post:
+      tags:
+      - Subscription
+      summary: Buy Credits
+      description: Add a prepaid credit commit to the org's active pay-as-you-go contract.
+      operationId: buy_credits_v1_subscription_buy_credits_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuyCreditsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyCreditsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/update-autoreload:
+    put:
+      tags:
+      - Subscription
+      summary: Update Autoreload
+      description: Save the org's auto-reload settings and (un)set native auto-recharge on its current contract.
+      operationId: update_autoreload_v1_subscription_update_autoreload_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutoreloadRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoreloadResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/redeem-code:
+    post:
+      tags:
+      - Subscription
+      summary: Redeem Code
+      description: 'Redeem a credit code: reserve the slot in the DB, then grant the credits.'
+      operationId: redeem_code_v1_subscription_redeem_code_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedeemCodeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedeemCodeResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/apply-retention-discount:
+    post:
+      tags:
+      - Subscription
+      summary: Apply Retention Discount
+      description: Grant the org a retention credit instead of cancelling.
+      operationId: apply_retention_discount_v1_subscription_apply_retention_discount_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplyRetentionDiscountResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/provision-metering:
+    post:
+      tags:
+      - Subscription
+      summary: Provision Metering
+      description: Provision the caller's org onto PAYG metering; safe to call repeatedly.
+      operationId: provision_metering_v1_subscription_provision_metering_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvisionMeteringResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/subscription/credit-balance:
+    get:
+      tags:
+      - Subscription
+      summary: Get Credit Balance
+      description: 'Remaining credits and entitlement for the caller''s org.
+
+
+        Answers even when the org is out of credits: that is exactly when a caller needs it.'
+      operationId: get_credit_balance_v1_subscription_credit_balance_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditBalanceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ProvisionMeteringResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the org is provisioned (or already was)
+        status:
+          type: string
+          title: Status
+          description: Provisioning outcome for diagnostics
+      type: object
+      required:
+      - success
+      - status
+      title: ProvisionMeteringResponse
+    RedeemCodeResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the redemption succeeded
+        message:
+          type: string
+          title: Message
+          description: Response message for the frontend
+        credits_granted:
+          type: integer
+          title: Credits Granted
+          description: Credits added to the org's balance
+      type: object
+      required:
+      - success
+      - message
+      - credits_granted
+      title: RedeemCodeResponse
+    StartTrialRequest:
+      properties:
+        payment_method_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Payment Method Id
+          description: Optional Stripe payment method ID; trial can start without a card
+      type: object
+      title: StartTrialRequest
+    AutoreloadResponse:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+        threshold_credits:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Threshold Credits
+        reload_amount_credits:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Reload Amount Credits
+      type: object
+      required:
+      - enabled
+      title: AutoreloadResponse
+    AutoreloadRequest:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+        threshold_credits:
+          anyOf:
+          - type: integer
+            minimum: 5.0
+          - type: 'null'
+          title: Threshold Credits
+          description: fire when remaining credits fall to this ($5 min)
+        reload_amount_credits:
+          anyOf:
+          - type: integer
+            minimum: 10.0
+          - type: 'null'
+          title: Reload Amount Credits
+          description: credits to add each time it fires ($10 min, $1 each)
+      type: object
+      required:
+      - enabled
+      title: AutoreloadRequest
+    SignupResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the signup was successful
+        message:
+          type: string
+          title: Message
+          description: Response message
+        effective_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Effective At
+          description: When a scheduled plan change takes effect (ISO 8601); null means immediate
+      type: object
+      required:
+      - success
+      - message
+      title: SignupResponse
+    CreditBalanceResponse:
+      properties:
+        metered:
+          type: boolean
+          title: Metered
+          description: Whether the org bills through Metronome; false means credits do not apply
+        entitled:
+          type: boolean
+          title: Entitled
+          description: Whether the org may currently spend (false once out of credits with no overages)
+        granted:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Granted
+          description: Credits granted across active grants. Null when the org is not metered.
+        used:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Used
+          description: Credits used against those grants. Null when the org is not metered.
+        remaining:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Remaining
+          description: Credits still available. Null when the org is not metered.
+      type: object
+      required:
+      - metered
+      - entitled
+      title: CreditBalanceResponse
     ValidationError:
       properties:
         loc:
@@ -158,12 +595,32 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
       - loc
       - msg
       - type
       title: ValidationError
+    BuyCreditsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the credit purchase was accepted
+        message:
+          type: string
+          title: Message
+          description: Response message for the frontend
+      type: object
+      required:
+      - success
+      - message
+      title: BuyCreditsResponse
     ActivePackageResponse:
       properties:
         package_id:
@@ -182,40 +639,83 @@ components:
           - type: 'null'
           title: Access Ends At
           description: ISO 8601 timestamp when access ends, from Metronome contract ending_before (e.g. cancel at period end or trial end). Null if open-ended or not returned.
+        is_custom_contract:
+          type: boolean
+          title: Is Custom Contract
+          description: True for a negotiated contract on a Bluejay-managed rate card with no catalog package, so billing can show it as the Custom plan. False for catalog plans and the $0 usage tracker.
+          default: false
       type: object
       required:
       - has_active_contract
       title: ActivePackageResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     SignupRequest:
       properties:
         payment_method_id:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Payment Method Id
-          description: Stripe payment method ID
+          description: Stripe payment method ID; omit to reuse the org's existing default card
         package_id:
           type: string
           title: Package Id
           description: Metronome Package ID
       type: object
       required:
-      - payment_method_id
       - package_id
       title: SignupRequest
-    SignupResponse:
+    RedeemCodeRequest:
+      properties:
+        code:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Code
+          description: Credit code to redeem
+      type: object
+      required:
+      - code
+      title: RedeemCodeRequest
+    BuyCreditsRequest:
+      properties:
+        credits:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Credits
+          description: Number of credits to purchase (1 credit = $1)
+      type: object
+      required:
+      - credits
+      title: BuyCreditsRequest
+    ApplyRetentionDiscountResponse:
       properties:
         success:
           type: boolean
           title: Success
-          description: Whether the signup was successful
+          description: Whether the retention credit was applied
         message:
           type: string
           title: Message
-          description: Response message
+          description: Response message for the frontend
+        credits_granted:
+          type: integer
+          title: Credits Granted
+          description: Retention credits added to the org's balance
       type: object
       required:
       - success
       - message
-      title: SignupResponse
+      - credits_granted
+      title: ApplyRetentionDiscountResponse
     CancelResponse:
       properties:
         success:
@@ -231,28 +731,23 @@ components:
       - success
       - message
       title: CancelResponse
-    StartTrialRequest:
+    StartContractRequest:
       properties:
         payment_method_id:
           anyOf:
           - type: string
           - type: 'null'
           title: Payment Method Id
-          description: Optional Stripe payment method ID; trial can start without a card
+          description: Stripe payment method ID; omit to reuse the org's existing default card
       type: object
-      title: StartTrialRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      title: StartContractRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

@@ -1,0 +1,917 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Observability Conversations API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Observability Conversations
+paths:
+  /v1/observability/conversations:
+    get:
+      tags:
+      - Observability Conversations
+      summary: Query Observability Conversations
+      description: 'Query production conversations for this organization.
+
+
+        Omit `group_by` for rows, newest first, each with `metric_results`. Set it for counts per group: by
+
+        status, agent, label, day, interface, direction, ended_by, a `metadata_path`,
+
+        or `metric_value` for how a metric came out. Filters apply either way, so one
+
+        narrowing answers both "show me" and "how many".'
+      operationId: query_observability_conversations_v1_observability_conversations_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: e.g. COMPLETED, SYSTEM_ERROR
+          title: Status
+        description: e.g. COMPLETED, SYSTEM_ERROR
+      - name: agent_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: integer
+          - type: 'null'
+          title: Agent Ids
+      - name: label_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+              format: uuid
+          - type: 'null'
+          title: Label Ids
+      - name: initiation_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: inbound, outbound
+          title: Initiation Direction
+        description: inbound, outbound
+      - name: caller_number
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: E.164
+          title: Caller Number
+        description: E.164
+      - name: duration_min
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Minimum duration in ms
+          title: Duration Min
+        description: Minimum duration in ms
+      - name: duration_max
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Maximum duration in ms
+          title: Duration Max
+        description: Maximum duration in ms
+      - name: tags
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          title: Tags
+      - name: conversation_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+              format: uuid
+          - type: 'null'
+          title: Conversation Ids
+      - name: issue_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+              format: uuid
+          - type: 'null'
+          description: Keep conversations linked to any of these issue IDs
+          title: Issue Ids
+        description: Keep conversations linked to any of these issue IDs
+      - name: interface
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          title: Interface
+      - name: label
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Label text, resolved to an id
+          title: Label
+        description: Label text, resolved to an id
+      - name: metadata_path
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Metadata key, e.g. restaurant_code
+          title: Metadata Path
+        description: Metadata key, e.g. restaurant_code
+      - name: metadata_value
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadata Value
+      - name: metric_name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Required when group_by is metric_value
+          title: Metric Name
+        description: Required when group_by is metric_value
+      - name: metric_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Metric Id
+      - name: metric_value
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: Keep only conversations whose metric came out one of these values. Needs metric_name or metric_id. This is the filter, not the grouping.
+          title: Metric Value
+        description: Keep only conversations whose metric came out one of these values. Needs metric_name or metric_id. This is the filter, not the grouping.
+      - name: metric_min
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+          - type: 'null'
+          description: 'Numeric metrics: keep results at or above this'
+          title: Metric Min
+        description: 'Numeric metrics: keep results at or above this'
+      - name: metric_max
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+          - type: 'null'
+          description: 'Numeric metrics: keep results at or below this'
+          title: Metric Max
+        description: 'Numeric metrics: keep results at or below this'
+      - name: group_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - status
+            - agent
+            - label
+            - day
+            - interface
+            - direction
+            - ended_by
+            - metadata
+            - metric_value
+            type: string
+          - type: 'null'
+          description: Omit for rows; set for counts
+          title: Group By
+        description: Omit for rows; set for counts
+      - name: last
+        in: query
+        required: false
+        schema:
+          enum:
+          - 1day
+          - 3days
+          - 7days
+          - 30days
+          - 90days
+          - all
+          type: string
+          default: 1day
+          title: Last
+      - name: sort_order
+        in: query
+        required: false
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+          default: desc
+          title: Sort Order
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 20
+          title: Page Size
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/observability/conversations/{conversation_id}:
+    get:
+      tags:
+      - Observability Conversations
+      summary: Get Observability Conversation
+      description: 'One conversation, with its transcript and how every metric scored it.
+
+
+        The metric results come back alongside, because the reason for opening a
+
+        single conversation is almost always that a metric flagged it.'
+      operationId: get_observability_conversation_v1_observability_conversations__conversation_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: conversation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Conversation Id
+      - name: include_transcript
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Include Transcript
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ConversationStatus:
+      type: string
+      enum:
+      - INITIALIZING
+      - QUEUED
+      - READY
+      - DISPATCHED
+      - RUNNING
+      - CONVERSATION_ENDED
+      - EVALUATING
+      - COMPLETED
+      - NOT_EVALUATED
+      - NO_CONNECTION
+      - NO_ANSWER
+      - CALL_DROPPED
+      - OUT_OF_FUNDS
+      - SYSTEM_ERROR
+      - CUSTOM_ERROR
+      - CANCELLED
+      - INCOMPLETED
+      - REJECTED
+      - INSUFFICIENT_FUNDS
+      title: ConversationStatus
+      description: Enum representing the possible states of a conversation.
+    Event:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the event
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the event in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the event
+        end_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: End Offset Ms
+          description: End offset of the event in milliseconds
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: List of tags associated with the event
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Additional metadata associated with the event
+      type: object
+      required:
+      - title
+      - start_offset_ms
+      title: Event
+      description: Pydantic model for event data
+    Bucket:
+      properties:
+        group:
+          type: string
+          title: Group
+          description: The grouped value, or the metric value when grouping by it
+        count:
+          type: integer
+          title: Count
+        avg_duration_ms:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Duration Ms
+          description: Conversation groupings only
+        edited_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Edited Count
+          description: Metric groupings only
+      type: object
+      required:
+      - group
+      - count
+      title: Bucket
+    ConversationToolCalls:
+      properties:
+        tool_name:
+          type: string
+          title: Tool Name
+          default: ''
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          default: 0
+        tool_input:
+          additionalProperties: true
+          type: object
+          title: Tool Input
+        tool_output:
+          type: string
+          title: Tool Output
+          default: ''
+      type: object
+      title: ConversationToolCalls
+      description: Tool call shape for Kafka / ClickHouse conversation-style sinks.
+    CallInterface:
+      type: string
+      enum:
+      - PHONE
+      - WEB
+      title: CallInterface
+      description: Enum representing the interface used for a call.
+    Participant:
+      properties:
+        role:
+          $ref: '#/components/schemas/ParticipantRole'
+          default: AGENT
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        spoke_first:
+          type: boolean
+          title: Spoke First
+          default: false
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+      type: object
+      title: Participant
+      description: Participant on a call or conversation.
+    CallDirection:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: CallDirection
+      description: Enum representing the direction of a call.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TranscriptEntry:
+      properties:
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+        end_offset_ms:
+          type: integer
+          title: End Offset Ms
+        speaker:
+          type: string
+          title: Speaker
+        utterance:
+          type: string
+          title: Utterance
+        filler_utterance:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Filler Utterance
+      type: object
+      required:
+      - start_offset_ms
+      - end_offset_ms
+      - speaker
+      - utterance
+      title: TranscriptEntry
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ConversationDetailResponse:
+      properties:
+        conversation:
+          $ref: '#/components/schemas/ObsConversation'
+        transcript:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Transcript
+        tool_calls:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Tool Calls
+        metric_results:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Metric Results
+        error_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Code
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+      type: object
+      required:
+      - conversation
+      title: ConversationDetailResponse
+    ObsConversation:
+      properties:
+        obs_conversation_id:
+          type: string
+          format: uuid
+          title: Obs Conversation Id
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        organization_id:
+          type: string
+          format: uuid
+          title: Organization Id
+        agent_id:
+          type: integer
+          title: Agent Id
+        workspace_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Workspace Id
+        label_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Label Id
+        agent_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Version Id
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/ConversationStatus'
+          - type: 'null'
+        multichannel_requested:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Multichannel Requested
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ConversationToolCalls'
+            type: array
+          - type: 'null'
+          title: Tool Calls
+        initiation_direction:
+          anyOf:
+          - $ref: '#/components/schemas/CallDirection'
+          - type: 'null'
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        interface:
+          anyOf:
+          - $ref: '#/components/schemas/CallInterface'
+          - type: 'null'
+          default: PHONE
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+        events:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Event'
+            type: array
+          - type: 'null'
+          title: Events
+        conversation_ended_by:
+          anyOf:
+          - $ref: '#/components/schemas/ParticipantRole'
+          - type: 'null'
+        trace_ids:
+          items:
+            type: string
+          type: array
+          title: Trace Ids
+        start_time_utc:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Time Utc
+        duration_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Duration Ms
+        participants:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Participant'
+            type: array
+          - type: 'null'
+          title: Participants
+        submitted_recording_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Submitted Recording Url
+        submitted_transcript_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Submitted Transcript Url
+        submitted_transcript:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TranscriptEntry'
+            type: array
+          - type: 'null'
+          title: Submitted Transcript
+        bluejay_recording_filepath:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bluejay Recording Filepath
+        bluejay_transcript_filepath:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bluejay Transcript Filepath
+        bluejay_transcript:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Bluejay Transcript
+        bluejay_translated_transcript:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Bluejay Translated Transcript
+        bluejay_words_transcript:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Bluejay Words Transcript
+        bluejay_reference_transcript:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Bluejay Reference Transcript
+        bluejay_translated_transcript_filepath:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bluejay Translated Transcript Filepath
+        bluejay_words_transcript_filepath:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bluejay Words Transcript Filepath
+        bluejay_reference_transcript_filepath:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bluejay Reference Transcript Filepath
+        error_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Code
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        error_details:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Error Details
+        metric_results:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Metric Results
+      type: object
+      required:
+      - obs_conversation_id
+      - organization_id
+      - agent_id
+      title: ObsConversation
+      description: Observability conversation, persisted to the Postgres `obs_conversations` table.
+    ConversationsResponse:
+      properties:
+        total:
+          type: integer
+          title: Total
+          description: Everything matching the filters, not just this page
+        group_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Group By
+        data:
+          items:
+            $ref: '#/components/schemas/ObsConversation'
+          type: array
+          title: Data
+        breakdown:
+          items:
+            $ref: '#/components/schemas/Bucket'
+          type: array
+          title: Breakdown
+        groups_truncated:
+          type: boolean
+          title: Groups Truncated
+          description: True when more groups matched than were returned
+          default: false
+        metric_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric Name
+        metric_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric Type
+        not_applicable:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Not Applicable
+        average:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Average
+          description: Numeric metrics only
+        page:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Page
+        page_size:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Page Size
+        unreadable_skipped:
+          type: integer
+          title: Unreadable Skipped
+          description: Rows on this page too incomplete to read, dropped rather than failing it
+          default: 0
+      type: object
+      required:
+      - total
+      title: ConversationsResponse
+    ParticipantRole:
+      type: string
+      enum:
+      - AGENT
+      - USER
+      - DIGITAL_HUMAN
+      - agent
+      - digital_human
+      title: ParticipantRole
+      description: Role of a participant in a call or simulated conversation.
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

@@ -1,0 +1,369 @@
+openapi: 3.2.0
+info:
+  title: Bluejay SCIM API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: SCIM
+paths:
+  /v1/scim-token:
+    post:
+      tags:
+      - SCIM
+      summary: Create Scim Token
+      description: Mints a new token and revokes the old one. The raw token is returned once and never stored.
+      operationId: create_scim_token_v1_scim_token_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Scim Token V1 Scim Token Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - SCIM
+      summary: Revoke Scim Token
+      operationId: revoke_scim_token_v1_scim_token_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/scim/ServiceProviderConfig:
+    get:
+      tags:
+      - SCIM
+      summary: Get Service Provider Config
+      operationId: get_service_provider_config_v1_scim_ServiceProviderConfig_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - scimToken: []
+  /v1/scim/ResourceTypes:
+    get:
+      tags:
+      - SCIM
+      summary: Get Resource Types
+      operationId: get_resource_types_v1_scim_ResourceTypes_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - scimToken: []
+  /v1/scim/Schemas:
+    get:
+      tags:
+      - SCIM
+      summary: Get Schemas
+      operationId: get_schemas_v1_scim_Schemas_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - scimToken: []
+  /v1/scim/Users:
+    get:
+      tags:
+      - SCIM
+      summary: List Users
+      operationId: list_users_v1_scim_Users_get
+      parameters:
+      - name: filter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Filter
+      - name: startIndex
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Startindex
+      - name: count
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 100
+          title: Count
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - scimToken: []
+    post:
+      tags:
+      - SCIM
+      summary: Create User
+      operationId: create_user_v1_scim_Users_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      requestBody:
+        required: true
+        content:
+          application/scim+json:
+            schema:
+              type: object
+            example:
+              schemas:
+              - urn:ietf:params:scim:schemas:core:2.0:User
+              userName: jane@acme.com
+              externalId: 00u1abcd
+              name:
+                givenName: Jane
+                familyName: Doe
+              active: true
+      security:
+      - scimToken: []
+  /v1/scim/Users/{scim_user_id}:
+    get:
+      tags:
+      - SCIM
+      summary: Get User
+      operationId: get_user_v1_scim_Users__scim_user_id__get
+      parameters:
+      - name: scim_user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Scim User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - scimToken: []
+    put:
+      tags:
+      - SCIM
+      summary: Replace User
+      operationId: replace_user_v1_scim_Users__scim_user_id__put
+      parameters:
+      - name: scim_user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Scim User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        required: true
+        content:
+          application/scim+json:
+            schema:
+              type: object
+            example:
+              schemas:
+              - urn:ietf:params:scim:schemas:core:2.0:User
+              userName: jane@acme.com
+              externalId: 00u1abcd
+              name:
+                givenName: Jane
+                familyName: Doe
+              active: true
+      security:
+      - scimToken: []
+    patch:
+      tags:
+      - SCIM
+      summary: Patch User
+      operationId: patch_user_v1_scim_Users__scim_user_id__patch
+      parameters:
+      - name: scim_user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Scim User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        required: true
+        content:
+          application/scim+json:
+            schema:
+              type: object
+            example:
+              schemas:
+              - urn:ietf:params:scim:api:messages:2.0:PatchOp
+              Operations:
+              - op: replace
+                value:
+                  active: false
+      security:
+      - scimToken: []
+    delete:
+      tags:
+      - SCIM
+      summary: Delete User
+      operationId: delete_user_v1_scim_Users__scim_user_id__delete
+      parameters:
+      - name: scim_user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Scim User Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - scimToken: []
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

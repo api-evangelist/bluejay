@@ -1,0 +1,138 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Voice Generation API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Voice Generation
+paths:
+  /v1/voice-generation:
+    post:
+      tags:
+      - Voice Generation
+      summary: Generate Voice
+      description: 'Generate one reusable voice from a description, bundling a matching ambience
+
+        when the description mentions an environment.'
+      operationId: generate_voice_v1_voice_generation_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateVoiceRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedVoice'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    GeneratedVoice:
+      properties:
+        voice_id:
+          type: string
+          title: Voice Id
+        name:
+          type: string
+          title: Name
+        ambience_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ambience Path
+      type: object
+      required:
+      - voice_id
+      - name
+      title: GeneratedVoice
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GenerateVoiceRequest:
+      properties:
+        description:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Description
+        name:
+          anyOf:
+          - type: string
+            maxLength: 120
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - description
+      title: GenerateVoiceRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

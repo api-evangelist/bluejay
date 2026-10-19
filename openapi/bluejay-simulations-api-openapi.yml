@@ -27,6 +27,12 @@ paths:
         schema:
           type: integer
           title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -50,10 +56,7 @@ paths:
       tags:
       - Simulations
       summary: Update Simulation
-      description: 'update a specific simulation by id.
-
-
-        only fields provided in the request body will be updated.'
+      description: update a specific simulation by id.
       operationId: update_simulation_v1_simulation__simulation_id__put
       security:
       - HTTPBearer: []
@@ -64,6 +67,12 @@ paths:
         schema:
           type: integer
           title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -104,6 +113,12 @@ paths:
         schema:
           type: integer
           title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -139,6 +154,12 @@ paths:
         schema:
           type: integer
           title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -180,6 +201,12 @@ paths:
         schema:
           type: integer
           title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -205,80 +232,216 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/simulations/{simulation_id}/always-on:
+    post:
+      tags:
+      - Simulations
+      summary: Set Simulation Always On
+      description: Set a simulation always-on and cascade the flag to all of its digital humans.
+      operationId: set_simulation_always_on_v1_simulations__simulation_id__always_on_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetSimulationAlwaysOnRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetSimulationAlwaysOnResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/create-simulation:
+    post:
+      tags:
+      - Simulations
+      summary: Create Simulation
+      description: 'Create a new simulation with the provided details.
+
+
+        Returns the simulation id and a status code.'
+      operationId: create_simulation_v1_create_simulation_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulationRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/get-all-simulations:
+    get:
+      tags:
+      - Simulations
+      summary: Get All Simulations
+      description: Get all simulations for a user.
+      operationId: get_all_simulations_v1_get_all_simulations_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSimulationsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/get-simulations-by-agent/{agent_id}:
+    get:
+      tags:
+      - Simulations
+      summary: Get Simulations By Agent
+      description: Get all simulations for a specific agent.
+      operationId: get_simulations_by_agent_v1_get_simulations_by_agent__agent_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSimulationsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/get-simulation-runs/{simulation_id}:
+    get:
+      tags:
+      - Simulations
+      summary: Get Simulation Runs
+      description: Get all simulation runs for a specific simulation.
+      operationId: get_simulation_runs_v1_get_simulation_runs__simulation_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSimulationRunsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AddDigitalHumansToSimulationRequest:
-      properties:
-        digital_human_ids:
-          items:
-            type: integer
-          type: array
-          title: Digital Human Ids
-          description: array of existing digital human IDs to add to the simulation
-      type: object
-      required:
-      - digital_human_ids
-      title: AddDigitalHumansToSimulationRequest
-      description: request body for adding existing digital humans to a simulation.
-    SimulationType:
-      type: string
-      enum:
-      - sequential
-      - parallel
-      - max_concurrent
-      title: SimulationType
-    RemoveDigitalHumansFromSimulationResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: success message
-      type: object
-      required:
-      - message
-      title: RemoveDigitalHumansFromSimulationResponse
-      description: response body for removing digital humans from a simulation (does not delete the digital humans).
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AddDigitalHumansToSimulationResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: success message
-      type: object
-      required:
-      - message
-      title: AddDigitalHumansToSimulationResponse
-      description: response body for adding digital humans to a simulation.
     SimulationPydantic:
       properties:
         id:
@@ -286,6 +449,12 @@ components:
           - type: integer
           - type: 'null'
           title: Id
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bluejay As Code Id
         agent_id:
           type: integer
           title: Agent Id
@@ -298,6 +467,24 @@ components:
             format: date-time
           - type: 'null'
           title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+        updated_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By
+        created_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Created By
         settings:
           anyOf:
           - additionalProperties: true
@@ -321,6 +508,11 @@ components:
           - type: integer
           - type: 'null'
           title: Ringing Timeout
+        inactivity_timeout_seconds:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Inactivity Timeout Seconds
         tags:
           anyOf:
           - items:
@@ -349,6 +541,363 @@ components:
       - name
       - type
       title: SimulationPydantic
+    SimulationType:
+      type: string
+      enum:
+      - max_concurrent
+      - parallel
+      title: SimulationType
+    SimulationRunRes:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: ID of the simulation run
+        experiment_id:
+          type: integer
+          title: Experiment Id
+          description: ID of the simulation associated with the run
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: Summary of the simulation run
+        tests_passed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Passed
+          description: Number of tests that passed in the simulation run
+        tests_failed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Failed
+          description: Status-level failure count (dropped calls, infra errors) - NOT eval-grade failures. See eval_failed for that.
+        total_tests:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Tests
+          description: Total number of tests in the simulation run
+        tests_completed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Completed
+          description: Number of tests that were completed in the simulation run
+        curr_step_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Curr Step Id
+          description: Current step ID of the simulation run
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When the simulation run was created
+        status:
+          $ref: '#/components/schemas/SimulationRunStatus'
+          description: Current status of the simulation run
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number of the simulation run
+        eval_failed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Eval Failed
+          description: Eval-grade failure count (tests_completed - tests_passed) - what most consumers mean by 'failed'. tests_failed only counts status-level failures.
+          readOnly: true
+      type: object
+      required:
+      - id
+      - experiment_id
+      - created_at
+      - status
+      - eval_failed
+      title: SimulationRunRes
+    SimulationRequest:
+      properties:
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent to be used in the simulation
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the simulation
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the simulation
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Version Id
+          description: Optional default agent version UUID for this simulation
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Optional default knowledge base UUID for this simulation
+        max_concurrent:
+          anyOf:
+          - type: integer
+            maximum: 500.0
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Max Concurrent
+          description: Maximum number of concurrent calls in the simulation (max 500)
+        hangup_on_transfer:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Hangup On Transfer
+          description: Whether to hang up the call on transfer
+          default: false
+        max_call_duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Call Duration
+          description: Maximum duration of each call (default is 10). Units specified by max_call_duration_units
+          default: 10
+        max_call_duration_units:
+          anyOf:
+          - type: string
+            enum:
+            - minutes
+            - seconds
+          - type: 'null'
+          title: Max Call Duration Units
+          description: 'Units for max_call_duration: ''minutes'' (default) or ''seconds'''
+          default: minutes
+        ringing_timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Ringing Timeout
+          description: Ringing timeout in seconds for SIP trunks (default 300s)
+          default: 300
+        digital_humans_settings:
+          anyOf:
+          - $ref: '#/components/schemas/DigitalHumansSettings'
+          - type: 'null'
+          description: Settings for digital humans in the simulation
+        selected_custom_metrics:
+          anyOf:
+          - items:
+              type: string
+              format: uuid
+            type: array
+          - type: 'null'
+          title: Selected Custom Metrics
+          description: Custom metric IDs to enable for this simulation
+        custom_metrics_failing_threshold:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 0.0
+          - type: 'null'
+          title: Custom Metrics Failing Threshold
+          description: Score threshold below which a custom metric is considered failing (0-100)
+        custom_metrics_passing_threshold:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 0.0
+          - type: 'null'
+          title: Custom Metrics Passing Threshold
+          description: Score threshold at or above which a custom metric is considered passing (0-100)
+        runs_per_digital_human:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Runs Per Digital Human
+          description: Number of simulation runs to execute per digital human (defaults to 1 when omitted)
+        delay_between_tests_seconds:
+          anyOf:
+          - type: number
+            maximum: 300.0
+            minimum: 0.0
+          - type: 'null'
+          title: Delay Between Tests Seconds
+          description: seconds to wait after a test completes before the next launches (0 = off)
+        inactivity_timeout_seconds:
+          anyOf:
+          - type: integer
+            maximum: 1800.0
+            minimum: 300.0
+          - type: 'null'
+          title: Inactivity Timeout Seconds
+          description: seconds to wait for an agent reply before ending a text conversation (300-1800 = 5-30 min); defaults to 300 when unset
+        always_on:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Always On
+          description: When true, simulation has always-on digital humans configured
+          default: false
+      type: object
+      required:
+      - agent_id
+      title: SimulationRequest
+      description: Pydantic model for simulation request
+    SimulationResponse:
+      properties:
+        simulation_id:
+          type: integer
+          title: Simulation Id
+          description: ID of the created simulation
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - simulation_id
+      title: SimulationResponse
+    AddDigitalHumansToSimulationRequest:
+      properties:
+        digital_human_ids:
+          items:
+            type: integer
+          type: array
+          title: Digital Human Ids
+          description: array of existing digital human IDs to add to the simulation
+      type: object
+      required:
+      - digital_human_ids
+      title: AddDigitalHumansToSimulationRequest
+      description: request body for adding existing digital humans to a simulation.
+    DigitalHumansSettings:
+      properties:
+        default_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Default Name
+          description: Default name for the digital human
+          default: random
+        default_caller_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Default Caller Number
+          description: Default caller phone number for the digital human
+          default: random
+        default_language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Default Language
+          description: Default language for the digital human
+          default: random
+        default_background_noise:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Default Background Noise
+          description: Background noise to be used in the simulation
+          default: none
+        first_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Message
+          description: First message to be spoken by the digital human
+          default: ai_generated
+        num_runs:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Num Runs
+          description: Number of runs per digital human per simulation run (run count).
+          default: 1
+      type: object
+      title: DigitalHumansSettings
+      description: Pydantic model for digital humans settings in simulation
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RemoveDigitalHumansFromSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: success message
+      type: object
+      required:
+      - message
+      title: RemoveDigitalHumansFromSimulationResponse
+      description: response body for removing digital humans from a simulation (does not delete the digital humans).
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GetSimulationRunsResponse:
+      properties:
+        simulation_runs:
+          items:
+            $ref: '#/components/schemas/SimulationRunRes'
+          type: array
+          title: Simulation Runs
+          description: List of simulation runs
+      type: object
+      title: GetSimulationRunsResponse
     RemoveDigitalHumansFromSimulationRequest:
       properties:
         digital_human_ids:
@@ -362,8 +911,139 @@ components:
       - digital_human_ids
       title: RemoveDigitalHumansFromSimulationRequest
       description: request body for removing digital humans from a simulation (unlink only).
+    AddDigitalHumansToSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: success or partial_success message
+        failed_sip_reconcile_ids:
+          items:
+            type: integer
+          type: array
+          title: Failed Sip Reconcile Ids
+          description: digital human ids linked to the simulation but whose always-on SIP reconcile failed; they are active but currently unroutable
+      type: object
+      required:
+      - message
+      title: AddDigitalHumansToSimulationResponse
+      description: response body for adding digital humans to a simulation.
+    SimulationRes:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: ID of the simulation
+        name:
+          type: string
+          title: Name
+          description: Name of the simulation
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent associated with the simulation
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When the simulation was created
+        settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Settings
+          description: Settings of the simulation
+        selected_custom_metrics:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Selected Custom Metrics
+          description: Custom metric IDs selected for this simulation (null means all agent metrics)
+      type: object
+      required:
+      - id
+      - name
+      - created_at
+      title: SimulationRes
+    GetSimulationsResponse:
+      properties:
+        simulations:
+          items:
+            $ref: '#/components/schemas/SimulationRes'
+          type: array
+          title: Simulations
+          description: List of simulations
+      type: object
+      title: GetSimulationsResponse
+    SetSimulationAlwaysOnResponse:
+      properties:
+        simulation_id:
+          type: integer
+          title: Simulation Id
+          description: ID of the simulation
+        always_on:
+          type: boolean
+          title: Always On
+          description: resulting always-on state of the simulation
+        digital_humans_updated:
+          type: integer
+          title: Digital Humans Updated
+          description: number of digital humans whose always-on flags were updated
+      type: object
+      required:
+      - simulation_id
+      - always_on
+      - digital_humans_updated
+      title: SetSimulationAlwaysOnResponse
+      description: response body for the simulation-level always-on cascade.
+    DeleteSimulationResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_simulation_id:
+          type: integer
+          title: Deleted Simulation Id
+          description: ID of the deleted simulation
+      type: object
+      required:
+      - message
+      - deleted_simulation_id
+      title: DeleteSimulationResponse
+      description: Response model for deleting a simulation
+    SetSimulationAlwaysOnRequest:
+      properties:
+        always_on:
+          type: boolean
+          title: Always On
+          description: when true, enable always-on for the simulation and all its digital humans; when false, disable
+        override_conflict:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Override Conflict
+          description: when true, deactivate always-on digital humans outside this simulation that share a phone number instead of returning 409
+          default: false
+      type: object
+      required:
+      - always_on
+      title: SetSimulationAlwaysOnRequest
+      description: request body for cascading always-on across a simulation's digital humans.
     src__api__simulations__UpdateSimulationRequest:
       properties:
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bluejay As Code Id
+          description: Stable code-addressable identifier
         name:
           anyOf:
           - type: string
@@ -382,7 +1062,15 @@ components:
             format: uuid
           - type: 'null'
           title: Prompt Id
-          description: optional default prompt UUID for this simulation
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Version Id
+          description: optional default agent version UUID for this simulation
         knowledge_base_id:
           anyOf:
           - type: string
@@ -463,6 +1151,45 @@ components:
           - type: 'null'
           title: Custom Metrics Passing Threshold
           description: score threshold at or above which a custom metric is considered passing (0-100)
+        outcome_failing_threshold:
+          anyOf:
+          - type: integer
+            maximum: 99.0
+            minimum: 0.0
+          - type: 'null'
+          title: Outcome Failing Threshold
+          description: outcome score threshold below which the simulation is considered failing (0-99)
+        outcome_passing_threshold:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 1.0
+          - type: 'null'
+          title: Outcome Passing Threshold
+          description: outcome score threshold at or above which the simulation is considered passing (1-100)
+        runs_per_digital_human:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Runs Per Digital Human
+          description: number of simulation runs to execute per digital human
+        delay_between_tests_seconds:
+          anyOf:
+          - type: number
+            maximum: 300.0
+            minimum: 0.0
+          - type: 'null'
+          title: Delay Between Tests Seconds
+          description: seconds to wait after a test completes before the next launches (0 = off)
+        inactivity_timeout_seconds:
+          anyOf:
+          - type: integer
+            maximum: 1800.0
+            minimum: 300.0
+          - type: 'null'
+          title: Inactivity Timeout Seconds
+          description: seconds to wait for an agent reply before ending a text conversation (300-1800 = 5-30 min); defaults to 300 when unset
         tags:
           anyOf:
           - items:
@@ -477,31 +1204,66 @@ components:
           - type: 'null'
           title: Pinned
           description: whether the simulation is pinned
+        custom_error_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Custom Error Enabled
+          description: enable custom-error detection for this simulation
+        custom_error_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Error Prompt
+          description: custom-error definition prompt; overrides the org default when set
+        enable_rerun_failed_test_results:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Rerun Failed Test Results
+          description: per-sim override of the org rerun-on-failure flag
+        enable_rerun_on_custom_error:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enable Rerun On Custom Error
+          description: per-sim override of the org rerun-on-custom-error flag
+        rerun_max_retries:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rerun Max Retries
+          description: max same-run reruns of a failed result (1-5)
       type: object
       title: UpdateSimulationRequest
       description: 'request body for updating a simulation.
 
 
         all fields are optional; only provided fields will be updated.'
-    DeleteSimulationResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_simulation_id:
-          type: integer
-          title: Deleted Simulation Id
-          description: ID of the deleted simulation
-      type: object
-      required:
-      - message
-      - deleted_simulation_id
-      title: DeleteSimulationResponse
-      description: Response model for deleting a simulation
+    SimulationRunStatus:
+      type: string
+      enum:
+      - RUNNING
+      - COMPLETED
+      title: SimulationRunStatus
+      description: 'Enum representing the possible states of a simulation run.
+
+
+        The taxonomy is intentionally minimal: a sim_run is either in-flight
+
+        (RUNNING) or terminal (COMPLETED). The pass/fail/cancel distinction lives
+
+        entirely on child sim_conversation counters and statuses, not on sim_run.
+
+
+        See livekit_agent/docs/test_result_status_redesign.md §2.2 for the full taxonomy.'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

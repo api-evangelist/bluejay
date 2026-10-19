@@ -1,0 +1,657 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Uptime API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Uptime
+paths:
+  /v1/uptime/monitors:
+    get:
+      tags:
+      - Uptime
+      summary: List Uptime Monitors
+      operationId: list_uptime_monitors_v1_uptime_monitors_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Uptime
+      summary: Create Uptime Monitor
+      operationId: create_uptime_monitor_v1_uptime_monitors_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUptimeMonitorRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/uptime/monitors/{monitor_id}:
+    get:
+      tags:
+      - Uptime
+      summary: Get Uptime Monitor
+      operationId: get_uptime_monitor_v1_uptime_monitors__monitor_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: monitor_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Monitor Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Uptime
+      summary: Update Uptime Monitor
+      operationId: update_uptime_monitor_v1_uptime_monitors__monitor_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: monitor_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Monitor Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUptimeMonitorRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Uptime
+      summary: Delete Uptime Monitor
+      operationId: delete_uptime_monitor_v1_uptime_monitors__monitor_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: monitor_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Monitor Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/uptime/monitors/{monitor_id}/series:
+    get:
+      tags:
+      - Uptime
+      summary: Get Uptime Monitor Series
+      description: 'Per-bucket outcome counts, uptime % and response-latency p50/p90/p95/p99 over the last `days`.
+
+
+        Forwards to the dashboard''s series route, which owns the one query behind both this endpoint
+
+        and the chart. That route authenticates the caller''s Supabase token, so an API-key caller has
+
+        no identity to forward and is rejected here.'
+      operationId: get_uptime_monitor_series_v1_uptime_monitors__monitor_id__series_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: monitor_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Monitor Id
+      - name: days
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 365
+          minimum: 1
+          description: Lookback window in days.
+          default: 7
+          title: Days
+        description: Lookback window in days.
+      - name: bucket
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            pattern: ^(15m|hour|day|week|month)$
+          - type: 'null'
+          description: Aggregation granularity. Defaults to a width that suits the range.
+          title: Bucket
+        description: Aggregation granularity. Defaults to a width that suits the range.
+      - name: check
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Grade one health check instead of the monitor''s own verdict: its check_type, or a custom metric''s id.'
+          title: Check
+        description: 'Grade one health check instead of the monitor''s own verdict: its check_type, or a custom metric''s id.'
+      - name: label
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The check's display name, so runs written before custom metrics were keyed by id still grade.
+          title: Label
+        description: The check's display name, so runs written before custom metrics were keyed by id still grade.
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/uptime/monitors/{monitor_id}/incidents/resolve:
+    post:
+      tags:
+      - Uptime
+      summary: Resolve Uptime Incidents
+      description: Clear a monitor's outstanding incidents by resolving its unresolved DOWN checks.
+      operationId: resolve_uptime_incidents_v1_uptime_monitors__monitor_id__incidents_resolve_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: monitor_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Monitor Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/uptime/monitors/{monitor_id}/checks/{check_id}/resolve:
+    post:
+      tags:
+      - Uptime
+      summary: Resolve Uptime Check
+      description: Resolve a single incident (one unresolved DOWN check) without clearing the rest.
+      operationId: resolve_uptime_check_v1_uptime_monitors__monitor_id__checks__check_id__resolve_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: monitor_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Monitor Id
+      - name: check_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Check Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/uptime/monitors/{monitor_id}/checks/{check_id}/unresolve:
+    post:
+      tags:
+      - Uptime
+      summary: Unresolve Uptime Check
+      description: Reopen a resolved incident (undo a mistaken resolve) — the check counts as an incident again.
+      operationId: unresolve_uptime_check_v1_uptime_monitors__monitor_id__checks__check_id__unresolve_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: monitor_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Monitor Id
+      - name: check_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Check Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/uptime/monitors/{monitor_id}/checks/{check_id}/transcript:
+    get:
+      tags:
+      - Uptime
+      summary: Get Uptime Check Transcript
+      description: 'The call transcript for one check run — fetched lazily when a run''s sidebar opens.
+
+
+        Never streams transcript bytes through the middleware (same as the eval/log transcript flow):
+
+        - primary runs: return a short-lived signed URL to the backing sim_conversation''s storage object,
+
+        which the browser downloads directly.
+
+        - fallback runs: the turns already live inline on the check row (small JSONB, no storage
+
+        object to sign), so return them normalized to the frontend TranscriptSegment shape.
+
+        Exactly one of `transcript_url` / `transcript` is populated; both null when there''s nothing.'
+      operationId: get_uptime_check_transcript_v1_uptime_monitors__monitor_id__checks__check_id__transcript_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: monitor_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Monitor Id
+      - name: check_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Check Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ActiveWindow:
+      properties:
+        days:
+          items:
+            type: string
+            enum:
+            - monday
+            - tuesday
+            - wednesday
+            - thursday
+            - friday
+            - saturday
+            - sunday
+          type: array
+          title: Days
+          description: Days to run on; empty means every day
+        start_time:
+          anyOf:
+          - type: string
+            pattern: ^\d{2}:\d{2}$
+          - type: 'null'
+          title: Start Time
+          description: HH:MM start of the daily window
+        end_time:
+          anyOf:
+          - type: string
+            pattern: ^\d{2}:\d{2}$
+          - type: 'null'
+          title: End Time
+          description: HH:MM end of the daily window
+        timezone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Timezone
+          description: IANA timezone the cron expression is read in. Null means UTC.
+      type: object
+      title: ActiveWindow
+      description: 'Uptime monitor''s active_window: same days/HH:MM shape as ScheduleWindow plus a timezone,
+
+        but interpreted directly rather than folded into cron — so a wrapping window with days is
+
+        legal here (unlike ScheduleWindow, which can''t represent it in one cron expression).'
+    CreateUptimeMonitorRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+        frequency:
+          type: string
+          title: Frequency
+          default: 5m
+        active_window:
+          anyOf:
+          - $ref: '#/components/schemas/ActiveWindow'
+          - type: 'null'
+          description: 'Days/hours the monitor may run, e.g. {"days": ["monday"], "start_time": "09:00", "end_time": "17:00", "timezone": "America/Los_Angeles"}. Null runs it around the clock.'
+        checks:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Checks
+        notifications:
+          additionalProperties: true
+          type: object
+          title: Notifications
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+        start_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Start At
+          description: ISO 8601 first-check time; defaults to now().
+      type: object
+      required:
+      - agent_id
+      title: CreateUptimeMonitorRequest
+    UpdateUptimeMonitorRequest:
+      properties:
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+        frequency:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Frequency
+        active_window:
+          anyOf:
+          - $ref: '#/components/schemas/ActiveWindow'
+          - type: 'null'
+          description: 'Days/hours the monitor may run, e.g. {"days": ["monday"], "start_time": "09:00", "end_time": "17:00", "timezone": "America/Los_Angeles"}. Null runs it around the clock.'
+        checks:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Checks
+        notifications:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Notifications
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+        start_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Start At
+          description: ISO 8601 first-check time; defaults to now().
+      type: object
+      title: UpdateUptimeMonitorRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

@@ -11,6 +11,183 @@ security:
 tags:
 - name: Bland
 paths:
+  /v1/integrations/bland/voice-session:
+    post:
+      tags:
+      - Bland
+      summary: Create Bland Voice Session
+      description: 'Mint a single-use Bland Persona session and return the websocket URL to speak to it.
+
+
+        The token is short-lived and single-use, so it can''t be stored on the agent — the LiveKit
+
+        bridge asks for one per call. Minting stays here because it needs the org''s API key, which
+
+        never leaves the backend.'
+      operationId: create_bland_voice_session_v1_integrations_bland_voice_session_post
+      parameters:
+      - name: X-Webhook-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Webhook-Secret
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlandVoiceSessionRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Bland Voice Session V1 Integrations Bland Voice Session Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/bland/sync:
+    post:
+      tags:
+      - Bland
+      summary: Sync Bland Agents
+      description: Trigger an async sync of all Bland pathways into Bluejay agents.
+      operationId: sync_bland_agents_v1_integrations_bland_sync_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SyncBlandAgentsRequest'
+              default:
+                dry_run: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/bland/knowledge-bases/sync:
+    post:
+      tags:
+      - Bland
+      summary: Sync Bland Knowledge Bases Only
+      description: Re-pull the org's Bland knowledge bases without touching its agents.
+      operationId: sync_bland_knowledge_bases_only_v1_integrations_bland_knowledge_bases_sync_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/bland/knowledge-bases/changes:
+    get:
+      tags:
+      - Bland
+      summary: Bland Knowledge Base Changes
+      description: Knowledge bases whose text changed on a resync, newest first, with a before/after diff each.
+      operationId: bland_knowledge_base_changes_v1_integrations_bland_knowledge_bases_changes_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: since
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Since
+      - name: wait_for_sync_after
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Wait For Sync After
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /v1/integrations/bland:
     post:
       tags:
@@ -30,10 +207,109 @@ paths:
         schema:
           type: string
         description: API key required to authenticate requests.
+  /v1/integrations/bland/pathways:
+    get:
+      tags:
+      - Bland
+      summary: List Bland Pathways
+      description: List Bland pathways for the org's stored API key. Powers the pathway picker on Add Agent.
+      operationId: list_bland_pathways_v1_integrations_bland_pathways_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Bland Pathways V1 Integrations Bland Pathways Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
+  schemas:
+    BlandVoiceSessionRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+      type: object
+      required:
+      - agent_id
+      title: BlandVoiceSessionRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SyncBlandAgentsRequest:
+      properties:
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+        dry_run:
+          type: boolean
+          title: Dry Run
+          default: true
+      type: object
+      title: SyncBlandAgentsRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

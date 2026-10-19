@@ -13,11 +13,13 @@ tags:
 paths:
   /v1/retrieve-simulation-results/{simulation_run_id}:
     get:
+      tags:
+      - Retrieve Simulation Results
       summary: Retrieve Simulation Results
       description: 'Retrieve the results of a simulation run.
 
 
-        Returns the simulation run details and associated test cases.'
+        Returns the simulation run details and one page of its results, oldest first.'
       operationId: retrieve_simulation_results_v1_retrieve_simulation_results__simulation_run_id__get
       security:
       - HTTPBearer: []
@@ -28,6 +30,46 @@ paths:
         schema:
           type: string
           title: Simulation Run Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: How many results to return.
+          default: 100
+          title: Limit
+        description: How many results to return.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: How many results to skip.
+          default: 0
+          title: Offset
+        description: How many results to skip.
+      - name: issue_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+              format: uuid
+          - type: 'null'
+          description: Keep results linked to any of these simulation issue IDs
+          title: Issue Ids
+        description: Keep results linked to any of these simulation issue IDs
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -47,266 +89,81 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/retrieve-simulation-result/{test_result_id}:
+    get:
       tags:
       - Retrieve Simulation Results
+      summary: Retrieve Simulation Result
+      description: 'Retrieve a single simulation result and its associated custom metrics.
+
+
+        Args:
+
+        test_result_id: the ID of the simulation result to retrieve.
+
+
+        Returns:
+
+        the simulation result along with its custom metric results.'
+      operationId: retrieve_simulation_result_v1_retrieve_simulation_result__test_result_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: test_result_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Test Result Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleSimulationResultResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    FillerIgnoredLatency:
+    SimulationResultsResponse:
       properties:
-        avg_filler_ignored_latency:
+        simulation_run:
+          $ref: '#/components/schemas/SimulationRunResultResponse'
+          description: Details of the simulation run
+        simulation_results:
           anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Filler Ignored Latency
-          description: Average filler ignored latency
-          default: 0
-        p50_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Filler Ignored Latency
-          description: 50th percentile filler ignored latency
-          default: 0
-        p90_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Filler Ignored Latency
-          description: 90th percentile filler ignored latency
-          default: 0
-        p95_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Filler Ignored Latency
-          description: 95th percentile filler ignored latency
-          default: 0
-        p99_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Filler Ignored Latency
-          description: 99th percentile filler ignored latency
-          default: 0
-      type: object
-      title: FillerIgnoredLatency
-    SimulationResultResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-          description: ID of the simulation result
-        digital_human_id:
-          type: integer
-          title: Digital Human Id
-          description: ID of the digital human associated with the simulation result
-        result:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Result
-          description: Result of the simulation run
-        duration:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Duration
-          description: Duration of the simulation run in milliseconds
-        start_time:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Start Time
-          description: Start time of the simulation run
-        end_time:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: End Time
-          description: End time of the simulation run
-        custom_metrics:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - items: {}
+          - items:
+              $ref: '#/components/schemas/SimulationResultResponse'
             type: array
           - type: 'null'
-          title: Custom Metrics
-          description: Custom metrics associated with the simulation result
+          title: Simulation Results
+          description: List of results from the simulation run
         status:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Status
-          description: Current status of the simulation result
-        latency:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - items: {}
-            type: array
-          - type: 'null'
-          title: Latency
-          description: Average latency of the simulation run
-        events:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Event'
-            type: array
-          - type: 'null'
-          title: Events
-          description: Events of the simulation run
-        transcript_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Transcript Url
-          description: URL to the transcript file of the simulation run
-        audio_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Audio Url
-          description: URL to the audio file of the simulation run
-        evaluations:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Evaluation'
-            type: array
-          - type: 'null'
-          title: Evaluations
-          description: Evaluations of the simulation result
-        tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ToolCallComparisonGroup'
-            type: array
-          - type: 'null'
-          title: Tool Calls
-          description: Expected vs actual tool calls grouped by tool name
+          description: Status of the response
+          default: '200'
       type: object
       required:
-      - id
-      - digital_human_id
-      title: SimulationResultResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    src__models__api_custom_metric__CustomMetric:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The name of the custom metric
-        description:
-          type: string
-          title: Description
-          description: The description of the custom metric
-        response_type:
-          type: string
-          title: Response Type
-          description: The response type of the custom metric
-        response_value:
-          type: string
-          title: Response Value
-          description: The response value of the custom metric
-        reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reasoning
-          description: The reasoning of the custom metric
-        min_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Min Value
-          description: The minimum value of the custom metric
-        max_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Value
-          description: The maximum value of the custom metric
-        category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Category
-          description: The category of the custom metric
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-          description: The tags of the custom metric
-        scoring_guidance:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Scoring Guidance
-          description: The scoring guidance of the custom metric
-        enum_options:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Enum Options
-          description: The enum options of the custom metric
-      type: object
-      required:
-      - name
-      - description
-      - response_type
-      - response_value
-      title: Custom Metric
-    ActualToolCallDetail:
-      properties:
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Parameters passed to the tool
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Output returned by the tool
-        start_offset_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Start Offset Ms
-          description: When the tool was called relative to conversation start, in milliseconds
-      type: object
-      title: ActualToolCallDetail
+      - simulation_run
+      title: SimulationResultsResponse
     Evaluation:
       properties:
         id:
@@ -415,20 +272,460 @@ components:
           - type: 'null'
           title: Pronunciation Reasoning
           description: Reasoning behind the pronunciation score, if applicable
+        sentiment_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sentiment Label
+          description: Overall sentiment label for customer utterances
+        sentiment_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Sentiment Score
+          description: Overall sentiment score for customer utterances
+        sentiment_scores:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Sentiment Scores
+          description: Per-label sentiment scores for customer utterances
         custom_metrics:
           anyOf:
           - items:
-              $ref: '#/components/schemas/src__models__api_custom_metric__CustomMetric'
+              $ref: '#/components/schemas/CustomMetric'
             type: array
           - type: 'null'
           title: Custom Metrics
           description: Custom metrics associated with the evaluation
+        human_edited:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Human Edited
+          description: Whether any result in this evaluation was manually overridden by a human
+        human_goal_success:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Human Goal Success
+          description: Human-overridden goal_success; null when no override applied
+        human_goal_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Goal Reasoning
+          description: Human-overridden goal_reasoning; null when no override applied
+        human_hallucination:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Human Hallucination
+          description: Human-overridden hallucination verdict; null when no override applied
+        human_hallucination_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Hallucination Reasoning
+          description: Human-overridden hallucination reasoning; null when no override applied
+        human_redundancy:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Human Redundancy
+          description: Human-overridden redundancy verdict; null when no override applied
+        human_redundancy_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Redundancy Reasoning
+          description: Human-overridden redundancy reasoning; null when no override applied
+        human_pronunciation_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Human Pronunciation Score
+          description: Human-overridden pronunciation score; null when no override applied
+        human_pronunciation_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Pronunciation Reasoning
+          description: Human-overridden pronunciation reasoning; null when no override applied
+        override_goal_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Goal Reason Code
+          description: Reason for the human override of goal_success.
+        override_goal_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Goal Notes
+          description: Freeform notes from the reviewer for the goal override.
+        override_hallucination_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Hallucination Reason Code
+          description: Reason for the human override of hallucination.
+        override_hallucination_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Hallucination Notes
+          description: Freeform notes from the reviewer for the hallucination override.
+        override_redundancy_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Redundancy Reason Code
+          description: Reason for the human override of redundancy.
+        override_redundancy_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Redundancy Notes
+          description: Freeform notes from the reviewer for the redundancy override.
+        override_pronunciation_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Pronunciation Reason Code
+          description: Reason for the human override of pronunciation_score.
+        override_pronunciation_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Pronunciation Notes
+          description: Freeform notes from the reviewer for the pronunciation override.
+        last_edited_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Edited By
+          description: User id of the most recent human reviewer
+        last_edited_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Edited At
+          description: Timestamp of the most recent human override
+        predicted_age:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Predicted Age
+          description: Estimated age of the caller in years, from their audio
+        customer_gender:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Customer Gender
+          description: 'Predicted gender of the caller: ''male'', ''female'', or ''indeterminate'' when confidence is at or below 0.7'
+        gender_confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Gender Confidence
+          description: Confidence 0-1 behind customer_gender; null when the prediction is 'indeterminate'
+        detected_language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detected Language
+          description: Language detected on the call
+        language_confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Language Confidence
+          description: Confidence 0-1 behind detected_language
+        agent_audio_clarity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Agent Audio Clarity
+          description: 'Agent audio: audio clarity score 0-100 (higher better)'
+        user_audio_clarity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: User Audio Clarity
+          description: 'User audio: audio clarity score 0-100 (higher better)'
       type: object
       required:
       - agent_speak_percentage
       - avg_agent_latency
       title: Evaluation
       description: Pydantic model for evaluation result
+    SimulationResultResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: ID of the simulation result
+        digital_human_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Digital Human Id
+          description: ID of the digital human associated with the simulation result
+        result:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Result
+          description: Result of the simulation run
+        duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Duration
+          description: Duration of the simulation result in seconds
+        start_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Time
+          description: Start time of the simulation run
+        end_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: End Time
+          description: End time of the simulation run
+        custom_metrics:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Custom Metrics
+          description: Custom metrics associated with the simulation result
+          deprecated: true
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+          description: Current status of the simulation result
+        latency:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Latency
+          description: Average latency of the simulation run
+        events:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Event'
+            type: array
+          - type: 'null'
+          title: Events
+          description: Events of the simulation run
+        transcript:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Transcript
+          description: What was said, in spoken order, read from the database
+        transcript_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Transcript Url
+          description: URL to the transcript file of the simulation run. Only set when the transcript is not stored in the database
+        audio_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Url
+          description: URL to the audio file of the simulation run
+        evaluations:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Evaluation'
+            type: array
+          - type: 'null'
+          title: Evaluations
+          description: Evaluations of the simulation result
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolCallComparisonGroup'
+            type: array
+          - type: 'null'
+          title: Tool Calls
+          description: Expected vs actual tool calls grouped by tool name
+        trace_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Trace Ids
+          description: Trace IDs associated with this simulation result
+        metrics:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/MetricResultItem'
+            type: array
+          - type: 'null'
+          title: Metrics
+          description: All computed metric results for this conversation (builtin and custom), e.g. answer_latency, duration, avg_agent_latency
+      type: object
+      required:
+      - id
+      title: SimulationResultResponse
+    CustomMetric:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the custom metric
+        description:
+          type: string
+          title: Description
+          description: The description of the custom metric
+        response_type:
+          type: string
+          title: Response Type
+          description: The response type of the custom metric
+        response_value:
+          type: string
+          title: Response Value
+          description: The response value of the custom metric
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+          description: The reasoning of the custom metric
+        min_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Value
+          description: The minimum value of the custom metric
+        max_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Value
+          description: The maximum value of the custom metric
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+          description: The category of the custom metric
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: The tags of the custom metric
+        scoring_guidance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scoring Guidance
+          description: The scoring guidance of the custom metric
+        enum_options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum Options
+          description: The enum options of the custom metric
+        human_edited:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Human Edited
+          description: Whether this metric result was manually overridden by a human
+        human_response_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Response Value
+          description: Human-overridden response_value; null when no override applied
+        human_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Reasoning
+          description: Human-overridden reasoning; null when no override applied
+        override_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Reason Code
+          description: 'Structured reason for the latest human override. One of: ai_hallucination, overly_strict_success_criteria, overly_strict_system_prompt, other.'
+        override_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Notes
+          description: Freeform notes from the human reviewer accompanying the latest override
+        last_edited_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Edited By
+          description: User id of the most recent human reviewer
+        last_edited_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Edited At
+          description: Timestamp of the most recent human override
+      type: object
+      required:
+      - name
+      - description
+      - response_type
+      - response_value
+      title: Custom Metric
+    SingleSimulationResultResponse:
+      properties:
+        simulation_result:
+          $ref: '#/components/schemas/SimulationResultResponse'
+          description: The requested simulation result
+        credits_used:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Credits Used
+          description: Credits burned by this simulation result. Null until usage has landed and can be priced.
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+      type: object
+      required:
+      - simulation_result
+      title: SingleSimulationResultResponse
     Event:
       properties:
         title:
@@ -472,28 +769,243 @@ components:
       - start_offset_ms
       title: Event
       description: Pydantic model for event data
-    SimulationResultsResponse:
+    ActualToolCallDetail:
       properties:
-        simulation_run:
-          $ref: '#/components/schemas/SimulationRunResultResponse'
-          description: Details of the simulation run
-        simulation_results:
+        parameters:
           anyOf:
-          - items:
-              $ref: '#/components/schemas/SimulationResultResponse'
-            type: array
+          - additionalProperties: true
+            type: object
           - type: 'null'
-          title: Simulation Results
-          description: List of results from the simulation run
-        status:
+          title: Parameters
+          description: Parameters passed to the tool
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Output returned by the tool
+        start_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Start Offset Ms
+          description: When the tool was called relative to conversation start, in milliseconds
+      type: object
+      title: ActualToolCallDetail
+    MetricResultItem:
+      properties:
+        metric_id:
           type: string
-          title: Status
-          description: Status of the response
-          default: '200'
+          title: Metric Id
+          description: Stable UUID of the metric definition
+        name:
+          type: string
+          title: Name
+          description: Metric name, e.g. answer_latency, duration, num_turns
+        type:
+          type: string
+          title: Type
+          description: 'Value type: int, float, boolean, enum, qualitative, json, pass_fail or yes_no'
+        value:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Value
+          description: Metric value; null when not applicable (e.g. answer_latency when the agent never answered)
+        not_applicable:
+          type: boolean
+          title: Not Applicable
+          description: True when the metric could not be computed for this conversation
+          default: false
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+          description: Grader reasoning, when the metric is LLM-judged
       type: object
       required:
-      - simulation_run
-      title: SimulationResultsResponse
+      - metric_id
+      - name
+      - type
+      title: MetricResultItem
+    ExpectedToolCallDetail:
+      properties:
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Expected parameters
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Expected output
+      type: object
+      title: ExpectedToolCallDetail
+    FillerIgnoredLatency:
+      properties:
+        avg_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Filler Ignored Latency
+          description: Average filler ignored latency
+          default: 0
+        p50_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Filler Ignored Latency
+          description: 50th percentile filler ignored latency
+          default: 0
+        p90_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Filler Ignored Latency
+          description: 90th percentile filler ignored latency
+          default: 0
+        p95_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Filler Ignored Latency
+          description: 95th percentile filler ignored latency
+          default: 0
+        p99_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Filler Ignored Latency
+          description: 99th percentile filler ignored latency
+          default: 0
+      type: object
+      title: FillerIgnoredLatency
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SimulationRunResultResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: ID of the simulation run
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: ID of the simulation associated with the run
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: Summary of the simulation run
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/SimulationRunStatus'
+          - type: 'null'
+          description: Current status of the simulation run
+        total_tests:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Tests
+          description: Total number of tests in the simulation run
+        tests_passed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Passed
+          description: Number of tests that passed in the simulation run
+        tests_failed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Failed
+          description: Status-level failure count (dropped calls, infra errors) - NOT eval-grade failures. See eval_failed for that.
+        tests_completed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tests Completed
+          description: Number of tests that were completed in the simulation run
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: When the simulation run was created
+        eval_failed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Eval Failed
+          description: Eval-grade failure count (tests_completed - tests_passed) - what most consumers mean by 'failed'. tests_failed only counts status-level failures.
+          readOnly: true
+      type: object
+      required:
+      - id
+      - simulation_id
+      - created_at
+      - eval_failed
+      title: SimulationRunResultResponse
+    ToolCallComparisonGroup:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Tool name
+        expected:
+          items:
+            $ref: '#/components/schemas/ExpectedToolCallDetail'
+          type: array
+          title: Expected
+          description: Expected invocations of this tool
+        actual:
+          items:
+            $ref: '#/components/schemas/ActualToolCallDetail'
+          type: array
+          title: Actual
+          description: Actual invocations of this tool during the simulation
+      type: object
+      required:
+      - name
+      title: ToolCallComparisonGroup
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Latency:
       properties:
         avg_agent_latency:
@@ -540,129 +1052,30 @@ components:
           default: 0
       type: object
       title: Latency
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     SimulationRunStatus:
       type: string
       enum:
-      - INITIALIZING
       - RUNNING
       - COMPLETED
-      - INCOMPLETED
-      - INSUFFICIENT_FUNDS
       title: SimulationRunStatus
-      description: Enum representing the possible states of a simulation run.
-    SimulationRunResultResponse:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: ID of the simulation run
-        simulation_id:
-          type: string
-          title: Simulation Id
-          description: ID of the simulation associated with the run
-        summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Summary
-          description: Summary of the simulation run
-        status:
-          anyOf:
-          - $ref: '#/components/schemas/SimulationRunStatus'
-          - type: 'null'
-          description: Current status of the simulation run
-        total_tests:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Tests
-          description: Total number of tests in the simulation run
-        tests_passed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tests Passed
-          description: Number of tests that passed in the simulation run
-        tests_failed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tests Failed
-          description: Number of tests that failed in the simulation run
-        tests_completed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tests Completed
-          description: Number of tests that were completed in the simulation run
-        tests_incompleted:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tests Incompleted
-          description: Number of tests that were not completed in the simulation run
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: When the simulation run was created
-      type: object
-      required:
-      - id
-      - simulation_id
-      - created_at
-      title: SimulationRunResultResponse
-    ToolCallComparisonGroup:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Tool name
-        expected:
-          items:
-            $ref: '#/components/schemas/ExpectedToolCallDetail'
-          type: array
-          title: Expected
-          description: Expected invocations of this tool
-        actual:
-          items:
-            $ref: '#/components/schemas/ActualToolCallDetail'
-          type: array
-          title: Actual
-          description: Actual invocations of this tool during the simulation
-      type: object
-      required:
-      - name
-      title: ToolCallComparisonGroup
-    ExpectedToolCallDetail:
-      properties:
-        parameters:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Parameters
-          description: Expected parameters
-        output:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Output
-          description: Expected output
-      type: object
-      title: ExpectedToolCallDetail
+      description: 'Enum representing the possible states of a simulation run.
+
+
+        The taxonomy is intentionally minimal: a sim_run is either in-flight
+
+        (RUNNING) or terminal (COMPLETED). The pass/fail/cancel distinction lives
+
+        entirely on child sim_conversation counters and statuses, not on sim_run.
+
+
+        See livekit_agent/docs/test_result_status_redesign.md §2.2 for the full taxonomy.'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

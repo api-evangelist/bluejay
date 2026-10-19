@@ -21,6 +21,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -63,6 +69,12 @@ paths:
           type: string
           format: uuid
           title: Community Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -98,6 +110,12 @@ paths:
           type: string
           format: uuid
           title: Community Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -135,6 +153,12 @@ paths:
           - type: integer
           - type: 'null'
           title: Digital Human Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -171,6 +195,12 @@ paths:
           type: string
           format: uuid
           title: Community Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -213,6 +243,60 @@ paths:
           type: string
           format: uuid
           title: Community Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddToCommunityRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunityResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/remove-from-community/{community_id}:
+    put:
+      tags:
+      - Communities
+      summary: Remove Digital Humans From Community
+      description: Remove digital humans from a community without deleting them globally.
+      operationId: remove_digital_humans_from_community_v1_remove_from_community__community_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: community_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Community Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -240,45 +324,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CommunitiesListResponse:
-      properties:
-        communities:
-          items:
-            $ref: '#/components/schemas/CommunityResponse'
-          type: array
-          title: Communities
-          description: List of communities
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of communities
-      type: object
-      required:
-      - communities
-      - total_count
-      title: CommunitiesListResponse
-      description: Response model for listing communities
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     CommunityResponse:
       properties:
         id:
@@ -313,30 +358,6 @@ components:
       - created_at
       title: CommunityResponse
       description: Response model for community operations
-    UpdateCommunityRequest:
-      properties:
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-          description: Title of the community
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the community
-        digital_human_ids:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Digital Human Ids
-          description: List of digital human (test case) IDs to associate this community with (replaces existing associations)
-      type: object
-      title: UpdateCommunityRequest
     AddToCommunityRequest:
       properties:
         digital_human_ids:
@@ -349,15 +370,6 @@ components:
       required:
       - digital_human_ids
       title: AddToCommunityRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     CreateCommunityRequest:
       properties:
         title:
@@ -382,9 +394,90 @@ components:
       required:
       - title
       title: CreateCommunityRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UpdateCommunityRequest:
+      properties:
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+          description: Title of the community
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the community
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: List of digital human (test case) IDs to associate this community with (replaces existing associations)
+      type: object
+      title: UpdateCommunityRequest
+    CommunitiesListResponse:
+      properties:
+        communities:
+          items:
+            $ref: '#/components/schemas/CommunityResponse'
+          type: array
+          title: Communities
+          description: List of communities
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of communities
+      type: object
+      required:
+      - communities
+      - total_count
+      title: CommunitiesListResponse
+      description: Response model for listing communities
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

@@ -1,0 +1,218 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Google Ces API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: google_ces
+paths:
+  /v1/integrations/google-ces/mint-token:
+    post:
+      tags:
+      - google_ces
+      summary: Mint Token
+      operationId: mint_token_v1_integrations_google_ces_mint_token_post
+      parameters:
+      - name: X-Webhook-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Webhook-Secret
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MintTokenRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__api__integrations__google_ces__google_ces__MintTokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/google-ces/resolve-tool-response:
+    post:
+      tags:
+      - google_ces
+      summary: Resolve Tool Response Endpoint
+      operationId: resolve_tool_response_endpoint_v1_integrations_google_ces_resolve_tool_response_post
+      parameters:
+      - name: X-Webhook-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Webhook-Secret
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResolveToolResponseRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResolveToolResponseResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ResolveToolResponseRequest:
+      properties:
+        sim_conversation_id:
+          type: integer
+          title: Sim Conversation Id
+        tool_name:
+          type: string
+          title: Tool Name
+        args:
+          additionalProperties: true
+          type: object
+          title: Args
+          default: {}
+      type: object
+      required:
+      - sim_conversation_id
+      - tool_name
+      title: ResolveToolResponseRequest
+    src__api__integrations__google_ces__google_ces__MintTokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        expires_at:
+          type: number
+          title: Expires At
+        app_id:
+          type: string
+          title: App Id
+        deployment_id:
+          type: string
+          title: Deployment Id
+        project_id:
+          type: string
+          title: Project Id
+        location:
+          type: string
+          title: Location
+        ces_host:
+          type: string
+          title: Ces Host
+        session_id:
+          type: string
+          title: Session Id
+      type: object
+      required:
+      - access_token
+      - expires_at
+      - app_id
+      - deployment_id
+      - project_id
+      - location
+      - ces_host
+      - session_id
+      title: MintTokenResponse
+    ResolveToolResponseResponse:
+      properties:
+        output:
+          additionalProperties: true
+          type: object
+          title: Output
+      type: object
+      required:
+      - output
+      title: ResolveToolResponseResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MintTokenRequest:
+      properties:
+        organization_id:
+          type: string
+          title: Organization Id
+        sim_conversation_id:
+          type: integer
+          title: Sim Conversation Id
+      type: object
+      required:
+      - organization_id
+      - sim_conversation_id
+      title: MintTokenRequest
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

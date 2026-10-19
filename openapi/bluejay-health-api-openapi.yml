@@ -1,0 +1,50 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Health API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Health
+paths:
+  /health:
+    get:
+      summary: Check Health
+      operationId: check_health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security: []
+      tags:
+      - Health
+  /health/deps:
+    get:
+      summary: Check Health Deps
+      operationId: check_health_deps_health_deps_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security: []
+      tags:
+      - Health
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

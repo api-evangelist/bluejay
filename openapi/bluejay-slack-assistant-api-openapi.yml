@@ -1,0 +1,63 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Slack Assistant API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Slack Assistant
+paths:
+  /v1/slack/assistant/events:
+    post:
+      tags:
+      - Slack Assistant
+      summary: Slack Assistant Events
+      operationId: slack_assistant_events_v1_slack_assistant_events_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+  /v1/slack/assistant/interactions:
+    post:
+      tags:
+      - Slack Assistant
+      summary: Slack Assistant Interactions
+      description: Approve/Cancel clicks. Ack fast; decide and execute in the background.
+      operationId: slack_assistant_interactions_v1_slack_assistant_interactions_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

@@ -21,6 +21,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -46,6 +52,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/create-digital-humans:
+    post:
+      tags:
+      - Digital Humans
+      summary: Bulk Create Digital Humans
+      description: 'Bulk create digital humans.
+
+
+        All database operations are batched to O(1) round-trips regardless of input size.
+
+        Items that fail validation are reported in `errors`; the rest proceed to creation.'
+      operationId: bulk_create_digital_humans_v1_create_digital_humans_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCreateDigitalHumansRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateDigitalHumansResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /v1/digital-human/{digital_human_id}:
     get:
       tags:
@@ -62,6 +114,12 @@ paths:
         schema:
           type: integer
           title: Digital Human Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -96,6 +154,12 @@ paths:
         schema:
           type: integer
           title: Digital Human Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -109,6 +173,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DigitalHumanResponseData'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/digital-human-by-test-name/{test_name}:
+    get:
+      tags:
+      - Digital Humans
+      summary: Get Digital Human By Test Name
+      description: Get a digital human by test_name (returns first match within the org).
+      operationId: get_digital_human_by_test_name_v1_digital_human_by_test_name__test_name__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: test_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Test Name
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__models__digital_humans__digital_human_response__DigitalHumanResponse'
         '422':
           description: Validation Error
           content:
@@ -131,6 +236,12 @@ paths:
         schema:
           type: integer
           title: Simulation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -144,6 +255,144 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DigitalHumansListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/digital-humans:
+    get:
+      tags:
+      - Digital Humans
+      summary: Get All Digital Humans
+      description: Get all of your digital humans.
+      operationId: get_all_digital_humans_v1_digital_humans_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Max digital humans per page
+          default: 20
+          title: Page Size
+        description: Max digital humans per page
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/DigitalHumanType'
+          - type: 'null'
+          description: Only digital humans of this type
+          title: Type
+        description: Only digital humans of this type
+      - name: tag
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Only digital humans carrying this exact tag
+          title: Tag
+        description: Only digital humans carrying this exact tag
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDigitalHumansResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/digital-human/{digital_human_id}/run-history:
+    get:
+      tags:
+      - Digital Humans
+      summary: Get Digital Human Run History
+      description: Every call a digital human has made, newest first, with pass/fail totals.
+      operationId: get_digital_human_run_history_v1_digital_human__digital_human_id__run_history_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: digital_human_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Digital Human Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          description: How many calls to return.
+          default: 100
+          title: Limit
+        description: How many calls to return.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: How many calls to skip.
+          default: 0
+          title: Offset
+        description: How many calls to skip.
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DigitalHumanRunHistoryResponse'
         '422':
           description: Validation Error
           content:
@@ -166,6 +415,12 @@ paths:
         schema:
           type: integer
           title: Digital Human Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -191,6 +446,379 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-digital-humans:
+    put:
+      tags:
+      - Digital Humans
+      summary: Bulk Update Digital Humans
+      operationId: bulk_update_digital_humans_v1_update_digital_humans_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateDigitalHumansRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdateDigitalHumansResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/digital-human/{digital_human_id}/duplicate:
+    post:
+      tags:
+      - Digital Humans
+      summary: Duplicate Digital Human
+      description: 'Duplicate a digital human at the database level.
+
+
+        Copies every column of the source row (cloned voice, custom background noise,
+
+        interruption/speaks-first configs, transcripts, audio quirks) plus its traits,
+
+        scripted responses and expected tool calls — without re-validating stored
+
+        values, so copies of voice-ambience or custom-noise digital humans always
+
+        succeed. The copy starts without a phone number and always-on inactive.'
+      operationId: duplicate_digital_human_v1_digital_human__digital_human_id__duplicate_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: digital_human_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Digital Human Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/DuplicateDigitalHumanRequest'
+              - type: 'null'
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__models__digital_humans__digital_human_response__DigitalHumanResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/delete-digital-humans:
+    delete:
+      tags:
+      - Digital Humans
+      summary: Bulk Delete Digital Humans
+      description: 'Bulk delete digital humans by ID.
+
+
+        All database operations are batched to O(1) round-trips regardless of input size:
+
+        1. Batch fetch live test cases with traits and scripted responses (single joined select)
+
+        2. Batch soft delete test_cases (simulation links kept for restore)'
+      operationId: bulk_delete_digital_humans_v1_delete_digital_humans_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: digital_human_ids
+        in: query
+        required: true
+        schema:
+          type: string
+          description: 'Comma-separated list of digital human IDs to delete. Maximum 100 IDs. Example: 1,2,3'
+          title: Digital Human Ids
+        description: 'Comma-separated list of digital human IDs to delete. Maximum 100 IDs. Example: 1,2,3'
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDeleteDigitalHumansResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/custom-background-noises:
+    get:
+      tags:
+      - Digital Humans
+      summary: List Custom Background Noises
+      description: 'List the caller org''s custom background noises, oldest first.
+
+
+        Each row carries usage_count (referencing digital humans) so the UI can warn
+
+        before delete; the DELETE endpoint stays the authoritative guard.'
+      operationId: list_custom_background_noises_v1_custom_background_noises_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomBackgroundNoise'
+                title: Response List Custom Background Noises V1 Custom Background Noises Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Digital Humans
+      summary: Create Custom Background Noise
+      description: 'Register an already-uploaded noise. The path must live under the caller
+
+        org''s upload prefix; the org is capped at MAX_CUSTOM_BACKGROUND_NOISES.'
+      operationId: create_custom_background_noise_v1_custom_background_noises_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomBackgroundNoiseRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomBackgroundNoise'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/custom-background-noises/upload-url:
+    post:
+      tags:
+      - Digital Humans
+      summary: Create Custom Background Noise Upload Url
+      description: 'Mint a one-time signed PUT URL for uploading a noise file directly to the
+
+        skywatch bucket (org-scoped path). Upload the raw bytes to upload_url with
+
+        HTTP PUT, then register storage_path via POST /custom-background-noises.'
+      operationId: create_custom_background_noise_upload_url_v1_custom_background_noises_upload_url_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUploadUrlRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Custom Background Noise Upload Url V1 Custom Background Noises Upload Url Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/custom-background-noises/{noise_id}:
+    patch:
+      tags:
+      - Digital Humans
+      summary: Update Custom Background Noise
+      description: Rename a noise. The storage_path is immutable (re-upload = new row).
+      operationId: update_custom_background_noise_v1_custom_background_noises__noise_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: noise_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Noise Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomBackgroundNoiseRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomBackgroundNoise'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Digital Humans
+      summary: Delete Custom Background Noise
+      description: 'Remove a noise from the library. Blocked (409) while any digital human
+
+        still references its storage_path. Never deletes the storage object.'
+      operationId: delete_custom_background_noise_v1_custom_background_noises__noise_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: noise_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Noise Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Delete Custom Background Noise V1 Custom Background Noises  Noise Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /v1/generate-objectives:
     post:
       tags:
@@ -201,6 +829,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -236,6 +870,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -271,6 +911,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -306,6 +952,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -331,323 +983,110 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/generate-digital-humans:
+    post:
+      tags:
+      - Digital Humans
+      summary: Generate Digital Humans
+      description: Given an agent this endpoint generates digital humans to test that agent based on varying simulation types.
+      operationId: generate_digital_humans_v1_generate_digital_humans_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DigitalHumanRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__models__digital_humans__generate_digital_human_request__DigitalHumanResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    DigitalHumanRequestData:
+    ReplayTranscriptFromConversation:
       properties:
-        intent:
+        conversation_id:
           type: string
-          title: Intent
-          description: Description of the digital human. Leave empty when enriched_playback is set; the agent uses playback instead.
-          default: ''
+          title: Conversation Id
+          description: ID of an existing conversation log to retrieve transcript from
         success_criteria:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Success Criteria
-          description: Success criteria. Leave empty when enriched_playback is set; the agent uses playback instead.
-          default: ''
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the digital human
-        tag:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tag
-          description: Tag for categorizing the digital human
-        language:
-          anyOf:
-          - $ref: '#/components/schemas/LanguageType'
-          - type: 'null'
-          description: Language the digital human speaks
-          default: en
-        accent:
-          anyOf:
-          - $ref: '#/components/schemas/AccentType'
-          - type: 'null'
-          description: Accent of the digital human
-        gender:
-          anyOf:
-          - $ref: '#/components/schemas/GenderType'
-          - type: 'null'
-          description: Gender of the digital human
-        background_noise:
-          anyOf:
-          - $ref: '#/components/schemas/BackgroundNoiseType'
-          - type: 'null'
-          description: Type of background noise
-          default: none
-        voice_speed:
-          anyOf:
-          - $ref: '#/components/schemas/VoiceSpeedType'
-          - type: 'null'
-          description: Speed of the digital human's voice
-          default: normal
-        audio_quality:
-          anyOf:
-          - $ref: '#/components/schemas/AudioQualityType'
-          - type: 'null'
-          description: Audio quality of the digital human's voice
-          default: high
-        fluency:
-          anyOf:
-          - $ref: '#/components/schemas/FluencyType'
-          - type: 'null'
-          description: Fluency level of the digital human's speech
-          default: native
-        verbosity:
-          anyOf:
-          - $ref: '#/components/schemas/VerbosityType'
-          - type: 'null'
-          description: Verbosity level of the digital human's responses
-          default: medium
-        phone_number:
+          description: Success criteria for the scenario (auto-generated if not provided)
+        mode:
           type: string
-          title: Phone Number
-          description: Phone number for the digital human
-        outbound_text_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Outbound Text Number
-          description: Outbound text number
-        background_noise_volume:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Background Noise Volume
-          description: Volume of background noise
-          default: 0.8
-        expected_tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ExpectedToolCall'
-            type: array
-          - type: 'null'
-          title: Expected Tool Calls
-          description: Expected tool call outputs
-        allow_end_call_tool:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Allow End Call Tool
-          description: Allow the digital human to end the tool call
-          default: true
-        endpointing_delay:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Endpointing Delay
-          description: Delay for endpointing
-          default: 1.5
-        creativity:
-          anyOf:
-          - type: number
-            maximum: 2.0
-            minimum: 0.0
-          - type: 'null'
-          title: Creativity
-          description: How creative the digital human is (Model temperature)
-          default: 0.7
-        hangup_phrases:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Hangup Phrases
-          description: Phrases that trigger hangup
-        hangup_instructions:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Hangup Instructions
-          description: Freeform instructions for how/when to hang up
-        allow_silence_tool:
-          type: boolean
-          title: Allow Silence Tool
-          description: Allow the digital human to use the silence tool
-          default: false
-        silence_tool_instructions:
-          type: string
-          title: Silence Tool Instructions
-          description: Tool instructions; use "default" for built-in behavior or custom text
-          default: default
-        silence_timeout:
-          anyOf:
-          - type: integer
-            minimum: 15.0
-          - type: 'null'
-          title: Silence Timeout
-          description: Silence timeout in seconds
-        role_description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Role Description
-          description: Description of the role for the digital human
-        traits:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Trait'
-            type: array
-          - type: 'null'
-          title: Traits
-          description: List of traits associated with this digital human
-        interruptions:
-          anyOf:
-          - $ref: '#/components/schemas/SimpleInterruptionConfig'
-          - $ref: '#/components/schemas/KeywordsInterruptionConfig'
-          - $ref: '#/components/schemas/ContextualInterruptionConfig'
-          - type: 'null'
-          title: Interruptions
-          description: Interruption configuration for the digital human
-        scripted_responses:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ScriptedResponse'
-            type: array
-          - type: 'null'
-          title: Scripted Responses
-          description: List of scripted responses for the digital human
-        speaks_first_config:
-          anyOf:
-          - $ref: '#/components/schemas/SpeaksFirstConfig'
-          - type: 'null'
-          description: Speaks first configuration for the digital human
-        original_transcript:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Original Transcript
-          description: Original transcript text to replay. When provided (and formatted_transcript not provided), utterances are extracted via LLM and used as the intent.
-        formatted_transcript:
-          anyOf:
-          - items:
-              additionalProperties:
-                type: string
-              type: object
-            type: array
-          - type: 'null'
-          title: Formatted Transcript
-          description: Pre-computed structured transcript as [{role, utterance}]. When provided, skips the format-transcript LLM call.
-        enriched_playback:
-          anyOf:
-          - items:
-              additionalProperties: true
-              type: object
-            type: array
-          - type: 'null'
-          title: Enriched Playback
-          description: 'Optional enriched playback stored as JSONB: a list of turn objects'
-        always_on_mode:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Always On Mode
-          description: Whether always-on mode is enabled
-          default: false
-        always_on_active:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Always On Active
-          description: When true, this DH actively receives calls on phone_number. Defaults to True when phone_number is set.
-        num_runs:
-          anyOf:
-          - type: integer
-            minimum: 1.0
-          - type: 'null'
-          title: Num Runs
-          description: Number of times this digital human is run per simulation run (run count).
-          default: 1
-        livekit_metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Livekit Metadata
-          description: LiveKit-specific configuration and metadata for this digital human
+          enum:
+          - strict
+          - smart
+          - persona
+          title: Mode
+          description: 'Mode for transcript replay: ''strict'', ''smart'' (default), or ''persona'''
+          default: smart
       type: object
       required:
-      - phone_number
-      title: DigitalHumanRequestData
-      description: Digital human data model for requests (without id and created_at).
-    KeywordResponse:
+      - conversation_id
+      title: Replay Transcript From Conversation ID
+      description: Replay transcript by referencing an existing conversation ID.
+    PaginatedDigitalHumansResponse:
       properties:
-        keyword:
-          type: string
-          title: Keyword
-          description: The keyword to listen for and interrupt on
-        response:
-          type: string
-          title: Response
-          description: Response to say when keyword is detected
-        probability:
-          type: number
-          maximum: 1.0
-          minimum: 0.0
-          title: Probability
-          description: Probability of responding (0.0-1.0) - defaults to 1.0
-          default: 1.0
-      type: object
-      required:
-      - keyword
-      - response
-      title: KeywordResponse
-      description: Model for a keyword response configuration.
-    AccentType:
-      type: string
-      enum:
-      - multilingual
-      - american
-      - american2
-      - southern
-      - italian
-      - indian
-      - british
-      - australian
-      - mexican
-      - spanish
-      - portuguese
-      - french
-      - turkish
-      - japanese
-      - hindi
-      - arabic
-      - russian
-      - chinese
-      - german
-      title: AccentType
-      description: Enum for accent options.
-    MatchType:
-      type: string
-      enum:
-      - exact
-      - context
-      title: MatchType
-      description: Enum for scripted response match types.
-    HTTPValidationError:
-      properties:
-        detail:
+        digital_humans:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/DigitalHumanResponseData'
           type: array
-          title: Detail
+          title: Digital Humans
+          description: List of digital humans
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of digital humans in the org
+        page:
+          type: integer
+          title: Page
+          description: Current page (1-based)
+        page_size:
+          type: integer
+          title: Page Size
+          description: Page size
+        total_pages:
+          type: integer
+          title: Total Pages
+          description: Total number of pages
       type: object
-      title: HTTPValidationError
-    GenerateObjectivesResponse:
+      required:
+      - digital_humans
+      - total_count
+      - page
+      - page_size
+      - total_pages
+      title: PaginatedDigitalHumansResponse
+      description: Response model for paginated listing of all digital humans for an org.
+    GenerateObjectivesRequest:
       properties:
-        objectives:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Objectives
-          description: The generated objectives as a formatted string
         test_case_id:
           type: integer
           title: Test Case Id
@@ -655,15 +1094,152 @@ components:
       type: object
       required:
       - test_case_id
-      title: GenerateObjectivesResponse
-      description: Response model for generating objectives.
-    OccurrenceMode:
-      type: string
-      enum:
-      - always
-      - first_n
-      title: OccurrenceMode
-      description: Enum for scripted response occurrence modes.
+      title: GenerateObjectivesRequest
+      description: Request model for generating objectives.
+    ReplayTranscriptFromText:
+      properties:
+        transcript:
+          type: string
+          title: Transcript
+          description: The transcript text to analyze and replay
+        success_criteria:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Success Criteria
+          description: Success criteria for the scenario (auto-generated if not provided)
+        mode:
+          type: string
+          enum:
+          - strict
+          - smart
+          - persona
+          title: Mode
+          description: 'Mode for transcript replay: ''strict'', ''smart'' (default), or ''persona'''
+          default: smart
+      type: object
+      required:
+      - transcript
+      title: Replay Transcript From Text
+      description: Replay transcript by providing the transcript text directly.
+    SimpleInterruptionConfig:
+      properties:
+        type:
+          type: string
+          enum:
+          - none
+          - low
+          - medium
+          - high
+          title: Type
+          description: 'Interruption level: none, low, medium, or high'
+      type: object
+      required:
+      - type
+      title: Default
+      description: Simple interruption configuration with predefined levels.
+    BulkUpdateDigitalHumansRequest:
+      properties:
+        updates:
+          items:
+            $ref: '#/components/schemas/BulkUpdateItem'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Updates
+      type: object
+      required:
+      - updates
+      title: BulkUpdateDigitalHumansRequest
+    DigitalHumansListResponse:
+      properties:
+        digital_humans:
+          items:
+            $ref: '#/components/schemas/DigitalHumanResponseData'
+          type: array
+          title: Digital Humans
+          description: List of digital humans
+        total:
+          type: integer
+          title: Total
+          description: Total number of digital humans
+        simulation_id:
+          type: integer
+          title: Simulation Id
+          description: ID of the simulation
+      type: object
+      required:
+      - digital_humans
+      - total
+      - simulation_id
+      title: DigitalHumansListResponse
+      description: Response model for listing digital humans by simulation.
+    GeneratePromptSummaryResponse:
+      properties:
+        prompt_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Summary
+          description: The generated prompt summary, or null if prompt is short
+        prompt_id:
+          type: string
+          title: Prompt Id
+          description: Deprecated alias of agent_version_id
+          deprecated: true
+        agent_version_id:
+          type: string
+          title: Agent Version Id
+          description: Agent version UUID that was summarized
+        skipped:
+          type: boolean
+          title: Skipped
+          description: True if summary was skipped because prompt is short
+          default: false
+      type: object
+      required:
+      - prompt_id
+      - agent_version_id
+      title: GeneratePromptSummaryResponse
+      description: Response model for generating prompt summary.
+    DigitalHumanRunHistoryResponse:
+      properties:
+        digital_human_id:
+          type: string
+          title: Digital Human Id
+        totals:
+          $ref: '#/components/schemas/DigitalHumanRunHistoryTotals'
+        calls:
+          items:
+            $ref: '#/components/schemas/DigitalHumanCall'
+          type: array
+          title: Calls
+          description: Newest first, one page.
+      type: object
+      required:
+      - digital_human_id
+      - totals
+      - calls
+      title: DigitalHumanRunHistoryResponse
+    DuplicateDigitalHumanRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name for the copy; defaults to "<source name> (Copy)"
+        simulation_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Simulation Ids
+          description: Simulations to attach the copy to. Omit to copy the source's associations; pass [] for none.
+      type: object
+      title: DuplicateDigitalHumanRequest
+      description: Options for duplicating a digital human.
     VerbosityType:
       type: string
       enum:
@@ -672,84 +1248,20 @@ components:
       - high
       title: VerbosityType
       description: Enum for verbosity level options.
-    LanguageType:
+    DigitalHumanType:
       type: string
       enum:
-      - en
-      - es
-      - pt
-      - ja
-      - tr
-      - hi
-      - ar
-      - ru
-      - zh
-      - ml
-      - fr
-      - yue
-      - vi
-      - de
-      title: LanguageType
-      description: Enum for supported language types.
-    SpeaksFirstConfig:
-      properties:
-        speaks_first:
-          type: boolean
-          title: Speaks First
-          description: Whether the digital human speaks first in the call
-        mode:
-          anyOf:
-          - type: string
-            enum:
-            - custom
-            - ai_generated
-          - type: 'null'
-          title: Mode
-          description: 'When speaks_first is true: ''custom'' (user-provided message) or ''ai_generated'' (no message)'
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: When mode is 'custom', the message the digital human says first
-      type: object
-      required:
-      - speaks_first
-      title: SpeaksFirstConfig
-      description: 'Configuration for whether the digital human speaks first and how.
-
-        Stored as JSONB in Supabase (speaks_first_config).'
-    GenerateIntentSummaryResponse:
-      properties:
-        intent_summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Intent Summary
-          description: The generated intent summary, or null if intent is short
-        test_case_id:
-          type: integer
-          title: Test Case Id
-          description: ID of the test case
-        skipped:
-          type: boolean
-          title: Skipped
-          description: True if summary was skipped because intent is short
-          default: false
-      type: object
-      required:
-      - test_case_id
-      title: GenerateIntentSummaryResponse
-      description: Response model for generating intent summary.
-    AudioQualityType:
-      type: string
-      enum:
-      - high
-      - medium
-      - low
-      - horrible
-      title: AudioQualityType
-      description: Enum for audio quality options.
+      - voicemail_custom
+      - voicemail_ai
+      - replay_smart
+      - replay_strict
+      - red_team
+      - scenario
+      - workflow
+      - persona
+      - journey
+      title: DigitalHumanType
+      description: What kind of digital human this is. Stored in test_cases.type; tags are free-form labels.
     ContextualInterruptionConfig:
       properties:
         type:
@@ -767,6 +1279,56 @@ components:
       - contextual_prompt
       title: Contextual
       description: Contextual/LLM-based interruption configuration.
+    UpdateCustomBackgroundNoiseRequest:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+      type: object
+      required:
+      - name
+      title: UpdateCustomBackgroundNoiseRequest
+    MatchType:
+      type: string
+      enum:
+      - exact
+      - context
+      title: MatchType
+      description: Enum for scripted response match types.
+    src__models__digital_humans__generate_digital_human_request__DigitalHumanResponse:
+      properties:
+        digital_humans:
+          items: {}
+          type: array
+          title: Digital Humans
+          description: List of digital humans created for the simulation
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: '200'
+        success:
+          type: boolean
+          title: Success
+          description: Whether the generation succeeded
+          default: true
+        test_scenarios:
+          anyOf:
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Test Scenarios
+          description: Scenario view of created digital humans (includes original_transcript and formatted_transcript for transcript replays)
+        warning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Warning
+          description: Warning message if the request was modified (e.g. truncated due to exceeding the max limit)
+      type: object
+      title: DigitalHumanResponse
     FluencyType:
       type: string
       enum:
@@ -775,81 +1337,459 @@ components:
       - native
       title: FluencyType
       description: Enum for fluency level options.
-    ScriptedResponse:
+    ExpectedToolCall:
       properties:
-        match_type:
-          $ref: '#/components/schemas/MatchType'
-          description: 'Type of match: ''exact'' or ''context'''
-        match_phrase:
+        name:
           type: string
-          title: Match Phrase
-          description: The phrase to match against
-        response_type:
-          $ref: '#/components/schemas/src__models__digital_humans__enums__ResponseType'
-          description: 'Type of response: ''phrase'', ''silence'', or ''dtmf'''
-        response_value:
+          title: Name
+          description: Name of the expected tool call
+        parameters:
           anyOf:
-          - type: string
+          - additionalProperties: true
+            type: object
           - type: 'null'
-          title: Response Value
-          description: The response text (required if response_type is 'phrase' or 'dtmf', optional for 'silence')
-        occurrence_mode:
-          $ref: '#/components/schemas/OccurrenceMode'
-          description: 'When to apply: ''always'' or ''first_n'''
-        occurrence_n:
+          title: Parameters
+          description: Expected parameters passed to the tool call
+        output:
           anyOf:
-          - type: integer
-            exclusiveMinimum: 0.0
+          - {}
           - type: 'null'
-          title: Occurrence N
-          description: Number of times to apply (required if occurrence_mode is 'first_n', must be > 0)
-        silence_duration:
-          anyOf:
-          - type: integer
-            exclusiveMinimum: 0.0
-          - type: 'null'
-          title: Silence Duration
-          description: Duration in seconds for silence period (only used when response_type is 'silence', must be > 0 if provided)
+          title: Output
+          description: Expected output returned by the tool call
       type: object
       required:
-      - match_type
-      - match_phrase
-      - response_type
-      - occurrence_mode
-      title: ScriptedResponse
-      description: Model for a scripted response configuration.
-    GeneratePromptSummaryResponse:
+      - name
+      title: ExpectedToolCall
+      description: Represents an expected tool call during a conversation.
+    DigitalHumanRequest:
       properties:
-        prompt_summary:
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent to be used to generate the digital humans
+        simulation_id:
           anyOf:
           - type: string
           - type: 'null'
-          title: Prompt Summary
-          description: The generated prompt summary, or null if prompt is short
+          title: Simulation Id
+          description: Optionally attach the digital humans to a simulation
         prompt_id:
-          type: string
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
           title: Prompt Id
-          description: ID of the prompt
-        skipped:
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Version Id
+          description: Agent version UUID to generate from (defaults to latest)
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Knowledge base UUID associated with the simulation
+        goal_adherence:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/GoalAdherence'
+            type: array
+          - type: 'null'
+          title: Goal Adherence
+          description: List of goal adherence scenarios
+        workflow_adherence:
+          anyOf:
+          - additionalProperties:
+              type: integer
+            type: object
+          - type: 'null'
+          title: Workflow Adherence
+          description: Dictionary of workflow IDs and their counts
+        workflow_adherence_v2:
+          anyOf:
+          - additionalProperties:
+              type: integer
+            type: object
+          - type: 'null'
+          title: Workflow Adherence V2
+          description: Dictionary of workflow_v2 IDs and their counts (uses new graph definition format)
+        replay_transcript:
+          anyOf:
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/ReplayTranscriptFromText'
+              - $ref: '#/components/schemas/ReplayTranscriptFromConversation'
+            type: array
+          - type: 'null'
+          title: Replay Transcript
+          description: List of transcript replays to generate digital humans from
+        customer_personas:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/CustomerPersonaRequest'
+            type: array
+          - type: 'null'
+          title: Customer Personas
+          description: List of customer personas to be used in the simulation
+          deprecated: true
+        system_prompt:
+          anyOf:
+          - type: integer
+            multipleOf: 2.0
+            minimum: 0.0
+          - type: 'null'
+          title: System Prompt
+          description: 'Number of digital humans to generate from the agent version''s locked system-prompt rules. Each rule is tested from both sides, so this is two per rule and must be even: one caller the agent must help, one it must push back on. A lower number covers fewer rules rather than half-testing every rule.'
+          default: 0
+        load_testing:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Load Testing
+          description: Number of load testing calls
+          default: 0
+        red_teaming:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Red Teaming
+          description: Number of red teaming calls
+          default: 0
+        red_team_attacks:
+          anyOf:
+          - $ref: '#/components/schemas/SocialEngineeringRedTeamConfig'
+          - type: 'null'
+          description: 'Red-team attack matrix (intent x vector x available information). When set, supersedes the legacy red_teaming int. Persisted onto test_cases: free-text intent → intent_summary, attack_vector → attack_vector column, available information → customer_trait_values rows with completeness.'
+        traits:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/src__models__traits__trait__Trait'
+            type: array
+          - type: 'null'
+          title: Traits
+          description: 'Case facts applied to EVERY generated digital human — the fixtures the whole batch shares (e.g. a test account number). Per-caller facts belong on the individual digital human, and neither place takes internal or agent-side information: a trait is always something a real caller could recite.'
+        num_runs:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Num Runs
+          description: Number of runs per digital human per simulation run (run count).
+          default: 1
+      type: object
+      required:
+      - agent_id
+      title: DigitalHumanRequest
+      description: Pydantic model for digital humans (simulation type) request
+    GoalAdherence:
+      properties:
+        goal:
+          type: string
+          title: Goal
+          description: Description of the goal
+        num_calls:
+          type: integer
+          title: Num Calls
+          description: Number of calls that adhered to the goal
+      type: object
+      required:
+      - goal
+      - num_calls
+      title: GoalAdherence
+      description: Goal adherence scenario for batch digital human generation.
+    CreateCustomBackgroundNoiseRequest:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        storage_path:
+          type: string
+          minLength: 1
+          title: Storage Path
+      type: object
+      required:
+      - name
+      - storage_path
+      title: CreateCustomBackgroundNoiseRequest
+    BulkUpdateItem:
+      properties:
+        digital_human_id:
+          type: integer
+          title: Digital Human Id
+          description: ID of the digital human to update
+        update:
+          $ref: '#/components/schemas/UpdateDigitalHumanRequest'
+          description: Partial update payload (same shape as the single update endpoint)
+      type: object
+      required:
+      - digital_human_id
+      - update
+      title: BulkUpdateItem
+    CustomerPersonaRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the customer persona
+        description:
+          type: string
+          title: Description
+          description: Description of the customer persona
+        goal:
+          type: string
+          title: Goal
+          description: What this persona is calling to accomplish, in one or two sentences. Caller-side only; do not describe what the agent should do.
+        num_calls:
+          type: integer
+          title: Num Calls
+          description: Number of calls that matched the customer persona
+      type: object
+      required:
+      - name
+      - description
+      - goal
+      - num_calls
+      title: CustomerPersonaRequest
+      description: Customer persona row for batch digital human generation.
+    VoiceSpeedType:
+      type: string
+      enum:
+      - slowest
+      - slow
+      - normal
+      - fast
+      - fastest
+      title: VoiceSpeedType
+      description: Enum for voice speed options.
+    AccentType:
+      type: string
+      enum:
+      - multilingual
+      - american
+      - american2
+      - mature
+      - southern
+      - italian
+      - indian
+      - british
+      - australian
+      - scottish
+      - irish
+      - welsh
+      - mexican
+      - spanish
+      - portuguese
+      - french
+      - turkish
+      - japanese
+      - hindi
+      - arabic
+      - egyptian
+      - levantine
+      - hebrew
+      - russian
+      - chinese
+      - german
+      - korean
+      - urdu
+      - telugu
+      - tamil
+      - malayalam
+      - kannada
+      - marathi
+      - gujarati
+      - vietnamese
+      - cantonese
+      - tagalog
+      - greek
+      - autodetect
+      - watson
+      - watsonbritish
+      - watsonaustralian
+      - watsoncanadian
+      title: AccentType
+      description: Enum for accent options.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AudioQualityType:
+      type: string
+      enum:
+      - high
+      - medium
+      - low
+      - horrible
+      title: AudioQualityType
+      description: Enum for audio quality options.
+    src__models__traits__trait__Trait:
+      properties:
+        trait_name:
+          type: string
+          title: Trait Name
+          description: 'Name of the fact, as the agent would ask for it: ''member_id'', ''date_of_birth'', ''order_number''. Traits are org-level, so reuse the existing name across the suite rather than coining a variant. A trait is always something the CALLER knows and can say out loud — never internal or agent-side information (CRM contents, what the agent should look up or say, grader notes).'
+        trait_data_type:
+          $ref: '#/components/schemas/TraitDataType'
+          description: BOOLEAN, STRING, DATE (ISO 8601 string) or NUMBER. Must match `value`, which is coerced to this type.
+        value:
+          title: Value
+          description: The concrete value this caller gives (stored as JSONB). Fixing it here is what makes the call repeatable — leave it out of `intent` prose, where the model would improvise a different one each run.
+        is_sip_header:
           type: boolean
-          title: Skipped
-          description: True if summary was skipped because prompt is short
+          title: Is Sip Header
+          description: Send this trait as a SIP header on the call instead of as something the caller says. Leave false for ordinary case facts.
           default: false
       type: object
       required:
-      - prompt_id
-      title: GeneratePromptSummaryResponse
-      description: Response model for generating prompt summary.
-    GenerateFormattedTranscriptRequest:
+      - trait_name
+      - trait_data_type
+      - value
+      title: Trait
+      description: Model for a single trait.
+    HTTPValidationError:
       properties:
-        original_transcript:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AttackBatch:
+      properties:
+        intent:
           type: string
-          title: Original Transcript
-          description: Raw transcript in any format
+          title: Intent
+          description: Free-text attacker goal (e.g. 'force a credential reset without proper auth'). Persisted to test_cases.intent_summary - the same column goal-adherence DHs use. FE may seed from preset templates but value is editable.
+        vector_id:
+          type: string
+          title: Vector Id
+          description: Attack tactic - key in VECTOR_CATALOG. Catalog-bound (not editable). Drives attack_type derivation.
+        traits:
+          items:
+            $ref: '#/components/schemas/src__models__digital_humans__red_team_attack__Trait'
+          type: array
+          title: Traits
+          description: Free-form customer traits the attacker possesses; missing fields = attacker doesn't have them.
+        count:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Count
+          description: Number of scenarios to generate for this batch.
+        custom_success_criteria:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Success Criteria
+          description: Override the LLM-generated success criteria.
       type: object
       required:
-      - original_transcript
-      title: GenerateFormattedTranscriptRequest
+      - intent
+      - vector_id
+      - count
+      title: AttackBatch
+    OccurrenceMode:
+      type: string
+      enum:
+      - always
+      - first_n
+      title: OccurrenceMode
+      description: Enum for scripted response occurrence modes.
+    src__models__digital_humans__red_team_attack__Trait:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Free-form trait label, e.g. 'SSN', 'Date of Birth'.
+        data_type:
+          type: string
+          enum:
+          - string
+          - number
+          - boolean
+          - date
+          title: Data Type
+          description: Data type of the trait value.
+        value:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Value
+          description: Concrete value. '__random__' = LLM fabricates full value. '__partial_random__' = BE applies name-based heuristic and stamps completeness.
+        completeness:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Completeness
+          description: e.g. 'last_4', 'year_only', 'full'. May be stamped by partial-autogen heuristic server-side.
+      type: object
+      required:
+      - name
+      - data_type
+      title: Trait
+    BulkCreateDigitalHumansRequest:
+      properties:
+        simulation_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Simulation Ids
+          description: list of simulation IDs to associate with all digital humans in this request
+        digital_humans:
+          items:
+            $ref: '#/components/schemas/DigitalHumanRequestData'
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Digital Humans
+          description: list of digital humans to create (min 1, max 100)
+      type: object
+      required:
+      - digital_humans
+      title: BulkCreateDigitalHumansRequest
+      description: Request model for bulk creating digital humans.
+    src__models__digital_humans__enums__ResponseType:
+      type: string
+      enum:
+      - phrase
+      - silence
+      - dtmf
+      - audio
+      title: ResponseType
+      description: Enum for scripted response types.
     src__models__digital_humans__digital_human_response__DigitalHumanResponse:
       properties:
         digital_human:
@@ -875,51 +1815,94 @@ components:
       - digital_human
       title: DigitalHumanResponse
       description: Response model for digital human operations with clear separation of digital human data and simulation context.
-    GenerateObjectivesRequest:
-      properties:
-        test_case_id:
-          type: integer
-          title: Test Case Id
-          description: ID of the test case
-      type: object
-      required:
-      - test_case_id
-      title: GenerateObjectivesRequest
-      description: Request model for generating objectives.
-    GenderType:
-      type: string
-      enum:
-      - male
-      - female
-      title: GenderType
-      description: Enum for gender options.
     GeneratePromptSummaryRequest:
       properties:
         prompt_id:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Prompt Id
-          description: ID of the prompt (UUID)
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Version Id
+          description: Agent version UUID to summarize
+      type: object
+      title: GeneratePromptSummaryRequest
+      description: Request model for generating prompt summary. Pass agent_version_id (prompt_id is the deprecated alias).
+    CreateUploadUrlRequest:
+      properties:
+        filename:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Filename
       type: object
       required:
-      - prompt_id
-      title: GeneratePromptSummaryRequest
-      description: Request model for generating prompt summary.
-    Trait:
+      - filename
+      title: CreateUploadUrlRequest
+    DigitalHumanCall:
+      properties:
+        call_id:
+          type: string
+          title: Call Id
+        simulation_run_id:
+          type: string
+          title: Simulation Run Id
+        simulation_id:
+          type: string
+          title: Simulation Id
+        simulation_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Simulation Name
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        duration_seconds:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Duration Seconds
+        outcome:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Outcome
+          description: True passed, False failed, None not graded.
+      type: object
+      required:
+      - call_id
+      - simulation_run_id
+      - simulation_id
+      - created_at
+      title: DigitalHumanCall
+    Trait-Output:
       properties:
         trait_name:
           type: string
           title: Trait Name
-          description: Name of the trait
+          description: 'Name of the fact, as the agent would ask for it: ''member_id'', ''date_of_birth'', ''order_number''. Traits are org-level, so reuse the existing name across the suite rather than coining a variant. A trait is always something the CALLER knows and can say out loud — never internal or agent-side information (CRM contents, what the agent should look up or say, grader notes).'
         trait_data_type:
           $ref: '#/components/schemas/TraitDataType'
-          description: Data type of the trait
+          description: BOOLEAN, STRING, DATE (ISO 8601 string) or NUMBER. Must match `value`, which is coerced to this type.
         value:
           title: Value
-          description: Value of the trait (stored as JSONB)
+          description: The concrete value this caller gives (stored as JSONB). Fixing it here is what makes the call repeatable — leave it out of `intent` prose, where the model would improvise a different one each run.
         is_sip_header:
           type: boolean
           title: Is Sip Header
-          description: Whether this trait is a SIP header
+          description: Send this trait as a SIP header on the call instead of as something the caller says. Leave false for ordinary case facts.
           default: false
       type: object
       required:
@@ -928,330 +1911,88 @@ components:
       - value
       title: Trait
       description: Model for a single trait.
-    VoiceSpeedType:
-      type: string
-      enum:
-      - slowest
-      - slow
-      - normal
-      - fast
-      - fastest
-      title: VoiceSpeedType
-      description: Enum for voice speed options.
-    BackgroundNoiseType:
-      type: string
-      enum:
-      - none
-      - office
-      - talking
-      - traffic
-      - cafe
-      - park
-      - tv
-      title: BackgroundNoiseType
-      description: Enum for background noise options.
-    ExpectedToolCall:
+    SpeaksFirstConfig:
       properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the expected tool call
-        parameters:
+        speaks_first:
+          type: boolean
+          title: Speaks First
+          description: Whether the digital human speaks first in the call
+        mode:
           anyOf:
-          - additionalProperties: true
-            type: object
+          - type: string
+            enum:
+            - custom
+            - ai_generated
           - type: 'null'
-          title: Parameters
-          description: Expected parameters passed to the tool call
-        output:
+          title: Mode
+          description: 'When speaks_first is true: ''custom'' (user-provided message) or ''ai_generated'' (no message)'
+        message:
           anyOf:
-          - {}
+          - type: string
           - type: 'null'
-          title: Output
-          description: Expected output returned by the tool call
-      type: object
-      required:
-      - name
-      title: ExpectedToolCall
-      description: Represents an expected tool call during a conversation.
-    GenerateIntentSummaryRequest:
-      properties:
-        test_case_id:
-          type: integer
-          title: Test Case Id
-          description: ID of the test case
-      type: object
-      required:
-      - test_case_id
-      title: GenerateIntentSummaryRequest
-      description: Request model for generating intent summary.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
           title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DigitalHumanResponseData:
-      properties:
-        id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Id
-          description: Unique identifier for the digital human
-        intent:
-          type: string
-          title: Intent
-          description: Description of the digital human
-        success_criteria:
-          type: string
-          title: Success Criteria
-          description: Success criteria for the digital human
-        tag:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tag
-          description: Tag for categorizing the digital human
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the digital human
-        language:
-          anyOf:
-          - $ref: '#/components/schemas/LanguageType'
-          - type: 'null'
-          description: Language of the digital human
-        accent:
-          anyOf:
-          - $ref: '#/components/schemas/AccentType'
-          - type: 'null'
-          description: Accent of the digital human
-        gender:
-          anyOf:
-          - $ref: '#/components/schemas/GenderType'
-          - type: 'null'
-          description: Gender of the digital human
-        background_noise:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Background Noise
-          description: Type of background noise
-        voice_speed:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Voice Speed
-          description: Speed of the digital human's voice
-        audio_quality:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Audio Quality
-          description: Audio quality of the digital human's voice
-        fluency:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Fluency
-          description: Fluency level of the digital human's speech
-        verbosity:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Verbosity
-          description: Verbosity level of the digital human's responses
-        phone_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phone Number
-          description: Phone number for the digital human
-        outbound_text_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Outbound Text Number
-          description: Outbound text number
-        websocket_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Websocket Url
-          description: WebSocket URL for real-time communication
-        background_noise_volume:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Background Noise Volume
-          description: Volume of background noise
-        expected_tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ExpectedToolCall'
-            type: array
-          - type: 'null'
-          title: Expected Tool Calls
-          description: Expected tool calls
-        allow_end_call_tool:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Allow End Call Tool
-          description: Allow the digital human to end the tool call
+          description: When mode is 'custom', the message the digital human says first
+        dynamic:
+          type: boolean
+          title: Dynamic
+          description: 'When speaks_first is true: wait up to 5s for the agent to open; speak first only if it stays quiet. If the agent does open, the digital human yields and a mode=''custom'' message is DISCARDED, not spoken after the greeting, so on any agent that greets callers, a dynamic custom opener is never heard. Set false to speak it every time, at the top of the call and possibly over the greeting. Defaults on, so configs saved before this field existed become dynamic'
           default: true
-        endpointing_delay:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Endpointing Delay
-          description: Delay for endpointing
-        creativity:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Creativity
-          description: Temperature setting
-        hangup_phrases:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Hangup Phrases
-          description: Phrases that trigger hangup
-        hangup_instructions:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Hangup Instructions
-          description: Freeform instructions for how/when to hang up
-        allow_silence_tool:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Allow Silence Tool
-          description: Allow the digital human to use the silence tool
-          default: false
-        silence_tool_instructions:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Silence Tool Instructions
-          description: Tool instructions; "default" for built-in behavior or a custom string.
-          default: default
-        silence_timeout:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Silence Timeout
-          description: Silence timeout in seconds
-        role_description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Role Description
-          description: Description of the role for the digital human
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-          description: When this digital human was created
-        traits:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Trait'
-            type: array
-          - type: 'null'
-          title: Traits
-          description: List of traits associated with this digital human
-        interruptions:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Interruptions
-          description: Interruption configuration for the digital human
-        scripted_responses:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ScriptedResponse'
-            type: array
-          - type: 'null'
-          title: Scripted Responses
-          description: List of scripted responses for the digital human
-        speaks_first_config:
-          anyOf:
-          - $ref: '#/components/schemas/SpeaksFirstConfig'
-          - type: 'null'
-          description: 'Speaks first config: speaks_first, mode (custom|ai_generated), message (when custom)'
-        original_transcript:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Original Transcript
-          description: The original transcript text attached to this digital human
-        formatted_transcript:
-          anyOf:
-          - items:
-              additionalProperties:
-                type: string
-              type: object
-            type: array
-          - type: 'null'
-          title: Formatted Transcript
-          description: 'Structured transcript as [{"role": "USER"|"AGENT", "utterance": "..."}]'
-        enriched_playback:
-          anyOf:
-          - items:
-              additionalProperties: true
-              type: object
-            type: array
-          - type: 'null'
-          title: Enriched Playback
-          description: 'Optional enriched playback stored as JSONB: a list of turn objects'
-        livekit_metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Livekit Metadata
-          description: LiveKit-specific configuration and metadata for this digital human
       type: object
       required:
-      - intent
-      - success_criteria
-      title: DigitalHumanResponseData
-      description: Response model for digital human data.
-    TraitDataType:
-      type: string
-      enum:
-      - BOOLEAN
-      - STRING
-      - DATE
-      - NUMBER
-      title: TraitDataType
-      description: Enum for trait data types.
+      - speaks_first
+      title: SpeaksFirstConfig
+      description: 'Configuration for whether the digital human speaks first and how.
+
+        Stored as JSONB in Supabase (speaks_first_config).'
+    ScriptedResponse:
+      properties:
+        match_type:
+          $ref: '#/components/schemas/MatchType'
+          description: How match_phrase is compared to the agent's turn. 'exact' is a fuzzy string comparison. Use it when you have the agent's literal line from a transcript, since it is stricter and costs no LLM call. 'context' asks an LLM whether the two utterances mean the same thing. Use it when the agent could phrase the same intent several ways.
+        match_phrase:
+          type: string
+          title: Match Phrase
+          description: 'An utterance the AGENT would say, which releases this response, e.g. ''Can I have your account number?''. Matching compares utterance to utterance, so a description of what the agent is doing (''the agent finished answering and is inviting another question'') never matches anything: the rule saves and silently never fires. Write the line you expect to hear. Empty string is only meaningful when the digital human has scripted_responses_ordered set, where it fires on the digital human''s next turn regardless of what the agent said.'
+        response_type:
+          $ref: '#/components/schemas/src__models__digital_humans__enums__ResponseType'
+          description: 'Type of response: ''phrase'', ''silence'', ''dtmf'', or ''audio'''
+        response_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Response Value
+          description: The response text (required for 'phrase' and 'dtmf', optional for 'silence', unused for 'audio')
+        scripted_response_audio_snippet_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scripted Response Audio Snippet Url
+          description: Skywatch bucket path of an uploaded audio file. AUDIO rows only — the agent downloads and plays this verbatim.
+        occurrence_mode:
+          $ref: '#/components/schemas/OccurrenceMode'
+          description: 'When to apply: ''always'' or ''first_n''. Ignored when the digital human has scripted_responses_ordered set, where every step fires exactly once regardless.'
+        occurrence_n:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Occurrence N
+          description: Number of times to apply (required if occurrence_mode is 'first_n', must be > 0)
+        silence_duration:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Silence Duration
+          description: Duration in seconds for silence period (only used when response_type is 'silence', must be > 0 if provided)
+      type: object
+      required:
+      - match_type
+      - match_phrase
+      - response_type
+      - occurrence_mode
+      title: ScriptedResponse
+      description: Model for a scripted response configuration.
     CreateDigitalHumanRequest:
       properties:
         simulation_ids:
@@ -1277,6 +2018,15 @@ components:
       - digital_human
       title: CreateDigitalHumanRequest
       description: Request model for creating a digital human.
+    SocialEngineeringRedTeamConfig:
+      properties:
+        batches:
+          items:
+            $ref: '#/components/schemas/AttackBatch'
+          type: array
+          title: Batches
+      type: object
+      title: SocialEngineeringRedTeamConfig
     UpdateDigitalHumanRequest:
       properties:
         intent:
@@ -1284,13 +2034,13 @@ components:
           - type: string
           - type: 'null'
           title: Intent
-          description: Description of the digital human
+          description: 'The scenario the digital human enacts, in ONE OR TWO SENTENCES: what this caller wants, not how to behave. It fills one slot in a prompt that ALREADY renders traits, verbosity, fluency, a not-the-agent guardrail and end-of-call instructions, so restating those here is duplicate prompt. Anything shaped like ''if the agent says X, do Y'' does not belong here — prose makes it non-deterministic. Move it: case facts the agent may ask for (member ID, DOB, order number) to `traits`; lines that must be said verbatim, a keypad entry, or a deliberate pause to `scripted_responses`; who opens the call to `speaks_first_config`; voice and call conditions to their own fields; and lower `creativity` for repeatability. If you reach for ''correctly'', ''appropriately'' or ''successfully'' you are describing what the AGENT should do — that goes in `success_criteria`.'
         success_criteria:
           anyOf:
           - type: string
           - type: 'null'
           title: Success Criteria
-          description: Success criteria for the digital human
+          description: 'The pass/fail condition for this one test, in ONE OR TWO observable outcomes the transcript can settle. Not a rubric: a scored checklist, a per-dimension score, or anything you want graded on every call in the suite belongs in a custom metric (`create_custom_metrics`), not in this string. Describe the AGENT''s outcome, never the digital human''s own actions — those are `intent`.'
         name:
           anyOf:
           - type: string
@@ -1303,12 +2053,24 @@ components:
           - type: 'null'
           title: Tag
           description: Tag for categorizing the digital human
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: Full tag list, replacing the current tags; [] clears them. Takes precedence over `tag`, where an empty string leaves tags unchanged.
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/DigitalHumanType'
+          - type: 'null'
+          description: What kind of digital human this is. Set it instead of putting sentinel values in tags; tags are free-form labels. Legacy sentinel tags (e.g. 'voicemail-custom', or 'transcript_generated' + 'smart') still set it when this is omitted.
         language:
           anyOf:
           - $ref: '#/components/schemas/LanguageType'
           - type: 'null'
           description: Language the digital human speaks
-          default: en
         accent:
           anyOf:
           - $ref: '#/components/schemas/AccentType'
@@ -1319,18 +2081,28 @@ components:
           - $ref: '#/components/schemas/GenderType'
           - type: 'null'
           description: Gender of the digital human
+        custom_voice_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Voice Id
+          description: ElevenLabs voice_id of a cloned voice. Send empty string or null to clear and revert to the stock accent voice.
         background_noise:
           anyOf:
           - $ref: '#/components/schemas/BackgroundNoiseType'
           - type: 'null'
           description: Type of background noise
-          default: none
+        custom_background_noise_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Background Noise Url
+          description: Bucket-relative path of the uploaded custom background noise audio; required when background_noise is 'custom'
         voice_speed:
           anyOf:
           - $ref: '#/components/schemas/VoiceSpeedType'
           - type: 'null'
           description: Speed of the digital human's voice
-          default: normal
         audio_quality:
           anyOf:
           - $ref: '#/components/schemas/AudioQualityType'
@@ -1352,12 +2124,24 @@ components:
           - type: 'null'
           title: Phone Number
           description: Phone number for the digital human
+        extension:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Extension
+          description: Extension dialed as DTMF after connecting when this DH calls an inbound agent. Send null or an empty string to clear it.
         outbound_text_number:
           anyOf:
           - type: string
           - type: 'null'
           title: Outbound Text Number
           description: Outbound text number
+        follow_up_sms_success_criteria:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Follow Up Sms Success Criteria
+          description: Criteria the captured follow-up SMS is graded against
         background_noise_volume:
           anyOf:
           - type: number
@@ -1366,7 +2150,6 @@ components:
           - type: 'null'
           title: Background Noise Volume
           description: Volume of background noise
-          default: 0.8
         expected_tool_calls:
           anyOf:
           - items:
@@ -1381,13 +2164,35 @@ components:
           - type: 'null'
           title: Allow End Call Tool
           description: Allow the digital human to end the tool call
+        allow_silence_tool:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow Silence Tool
+          description: Allow the digital human to use the silence tool
+        allow_dtmf_tool:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow Dtmf Tool
+          description: Allow the digital human to use the DTMF tool
+        default_dtmf_or_voiced:
+          anyOf:
+          - $ref: '#/components/schemas/DtmfOrVoicedType'
+          - type: 'null'
+          description: Controls whether the agent submits numerical values via DTMF or voice. 'voiced' = speak numbers (default), 'dtmf' = use DTMF tones for eligible numerical inputs
+        silence_tool_instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Silence Tool Instructions
+          description: Tool instructions; set to "default" for built-in behavior or custom text
         endpointing_delay:
           anyOf:
           - type: number
           - type: 'null'
           title: Endpointing Delay
-          description: Delay for endpointing
-          default: 1.5
+          description: Seconds the digital human waits before it replies. Named patience in the UI, and accepted under either name.
         creativity:
           anyOf:
           - type: number
@@ -1395,8 +2200,7 @@ components:
             minimum: 0.0
           - type: 'null'
           title: Creativity
-          description: How creative the digital human is (Model temperature)
-          default: 0.7
+          description: Model temperature for the digital human's own speech. Lower it (0.0-0.3) when you want the same call twice — regression tests and anything compared run over run. Keep near the 0.7 default for exploratory or red-team cases.
         hangup_phrases:
           anyOf:
           - items:
@@ -1410,21 +2214,7 @@ components:
           - type: string
           - type: 'null'
           title: Hangup Instructions
-          description: Freeform instructions for how/when to hang up
-        allow_silence_tool:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Allow Silence Tool
-          description: Allow the digital human to use the silence tool
-          default: null
-        silence_tool_instructions:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Silence Tool Instructions
-          description: Tool instructions; set to "default" for built-in behavior or custom text
-          default: null
+          description: Freeform instructions for how/when to hang up. Omit the field to leave the stored value alone; send the literal string "default" to reset to the tuned built-in end-of-call behavior, which already handles ordinary goodbyes. Any other string REPLACES it, so write one only for a condition the default would miss.
         silence_timeout:
           anyOf:
           - type: integer
@@ -1443,11 +2233,20 @@ components:
         traits:
           anyOf:
           - items:
-              $ref: '#/components/schemas/Trait'
+              $ref: '#/components/schemas/src__models__traits__trait__Trait'
             type: array
           - type: 'null'
           title: Traits
-          description: List of traits associated with this digital human. If provided, completely replaces existing traits.
+          description: 'Case facts THIS CALLER holds and can recite when the agent asks — member ID, DOB, order number, policy number, zip. Traits are the determinism lever: any case-specific value written into `intent` prose should be a trait instead. NOT a place for internal or agent-side information (what the CRM holds, what the agent should say or look up, expected tool arguments, grader notes) — a caller cannot know those, and the schema has no notion of an internal trait. If provided, updates the listed traits. Unlisted traits stay unless traits_mode is "replace". Call list_digital_humans or get_digital_human first to read stored traits.'
+        traits_mode:
+          anyOf:
+          - type: string
+            enum:
+            - replace
+            - merge
+          - type: 'null'
+          title: Traits Mode
+          description: How `traits` apply when you send traits on an update. Omitted or "merge" upserts only the listed traits by trait_name and keeps every other stored trait. "replace" deletes all stored traits first, then writes only the list — use this to remove traits or to set the full trait set from scratch.
         interruptions:
           anyOf:
           - $ref: '#/components/schemas/SimpleInterruptionConfig'
@@ -1463,18 +2262,24 @@ components:
             type: array
           - type: 'null'
           title: Scripted Responses
-          description: List of scripted responses for the digital human. If provided, completely replaces existing scripted responses.
+          description: The 'if the agent says X, the caller does Y' rules for this test, as data instead of prose — a verbatim line, a keypad entry (DTMF), or a deliberate silence. Writing the same rule into `intent` makes it advisory; putting it here makes it deterministic. If provided, completely replaces existing scripted responses.
+        scripted_responses_ordered:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Scripted Responses Ordered
+          description: 'When true, scripted_responses run as a script in list order: only the next unfired one is armed, each fires once, and a blank match_phrase fires on the digital human''s next turn. When false any scripted response fires whenever its match_phrase comes up.'
         role_description:
           anyOf:
           - type: string
           - type: 'null'
           title: Role Description
-          description: Description of the role for the digital human
+          description: 'Who this caller is, in one short line. Identity and disposition only: what they are calling about is `intent`, the facts they can recite are `traits`, how they sound is language/accent/fluency/verbosity. Never internal or agent-side information — the digital human only knows what a real caller would know.'
         speaks_first_config:
           anyOf:
           - $ref: '#/components/schemas/SpeaksFirstConfig'
           - type: 'null'
-          description: Speaks first configuration for the digital human. If provided, completely replaces existing speaks first config.
+          description: 'Who opens the call, and the caller''s opening line when it must be fixed — owns the opener so `intent` does not have to describe it. Read the `dynamic` field before setting a custom message: on an agent that greets callers, a dynamic custom opener is discarded. If provided, completely replaces existing speaks first config.'
         original_transcript:
           anyOf:
           - type: string
@@ -1514,6 +2319,13 @@ components:
           - type: 'null'
           title: Livekit Metadata
           description: LiveKit-specific configuration and metadata for this digital human. If provided, completely replaces existing metadata.
+        provider_request_data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provider Request Data
+          description: Per-digital-human variables handed to the provider when it originates the call (Bland request_data, Vapi variableValues, Retell dynamic variables). Overrides the agent's template. If provided, completely replaces existing data; pass {} to clear.
         always_on_mode:
           anyOf:
           - type: boolean
@@ -1526,6 +2338,20 @@ components:
           - type: 'null'
           title: Always On Active
           description: When true, this DH actively receives calls on phone_number; when false, number is assigned but inactive
+        test_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Test Name
+          description: User-facing label for this digital human
+        journey_steps:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JourneyStep'
+            type: array
+          - type: 'null'
+          title: Journey Steps
+          description: Ordered journey steps. If provided, completely replaces existing journey steps.
         override_conflict:
           anyOf:
           - type: boolean
@@ -1533,25 +2359,422 @@ components:
           title: Override Conflict
           description: When true, allows activation to replace an existing always-on active DH using the same phone number.
           default: false
+        system_prompt_rule_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: System Prompt Rule Ids
+          description: Ids of the system-prompt rules this digital human covers, from generate.
+        system_prompt_rule_quotes:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: System Prompt Rule Quotes
+          description: The quoted system-prompt rules this digital human covers, shown on its card.
+        workflow_v2_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Workflow V2 Id
+          description: Source workflow_v2 UUID — set when this DH is generated from a workflow
+        workflow_path_index:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Workflow Path Index
+          description: 0-based path index within enumerate_workflow_v2_paths output
+        tested_path:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tested Path
+          description: Ordered names of the workflow path steps this DH was generated from (Generate-From-Workflow only).
+        attack_vector:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attack Vector
+          description: Attack tactic key from VECTOR_CATALOG. NULL for non-red-team.
+        attack_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attack Type
+          description: Umbrella attack category (recon | social_engineering | prompt_injection | audio_native).
+        attack_plan:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Attack Plan
+          description: Crescendo escalation ladder {objective, breach_predicate, ladder}.
       type: object
       title: UpdateDigitalHumanRequest
-      description: Request model for updating a digital human - contains only the digital human data.
-    SimpleInterruptionConfig:
+      description: 'Request model for updating a digital human — only provided fields are changed.
+
+
+        Every field must default to None: a non-None default gets filled in by Pydantic
+
+        on partial payloads and silently overwrites the stored value on every update
+
+        (MCP, bluejay-as-code, and FE bulk edits all send partial payloads).'
+    BackgroundNoiseType:
+      type: string
+      enum:
+      - none
+      - office
+      - talking
+      - traffic
+      - cafe
+      - park
+      - tv
+      - noisy_restaurant
+      - hospital
+      - airport
+      - birdsong
+      - bus_station
+      - car_interior
+      - city_night
+      - city_traffic
+      - construction
+      - driving
+      - factory
+      - hotel_lobby
+      - hotel_restaurant
+      - keyboard_typing
+      - light_rain
+      - night_insects
+      - office_open_plan
+      - playground
+      - pub
+      - quiet_home
+      - rain
+      - restaurant_busy
+      - restaurant_party
+      - road_traffic
+      - school
+      - shopping_centre
+      - street
+      - subway_station
+      - subway_train
+      - supermarket
+      - thunderstorm
+      - train_station
+      - urban
+      - urban_park
+      - wind
+      - kitchen
+      - living_room
+      - meeting_room
+      - small_office
+      - cafeteria
+      - restaurant
+      - town_square
+      - bus_ride
+      - babble_light
+      - babble_crowd
+      - custom
+      title: BackgroundNoiseType
+      description: Enum for background noise options.
+    TraitDataType:
+      type: string
+      enum:
+      - BOOLEAN
+      - STRING
+      - DATE
+      - NUMBER
+      title: TraitDataType
+      description: Enum for trait data types.
+    GenerateObjectivesResponse:
+      properties:
+        objectives:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Objectives
+          description: The generated objectives as a formatted string
+        test_case_id:
+          type: integer
+          title: Test Case Id
+          description: ID of the test case
+      type: object
+      required:
+      - test_case_id
+      title: GenerateObjectivesResponse
+      description: Response model for generating objectives.
+    BulkDeleteDigitalHumansResponse:
+      properties:
+        deleted:
+          items:
+            $ref: '#/components/schemas/DigitalHumanResponseData'
+          type: array
+          title: Deleted
+          description: Successfully deleted digital humans
+        errors:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Errors
+          description: Errors for items that failed to delete, with id and detail
+      type: object
+      title: BulkDeleteDigitalHumansResponse
+      description: Response model for bulk digital human deletion.
+    GenerateFormattedTranscriptRequest:
+      properties:
+        original_transcript:
+          type: string
+          title: Original Transcript
+          description: Raw transcript in any format
+      type: object
+      required:
+      - original_transcript
+      title: GenerateFormattedTranscriptRequest
+    BulkCreateDigitalHumansResponse:
+      properties:
+        created:
+          items:
+            $ref: '#/components/schemas/src__models__digital_humans__digital_human_response__DigitalHumanResponse'
+          type: array
+          title: Created
+          description: Successfully created digital humans
+        errors:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Errors
+          description: Errors for items that failed to create, with index and detail
+      type: object
+      title: BulkCreateDigitalHumansResponse
+      description: Response model for bulk digital human creation.
+    KeywordsInterruptionConfig:
       properties:
         type:
           type: string
-          enum:
-          - none
-          - low
-          - medium
-          - high
+          const: keywords
           title: Type
-          description: 'Interruption level: none, low, medium, or high'
+          description: Type discriminator for keywords interruption (required)
+        keyword_responses:
+          items:
+            $ref: '#/components/schemas/KeywordResponse'
+          type: array
+          title: Keyword Responses
+          description: Array of keyword response objects, each with keyword, response, and optional probability
       type: object
       required:
       - type
-      title: Default
-      description: Simple interruption configuration with predefined levels.
+      - keyword_responses
+      title: Keywords
+      description: Keywords-based interruption configuration.
+    LanguageType:
+      type: string
+      enum:
+      - en
+      - es
+      - pt
+      - ja
+      - tr
+      - hi
+      - ar
+      - he
+      - ru
+      - zh
+      - ml
+      - fr
+      - yue
+      - vi
+      - de
+      - ko
+      - ur
+      - te
+      - ta
+      - mal
+      - kn
+      - mr
+      - gu
+      - tl
+      - el
+      - ad
+      title: LanguageType
+      description: Enum for supported language types.
+    GenerateIntentSummaryResponse:
+      properties:
+        intent_summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Intent Summary
+          description: The generated intent summary, or null if intent is short
+        test_case_id:
+          type: integer
+          title: Test Case Id
+          description: ID of the test case
+        skipped:
+          type: boolean
+          title: Skipped
+          description: True if summary was skipped because intent is short
+          default: false
+      type: object
+      required:
+      - test_case_id
+      title: GenerateIntentSummaryResponse
+      description: Response model for generating intent summary.
+    DtmfOrVoicedType:
+      type: string
+      enum:
+      - voiced
+      - dtmf
+      title: DtmfOrVoicedType
+      description: Enum for DTMF vs voiced input mode.
+    KeywordResponse:
+      properties:
+        keyword:
+          type: string
+          title: Keyword
+          description: The keyword to listen for and interrupt on
+        response:
+          type: string
+          title: Response
+          description: Response to say when keyword is detected
+        probability:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Probability
+          description: Probability of responding (0.0-1.0) - defaults to 1.0
+          default: 1.0
+      type: object
+      required:
+      - keyword
+      - response
+      title: KeywordResponse
+      description: Model for a keyword response configuration.
+    JourneyStep:
+      properties:
+        step:
+          type: integer
+          minimum: 0.0
+          title: Step
+        intent:
+          type: string
+          title: Intent
+          default: ''
+        success_criteria:
+          type: string
+          title: Success Criteria
+          default: ''
+        modality:
+          type: string
+          enum:
+          - voice
+          - sms
+          title: Modality
+          default: voice
+        direction:
+          anyOf:
+          - type: string
+            enum:
+            - inbound
+            - outbound
+          - type: 'null'
+          title: Direction
+        wait_seconds:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Wait Seconds
+        response_window_seconds:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Response Window Seconds
+        unresponsive:
+          type: boolean
+          title: Unresponsive
+          default: false
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+      type: object
+      required:
+      - step
+      title: JourneyStep
+    GenderType:
+      type: string
+      enum:
+      - male
+      - female
+      title: GenderType
+      description: Enum for gender options.
+    GenerateIntentSummaryRequest:
+      properties:
+        test_case_id:
+          type: integer
+          title: Test Case Id
+          description: ID of the test case
+      type: object
+      required:
+      - test_case_id
+      title: GenerateIntentSummaryRequest
+      description: Request model for generating intent summary.
+    DigitalHumanRunHistoryTotals:
+      properties:
+        simulations:
+          type: integer
+          title: Simulations
+        simulation_runs:
+          type: integer
+          title: Simulation Runs
+        calls:
+          type: integer
+          title: Calls
+        passed:
+          type: integer
+          title: Passed
+        failed:
+          type: integer
+          title: Failed
+        success_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Success Rate
+          description: Percent of graded calls that passed.
+      type: object
+      required:
+      - simulations
+      - simulation_runs
+      - calls
+      - passed
+      - failed
+      title: DigitalHumanRunHistoryTotals
+    BulkUpdateDigitalHumansResponse:
+      properties:
+        updated:
+          items:
+            $ref: '#/components/schemas/src__models__digital_humans__digital_human_response__DigitalHumanResponse'
+          type: array
+          title: Updated
+        errors:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Errors
+          description: Per-item failures, each with digital_human_id, status_code, detail
+      type: object
+      title: BulkUpdateDigitalHumansResponse
     GenerateFormattedTranscriptResponse:
       properties:
         formatted_transcript:
@@ -1576,59 +2799,828 @@ components:
       - formatted_transcript
       - description
       title: GenerateFormattedTranscriptResponse
-    DigitalHumansListResponse:
+    DigitalHumanResponseData:
       properties:
-        digital_humans:
-          items:
-            $ref: '#/components/schemas/DigitalHumanResponseData'
-          type: array
-          title: Digital Humans
-          description: List of digital humans
-        total:
-          type: integer
-          title: Total
-          description: Total number of digital humans
-        simulation_id:
-          type: integer
-          title: Simulation Id
-          description: ID of the simulation
-      type: object
-      required:
-      - digital_humans
-      - total
-      - simulation_id
-      title: DigitalHumansListResponse
-      description: Response model for listing digital humans by simulation.
-    KeywordsInterruptionConfig:
-      properties:
-        type:
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+          description: Unique identifier for the digital human
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bluejay As Code Id
+          description: Stable code-addressable identifier
+        intent:
           type: string
-          const: keywords
-          title: Type
-          description: Type discriminator for keywords interruption (required)
-        keyword_responses:
-          items:
-            $ref: '#/components/schemas/KeywordResponse'
-          type: array
-          title: Keyword Responses
-          description: Array of keyword response objects, each with keyword, response, and optional probability
+          title: Intent
+          description: Description of the digital human
+        success_criteria:
+          type: string
+          title: Success Criteria
+          description: Success criteria for the digital human
+        tag:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tag
+          description: Tag for categorizing the digital human
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: All tags associated with the digital human
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/DigitalHumanType'
+          - type: 'null'
+          description: What kind of digital human this is (voicemail_custom, replay_smart, scenario, ...); null for a standard one
+        system_prompt_rule_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: System Prompt Rule Ids
+          description: Ids of the system-prompt rules this digital human covers.
+        system_prompt_rule_quotes:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: System Prompt Rule Quotes
+          description: The quoted system-prompt rules this digital human covers.
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the digital human
+        language:
+          anyOf:
+          - $ref: '#/components/schemas/LanguageType'
+          - type: 'null'
+          description: Language of the digital human
+        accent:
+          anyOf:
+          - $ref: '#/components/schemas/AccentType'
+          - type: 'null'
+          description: Accent of the digital human
+        gender:
+          anyOf:
+          - $ref: '#/components/schemas/GenderType'
+          - type: 'null'
+          description: Gender of the digital human
+        custom_voice_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Voice Id
+          description: ElevenLabs voice_id of a cloned voice used for TTS, if assigned
+        background_noise:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Background Noise
+          description: Type of background noise
+        custom_background_noise_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Background Noise Url
+          description: Bucket-relative path of the uploaded custom background noise audio when background_noise is 'custom'
+        voice_speed:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Speed
+          description: Speed of the digital human's voice
+        audio_quality:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Quality
+          description: Audio quality of the digital human's voice
+        fluency:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fluency
+          description: Fluency level of the digital human's speech
+        verbosity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Verbosity
+          description: Verbosity level of the digital human's responses
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number for the digital human
+        extension:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Extension
+          description: Extension dialed as DTMF after connecting when this DH calls an inbound agent
+        outbound_text_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outbound Text Number
+          description: Outbound text number
+        follow_up_sms_success_criteria:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Follow Up Sms Success Criteria
+          description: Criteria the captured follow-up SMS is graded against
+        websocket_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Websocket Url
+          description: WebSocket URL for real-time communication
+        background_noise_volume:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Background Noise Volume
+          description: Volume of background noise
+        expected_tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ExpectedToolCall'
+            type: array
+          - type: 'null'
+          title: Expected Tool Calls
+          description: Expected tool calls
+        allow_end_call_tool:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow End Call Tool
+          description: Allow the digital human to end the tool call
+          default: true
+        allow_silence_tool:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow Silence Tool
+          description: Allow the digital human to use the silence tool
+          default: true
+        allow_dtmf_tool:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow Dtmf Tool
+          description: Allow the digital human to use the DTMF tool
+          default: true
+        default_dtmf_or_voiced:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Default Dtmf Or Voiced
+          default: voiced
+        silence_tool_instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Silence Tool Instructions
+          description: Tool instructions; "default" or custom text
+          default: default
+        endpointing_delay:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Endpointing Delay
+          description: Delay for endpointing
+        creativity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Creativity
+          description: Temperature setting
+        hangup_phrases:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Hangup Phrases
+          description: Phrases that trigger hangup
+        hangup_instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Hangup Instructions
+          description: Freeform instructions for how/when to hang up
+        silence_timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Silence Timeout
+          description: Silence timeout in seconds
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+          description: Description of the role for the digital human
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+          description: When this digital human was created
+        traits:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Trait-Output'
+            type: array
+          - type: 'null'
+          title: Traits
+          description: List of traits associated with this digital human
+        interruptions:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Interruptions
+          description: Interruption configuration for the digital human
+        scripted_responses:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ScriptedResponse'
+            type: array
+          - type: 'null'
+          title: Scripted Responses
+          description: List of scripted responses for the digital human, in the order they were saved
+        scripted_responses_ordered:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Scripted Responses Ordered
+          description: When true, scripted_responses run as a script in list order (each fires once, next one arms); when false any one fires whenever its match_phrase comes up
+          default: false
+        speaks_first_config:
+          anyOf:
+          - $ref: '#/components/schemas/SpeaksFirstConfig'
+          - type: 'null'
+          description: 'Speaks first config: speaks_first, mode (custom|ai_generated), message (when custom), dynamic (wait for the agent, open only if quiet; defaults true)'
+        original_transcript:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Original Transcript
+          description: The original transcript text attached to this digital human
+        formatted_transcript:
+          anyOf:
+          - items:
+              additionalProperties:
+                type: string
+              type: object
+            type: array
+          - type: 'null'
+          title: Formatted Transcript
+          description: 'Structured transcript as [{"role": "USER"|"AGENT", "utterance": "..."}]'
+        enriched_playback:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Enriched Playback
+          description: 'Optional enriched playback stored as JSONB: a list of turn objects'
+        workflow_v2_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Workflow V2 Id
+          description: Source workflow_v2 UUID — set when this DH is generated from a workflow
+        workflow_path_index:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Workflow Path Index
+          description: 0-based path index within enumerate_workflow_v2_paths output
+        tested_path:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tested Path
+          description: Ordered names of the workflow path steps this DH was generated from (Generate-From-Workflow only).
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+          description: LiveKit-specific configuration and metadata for this digital human
+        provider_request_data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provider Request Data
+          description: Per-digital-human variables handed to the provider when it originates the call
+        test_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Test Name
+          description: User-facing label for this digital human
+        journey_steps:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JourneyStep'
+            type: array
+          - type: 'null'
+          title: Journey Steps
+          description: Ordered journey steps for a multi-step (Customer Journey) digital human
+        always_on_mode:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Always On Mode
+          description: Whether always-on mode is enabled
+        always_on_active:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Always On Active
+          description: When true, this DH actively receives inbound calls on phone_number
+          default: false
+        num_runs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Num Runs
+          description: Number of times this digital human is run per simulation run
+          default: 1
+        attack_vector:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attack Vector
+          description: Attack tactic key from VECTOR_CATALOG. NULL for non-red-team.
+        attack_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attack Type
+          description: Umbrella attack category. NULL for non-red-team.
+        attack_plan:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Attack Plan
+          description: Crescendo escalation ladder. NULL for non-red-team.
       type: object
       required:
-      - type
-      - keyword_responses
-      title: Keywords
-      description: Keywords-based interruption configuration.
-    src__models__digital_humans__enums__ResponseType:
-      type: string
-      enum:
-      - phrase
-      - silence
-      - dtmf
-      title: ResponseType
-      description: Enum for scripted response types.
+      - intent
+      - success_criteria
+      title: DigitalHumanResponseData
+      description: Response model for digital human data.
+    DigitalHumanRequestData:
+      properties:
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bluejay As Code Id
+          description: Stable code-addressable identifier
+        intent:
+          type: string
+          title: Intent
+          description: 'The scenario the digital human enacts, in ONE OR TWO SENTENCES: what this caller wants, not how to behave. It fills one slot in a prompt that ALREADY renders traits, verbosity, fluency, a not-the-agent guardrail and end-of-call instructions, so restating those here is duplicate prompt. Anything shaped like ''if the agent says X, do Y'' does not belong here — it belongs in a field, and prose makes it non-deterministic. Move it: case facts the agent may ask for (member ID, DOB, order number, policy number) to `traits`; lines that must be said verbatim, a keypad entry, or a deliberate pause to `scripted_responses`; who opens the call to `speaks_first_config`; language, accent, fluency, verbosity, background noise, audio quality, interruptions, hangup and silence behavior to their own fields; and lower `creativity` for repeatability. If you reach for ''correctly'', ''appropriately'' or ''successfully'' you are describing what the AGENT should do — that goes in `success_criteria`, not here. Leave empty when enriched_playback is set; the agent uses playback instead.'
+          default: ''
+        success_criteria:
+          type: string
+          title: Success Criteria
+          description: 'The pass/fail condition for this one test, in ONE OR TWO observable outcomes the transcript can settle (e.g. ''the agent verified the member ID and booked a callback''). It is not a rubric: a scored checklist, a per-dimension score, or a condition you want graded on every call in the suite belongs in a custom metric (`create_custom_metrics`) attached to the simulation, not in this string. Describe the AGENT''s outcome here, never the digital human''s own actions — those are `intent`. Leave empty when enriched_playback is set; the agent uses playback instead.'
+          default: ''
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the digital human
+        tag:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tag
+          description: Tag for categorizing the digital human
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: Full tag list (takes precedence over `tag`). Free-form labels; use `type` for voicemail, replay and the other kinds.
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/DigitalHumanType'
+          - type: 'null'
+          description: What kind of digital human this is. Set it instead of putting sentinel values in tags; tags are free-form labels. Legacy sentinel tags (e.g. 'voicemail-custom', or 'transcript_generated' + 'smart') still set it when this is omitted.
+        system_prompt_rule_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: System Prompt Rule Ids
+          description: Ids of the system-prompt rules this digital human covers, from generate.
+        system_prompt_rule_quotes:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: System Prompt Rule Quotes
+          description: The quoted system-prompt rules this digital human covers, shown on its card.
+        language:
+          anyOf:
+          - $ref: '#/components/schemas/LanguageType'
+          - type: 'null'
+          description: Language the digital human speaks
+          default: en
+        accent:
+          anyOf:
+          - $ref: '#/components/schemas/AccentType'
+          - type: 'null'
+          description: Accent of the digital human
+        gender:
+          anyOf:
+          - $ref: '#/components/schemas/GenderType'
+          - type: 'null'
+          description: Gender of the digital human
+        custom_voice_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Voice Id
+          description: ElevenLabs voice_id of a cloned voice. When set, the agent speaks with this voice instead of the accent's stock voice (language/accent still drive prompts and STT).
+        background_noise:
+          anyOf:
+          - $ref: '#/components/schemas/BackgroundNoiseType'
+          - type: 'null'
+          description: Type of background noise
+          default: none
+        custom_background_noise_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Background Noise Url
+          description: Bucket-relative path of the uploaded custom background noise audio; required when background_noise is 'custom'
+        voice_speed:
+          anyOf:
+          - $ref: '#/components/schemas/VoiceSpeedType'
+          - type: 'null'
+          description: Speed of the digital human's voice
+          default: normal
+        audio_quality:
+          anyOf:
+          - $ref: '#/components/schemas/AudioQualityType'
+          - type: 'null'
+          description: Audio quality of the digital human's voice
+          default: high
+        fluency:
+          anyOf:
+          - $ref: '#/components/schemas/FluencyType'
+          - type: 'null'
+          description: Fluency level of the digital human's speech
+          default: native
+        verbosity:
+          anyOf:
+          - $ref: '#/components/schemas/VerbosityType'
+          - type: 'null'
+          description: Verbosity level of the digital human's responses
+          default: medium
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number for the digital human
+        extension:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Extension
+          description: Extension dialed as DTMF after connecting when this DH calls an inbound agent
+        outbound_text_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outbound Text Number
+          description: Outbound text number
+        follow_up_sms_success_criteria:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Follow Up Sms Success Criteria
+          description: Criteria the captured follow-up SMS is graded against
+        background_noise_volume:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Background Noise Volume
+          description: Volume of background noise
+          default: 0.8
+        expected_tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ExpectedToolCall'
+            type: array
+          - type: 'null'
+          title: Expected Tool Calls
+          description: Expected tool call outputs
+        allow_end_call_tool:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow End Call Tool
+          description: Allow the digital human to end the tool call
+          default: true
+        allow_silence_tool:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow Silence Tool
+          description: Allow the digital human to use the silence tool
+          default: true
+        allow_dtmf_tool:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow Dtmf Tool
+          description: Allow the digital human to use the DTMF tool
+          default: true
+        default_dtmf_or_voiced:
+          anyOf:
+          - $ref: '#/components/schemas/DtmfOrVoicedType'
+          - type: 'null'
+          default: voiced
+        silence_tool_instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Silence Tool Instructions
+          description: Tool instructions; use "default" for built-in behavior or custom text
+          default: default
+        endpointing_delay:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Endpointing Delay
+          description: Seconds the digital human waits before it replies. Named patience in the UI, and accepted under either name.
+          default: 1.5
+        creativity:
+          anyOf:
+          - type: number
+            maximum: 2.0
+            minimum: 0.0
+          - type: 'null'
+          title: Creativity
+          description: Model temperature for the digital human's own speech. Lower it (0.0-0.3) when you want the same call twice — regression tests and anything you will compare run over run. Keep it near the 0.7 default for exploratory or red-team cases.
+          default: 0.7
+        hangup_phrases:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Hangup Phrases
+          description: Phrases that trigger hangup
+        hangup_instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Hangup Instructions
+          description: Freeform instructions for how/when to hang up. The literal string "default" (or null) keeps the tuned built-in end-of-call behavior, which already handles ordinary goodbyes; any other string REPLACES it, so write one only for a condition the default would miss.
+        silence_timeout:
+          anyOf:
+          - type: integer
+            minimum: 15.0
+          - type: 'null'
+          title: Silence Timeout
+          description: Silence timeout in seconds
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+          description: Who this caller is, in one short line (e.g. 'retiree on a family plan, not comfortable with phone menus'). It owns identity and disposition only. What they are calling about is `intent`; the facts they can recite are `traits`; how they sound is language/accent/fluency/verbosity. Never put internal or agent-side information here — the digital human only knows what a real caller would know.
+        traits:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/src__models__traits__trait__Trait'
+            type: array
+          - type: 'null'
+          title: Traits
+          description: 'Case facts THIS CALLER holds and can recite when the agent asks — member ID, DOB, order number, policy number, zip. Each is an org-level trait (name + BOOLEAN/STRING/DATE/NUMBER type + value), so the same fact stays a stable fixture across the suite instead of a number the model invents mid-call. Traits are the determinism lever: any case-specific value mentioned in `intent` prose should be a trait instead. They are NOT a place for internal or agent-side information (what the CRM holds, what the agent should look up or say, expected tool arguments, notes for the grader) — the schema has no notion of an internal trait, and a caller cannot know those. Expected tool arguments go in `expected_tool_calls`; grading notes go in `success_criteria` or a custom metric.'
+        interruptions:
+          anyOf:
+          - $ref: '#/components/schemas/SimpleInterruptionConfig'
+          - $ref: '#/components/schemas/KeywordsInterruptionConfig'
+          - $ref: '#/components/schemas/ContextualInterruptionConfig'
+          - type: 'null'
+          title: Interruptions
+          description: Interruption configuration for the digital human
+        scripted_responses:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ScriptedResponse'
+            type: array
+          - type: 'null'
+          title: Scripted Responses
+          description: 'The ''if the agent says X, the caller does Y'' rules for this test, as data instead of prose. Reach for one whenever a reply must be identical every run: a verbatim line, a keypad entry (DTMF), or a deliberate silence. Each row pairs an agent utterance (`match_phrase`) with the response. Writing the same rule into `intent` makes it advisory; putting it here makes it deterministic.'
+        scripted_responses_ordered:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Scripted Responses Ordered
+          description: 'When true, scripted_responses run as a script in list order: only the next unfired one is armed, each fires once, and a blank match_phrase fires on the digital human''s next turn. When false (default) any scripted response fires whenever its match_phrase comes up.'
+          default: false
+        speaks_first_config:
+          anyOf:
+          - $ref: '#/components/schemas/SpeaksFirstConfig'
+          - type: 'null'
+          description: 'Who opens the call, and the caller''s opening line when it must be fixed. Owns the opener so it does not have to be described in `intent`. Read the `dynamic` field before setting a custom message: on an agent that greets callers, a dynamic custom opener is discarded and never heard.'
+        original_transcript:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Original Transcript
+          description: Original transcript text to replay. When provided (and formatted_transcript not provided), utterances are extracted via LLM and used as the intent.
+        formatted_transcript:
+          anyOf:
+          - items:
+              additionalProperties:
+                type: string
+              type: object
+            type: array
+          - type: 'null'
+          title: Formatted Transcript
+          description: Pre-computed structured transcript as [{role, utterance}]. When provided, skips the format-transcript LLM call.
+        enriched_playback:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Enriched Playback
+          description: 'Workflow playbook v2 (JSON list). Speech steps use type "message" only. User: intent and/or exact_message. Agent: criteria and/or exact_match_text.'
+        workflow_v2_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Workflow V2 Id
+          description: Source workflow_v2 UUID — set when this DH is generated from a workflow
+        workflow_path_index:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Workflow Path Index
+          description: 0-based path index within enumerate_workflow_v2_paths output
+        tested_path:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tested Path
+          description: Ordered names of the workflow path steps this DH was generated from (Generate-From-Workflow only).
+        journey_steps:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JourneyStep'
+            type: array
+          - type: 'null'
+          title: Journey Steps
+        always_on_mode:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Always On Mode
+          description: Whether always-on mode is enabled
+          default: false
+        always_on_active:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Always On Active
+          description: When true, this DH actively receives calls on phone_number. Defaults to True when phone_number is set.
+        num_runs:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Num Runs
+          description: Number of times this digital human is run per simulation run (run count).
+          default: 1
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+          description: LiveKit-specific configuration and metadata for this digital human
+        test_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Test Name
+          description: User-facing label for this digital human
+        attack_vector:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attack Vector
+          description: Attack tactic key from VECTOR_CATALOG. NULL for non-red-team.
+        attack_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attack Type
+          description: Umbrella attack category (recon | social_engineering | prompt_injection | audio_native).
+        attack_plan:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Attack Plan
+          description: Crescendo escalation ladder {objective, breach_predicate, ladder}.
+      type: object
+      title: DigitalHumanRequestData
+      description: Digital human data model for requests (without id and created_at).
+    CustomBackgroundNoise:
+      properties:
+        id:
+          type: string
+          title: Id
+        organization_id:
+          type: string
+          title: Organization Id
+        name:
+          type: string
+          title: Name
+        storage_path:
+          type: string
+          title: Storage Path
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        created_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By
+        usage_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Usage Count
+      type: object
+      required:
+      - id
+      - organization_id
+      - name
+      - storage_path
+      title: CustomBackgroundNoise
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

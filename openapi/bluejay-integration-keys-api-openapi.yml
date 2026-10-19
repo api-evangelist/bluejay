@@ -23,6 +23,22 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: workspace_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Workspace whose integrations to read; defaults to the org's default workspace
+          title: Workspace Id
+        description: Workspace whose integrations to read; defaults to the org's default workspace
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -49,11 +65,24 @@ paths:
 
         Send null to clear a field. Only include fields that changed.
 
-        Prefer POST /update-integrations for a typed, agent-style contract.'
+        Prefer POST /update-integrations for a typed, agent-style contract.
+
+
+        When `ces_wif_config_json` is included in the payload, a background Google
+
+        Agents sync (CES + DFCX) is kicked off fire-and-forget so the credential
+
+        save is never blocked by a potentially slow sync.'
       operationId: patch_integrations_v1_integrations_patch
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -82,6 +111,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -119,6 +154,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -138,49 +179,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/regenerate-livekit-webhook-token:
+    post:
+      tags:
+      - Integration Keys
+      summary: Regenerate Livekit Webhook Token
+      description: Mint a fresh LiveKit webhook token (part of URL) for one workspace, rotating any existing one.
+      operationId: regenerate_livekit_webhook_token_v1_regenerate_livekit_webhook_token_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workspace_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Workspace whose LiveKit webhook token to rotate; defaults to the org's default workspace
+          title: Workspace Id
+        description: Workspace whose LiveKit webhook token to rotate; defaults to the org's default workspace
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegenerateLiveKitTokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
+    RegenerateLiveKitTokenResponse:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        livekit_webhook_token:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Livekit Webhook Token
+          description: The freshly minted per-org webhook token
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    IntegrationKeyResponse:
-      properties:
-        value:
-          type: string
-          title: Value
-          description: The decrypted plaintext value
-      type: object
-      required:
-      - value
-      title: IntegrationKeyResponse
-    IntegrationKeyRequest:
-      properties:
-        field:
-          type: string
-          title: Field
-          description: The secret field name to retrieve
-      type: object
-      required:
-      - field
-      title: IntegrationKeyRequest
+      - livekit_webhook_token
+      title: RegenerateLiveKitTokenResponse
     IntegrationsUpdateResponse:
       properties:
         success:
@@ -207,6 +262,58 @@ components:
       - message
       - integrations
       title: IntegrationsUpdateResponse
+    IntegrationKeyResponse:
+      properties:
+        value:
+          type: string
+          title: Value
+          description: The decrypted plaintext value
+      type: object
+      required:
+      - value
+      title: IntegrationKeyResponse
+    IntegrationKeyRequest:
+      properties:
+        field:
+          type: string
+          title: Field
+          description: The secret field name to retrieve
+        workspace_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Workspace Id
+          description: Workspace whose integrations row to read; defaults to the org's default workspace
+      type: object
+      required:
+      - field
+      title: IntegrationKeyRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -222,3 +329,7 @@ components:
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

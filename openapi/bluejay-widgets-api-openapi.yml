@@ -1,0 +1,953 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Widgets API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Widgets
+paths:
+  /v1/widgets:
+    get:
+      tags:
+      - Widgets
+      summary: List Widgets
+      description: List all widgets in the organization (with their metrics), newest first.
+      operationId: list_widgets_v1_widgets_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: data_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - observability
+            - simulation
+            type: string
+          - type: 'null'
+          title: Data Type
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WidgetModel'
+                title: Response List Widgets V1 Widgets Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Widgets
+      summary: Create Widget
+      description: Create a widget with its metrics on a dashboard. A widget belongs to exactly one dashboard.
+      operationId: create_widget_v1_widgets_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWidgetBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/widgets/{widget_id}:
+    get:
+      tags:
+      - Widgets
+      summary: Get Widget
+      description: Get one widget with its metrics.
+      operationId: get_widget_v1_widgets__widget_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: widget_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Widget Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Widgets
+      summary: Update Widget
+      description: Replace a widget's configuration and metrics (full replace; data_type cannot change).
+      operationId: update_widget_v1_widgets__widget_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: widget_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Widget Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWidgetBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Widgets
+      summary: Delete Widget
+      description: 'Delete a widget: it leaves its dashboard and its metrics are deleted via cascade.'
+      operationId: delete_widget_v1_widgets__widget_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: widget_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Widget Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/widgets/{widget_id}/duplicate:
+    post:
+      tags:
+      - Widgets
+      summary: Duplicate Widget
+      description: Duplicate a widget ('Copy of ') with its metrics onto a dashboard, which may be a different one from the source's.
+      operationId: duplicate_widget_v1_widgets__widget_id__duplicate_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: widget_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Widget Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DuplicateWidgetBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WidgetModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    WidgetCenterLabelModel:
+      properties:
+        slice:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slice
+          description: Slice whose share fills the hole. Omit for the largest slice.
+        clamp_pct:
+          anyOf:
+          - type: number
+            exclusiveMaximum: 50.0
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Clamp Pct
+          description: 'Collapses the rounding edges: 1 turns 99.6% into ''>99%'' and 0.4% into ''<1%''. An exact 0 or 100 is left alone.'
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: Caption under the percentage
+        benchmark:
+          anyOf:
+          - type: number
+            minimum: 0.0
+          - type: 'null'
+          title: Benchmark
+          description: 'Numeric line and bar charts and histograms: draws a dashed reference line at this value, e.g. a target score. 0 or more, since chart axes start at 0.'
+        compare_previous:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Compare Previous
+          description: 'KPI only: false hides the change against the previous period. Omit to show it.'
+        unit:
+          anyOf:
+          - type: string
+            maxLength: 12
+          - type: 'null'
+          title: Unit
+          description: Shown after values, e.g. "pts". Ignored for metrics with their own unit (latency, duration, %).
+      type: object
+      title: WidgetCenterLabelModel
+      description: 'Pie: what the donut hole says. Numeric charts: a benchmark line and a unit. KPI: the previous-period change.'
+    WidgetMetricModel:
+      properties:
+        metric:
+          type: string
+          title: Metric
+          description: Metric key, e.g. 'call_count', 'latency', 'custom_metric', 'goal', 'tool_call', 'trace_attribute'
+        custom_metric_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Metric Id
+          description: 'Required when metric=''custom_metric'': id from the custom metrics API'
+        goal:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal
+          description: Goal text when metric='goal'
+        tool_call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Call Id
+          description: Required when metric='tool_call'
+        metadata_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadata Path
+          description: Trace attribute path when metric='trace_attribute'
+        threshold_operator:
+          anyOf:
+          - type: string
+            enum:
+            - lt
+            - lte
+            - gt
+            - gte
+          - type: 'null'
+          title: Threshold Operator
+          description: 'With threshold_value: graph the share of conversations meeting the condition instead of the metric''s own value'
+        threshold_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Threshold Value
+          description: Compared against the metric's per-conversation value; set together with threshold_operator
+        metadata_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadata Type
+          description: Trace attribute value type when metric='trace_attribute'
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        widget_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Widget Id
+      type: object
+      required:
+      - metric
+      title: WidgetMetricModel
+    UpdateWidgetBody:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        chart_type:
+          type: string
+          enum:
+          - line
+          - bar
+          - pie
+          - table
+          - kpi
+          - pivot_table
+          - histogram
+          title: Chart Type
+        chart_mode:
+          anyOf:
+          - type: string
+            enum:
+            - time_series
+            - categorical
+          - type: 'null'
+          title: Chart Mode
+        bar_mode:
+          anyOf:
+          - type: string
+            enum:
+            - stacked
+            - side_by_side
+          - type: 'null'
+          title: Bar Mode
+        aggregation:
+          items:
+            type: string
+            enum:
+            - count
+            - average
+            - sum
+            - percent_of_total
+            - p50
+            - p90
+            - p95
+            - p99
+            - percentiles
+            - breakdown
+            - distribution
+          type: array
+          title: Aggregation
+        time_bucket:
+          anyOf:
+          - type: string
+            enum:
+            - hour
+            - day
+            - week
+            - month
+          - type: 'null'
+          title: Time Bucket
+        group_by:
+          anyOf:
+          - type: string
+            enum:
+            - agent
+            - labels
+            - tool_call
+            - age
+            - gender
+            - simulation
+          - type: string
+            pattern: ^metadata:[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*$
+          - type: 'null'
+          title: Group By
+        simulation_ids:
+          items:
+            type: integer
+          type: array
+          title: Simulation Ids
+        show_indeterminate:
+          type: boolean
+          title: Show Indeterminate
+          default: false
+        filters:
+          anyOf:
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Filters
+        column_visibility:
+          anyOf:
+          - additionalProperties:
+              type: boolean
+            type: object
+          - type: 'null'
+          title: Column Visibility
+        color_overrides:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Color Overrides
+        center_label:
+          anyOf:
+          - $ref: '#/components/schemas/WidgetCenterLabelModel'
+          - type: 'null'
+        show_legend:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Show Legend
+        metrics:
+          items:
+            $ref: '#/components/schemas/WidgetMetricInput'
+          type: array
+          title: Metrics
+      type: object
+      required:
+      - name
+      - chart_type
+      title: UpdateWidgetBody
+      description: 'Full-replace update (mirrors the dashboard editor): name, chart_type and
+
+        metrics must always be sent; metrics replace the existing set. data_type is
+
+        immutable after creation.'
+    WidgetMetricInput:
+      properties:
+        metric:
+          type: string
+          title: Metric
+          description: Metric key, e.g. 'call_count', 'latency', 'custom_metric', 'goal', 'tool_call', 'trace_attribute'
+        custom_metric_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Metric Id
+          description: 'Required when metric=''custom_metric'': id from the custom metrics API'
+        goal:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal
+          description: Goal text when metric='goal'
+        tool_call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Call Id
+          description: Required when metric='tool_call'
+        metadata_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadata Path
+          description: Trace attribute path when metric='trace_attribute'
+        threshold_operator:
+          anyOf:
+          - type: string
+            enum:
+            - lt
+            - lte
+            - gt
+            - gte
+          - type: 'null'
+          title: Threshold Operator
+          description: 'With threshold_value: graph the share of conversations meeting the condition instead of the metric''s own value'
+        threshold_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Threshold Value
+          description: Compared against the metric's per-conversation value; set together with threshold_operator
+        metadata_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadata Type
+          description: Trace attribute value type when metric='trace_attribute'
+      type: object
+      required:
+      - metric
+      title: WidgetMetricInput
+      description: One metric plotted by a widget.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DuplicateWidgetBody:
+      properties:
+        dashboard_id:
+          type: string
+          minLength: 1
+          title: Dashboard Id
+          description: Dashboard the copy belongs to
+      type: object
+      required:
+      - dashboard_id
+      title: DuplicateWidgetBody
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CreateWidgetBody:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        chart_type:
+          type: string
+          enum:
+          - line
+          - bar
+          - pie
+          - table
+          - kpi
+          - pivot_table
+          - histogram
+          title: Chart Type
+        chart_mode:
+          anyOf:
+          - type: string
+            enum:
+            - time_series
+            - categorical
+          - type: 'null'
+          title: Chart Mode
+        data_type:
+          type: string
+          enum:
+          - observability
+          - simulation
+          title: Data Type
+          default: observability
+        bar_mode:
+          anyOf:
+          - type: string
+            enum:
+            - stacked
+            - side_by_side
+          - type: 'null'
+          title: Bar Mode
+        aggregation:
+          items:
+            type: string
+            enum:
+            - count
+            - average
+            - sum
+            - percent_of_total
+            - p50
+            - p90
+            - p95
+            - p99
+            - percentiles
+            - breakdown
+            - distribution
+          type: array
+          title: Aggregation
+        time_bucket:
+          anyOf:
+          - type: string
+            enum:
+            - hour
+            - day
+            - week
+            - month
+          - type: 'null'
+          title: Time Bucket
+        group_by:
+          anyOf:
+          - type: string
+            enum:
+            - agent
+            - labels
+            - tool_call
+            - age
+            - gender
+            - simulation
+          - type: string
+            pattern: ^metadata:[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*$
+          - type: 'null'
+          title: Group By
+        simulation_ids:
+          items:
+            type: integer
+          type: array
+          title: Simulation Ids
+          description: Required (non-empty) when group_by='simulation'
+        show_indeterminate:
+          type: boolean
+          title: Show Indeterminate
+          default: false
+        filters:
+          anyOf:
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Filters
+        column_visibility:
+          anyOf:
+          - additionalProperties:
+              type: boolean
+            type: object
+          - type: 'null'
+          title: Column Visibility
+        color_overrides:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Color Overrides
+          description: 'Per-series/per-slice colours as {"<label the chart draws>": "#rrggbb"}. Labels are matched case-insensitively; omitted labels keep the default palette.'
+        center_label:
+          anyOf:
+          - $ref: '#/components/schemas/WidgetCenterLabelModel'
+          - type: 'null'
+          description: 'Chart options: the pie donut hole, a benchmark line on numeric line and bar charts and histograms, a unit, and the KPI previous-period change'
+        show_legend:
+          type: boolean
+          title: Show Legend
+          description: Draw the colour key under the chart (pie, bar and line)
+          default: true
+        metrics:
+          items:
+            $ref: '#/components/schemas/WidgetMetricInput'
+          type: array
+          title: Metrics
+          description: Metrics to plot; required unless chart_type='table'
+        dashboard_id:
+          type: string
+          minLength: 1
+          title: Dashboard Id
+          description: Dashboard the widget belongs to; a widget lives on exactly one dashboard
+      type: object
+      required:
+      - name
+      - chart_type
+      - dashboard_id
+      title: CreateWidgetBody
+      description: 'Create a widget. Non-table charts require at least one metric.
+
+
+        filters apply to any widget type; column_visibility is stored for table + observability only.'
+    WidgetLayoutModel:
+      properties:
+        x:
+          type: integer
+          minimum: 1.0
+          title: X
+          description: Row, 1-based, top to bottom
+        y:
+          type: integer
+          maximum: 6.0
+          minimum: 1.0
+          title: Y
+          description: Column within the row, 1..6
+        w:
+          type: integer
+          maximum: 6.0
+          minimum: 1.0
+          title: W
+          description: Width in columns, 1..6
+        h:
+          type: integer
+          maximum: 18.0
+          minimum: 2.0
+          title: H
+          description: Height in 50px steps, 2..18 (100px..900px)
+      type: object
+      required:
+      - x
+      - y
+      - w
+      - h
+      title: WidgetLayoutModel
+      description: 'Where a widget sits on a dashboard and how big it is.
+
+
+        The field names are older than the grid they describe: x is the row and y is the column, both
+
+        1-based. The dashboard is six columns wide, and height is counted in 50px steps, so h=6 is the
+
+        300px a widget used to be and the range 2..18 is 100px..900px.'
+    WidgetModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        chart_type:
+          type: string
+          title: Chart Type
+        chart_mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chart Mode
+        data_type:
+          type: string
+          title: Data Type
+        applies_to_all_agents:
+          type: boolean
+          title: Applies To All Agents
+          default: true
+        bar_mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bar Mode
+        aggregation:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Aggregation
+        time_bucket:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Time Bucket
+        group_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Group By
+        simulation_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Simulation Ids
+        show_indeterminate:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Show Indeterminate
+        filters:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Filters
+          description: Extra conversation filters applied on top of the dashboard scope
+        column_visibility:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Column Visibility
+          description: 'Table (observability) widgets only: column visibility map'
+        color_overrides:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Color Overrides
+          description: The colour the chart draws each series or slice in, keyed by its label lowercased. Written whole when a widget is saved, so it names every label rather than only the ones a person changed.
+        center_label:
+          anyOf:
+          - $ref: '#/components/schemas/WidgetCenterLabelModel'
+          - type: 'null'
+          description: 'Chart options: the pie donut hole, a benchmark line on numeric line and bar charts and histograms, a unit, and the KPI previous-period change'
+        show_legend:
+          type: boolean
+          title: Show Legend
+          description: Whether the chart draws its colour key
+          default: true
+        created_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Updated At
+        widget_metrics:
+          items:
+            $ref: '#/components/schemas/WidgetMetricModel'
+          type: array
+          title: Widget Metrics
+          default: []
+        layout:
+          anyOf:
+          - $ref: '#/components/schemas/WidgetLayoutModel'
+          - type: 'null'
+          description: Only populated when returned as part of a dashboard
+      type: object
+      required:
+      - id
+      - name
+      - chart_type
+      - data_type
+      title: WidgetModel
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

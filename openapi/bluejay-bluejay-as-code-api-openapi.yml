@@ -1,0 +1,245 @@
+openapi: 3.2.0
+info:
+  title: Bluejay as Code API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Bluejay as Code
+paths:
+  /v1/bluejay-as-code/{root_type}/{root_id}:
+    get:
+      tags:
+      - Bluejay as Code
+      summary: Pull Bluejay As Code
+      operationId: pull_bluejay_as_code_v1_bluejay_as_code__root_type___root_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: root_type
+        in: path
+        required: true
+        schema:
+          enum:
+          - simulation
+          - agent
+          - digital-human
+          - custom-metric
+          type: string
+          title: Root Type
+      - name: root_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Root Id
+      - name: format
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - json
+            - yaml
+            type: string
+          - type: 'null'
+          title: Format
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BluejayAsCodePayload'
+            application/yaml:
+              schema:
+                type: string
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/bluejay-as-code:
+    post:
+      tags:
+      - Bluejay as Code
+      summary: Push Bluejay As Code
+      operationId: push_bluejay_as_code_v1_bluejay_as_code_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BluejayAsCodePayload'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/BluejayAsCodePayload'
+components:
+  schemas:
+    BluejayAsCodePayload:
+      properties:
+        agents:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Agents
+        simulations:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Simulations
+        digital_humans:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Digital Humans
+        custom_metrics:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Custom Metrics
+      type: object
+      required:
+      - agents
+      - simulations
+      - digital_humans
+      - custom_metrics
+      title: BluejayAsCodePayload
+    PushResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+        errors:
+          items:
+            $ref: '#/components/schemas/EntityValidationError'
+          type: array
+          title: Errors
+        actions:
+          items:
+            type: string
+          type: array
+          title: Actions
+          default: []
+        simulation_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Simulation Id
+      type: object
+      required:
+      - valid
+      - errors
+      title: PushResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    EntityValidationError:
+      properties:
+        entity_type:
+          type: string
+          title: Entity Type
+        entity_id:
+          title: Entity Id
+        errors:
+          items:
+            type: string
+          type: array
+          title: Errors
+      type: object
+      required:
+      - entity_type
+      - entity_id
+      - errors
+      title: EntityValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

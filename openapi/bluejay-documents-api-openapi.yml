@@ -1,0 +1,618 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Documents API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Documents
+paths:
+  /v1/document/get-upload-url:
+    post:
+      tags:
+      - Documents
+      summary: Get Upload Url
+      description: Mint a presigned PUT URL. No DB write — document_id is only allocated.
+      operationId: get_upload_url_v1_document_get_upload_url_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUploadUrlRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUploadUrlResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/document:
+    post:
+      tags:
+      - Documents
+      summary: Create Document
+      description: Create the document row and start ingestion. File flow requires a prior PUT to S3.
+      operationId: create_document_v1_document_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/FileDocumentRequest'
+              - $ref: '#/components/schemas/UrlDocumentRequest'
+              - $ref: '#/components/schemas/TextDocumentRequest'
+              title: Body
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentUploadResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/document/{document_id}:
+    get:
+      tags:
+      - Documents
+      summary: Get Document
+      operationId: get_document_v1_document__document_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: document_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Document Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Documents
+      summary: Delete Document
+      operationId: delete_document_v1_document__document_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: document_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Document Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/document/{document_id}/content:
+    get:
+      tags:
+      - Documents
+      summary: Get Document Content
+      description: Return the parsed markdown for a document. Used by the FE preview/edit modal.
+      operationId: get_document_content_v1_document__document_id__content_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: document_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Document Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Documents
+      summary: Update Document Content
+      description: 'Overwrite the parsed content for a typed-text document and re-trigger ingestion.
+
+
+        Only TEXT documents can be edited inline — PDF/URL must be deleted and re-uploaded
+
+        because their canonical source lives outside Bluejay.'
+      operationId: update_document_content_v1_document__document_id__content_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: document_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Document Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDocumentContentRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentUploadResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/document/{document_id}/download:
+    get:
+      tags:
+      - Documents
+      summary: Get Document Download Url
+      description: 'Presigned GET for the original upload. Typed-text and URL documents never stored one, so the
+
+        head check decides rather than the document type.'
+      operationId: get_document_download_url_v1_document__document_id__download_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: document_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Document Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentDownloadResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/document/{document_id}/retry:
+    post:
+      tags:
+      - Documents
+      summary: Retry Document Ingestion
+      description: 'Re-run ingestion for the document''s failed job. The row is reused rather than replaced,
+
+        which is what makes the claim atomic.'
+      operationId: retry_document_ingestion_v1_document__document_id__retry_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: document_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Document Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentUploadResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    UrlDocumentRequest:
+      properties:
+        kind:
+          type: string
+          const: url
+          title: Kind
+          default: url
+        knowledge_base_id:
+          type: string
+          format: uuid
+          title: Knowledge Base Id
+        url:
+          type: string
+          title: Url
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - knowledge_base_id
+      - url
+      title: UrlDocumentRequest
+    GetUploadUrlResponse:
+      properties:
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        upload_url:
+          type: string
+          title: Upload Url
+        filename:
+          type: string
+          title: Filename
+        type:
+          $ref: '#/components/schemas/DocumentType'
+        expires_in_seconds:
+          type: integer
+          title: Expires In Seconds
+      type: object
+      required:
+      - document_id
+      - upload_url
+      - filename
+      - type
+      - expires_in_seconds
+      title: GetUploadUrlResponse
+    DocumentDetailResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        knowledge_base_id:
+          type: string
+          format: uuid
+          title: Knowledge Base Id
+        name:
+          type: string
+          title: Name
+        type:
+          $ref: '#/components/schemas/DocumentType'
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Updated At
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        error_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Code
+      type: object
+      required:
+      - id
+      - knowledge_base_id
+      - name
+      - type
+      title: DocumentDetailResponse
+    UpdateDocumentContentRequest:
+      properties:
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - content
+      title: UpdateDocumentContentRequest
+    DocumentUploadResult:
+      properties:
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        job_id:
+          type: string
+          format: uuid
+          title: Job Id
+        status:
+          type: string
+          title: Status
+        error_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Code
+      type: object
+      required:
+      - document_id
+      - job_id
+      - status
+      title: DocumentUploadResult
+    TextDocumentRequest:
+      properties:
+        kind:
+          type: string
+          const: text
+          title: Kind
+          default: text
+        knowledge_base_id:
+          type: string
+          format: uuid
+          title: Knowledge Base Id
+        name:
+          type: string
+          title: Name
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - knowledge_base_id
+      - name
+      - content
+      title: TextDocumentRequest
+    FileDocumentRequest:
+      properties:
+        kind:
+          type: string
+          const: file
+          title: Kind
+          default: file
+        document_id:
+          type: string
+          format: uuid
+          title: Document Id
+        knowledge_base_id:
+          type: string
+          format: uuid
+          title: Knowledge Base Id
+        filename:
+          type: string
+          title: Filename
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - document_id
+      - knowledge_base_id
+      - filename
+      title: FileDocumentRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DocumentType:
+      type: string
+      enum:
+      - PDF
+      - TEXT
+      - URL
+      title: DocumentType
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DocumentDownloadResponse:
+      properties:
+        url:
+          type: string
+          title: Url
+        filename:
+          type: string
+          title: Filename
+        expires_in_seconds:
+          type: integer
+          title: Expires In Seconds
+      type: object
+      required:
+      - url
+      - filename
+      - expires_in_seconds
+      title: DocumentDownloadResponse
+    GetUploadUrlRequest:
+      properties:
+        knowledge_base_id:
+          type: string
+          format: uuid
+          title: Knowledge Base Id
+        filename:
+          type: string
+          title: Filename
+      type: object
+      required:
+      - knowledge_base_id
+      - filename
+      title: GetUploadUrlRequest
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

@@ -1,0 +1,146 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Google Dfcx API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: google_dfcx
+paths:
+  /v1/integrations/google-dfcx/mint-token:
+    post:
+      tags:
+      - google_dfcx
+      summary: Mint Token
+      operationId: mint_token_v1_integrations_google_dfcx_mint_token_post
+      parameters:
+      - name: X-Webhook-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Webhook-Secret
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MintTokenRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__api__integrations__google_dfcx__google_dfcx__MintTokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    MintTokenRequest:
+      properties:
+        organization_id:
+          type: string
+          title: Organization Id
+        sim_conversation_id:
+          type: integer
+          title: Sim Conversation Id
+      type: object
+      required:
+      - organization_id
+      - sim_conversation_id
+      title: MintTokenRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    src__api__integrations__google_dfcx__google_dfcx__MintTokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        expires_at:
+          type: number
+          title: Expires At
+        project_id:
+          type: string
+          title: Project Id
+        location:
+          type: string
+          title: Location
+        agent_id:
+          type: string
+          title: Agent Id
+        dfcx_host:
+          type: string
+          title: Dfcx Host
+        session_id:
+          type: string
+          title: Session Id
+      type: object
+      required:
+      - access_token
+      - expires_at
+      - project_id
+      - location
+      - agent_id
+      - dfcx_host
+      - session_id
+      title: MintTokenResponse
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

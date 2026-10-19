@@ -1,0 +1,238 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Voice Clones API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Voice Clones
+paths:
+  /v1/voice-clones:
+    post:
+      tags:
+      - Voice Clones
+      summary: Create Voice Clone
+      description: Clone a voice from one or more audio clips via ElevenLabs Instant Voice Cloning.
+      operationId: create_voice_clone_v1_voice_clones_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_create_voice_clone_v1_voice_clones_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Voice Clone V1 Voice Clones Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Voice Clones
+      summary: List Voice Clones
+      description: List the cloned voices owned by the caller's organization.
+      operationId: list_voice_clones_v1_voice_clones_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Voice Clones V1 Voice Clones Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/voice-clones/{voice_id}/preview:
+    post:
+      tags:
+      - Voice Clones
+      summary: Preview Voice Clone
+      description: Render a TTS preview; mixes bundled ambience for generated voices.
+      operationId: preview_voice_clone_v1_voice_clones__voice_id__preview_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: voice_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Voice Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/voice-clones/{voice_id}:
+    delete:
+      tags:
+      - Voice Clones
+      summary: Delete Voice Clone
+      description: Delete a cloned voice from ElevenLabs — only if it belongs to the caller's org.
+      operationId: delete_voice_clone_v1_voice_clones__voice_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: voice_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Voice Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Delete Voice Clone V1 Voice Clones  Voice Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_create_voice_clone_v1_voice_clones_post:
+      properties:
+        name:
+          type: string
+          title: Name
+        files:
+          items:
+            type: string
+            contentMediaType: application/octet-stream
+          type: array
+          title: Files
+      type: object
+      required:
+      - name
+      - files
+      title: Body_create_voice_clone_v1_voice_clones_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

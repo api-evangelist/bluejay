@@ -146,21 +146,6 @@ apis:
     url: https://docs.getbluejay.ai/
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-check-queue-simulation-run-api
-  name: Bluejay Check Queue Simulation Run API
-  description: The Check Queue Simulation Run API from Bluejay — 1 operation(s) for check queue simulation
-    run.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Check Queue Simulation Run
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-check-queue-simulation-run-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-communities-api
   name: Bluejay Communities API
   description: The Communities API from Bluejay — 5 operation(s) for communities.
@@ -179,7 +164,8 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-compare-experiment-runs-api
   name: Bluejay Compare Experiment Runs API
-  description: The Compare Experiment Runs API from Bluejay — 1 operation(s) for compare experiment runs.
+  description: >-
+    The Compare Experiment Runs API from Bluejay — 1 operation(s) for compare experiment runs.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -201,20 +187,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bluejay-create-schedule-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-create-simulation-api
-  name: Bluejay Create Simulation API
-  description: The Create Simulation API from Bluejay — 1 operation(s) for create simulation.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Create Simulation
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-create-simulation-api-openapi.yml
   - type: Documentation
     url: https://docs.getbluejay.ai/
   - type: APIReference
@@ -345,24 +317,10 @@ apis:
     url: https://docs.getbluejay.ai/
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-generate-custom-metrics-api
-  name: Bluejay Generate Custom Metrics API
-  description: The Generate Custom Metrics API from Bluejay — 1 operation(s) for generate custom metrics.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Generate Custom Metrics
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-generate-custom-metrics-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-generate-customer-personas-api
   name: Bluejay Generate Customer Personas API
-  description: The Generate Customer Personas API from Bluejay — 1 operation(s) for generate customer
-    personas.
+  description: >-
+    The Generate Customer Personas API from Bluejay — 1 operation(s) for generate customer personas.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -374,23 +332,10 @@ apis:
     url: https://docs.getbluejay.ai/
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-generate-digital-humans-api
-  name: Bluejay Generate Digital Humans API
-  description: The Generate Digital Humans API from Bluejay — 1 operation(s) for generate digital humans.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Generate Digital Humans
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-generate-digital-humans-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-generate-test-scenarios-api
   name: Bluejay Generate Test Scenarios API
-  description: The Generate Test Scenarios API from Bluejay — 1 operation(s) for generate test scenarios.
+  description: >-
+    The Generate Test Scenarios API from Bluejay — 1 operation(s) for generate test scenarios.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -404,8 +349,8 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-generate-translated-transcript-api
   name: Bluejay Generate Translated Transcript API
-  description: The Generate Translated Transcript API from Bluejay — 1 operation(s) for generate translated
-    transcript.
+  description: >-
+    The Generate Translated Transcript API from Bluejay — 1 operation(s) for generate translated transcript.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -413,48 +358,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bluejay-generate-translated-transcript-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-get-all-simulations-api
-  name: Bluejay Get All Simulations API
-  description: The Get All Simulations API from Bluejay — 1 operation(s) for get all simulations.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Get All Simulations
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-get-all-simulations-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-get-simulation-runs-api
-  name: Bluejay Get Simulation Runs API
-  description: The Get Simulation Runs API from Bluejay — 1 operation(s) for get simulation runs.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Get Simulation Runs
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-get-simulation-runs-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-get-simulations-by-agent-api
-  name: Bluejay Get Simulations By Agent API
-  description: The Get Simulations By Agent API from Bluejay — 1 operation(s) for get simulations by agent.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Get Simulations By Agent
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-get-simulations-by-agent-api-openapi.yml
   - type: Documentation
     url: https://docs.getbluejay.ai/
   - type: APIReference
@@ -545,7 +448,8 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-move-regen-test-scenarios-api
   name: Bluejay Move Regen Test Scenarios API
-  description: The Move Regen Test Scenarios API from Bluejay — 1 operation(s) for move regen test scenarios.
+  description: >-
+    The Move Regen Test Scenarios API from Bluejay — 1 operation(s) for move regen test scenarios.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -573,7 +477,8 @@ apis:
     url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-phone-number-management-api
   name: Bluejay Phone Number Management API
-  description: The Phone Number Management API from Bluejay — 2 operation(s) for phone number management.
+  description: >-
+    The Phone Number Management API from Bluejay — 2 operation(s) for phone number management.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -697,25 +602,10 @@ apis:
     url: https://docs.getbluejay.ai/
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-retrieve-simulation-result-api
-  name: Bluejay Retrieve Simulation Result API
-  description: The Retrieve Simulation Result API from Bluejay — 1 operation(s) for retrieve simulation
-    result.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Retrieve Simulation Result
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-retrieve-simulation-result-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-retrieve-simulation-results-api
   name: Bluejay Retrieve Simulation Results API
-  description: The Retrieve Simulation Results API from Bluejay — 1 operation(s) for retrieve simulation
-    results.
+  description: >-
+    The Retrieve Simulation Results API from Bluejay — 1 operation(s) for retrieve simulation results.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
@@ -723,20 +613,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bluejay-retrieve-simulation-results-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-send-text-api
-  name: Bluejay Send Text API
-  description: The Send Text API from Bluejay — 1 operation(s) for send text.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Send Text
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-send-text-api-openapi.yml
   - type: Documentation
     url: https://docs.getbluejay.ai/
   - type: APIReference
@@ -913,20 +789,6 @@ apis:
     url: https://docs.getbluejay.ai/
   - type: APIReference
     url: https://docs.getbluejay.ai/api-reference/introduction
-- aid: bluejay:bluejay-workflows-api
-  name: Bluejay Workflows API
-  description: The Workflows API from Bluejay — 3 operation(s) for workflows.
-  humanURL: https://docs.getbluejay.ai/api-reference/introduction
-  baseURL: https://api.getbluejay.ai
-  tags:
-  - Workflows
-  properties:
-  - type: OpenAPI
-    url: openapi/bluejay-workflows-api-openapi.yml
-  - type: Documentation
-    url: https://docs.getbluejay.ai/
-  - type: APIReference
-    url: https://docs.getbluejay.ai/api-reference/introduction
 - aid: bluejay:bluejay-bluejay-api-api
   name: Bluejay API
   description: The Bluejay API API from Bluejay — 0 operation(s) for bluejay api.
@@ -937,6 +799,695 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bluejay-bluejay-api-api-openapi.yml
+- aid: bluejay:bluejay-agent-versions-api
+  name: Bluejay Agent Versions API
+  description: The Agent Versions API from Bluejay — 5 operation(s) for agent versions.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Agent Versions
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-agent-versions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-agent-workflow-api
+  name: Bluejay Agent Workflow API
+  description: The Agent Workflow API from Bluejay — 14 operation(s) for agent workflow.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Agent Workflow
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-agent-workflow-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-aligned-diff-api
+  name: Bluejay Aligned Diff API
+  description: The Aligned Diff API from Bluejay — 1 operation(s) for aligned diff.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Aligned Diff
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-aligned-diff-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-amelia-api
+  name: Bluejay Amelia API
+  description: The Amelia API from Bluejay — 4 operation(s) for amelia.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Amelia
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-amelia-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-bbb-api
+  name: Bluejay BBB API
+  description: The BBB API from Bluejay — 2 operation(s) for bbb.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - BBB
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-bbb-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-bluejay-as-code-api
+  name: Bluejay Bluejay as Code API
+  description: The Bluejay as Code API from Bluejay — 2 operation(s) for bluejay as code.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Bluejay as Code
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-bluejay-as-code-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-bluejayai-references-api
+  name: Bluejay BluejayAI References API
+  description: The BluejayAI References API from Bluejay — 2 operation(s) for bluejayai references.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - BluejayAI References
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-bluejayai-references-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-custom-metric-templates-api
+  name: Bluejay Custom Metric Templates API
+  description: >-
+    The Custom Metric Templates API from Bluejay — 8 operation(s) for custom metric templates.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Custom Metric Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-custom-metric-templates-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-dashboards-api
+  name: Bluejay Dashboards API
+  description: The Dashboards API from Bluejay — 4 operation(s) for dashboards.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Dashboards
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-dashboards-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-documents-api
+  name: Bluejay Documents API
+  description: The Documents API from Bluejay — 6 operation(s) for documents.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-documents-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-email-simulations-api
+  name: Bluejay Email Simulations API
+  description: The Email Simulations API from Bluejay — 2 operation(s) for email simulations.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Email Simulations
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-email-simulations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-google-agents-api
+  name: Bluejay Google Agents API
+  description: The google_agents API from Bluejay — 3 operation(s) for google_agents.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - google_agents
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-google-agents-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-google-ces-api
+  name: Bluejay Google Ces API
+  description: The google_ces API from Bluejay — 2 operation(s) for google_ces.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - google_ces
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-google-ces-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-google-dfcx-api
+  name: Bluejay Google Dfcx API
+  description: The google_dfcx API from Bluejay — 1 operation(s) for google_dfcx.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - google_dfcx
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-google-dfcx-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-health-api
+  name: Bluejay Health API
+  description: The Health API from Bluejay — 2 operation(s) for health.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-health-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-human-edits-api
+  name: Bluejay Human Edits API
+  description: The Human Edits API from Bluejay — 12 operation(s) for human edits.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Human Edits
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-human-edits-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-internal-api
+  name: Bluejay Internal API
+  description: The Internal API from Bluejay — 5 operation(s) for internal.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Internal
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-internal-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-issues-api
+  name: Bluejay Issues API
+  description: The Issues API from Bluejay — 2 operation(s) for issues.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Issues
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-issues-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-journey-steps-api
+  name: Bluejay Journey Steps API
+  description: The Journey Steps API from Bluejay — 1 operation(s) for journey steps.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Journey Steps
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-journey-steps-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-live-transcripts-api
+  name: Bluejay Live Transcripts API
+  description: The Live Transcripts API from Bluejay — 1 operation(s) for live transcripts.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Live Transcripts
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-live-transcripts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-livekit-api
+  name: Bluejay Livekit API
+  description: The livekit API from Bluejay — 1 operation(s) for livekit.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - livekit
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-livekit-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-metronome-webhook-api
+  name: Bluejay Metronome Webhook API
+  description: The Metronome Webhook API from Bluejay — 1 operation(s) for metronome webhook.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Metronome Webhook
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-metronome-webhook-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-observability-conversations-api
+  name: Bluejay Observability Conversations API
+  description: >-
+    The Observability Conversations API from Bluejay — 2 operation(s) for observability conversations.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Observability Conversations
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-observability-conversations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-observability-issues-api
+  name: Bluejay Observability Issues API
+  description: The Observability Issues API from Bluejay — 2 operation(s) for observability issues.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Observability Issues
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-observability-issues-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-oidc-api
+  name: Bluejay Oidc API
+  description: The oidc API from Bluejay — 2 operation(s) for oidc.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - oidc
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-oidc-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-openai-api
+  name: Bluejay Open AI API
+  description: The OpenAI API from Bluejay — 1 operation(s) for openai.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - OpenAI
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-openai-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-personalities-api
+  name: Bluejay Personalities API
+  description: The Personalities API from Bluejay — 3 operation(s) for personalities.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Personalities
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-personalities-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-preview-chat-api
+  name: Bluejay Preview Chat API
+  description: The Preview Chat API from Bluejay — 1 operation(s) for preview chat.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Preview Chat
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-preview-chat-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-recently-deleted-api
+  name: Bluejay Recently Deleted API
+  description: The Recently Deleted API from Bluejay — 2 operation(s) for recently deleted.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Recently Deleted
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-recently-deleted-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-red-team-simulations-api
+  name: Bluejay Red-Team Simulations API
+  description: The Red-Team Simulations API from Bluejay — 4 operation(s) for red-team simulations.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Red-Team Simulations
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-red-team-simulations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-rerun-simulation-results-api
+  name: Bluejay Rerun Simulation Results API
+  description: >-
+    The Rerun Simulation Results API from Bluejay — 1 operation(s) for rerun simulation results.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Rerun Simulation Results
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-rerun-simulation-results-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-scenario-builder-api
+  name: Bluejay Scenario Builder API
+  description: The Scenario Builder API from Bluejay — 6 operation(s) for scenario builder.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Scenario Builder
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-scenario-builder-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-schedule-api
+  name: Bluejay Schedule API
+  description: The Schedule API from Bluejay — 1 operation(s) for schedule.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Schedule
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-schedule-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-schedules-api
+  name: Bluejay Schedules API
+  description: The Schedules API from Bluejay — 1 operation(s) for schedules.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Schedules
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-schedules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-scim-api
+  name: Bluejay SCIM API
+  description: The SCIM API from Bluejay — 6 operation(s) for scim.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - SCIM
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-scim-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-self-improve-api
+  name: Bluejay Self Improve API
+  description: The Self-Improve API from Bluejay — 3 operation(s) for self-improve.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Self-Improve
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-self-improve-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-sierra-api
+  name: Bluejay Sierra API
+  description: The Sierra API from Bluejay — 1 operation(s) for sierra.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Sierra
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-sierra-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-simulation-issues-api
+  name: Bluejay Simulation Issues API
+  description: The Simulation Issues API from Bluejay — 2 operation(s) for simulation issues.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Simulation Issues
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-simulation-issues-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-slack-assistant-api
+  name: Bluejay Slack Assistant API
+  description: The Slack Assistant API from Bluejay — 2 operation(s) for slack assistant.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Slack Assistant
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-slack-assistant-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-sms-testing-api
+  name: Bluejay SMS Testing API
+  description: The SMS Testing API from Bluejay — 4 operation(s) for sms testing.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - SMS Testing
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-sms-testing-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-stripe-webhook-api
+  name: Bluejay Stripe Webhook API
+  description: The Stripe Webhook API from Bluejay — 1 operation(s) for stripe webhook.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Stripe Webhook
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-stripe-webhook-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-twins-api
+  name: Bluejay Twins API
+  description: The twins API from Bluejay — 2 operation(s) for twins.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - twins
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-twins-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-uptime-api
+  name: Bluejay Uptime API
+  description: The Uptime API from Bluejay — 7 operation(s) for uptime.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Uptime
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-uptime-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-usage-alerts-api
+  name: Bluejay Usage Alerts API
+  description: The Usage Alerts API from Bluejay — 2 operation(s) for usage alerts.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Usage Alerts
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-usage-alerts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-voice-clones-api
+  name: Bluejay Voice Clones API
+  description: The Voice Clones API from Bluejay — 3 operation(s) for voice clones.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Voice Clones
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-voice-clones-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-voice-generation-api
+  name: Bluejay Voice Generation API
+  description: The Voice Generation API from Bluejay — 1 operation(s) for voice generation.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Voice Generation
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-voice-generation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-widgets-api
+  name: Bluejay Widgets API
+  description: The Widgets API from Bluejay — 3 operation(s) for widgets.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Widgets
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-widgets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-workflow-extraction-api
+  name: Bluejay Workflow Extraction API
+  description: The Workflow Extraction API from Bluejay — 4 operation(s) for workflow extraction.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Workflow Extraction
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-workflow-extraction-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
+- aid: bluejay:bluejay-workspaces-api
+  name: Bluejay Workspaces API
+  description: The Workspaces API from Bluejay — 8 operation(s) for workspaces.
+  humanURL: https://docs.getbluejay.ai/api-reference/introduction
+  baseURL: https://api.getbluejay.ai
+  tags:
+  - Workspaces
+  properties:
+  - type: OpenAPI
+    url: openapi/bluejay-workspaces-api-openapi.yml
+  - type: Documentation
+    url: https://docs.getbluejay.ai/
+  - type: APIReference
+    url: https://docs.getbluejay.ai/api-reference/introduction
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

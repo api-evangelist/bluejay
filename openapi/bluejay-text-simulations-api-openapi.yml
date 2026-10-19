@@ -20,6 +20,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -45,6 +51,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/sms-status:
+    post:
+      tags:
+      - Text Simulations
+      summary: Sms Status Callback
+      description: Twilio's delivery receipt. Only failures are worth keeping.
+      operationId: sms_status_callback_v1_sms_status_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
   /v1/receive-text-message:
     post:
       tags:
@@ -66,15 +92,6 @@ paths:
         description: API key required to authenticate requests.
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     src__text_agents__sms_text_agent_api__SimulationRunResponse:
       properties:
         simulation_run_id:
@@ -111,6 +128,32 @@ components:
       - simulation_result_ids
       - agent_id
       title: SimulationRunResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     src__text_agents__sms_text_agent_api__SimulationRunRequest:
       properties:
         simulation_id:
@@ -123,7 +166,15 @@ components:
             format: uuid
           - type: 'null'
           title: Prompt Id
-          description: Prompt UUID associated with this run
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Version Id
+          description: Agent version UUID associated with this run
         knowledge_base_id:
           anyOf:
           - type: string
@@ -146,35 +197,34 @@ components:
           title: Terminate Overlapping Simulations
           description: If true, all overlapping conversations with same pair of phone numbers will be ended
           default: false
+        runs_per_digital_human:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Runs Per Digital Human
+          description: Optional per-run override for how many conversations to spawn per selected digital human. Falls back to experiments.settings.runs_per_digital_human, then to 1.
       type: object
       required:
       - simulation_id
       title: SimulationRunRequest
       description: Pydantic model for simulation run request
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

@@ -20,6 +20,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -38,7 +44,42 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AddPhoneNumberResponse'
+                $ref: '#/components/schemas/AddPhoneNumbersResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/phone-numbers/sms-enabled:
+    get:
+      tags:
+      - Phone Number Management
+      summary: Get Sms Enabled Phone Numbers
+      description: Which of the org's numbers can send and receive text messages, by Twilio line type.
+      operationId: get_sms_enabled_phone_numbers_v1_phone_numbers_sms_enabled_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmsEnabledPhoneNumbersResponse'
         '422':
           description: Validation Error
           content:
@@ -60,6 +101,12 @@ paths:
         schema:
           type: string
           title: Phone Number
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -81,54 +128,19 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AddPhoneNumberRequest:
+    SmsEnabledPhoneNumbersResponse:
       properties:
-        area_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Area Code
-          description: Optional US area code to bias phone number search (e.g. 415)
-      type: object
-      title: AddPhoneNumberRequest
-      description: Request schema for auto-purchasing a Twilio number for an organization.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+        numbers:
+          additionalProperties:
+            type: boolean
+          type: object
+          title: Numbers
+          description: E.164 phone number -> True when the number can send and receive SMS
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ReleasePhoneNumberResponse:
-      properties:
-        phone_number:
-          type: string
-          title: Phone Number
-          description: Released E.164 phone number
-        released:
-          type: boolean
-          title: Released
-          description: Whether the Twilio release was performed
-      type: object
-      required:
-      - phone_number
-      - released
-      title: ReleasePhoneNumberResponse
-      description: Response schema after releasing a Twilio number.
+      - numbers
+      title: SmsEnabledPhoneNumbersResponse
+      description: Response schema mapping each of the org's numbers to whether it can text.
     AddPhoneNumberResponse:
       properties:
         phone_number:
@@ -162,6 +174,66 @@ components:
       - price
       title: AddPhoneNumberResponse
       description: Response schema after auto-purchasing and storing a phone number.
+    ReleasePhoneNumberResponse:
+      properties:
+        phone_number:
+          type: string
+          title: Phone Number
+          description: Released E.164 phone number
+        released:
+          type: boolean
+          title: Released
+          description: Whether the Twilio release was performed
+      type: object
+      required:
+      - phone_number
+      - released
+      title: ReleasePhoneNumberResponse
+      description: Response schema after releasing a Twilio number.
+    AddPhoneNumberRequest:
+      properties:
+        area_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Area Code
+          description: Optional US area code to bias phone number search (e.g. 415)
+        quantity:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Quantity
+          description: How many numbers to buy in one batch (org cap still enforced)
+          default: 1
+      type: object
+      title: AddPhoneNumberRequest
+      description: Request schema for auto-purchasing Twilio number(s) for an organization.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -171,9 +243,31 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    AddPhoneNumbersResponse:
+      properties:
+        numbers:
+          items:
+            $ref: '#/components/schemas/AddPhoneNumberResponse'
+          type: array
+          title: Numbers
+          description: Purchased numbers
+        total_price_cents:
+          type: integer
+          title: Total Price Cents
+          description: Combined monthly price for the batch, in cents
+      type: object
+      required:
+      - numbers
+      - total_price_cents
+      title: AddPhoneNumbersResponse
+      description: Response schema after auto-purchasing a batch of phone numbers.
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

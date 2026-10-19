@@ -27,6 +27,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -52,21 +58,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /v1/send-http-text-message:
+  /v1/kore-webhook/{agent_id}:
     post:
       tags:
       - HTTP Text Agent
-      summary: Send Http Text Message
-      description: 'Receive a text message via HTTP, process it through the lambda, and send response to webhook.
+      summary: Kore Webhook
+      description: 'Inbound webhook endpoint for Kore.ai bots.
 
-        Uses simulation_result_id (test_result_id) for Redis operations and evaluations.'
-      operationId: send_http_text_message_v1_send_http_text_message_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HttpTextMessageRequest'
+
+        The customer pastes this URL into Kore''s Webhook Channel Post URL field along with
+
+        the Bluejay-provisioned access token. The token authenticates Kore→Bluejay calls;
+
+        `to` carries the simulation_result_id (round-tripped from `from.id` on the way out).'
+      operationId: kore_webhook_v1_kore_webhook__agent_id__post
+      parameters:
+      - name: agent_id
+        in: path
         required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
       responses:
         '200':
           description: Successful Response
@@ -80,57 +106,162 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/send-http-text-message:
+    post:
+      tags:
+      - HTTP Text Agent
+      summary: Send Http Text Message
+      description: 'Receive a text message via HTTP, process it through the lambda, and send response to webhook.
+
+        Uses simulation_result_id (sim_conversation_id) for Redis operations and evaluations.'
+      operationId: send_http_text_message_v1_send_http_text_message_post
+      security:
+      - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
         schema:
           type: string
         description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendHttpTextMessageRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpTextMessageResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HttpTextMessageResponse:
+    HttpTextAgentToolCallRequest:
       properties:
         simulation_result_id:
           type: string
           title: Simulation Result Id
-          description: Simulation result ID
-        status:
-          type: string
-          title: Status
-          description: Status of the response
-          default: success
+          description: ID of the simulation result (test result)
         end_conversation:
-          type: boolean
+          anyOf:
+          - type: boolean
+          - type: 'null'
           title: End Conversation
-          description: Whether the conversation has ended
+          description: If true, skip lambda and end/evaluate the conversation
           default: false
+        end_turn:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: End Turn
+          description: If true, process the message now; if false, stack it for later
+          default: true
+        message_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message Id
+          description: Unique message ID for deduping within a conversation
+        type:
+          type: string
+          const: tool_call
+          title: Type
+          description: Log a tool call
+        name:
+          type: string
+          title: Name
+          description: Tool name
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+          description: Tool parameters
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+          description: Tool output
       type: object
       required:
       - simulation_result_id
-      title: HttpTextMessageResponse
-      description: Response model for HTTP text message
+      - type
+      - name
+      title: HttpTextAgentToolCallRequest
+      description: 'Tool invocation: Logs a tool call'
+    SendHttpTextMessageRequest:
+      oneOf:
+      - $ref: '#/components/schemas/HttpTextAgentUserMessageRequest'
+      - $ref: '#/components/schemas/HttpTextAgentToolCallRequest'
+      title: SendHttpTextMessageRequest
+      description: Request wrapper that defaults missing ``type`` to ``message``.
+      discriminator:
+        propertyName: type
+        mapping:
+          message: '#/components/schemas/HttpTextAgentUserMessageRequest'
+          tool_call: '#/components/schemas/HttpTextAgentToolCallRequest'
+    HttpSimulationRunRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: ID of the simulation to be run
+        prompt_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Id
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Version Id
+          description: Agent version UUID associated with this run
+        knowledge_base_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Deprecated and ignored for grounding (the worker resolves KB from the documents model). Kept as a loose optional pass-through so existing API integrations that still send it keep working.
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: Digital human IDs to be used in the simulation
+        runs_per_digital_human:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Runs Per Digital Human
+          description: Optional per-run override for how many conversations to spawn per selected digital human. Falls back to 1 when omitted.
+      type: object
+      required:
+      - simulation_id
+      title: HttpSimulationRunRequest
+      description: Request model for HTTP simulation run
     HttpSimulationRunResponse:
       properties:
         simulation_run_id:
@@ -159,12 +290,64 @@ components:
       - agent_id
       title: HttpSimulationRunResponse
       description: Response model for HTTP simulation run
-    HttpTextMessageRequest:
+    ValidationError:
       properties:
-        message:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
           title: Message
-          description: Text message to send
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HttpTextMessageResponse:
+      properties:
+        simulation_result_id:
+          type: string
+          title: Simulation Result Id
+          description: Simulation result ID
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+        end_conversation:
+          type: boolean
+          title: End Conversation
+          description: Whether the conversation has ended
+          default: false
+      type: object
+      required:
+      - simulation_result_id
+      title: HttpTextMessageResponse
+      description: Response model for HTTP text message
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    HttpTextAgentUserMessageRequest:
+      properties:
         simulation_result_id:
           type: string
           title: Simulation Result Id
@@ -189,55 +372,29 @@ components:
           - type: 'null'
           title: Message Id
           description: Unique message ID for deduping within a conversation
-      type: object
-      required:
-      - message
-      - simulation_result_id
-      title: HttpTextMessageRequest
-      description: Request model for HTTP text message
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    HttpSimulationRunRequest:
-      properties:
-        simulation_id:
+        type:
           type: string
-          title: Simulation Id
-          description: ID of the simulation to be run
-        prompt_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Prompt Id
-          description: Prompt UUID associated with this run
-        knowledge_base_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Knowledge Base Id
-          description: Knowledge base UUID associated with this run
-        digital_human_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Digital Human Ids
-          description: Digital human IDs to be used in the simulation
+          const: message
+          title: Type
+          description: Send a message to the user
+          default: message
+        message:
+          type: string
+          title: Message
+          description: Text message to send
       type: object
       required:
-      - simulation_id
-      title: HttpSimulationRunRequest
-      description: Request model for HTTP simulation run
+      - simulation_result_id
+      - message
+      title: HttpTextAgentUserMessageRequest
+      description: 'Chat message: Send a message to the user.'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

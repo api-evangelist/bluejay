@@ -21,6 +21,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -56,6 +62,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -81,8 +93,98 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/webhooks/reducto:
+    post:
+      tags:
+      - Webhook Management
+      summary: Reducto Webhook
+      operationId: reducto_webhook_v1_webhooks_reducto_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+  /v1/webhooks/firecrawl:
+    post:
+      tags:
+      - Webhook Management
+      summary: Firecrawl Webhook
+      operationId: firecrawl_webhook_v1_webhooks_firecrawl_post
+      parameters:
+      - name: x-firecrawl-signature
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Firecrawl-Signature
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    WebhookKeyRequest:
+      properties:
+        webhook_id:
+          type: string
+          format: uuid
+          title: Webhook Id
+          description: ID of the webhook
+      type: object
+      required:
+      - webhook_id
+      title: WebhookKeyRequest
+      description: Request model for creating a webhook
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     WebhookKeyResponse:
       properties:
         signing_key:
@@ -108,42 +210,13 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    WebhookKeyRequest:
-      properties:
-        webhook_id:
-          type: string
-          format: uuid
-          title: Webhook Id
-          description: ID of the webhook
-      type: object
-      required:
-      - webhook_id
-      title: WebhookKeyRequest
-      description: Request model for creating a webhook
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

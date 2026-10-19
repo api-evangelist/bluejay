@@ -24,6 +24,12 @@ paths:
         schema:
           type: string
           title: Schedule Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -53,66 +59,47 @@ paths:
       - Update Schedule
 components:
   schemas:
-    ValidationError:
+    ScheduleWindow:
       properties:
-        loc:
+        days:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            type: string
+            enum:
+            - monday
+            - tuesday
+            - wednesday
+            - thursday
+            - friday
+            - saturday
+            - sunday
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Days
+          description: Days to run on; empty means every day
+        start_time:
+          anyOf:
+          - type: string
+            pattern: ^\d{2}:\d{2}$
+          - type: 'null'
+          title: Start Time
+          description: HH:MM start of the daily window
+        end_time:
+          anyOf:
+          - type: string
+            pattern: ^\d{2}:\d{2}$
+          - type: 'null'
+          title: End Time
+          description: HH:MM end of the daily window
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DailySchedule:
-      properties:
-        frequency:
-          type: string
-          const: daily
-          title: Frequency
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-          description: HH:MM 24hr time
-      type: object
-      required:
-      - frequency
-      - time
-      title: DailySchedule
-    MonthlySchedule:
-      properties:
-        frequency:
-          type: string
-          const: monthly
-          title: Frequency
-        day_of_month:
-          type: integer
-          maximum: 31.0
-          minimum: 1.0
-          title: Day Of Month
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-      type: object
-      required:
-      - frequency
-      - day_of_month
-      - time
-      title: MonthlySchedule
+      title: ScheduleWindow
+      description: 'Restricts a recurring schedule to certain days and/or a daily time range —
+
+        "Mondays and Fridays", "weekdays 9am-5pm". Times are read in the schedule''s timezone.'
     EveryNMinutesSchedule:
       properties:
+        window:
+          anyOf:
+          - $ref: '#/components/schemas/ScheduleWindow'
+          - type: 'null'
         frequency:
           type: string
           const: every_n_minutes
@@ -128,21 +115,27 @@ components:
       - frequency
       - interval
       title: EveryNMinutesSchedule
-    CronSchedule:
+    EveryNHoursSchedule:
       properties:
+        window:
+          anyOf:
+          - $ref: '#/components/schemas/ScheduleWindow'
+          - type: 'null'
         frequency:
           type: string
-          const: cron
+          const: every_n_hours
           title: Frequency
-        expression:
-          type: string
-          title: Expression
-          description: Cron expression
+        interval:
+          type: integer
+          maximum: 23.0
+          exclusiveMinimum: 0.0
+          title: Interval
+          description: Repeat every N hours (max 23)
       type: object
       required:
       - frequency
-      - expression
-      title: CronSchedule
+      - interval
+      title: EveryNHoursSchedule
     UpdateCronJobResponse:
       properties:
         id:
@@ -167,6 +160,12 @@ components:
           type: string
           title: Created At
           description: The timestamp when the cron job was created.
+        timezone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Timezone
+          description: IANA timezone the cron expression is read in. Null means UTC.
       type: object
       required:
       - id
@@ -174,8 +173,134 @@ components:
       - cron_expression
       - created_at
       title: UpdateCronJobResponse
+    MonthlySchedule:
+      properties:
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+          description: HH:MM 24hr time
+        frequency:
+          type: string
+          const: monthly
+          title: Frequency
+        day_of_month:
+          type: integer
+          maximum: 31.0
+          minimum: 1.0
+          title: Day Of Month
+      type: object
+      required:
+      - time
+      - frequency
+      - day_of_month
+      title: MonthlySchedule
+    DailySchedule:
+      properties:
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+          description: HH:MM 24hr time
+        frequency:
+          type: string
+          const: daily
+          title: Frequency
+        window:
+          anyOf:
+          - $ref: '#/components/schemas/ScheduleWindow'
+          - type: 'null'
+      type: object
+      required:
+      - time
+      - frequency
+      title: DailySchedule
+    CronSchedule:
+      properties:
+        frequency:
+          type: string
+          const: cron
+          title: Frequency
+        expression:
+          type: string
+          title: Expression
+          description: Cron expression
+      type: object
+      required:
+      - frequency
+      - expression
+      title: CronSchedule
+    WeeklySchedule:
+      properties:
+        time:
+          type: string
+          pattern: ^\d{2}:\d{2}$
+          title: Time
+          description: HH:MM 24hr time
+        frequency:
+          type: string
+          const: weekly
+          title: Frequency
+        day_of_week:
+          type: string
+          enum:
+          - monday
+          - tuesday
+          - wednesday
+          - thursday
+          - friday
+          - saturday
+          - sunday
+          title: Day Of Week
+      type: object
+      required:
+      - time
+      - frequency
+      - day_of_week
+      title: WeeklySchedule
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     UpdateCronJobRequest:
       properties:
+        timezone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Timezone
+          description: IANA timezone the cron expression is read in. Null means UTC.
         schedule:
           anyOf:
           - $ref: '#/components/schemas/EveryNMinutesSchedule'
@@ -195,62 +320,13 @@ components:
           description: Whether to enable or disable the cron job.
       type: object
       title: UpdateCronJobRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    EveryNHoursSchedule:
-      properties:
-        frequency:
-          type: string
-          const: every_n_hours
-          title: Frequency
-        interval:
-          type: integer
-          maximum: 23.0
-          exclusiveMinimum: 0.0
-          title: Interval
-          description: Repeat every N hours (max 23)
-      type: object
-      required:
-      - frequency
-      - interval
-      title: EveryNHoursSchedule
-    WeeklySchedule:
-      properties:
-        frequency:
-          type: string
-          const: weekly
-          title: Frequency
-        day_of_week:
-          type: string
-          enum:
-          - monday
-          - tuesday
-          - wednesday
-          - thursday
-          - friday
-          - saturday
-          - sunday
-          title: Day Of Week
-        time:
-          type: string
-          pattern: ^\d{2}:\d{2}$
-          title: Time
-      type: object
-      required:
-      - frequency
-      - day_of_week
-      - time
-      title: WeeklySchedule
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

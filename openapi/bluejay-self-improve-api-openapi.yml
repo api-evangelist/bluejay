@@ -1,0 +1,278 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Self Improve API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Self-Improve
+paths:
+  /v1/self-improve/runs:
+    post:
+      tags:
+      - Self-Improve
+      summary: Start Run
+      description: 'Start a self-improve run. Confirm-gated: call once to preview, then again with confirmed=true.'
+      operationId: start_run_v1_self_improve_runs_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartSelfImproveRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Self-Improve
+      summary: List Runs
+      operationId: list_runs_v1_self_improve_runs_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/self-improve/runs/{run_id}:
+    get:
+      tags:
+      - Self-Improve
+      summary: Get Run
+      operationId: get_run_v1_self_improve_runs__run_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Run Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/self-improve/runs/{run_id}/stop:
+    post:
+      tags:
+      - Self-Improve
+      summary: Stop Run
+      operationId: stop_run_v1_self_improve_runs__run_id__stop_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Run Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    StartSelfImproveRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: VAPI, ElevenLabs, Retell, or Google CES agent to self-improve in place (prompt iterated; one new 'latest' version written at the end).
+        simulation_id:
+          type: integer
+          title: Simulation Id
+          description: Simulation (digital humans + metrics) to run each round against the agent.
+        target_pass_rate:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Target Pass Rate
+          default: 0.9
+        max_iterations:
+          type: integer
+          maximum: 20.0
+          minimum: 1.0
+          title: Max Iterations
+          default: 5
+        min_improvement:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Min Improvement
+          description: Minimum pass-rate gain to keep an iteration; non-negative so worse prompts are never kept.
+          default: 0.02
+        metric_count:
+          type: integer
+          maximum: 20.0
+          minimum: 1.0
+          title: Metric Count
+          default: 5
+        success_metric_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Success Metric Ids
+          description: Reuse these metrics instead of generating new ones.
+        confirmed:
+          type: boolean
+          title: Confirmed
+          default: false
+      type: object
+      required:
+      - agent_id
+      - simulation_id
+      title: StartSelfImproveRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

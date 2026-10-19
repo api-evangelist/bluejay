@@ -16,11 +16,22 @@ paths:
       tags:
       - Goals
       summary: Generate Goals Endpoint
-      description: Generate high-level goals for a given agent based on its description and knowledge base.
+      description: 'Generate the set of customer jobs an agent should be tested on.
+
+
+        The caller does not choose how many: the set is discovered from the agent''s system prompt
+
+        and the response reports its size.'
       operationId: generate_goals_endpoint_v1_generate_goals_post
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -47,51 +58,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    GenerateGoalsRequest:
-      properties:
-        agent_id:
-          type: string
-          title: Agent Id
-          description: ID of the agent to generate goals for
-        count:
-          type: integer
-          title: Count
-          description: Number of goals to generate
-          default: 5
-        prompt_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Prompt Id
-          description: ID of the prompt to use for goal generation
-        knowledge_base_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Knowledge Base Id
-          description: ID of the knowledge base to use for goal generation
-        custom_prompt:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Custom Prompt
-          description: Custom instructions for goal generation
-      type: object
-      required:
-      - agent_id
-      title: GenerateGoalsRequest
-      description: Request model for generating goals
     ValidationError:
       properties:
         loc:
@@ -107,15 +73,65 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
       - loc
       - msg
       - type
       title: ValidationError
+    GenerateGoalsRequest:
+      properties:
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent to generate goals for
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Version Id
+          description: Agent version UUID to generate goals from (defaults to latest)
+        custom_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Prompt
+          description: Custom instructions for goal generation
+      type: object
+      required:
+      - agent_id
+      title: GenerateGoalsRequest
+      description: Request model for generating goals
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

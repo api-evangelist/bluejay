@@ -1,0 +1,301 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Red-Team Simulations API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Red-Team Simulations
+paths:
+  /v1/red-team-simulations/entitlements:
+    get:
+      tags:
+      - Red-Team Simulations
+      summary: Get Entitlements
+      description: Growth+ (custom-plan row OR Metronome catalog) unlocks the per-family attack matrix.
+      operationId: get_entitlements_v1_red_team_simulations_entitlements_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/red-team-simulations:
+    post:
+      tags:
+      - Red-Team Simulations
+      summary: Start Simulation
+      description: 'Start a red-team test. Confirm-gated: call once to preview, then again with confirmed=true.'
+      operationId: start_simulation_v1_red_team_simulations_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartSimulationRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Red-Team Simulations
+      summary: List Simulations
+      operationId: list_simulations_v1_red_team_simulations_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/red-team-simulations/{test_id}:
+    get:
+      tags:
+      - Red-Team Simulations
+      summary: Get Simulation
+      operationId: get_simulation_v1_red_team_simulations__test_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: test_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Test Id
+      - name: by
+        in: query
+        required: false
+        schema:
+          enum:
+          - test_id
+          - simulation_id
+          type: string
+          default: test_id
+          title: By
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/red-team-simulations/{test_id}/stop:
+    post:
+      tags:
+      - Red-Team Simulations
+      summary: Stop Simulation
+      operationId: stop_simulation_v1_red_team_simulations__test_id__stop_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: test_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Test Id
+      - name: by
+        in: query
+        required: false
+        schema:
+          enum:
+          - test_id
+          - simulation_id
+          type: string
+          default: test_id
+          title: By
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    StartSimulationRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: Target agent to red-team.
+        config:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Config
+          description: Overrides for max_levels/max_branches_per_node/max_total_dhs/max_call_duration_minutes/recon_count/objective/extension/harm_categories/harm_first/attack_quotas. attack_quotas is {social_engineering, prompt_injection, audio_native, content_harm} → attempt counts (0 = adaptive). Clamped to the mandatory ceilings; quota mode raises the call budget and sizes each attack level from those counts (largest family, at least one slot per active family). Content-safety probes run by default; pass harm_categories=[] for an OWASP-only test.
+        confirmed:
+          type: boolean
+          title: Confirmed
+          default: false
+      type: object
+      required:
+      - agent_id
+      title: StartSimulationRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

@@ -13,12 +13,20 @@ tags:
 paths:
   /v1/queue-simulation-run:
     post:
+      tags:
+      - Queue Simulation Run
       summary: Queue Simulation Run Endpoint
       description: Queue a simulation run for processing.
       operationId: queue_simulation_run_endpoint_v1_queue_simulation_run_post
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -30,34 +38,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/src__main__SimulationRunRequest'
+              anyOf:
+              - $ref: '#/components/schemas/SimulationRunRequestUsingBACId'
+              - $ref: '#/components/schemas/src__api__queue_simulation_run__SimulationRunRequest'
+              title: Sim Run Request
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/src__main__SimulationRunResponse'
+                $ref: '#/components/schemas/src__api__queue_simulation_run__SimulationRunResponse'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-      tags:
-      - Queue Simulation Run
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    src__main__SimulationRunRequest:
+    src__api__queue_simulation_run__SimulationRunRequest:
       properties:
         simulation_id:
           type: string
@@ -69,7 +69,15 @@ components:
             format: uuid
           - type: 'null'
           title: Prompt Id
-          description: Prompt UUID associated with this run
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Version Id
+          description: Agent version UUID associated with this run
         knowledge_base_id:
           anyOf:
           - type: string
@@ -130,12 +138,184 @@ components:
           - type: 'null'
           title: Pipecat Room Properties
           description: Pipecat room properties
+        eleven_labs_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eleven Labs Agent Id
+          description: Optional ElevenLabs Convai agent_id (overrides the agent's eleven_labs_agent_id for this run)
+        retell_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Retell Agent Id
+          description: Optional Retell agent_id (overrides the agent's retell_agent_id for this run)
+        vapi_assistant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vapi Assistant Id
+          description: Optional Vapi assistant_id (overrides the agent's vapi_assistant_id for this run)
+        runs_per_digital_human:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Runs Per Digital Human
+          description: Optional per-run override for how many conversations to spawn per selected digital human. Falls back to experiments.settings.runs_per_digital_human, then to 1.
       type: object
       required:
       - simulation_id
       title: SimulationRunRequest
       description: Pydantic model for simulation run request
-    src__main__SimulationRunResponse:
+    SimulationRunRequestUsingBACId:
+      properties:
+        bluejay_as_code_id:
+          type: string
+          format: uuid
+          title: Bluejay As Code Id
+          description: Bluejay-as-Code ID of the simulation to run
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Version Id
+          description: Agent version UUID associated with this run
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Knowledge base UUID associated with this run
+        digital_human_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Digital Human Ids
+          description: Digital human IDs to be used in the simulation
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Optional phone number to be used in this simulation run (overrides the agent phone number)
+        sip_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sip Uri
+          description: Optional SIP URI to be used in this simulation run (overrides the agent SIP URI)
+        livekit_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Agent Name
+          description: Optional agent name to be used by user's livekit, an empty string will use the default agent
+        livekit_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Livekit Metadata
+          description: metadata to be passed to the livekit room
+        pipecat_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pipecat Agent Name
+          description: Pipecat agent name
+        pipecat_agent_configuration:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Agent Configuration
+          description: Pipecat agent configuration
+        pipecat_room_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Pipecat Room Properties
+          description: Pipecat room properties
+        eleven_labs_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eleven Labs Agent Id
+          description: Optional ElevenLabs Convai agent_id (overrides the agent's eleven_labs_agent_id for this run)
+        retell_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Retell Agent Id
+          description: Optional Retell agent_id (overrides the agent's retell_agent_id for this run)
+        vapi_assistant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vapi Assistant Id
+          description: Optional Vapi assistant_id (overrides the agent's vapi_assistant_id for this run)
+        runs_per_digital_human:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Runs Per Digital Human
+          description: Optional per-run override for how many conversations to spawn per selected digital human.
+      type: object
+      required:
+      - bluejay_as_code_id
+      title: SimulationRunRequestUsingBACId
+      description: Queue a simulation run using the simulation's bluejay_as_code_id.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    src__api__queue_simulation_run__SimulationRunResponse:
       properties:
         simulation_run_id:
           type: string
@@ -162,30 +342,13 @@ components:
       - simulation_result_ids
       - agent_id
       title: SimulationRunResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

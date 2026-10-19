@@ -21,6 +21,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -48,6 +54,51 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    WeeklyNotificationsPostResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        first_generate_at_utc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Generate At Utc
+          description: 'From summaries-cron: first generate job fire (ISO UTC), if registered.'
+        first_notify_at_utc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Notify At Utc
+          description: 'From summaries-cron: first notify job fire (ISO UTC), if registered.'
+        deferred:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Deferred
+          description: True if first fire was deferred by at least one week for lead-time safety.
+      type: object
+      title: WeeklyNotificationsPostResponse
+    WeeklyNotificationTarget:
+      properties:
+        type:
+          type: string
+          enum:
+          - email
+          - slack
+          title: Type
+          description: Channel type
+        target:
+          type: string
+          minLength: 1
+          title: Target
+          description: Email address or Slack channel ID
+      type: object
+      required:
+      - type
+      - target
+      title: WeeklyNotificationTarget
     ValidationError:
       properties:
         loc:
@@ -63,12 +114,26 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
       - loc
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     WeeklyNotificationsBody:
       properties:
         targets:
@@ -99,63 +164,13 @@ components:
       required:
       - targets
       title: WeeklyNotificationsBody
-    WeeklyNotificationTarget:
-      properties:
-        type:
-          type: string
-          enum:
-          - email
-          - slack
-          title: Type
-          description: Channel type
-        target:
-          type: string
-          minLength: 1
-          title: Target
-          description: Email address or Slack channel ID
-      type: object
-      required:
-      - type
-      - target
-      title: WeeklyNotificationTarget
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    WeeklyNotificationsPostResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          default: true
-        first_generate_at_utc:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: First Generate At Utc
-          description: 'From summaries-cron: first generate job fire (ISO UTC), if registered.'
-        first_notify_at_utc:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: First Notify At Utc
-          description: 'From summaries-cron: first notify job fire (ISO UTC), if registered.'
-        deferred:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Deferred
-          description: True if first fire was deferred by at least one week for lead-time safety.
-      type: object
-      title: WeeklyNotificationsPostResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

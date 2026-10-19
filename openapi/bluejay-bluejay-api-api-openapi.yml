@@ -40,864 +40,6 @@ webhooks:
       - Bluejay API
 components:
   schemas:
-    CustomMetric:
-      properties:
-        name:
-          description: The name of the custom metric
-          title: Name
-          type: string
-        description:
-          description: The description of the custom metric
-          title: Description
-          type: string
-        response_type:
-          description: The response type of the custom metric
-          title: Response Type
-          type: string
-        response_value:
-          description: The response value of the custom metric
-          title: Response Value
-          type: string
-        reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: null
-          description: The reasoning of the custom metric
-          title: Reasoning
-        min_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          default: null
-          description: The minimum value of the custom metric
-          title: Min Value
-        max_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          default: null
-          description: The maximum value of the custom metric
-          title: Max Value
-        category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: null
-          description: The category of the custom metric
-          title: Category
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          default: null
-          description: The tags of the custom metric
-          title: Tags
-        scoring_guidance:
-          anyOf:
-          - type: string
-          - type: 'null'
-          default: null
-          description: The scoring guidance of the custom metric
-          title: Scoring Guidance
-        enum_options:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          default: null
-          description: The enum options of the custom metric
-          title: Enum Options
-      required:
-      - name
-      - description
-      - response_type
-      - response_value
-      title: Custom Metric
-      type: object
-    FillerIgnoredLatency:
-      properties:
-        avg_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Filler Ignored Latency
-          description: Average filler ignored latency
-          default: 0
-        p50_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Filler Ignored Latency
-          description: 50th percentile filler ignored latency
-          default: 0
-        p90_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Filler Ignored Latency
-          description: 90th percentile filler ignored latency
-          default: 0
-        p95_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Filler Ignored Latency
-          description: 95th percentile filler ignored latency
-          default: 0
-        p99_filler_ignored_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Filler Ignored Latency
-          description: 99th percentile filler ignored latency
-          default: 0
-      type: object
-      title: FillerIgnoredLatency
-    WebhookSimulationResultEvaluated:
-      $defs:
-        CustomMetric:
-          properties:
-            name:
-              description: The name of the custom metric
-              title: Name
-              type: string
-            description:
-              description: The description of the custom metric
-              title: Description
-              type: string
-            response_type:
-              description: The response type of the custom metric
-              title: Response Type
-              type: string
-            response_value:
-              description: The response value of the custom metric
-              title: Response Value
-              type: string
-            reasoning:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: The reasoning of the custom metric
-              title: Reasoning
-            min_value:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: null
-              description: The minimum value of the custom metric
-              title: Min Value
-            max_value:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: null
-              description: The maximum value of the custom metric
-              title: Max Value
-            category:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: The category of the custom metric
-              title: Category
-            tags:
-              anyOf:
-              - items:
-                  type: string
-                type: array
-              - type: 'null'
-              default: null
-              description: The tags of the custom metric
-              title: Tags
-            scoring_guidance:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: The scoring guidance of the custom metric
-              title: Scoring Guidance
-            enum_options:
-              anyOf:
-              - items:
-                  type: string
-                type: array
-              - type: 'null'
-              default: null
-              description: The enum options of the custom metric
-              title: Enum Options
-          required:
-          - name
-          - description
-          - response_type
-          - response_value
-          title: Custom Metric
-          type: object
-        Evaluation:
-          description: Pydantic model for evaluation result
-          properties:
-            id:
-              description: Unique identifier for the evaluation result
-              title: Id
-              type: string
-            created_at:
-              description: When this evaluation result was created (defaults to now in UTC)
-              format: date-time
-              title: Created At
-              type: string
-            hallucination:
-              anyOf:
-              - type: boolean
-              - type: 'null'
-              default: null
-              description: Whether the agent exhibited hallucination during the call
-              title: Hallucination
-            hallucination_reasoning:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: Reasoning behind the hallucination, if applicable
-              title: Hallucination Reasoning
-            redundancy:
-              anyOf:
-              - type: boolean
-              - type: 'null'
-              default: null
-              description: Whether the agent exhibited redundancy during the call
-              title: Redundancy
-            redundancy_reasoning:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: Reasoning behind the redundancy, if applicable
-              title: Redundancy Reasoning
-            agent_speak_percentage:
-              anyOf:
-              - type: number
-              - type: 'null'
-              description: Percentage of the call where the agent was speaking
-              title: Agent Speak Percentage
-            avg_agent_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              description: Average latency of the agent's responses during the call
-              title: Avg Agent Latency
-            latency:
-              anyOf:
-              - $ref: '#/components/schemas/Latency'
-              - type: 'null'
-              description: Latency metrics for the agent's responses
-            filler_ignored_latency:
-              anyOf:
-              - $ref: '#/components/schemas/FillerIgnoredLatency'
-              - type: 'null'
-              description: Filler ignored latency metrics
-            num_turns:
-              anyOf:
-              - type: integer
-              - type: 'null'
-              default: null
-              description: Total number of turns taken by the agent during the call
-              title: Num Turns
-            call_summary:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: Summary of the call, if applicable
-              title: Call Summary
-            custom_evals:
-              anyOf:
-              - items: {}
-                type: array
-              - additionalProperties: true
-                type: object
-              - type: 'null'
-              description: List of custom evaluations performed during the call
-              title: Custom Evals
-            custom_evals_success_rate:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: null
-              description: Success rate of the custom evaluations performed during the call
-              title: Custom Evals Success Rate
-            goal_success:
-              anyOf:
-              - type: boolean
-              - type: 'null'
-              default: null
-              description: Whether the goal was successfully achieved during the call
-              title: Goal Success
-            goal_reasoning:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: Reasoning behind the goal success, if applicable
-              title: Goal Reasoning
-            pronunciation_score:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: null
-              description: Pronunciation score of the agent during the call
-              title: Pronunciation Score
-            pronunciation_reasoning:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: Reasoning behind the pronunciation score, if applicable
-              title: Pronunciation Reasoning
-            custom_metrics:
-              anyOf:
-              - items:
-                  $ref: '#/components/schemas/CustomMetric'
-                type: array
-              - type: 'null'
-              default: null
-              description: Custom metrics associated with the evaluation
-              title: Custom Metrics
-          required:
-          - agent_speak_percentage
-          - avg_agent_latency
-          title: Evaluation
-          type: object
-        Event:
-          description: Pydantic model for event data
-          properties:
-            title:
-              description: Title of the event
-              title: Title
-              type: string
-            start_offset_ms:
-              description: Start offset of the event in milliseconds
-              title: Start Offset Ms
-              type: integer
-            description:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: Description of the event
-              title: Description
-            end_offset_ms:
-              anyOf:
-              - type: integer
-              - type: 'null'
-              default: null
-              description: End offset of the event in milliseconds
-              title: End Offset Ms
-            tags:
-              anyOf:
-              - items:
-                  type: string
-                type: array
-              - type: 'null'
-              description: List of tags associated with the event
-              title: Tags
-            metadata:
-              anyOf:
-              - additionalProperties: true
-                type: object
-              - type: 'null'
-              default: null
-              description: Additional metadata associated with the event
-              title: Metadata
-          required:
-          - title
-          - start_offset_ms
-          title: Event
-          type: object
-        FillerIgnoredLatency:
-          properties:
-            avg_filler_ignored_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: Average filler ignored latency
-              title: Avg Filler Ignored Latency
-            p50_filler_ignored_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: 50th percentile filler ignored latency
-              title: P50 Filler Ignored Latency
-            p90_filler_ignored_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: 90th percentile filler ignored latency
-              title: P90 Filler Ignored Latency
-            p95_filler_ignored_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: 95th percentile filler ignored latency
-              title: P95 Filler Ignored Latency
-            p99_filler_ignored_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: 99th percentile filler ignored latency
-              title: P99 Filler Ignored Latency
-          title: FillerIgnoredLatency
-          type: object
-        Latency:
-          properties:
-            avg_agent_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: Average latency
-              title: Avg Agent Latency
-            max_agent_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: Maximum latency
-              title: Max Agent Latency
-            p50_agent_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: 50th percentile latency
-              title: P50 Agent Latency
-            p90_agent_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: 90th percentile latency
-              title: P90 Agent Latency
-            p95_agent_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: 95th percentile latency
-              title: P95 Agent Latency
-            p99_agent_latency:
-              anyOf:
-              - type: number
-              - type: 'null'
-              default: 0
-              description: 99th percentile latency
-              title: P99 Agent Latency
-          title: Latency
-          type: object
-        TestResultStatus:
-          description: Enum representing the possible states of a test result.
-          enum:
-          - INITIALIZING
-          - QUEUED
-          - READY
-          - DISPATCHED
-          - RUNNING
-          - CONVERSATION_ENDED
-          - EVALUATING
-          - COMPLETED
-          - INCOMPLETED
-          - REJECTED
-          - INSUFFICIENT_FUNDS
-          title: TestResultStatus
-          type: string
-        ToolCall:
-          description: Represents a tool call during a conversation.
-          properties:
-            name:
-              description: Name of the tool called
-              title: Name
-              type: string
-            start_offset_ms:
-              description: Start offset of the tool call in milliseconds
-              minimum: 0
-              title: Start Offset Ms
-              type: integer
-            description:
-              anyOf:
-              - type: string
-              - type: 'null'
-              default: null
-              description: Description of the tool call
-              title: Description
-            parameters:
-              anyOf:
-              - additionalProperties: true
-                type: object
-              - type: 'null'
-              default: null
-              description: Parameters passed to the tool call
-              title: Parameters
-            output:
-              anyOf:
-              - {}
-              - type: 'null'
-              default: null
-              description: Output returned by the tool call
-              title: Output
-          required:
-          - name
-          - start_offset_ms
-          title: ToolCall
-          type: object
-      description: Represents a simulation result evaluated event.
-      properties:
-        type:
-          default: simulation_result_evaluated
-          description: Type of webhook payload
-          title: Type
-          type: string
-        id:
-          description: The ID of the simulation result
-          title: Id
-          type: integer
-        digital_human_id:
-          description: The ID of the digital human
-          title: Digital Human Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/TestResultStatus'
-          default: COMPLETED
-          description: The status of the simulation result
-        simulation_run_id:
-          description: The ID of the simulation run that this simulation result belongs to
-          title: Simulation Run Id
-          type: integer
-        simulation_id:
-          description: The ID of the simulation that this simulation result belongs to
-          title: Simulation Id
-          type: integer
-        agent_id:
-          description: The ID of the agent that this simulation result belongs to
-          title: Agent Id
-          type: integer
-        folder_id:
-          anyOf:
-          - format: uuid
-            type: string
-          - type: 'null'
-          default: null
-          description: The ID of the folder that the agent belongs to
-          title: Folder Id
-        result:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          deprecated: true
-          description: Please use the evaluations instead
-          title: Result
-        custom_metrics:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/CustomMetric'
-            type: array
-          - type: 'null'
-          deprecated: true
-          description: Please use the custom metrics in the evaluations instead
-          title: Custom Metrics
-        evaluations:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Evaluation'
-            type: array
-          - type: 'null'
-          description: The evaluations of the simulation result
-          title: Evaluations
-        created_at:
-          anyOf:
-          - format: date-time
-            type: string
-          - type: 'null'
-          default: null
-          description: The creation time of the simulation result
-          title: Created At
-        start_time:
-          anyOf:
-          - format: date-time
-            type: string
-          - type: 'null'
-          default: null
-          description: The start time of the simulation result
-          title: Start Time
-        end_time:
-          anyOf:
-          - format: date-time
-            type: string
-          - type: 'null'
-          default: null
-          description: The end time of the simulation result
-          title: End Time
-        duration:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          default: null
-          description: The duration of the simulation result
-          title: Duration
-        latency:
-          anyOf:
-          - items:
-              type: number
-            type: array
-          - type: 'null'
-          description: The latency of the simulation result
-          title: Latency
-        events:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Event'
-            type: array
-          - type: 'null'
-          description: The events of the simulation result
-          title: Events
-        tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ToolCall'
-            type: array
-          - type: 'null'
-          description: The tool calls of the simulation result
-          title: Tool Calls
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          description: The tags of the simulation result
-          title: Tags
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          description: The metadata of the simulation result
-          title: Metadata
-      required:
-      - id
-      - digital_human_id
-      - simulation_run_id
-      - simulation_id
-      - agent_id
-      title: Simulation Result Evaluated
-      type: object
-    WebhookSimulationResultEnded:
-      $defs:
-        TestResultStatus:
-          description: Enum representing the possible states of a test result.
-          enum:
-          - INITIALIZING
-          - QUEUED
-          - READY
-          - DISPATCHED
-          - RUNNING
-          - CONVERSATION_ENDED
-          - EVALUATING
-          - COMPLETED
-          - INCOMPLETED
-          - REJECTED
-          - INSUFFICIENT_FUNDS
-          title: TestResultStatus
-          type: string
-      description: Represents a simulation result ended event.
-      properties:
-        type:
-          default: simulation_ended
-          description: Type of webhook payload
-          title: Type
-          type: string
-        id:
-          description: The ID of the simulation result
-          title: Id
-          type: integer
-        digital_human_id:
-          description: The ID of the digital human
-          title: Digital Human Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/TestResultStatus'
-          default: CONVERSATION_ENDED
-          description: The status of the simulation result
-        simulation_run_id:
-          description: The ID of the simulation run that this simulation result belongs to
-          title: Simulation Run Id
-          type: integer
-        created_at:
-          anyOf:
-          - format: date-time
-            type: string
-          - type: 'null'
-          default: null
-          description: The creation time of the simulation result
-          title: Created At
-        start_time:
-          anyOf:
-          - format: date-time
-            type: string
-          - type: 'null'
-          default: null
-          description: The start time of the simulation result
-          title: Start Time
-        end_time:
-          anyOf:
-          - format: date-time
-            type: string
-          - type: 'null'
-          default: null
-          description: The end time of the simulation result
-          title: End Time
-        duration:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          default: null
-          description: The duration of the simulation result
-          title: Duration
-      required:
-      - id
-      - digital_human_id
-      - simulation_run_id
-      title: Simulation Ended
-      type: object
-    CallStatus:
-      type: string
-      enum:
-      - INITIALIZING
-      - QUEUED
-      - EVALUATING
-      - COMPLETED
-      - INCOMPLETED
-      title: CallStatus
-      description: Enum representing the possible states of a call.
-    CallInterface:
-      type: string
-      enum:
-      - PHONE
-      - WEB
-      title: CallInterface
-      description: Enum representing the interface used for a call.
-    src__models__api_custom_metric__CustomMetric:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The name of the custom metric
-        description:
-          type: string
-          title: Description
-          description: The description of the custom metric
-        response_type:
-          type: string
-          title: Response Type
-          description: The response type of the custom metric
-        response_value:
-          type: string
-          title: Response Value
-          description: The response value of the custom metric
-        reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reasoning
-          description: The reasoning of the custom metric
-        min_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Min Value
-          description: The minimum value of the custom metric
-        max_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Value
-          description: The maximum value of the custom metric
-        category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Category
-          description: The category of the custom metric
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-          description: The tags of the custom metric
-        scoring_guidance:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Scoring Guidance
-          description: The scoring guidance of the custom metric
-        enum_options:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Enum Options
-          description: The enum options of the custom metric
-      type: object
-      required:
-      - name
-      - description
-      - response_type
-      - response_value
-      title: Custom Metric
-    CallDirection:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: CallDirection
-      description: Enum representing the direction of a call.
-    DigitalHuman:
-      properties:
-        id:
-          description: The ID of the digital human
-          title: Id
-          type: integer
-        name:
-          description: The name of the digital human
-          title: Name
-          type: string
-        phone_number:
-          description: The phone number of the digital human
-          title: Phone Number
-          type: string
-        associated_simulation_result_ids:
-          description: The IDs of the simulation results that were created for this digital human
-          items:
-            type: integer
-          title: Associated Simulation Result Ids
-          type: array
-      required:
-      - id
-      - name
-      - phone_number
-      title: Digital Human
-      type: object
     Evaluation:
       properties:
         id:
@@ -1006,70 +148,239 @@ components:
           - type: 'null'
           title: Pronunciation Reasoning
           description: Reasoning behind the pronunciation score, if applicable
+        sentiment_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sentiment Label
+          description: Overall sentiment label for customer utterances
+        sentiment_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Sentiment Score
+          description: Overall sentiment score for customer utterances
+        sentiment_scores:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Sentiment Scores
+          description: Per-label sentiment scores for customer utterances
         custom_metrics:
           anyOf:
           - items:
-              $ref: '#/components/schemas/src__models__api_custom_metric__CustomMetric'
+              $ref: '#/components/schemas/CustomMetric'
             type: array
           - type: 'null'
           title: Custom Metrics
           description: Custom metrics associated with the evaluation
+        human_edited:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Human Edited
+          description: Whether any result in this evaluation was manually overridden by a human
+        human_goal_success:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Human Goal Success
+          description: Human-overridden goal_success; null when no override applied
+        human_goal_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Goal Reasoning
+          description: Human-overridden goal_reasoning; null when no override applied
+        human_hallucination:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Human Hallucination
+          description: Human-overridden hallucination verdict; null when no override applied
+        human_hallucination_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Hallucination Reasoning
+          description: Human-overridden hallucination reasoning; null when no override applied
+        human_redundancy:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Human Redundancy
+          description: Human-overridden redundancy verdict; null when no override applied
+        human_redundancy_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Redundancy Reasoning
+          description: Human-overridden redundancy reasoning; null when no override applied
+        human_pronunciation_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Human Pronunciation Score
+          description: Human-overridden pronunciation score; null when no override applied
+        human_pronunciation_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Pronunciation Reasoning
+          description: Human-overridden pronunciation reasoning; null when no override applied
+        override_goal_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Goal Reason Code
+          description: Reason for the human override of goal_success.
+        override_goal_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Goal Notes
+          description: Freeform notes from the reviewer for the goal override.
+        override_hallucination_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Hallucination Reason Code
+          description: Reason for the human override of hallucination.
+        override_hallucination_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Hallucination Notes
+          description: Freeform notes from the reviewer for the hallucination override.
+        override_redundancy_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Redundancy Reason Code
+          description: Reason for the human override of redundancy.
+        override_redundancy_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Redundancy Notes
+          description: Freeform notes from the reviewer for the redundancy override.
+        override_pronunciation_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Pronunciation Reason Code
+          description: Reason for the human override of pronunciation_score.
+        override_pronunciation_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Pronunciation Notes
+          description: Freeform notes from the reviewer for the pronunciation override.
+        last_edited_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Edited By
+          description: User id of the most recent human reviewer
+        last_edited_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Edited At
+          description: Timestamp of the most recent human override
+        predicted_age:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Predicted Age
+          description: Estimated age of the caller in years, from their audio
+        customer_gender:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Customer Gender
+          description: 'Predicted gender of the caller: ''male'', ''female'', or ''indeterminate'' when confidence is at or below 0.7'
+        gender_confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Gender Confidence
+          description: Confidence 0-1 behind customer_gender; null when the prediction is 'indeterminate'
+        detected_language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detected Language
+          description: Language detected on the call
+        language_confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Language Confidence
+          description: Confidence 0-1 behind detected_language
+        agent_audio_clarity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Agent Audio Clarity
+          description: 'Agent audio: audio clarity score 0-100 (higher better)'
+        user_audio_clarity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: User Audio Clarity
+          description: 'User audio: audio clarity score 0-100 (higher better)'
       type: object
       required:
       - agent_speak_percentage
       - avg_agent_latency
       title: Evaluation
       description: Pydantic model for evaluation result
-    ParticipantResponse:
+    CustomMetric:
       properties:
-        role:
-          $ref: '#/components/schemas/ParticipantRole'
-          description: Role of the participant in the call
-        spoke_first:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Spoke First
-          description: Whether the participant spoke first in the call
         name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the participant
-        phone_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phone Number
-          description: Phone number of the participant (if applicable)
-      type: object
-      required:
-      - role
-      title: ParticipantResponse
-      description: Pydantic model for participant data
-    Event:
-      properties:
-        title:
           type: string
-          title: Title
-          description: Title of the event
-        start_offset_ms:
-          type: integer
-          title: Start Offset Ms
-          description: Start offset of the event in milliseconds
+          title: Name
+          description: The name of the custom metric
         description:
+          type: string
+          title: Description
+          description: The description of the custom metric
+        response_type:
+          type: string
+          title: Response Type
+          description: The response type of the custom metric
+        response_value:
+          type: string
+          title: Response Value
+          description: The response value of the custom metric
+        reasoning:
           anyOf:
           - type: string
           - type: 'null'
-          title: Description
-          description: Description of the event
-        end_offset_ms:
+          title: Reasoning
+          description: The reasoning of the custom metric
+        min_value:
           anyOf:
-          - type: integer
+          - type: number
           - type: 'null'
-          title: End Offset Ms
-          description: End offset of the event in milliseconds
+          title: Min Value
+          description: The minimum value of the custom metric
+        max_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Value
+          description: The maximum value of the custom metric
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+          description: The category of the custom metric
         tags:
           anyOf:
           - items:
@@ -1077,185 +388,71 @@ components:
             type: array
           - type: 'null'
           title: Tags
-          description: List of tags associated with the event
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: Additional metadata associated with the event
-      type: object
-      required:
-      - title
-      - start_offset_ms
-      title: Event
-      description: Pydantic model for event data
-    ToolCall:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the tool called
-        start_offset_ms:
-          type: integer
-          minimum: 0.0
-          title: Start Offset Ms
-          description: Start offset of the tool call in milliseconds
-        description:
+          description: The tags of the custom metric
+        scoring_guidance:
           anyOf:
           - type: string
           - type: 'null'
-          title: Description
-          description: Description of the tool call
-        parameters:
+          title: Scoring Guidance
+          description: The scoring guidance of the custom metric
+        enum_options:
           anyOf:
-          - additionalProperties: true
-            type: object
+          - items:
+              type: string
+            type: array
           - type: 'null'
-          title: Parameters
-          description: Parameters passed to the tool call
-        output:
+          title: Enum Options
+          description: The enum options of the custom metric
+        human_edited:
           anyOf:
-          - {}
+          - type: boolean
           - type: 'null'
-          title: Output
-          description: Output returned by the tool call
+          title: Human Edited
+          description: Whether this metric result was manually overridden by a human
+        human_response_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Response Value
+          description: Human-overridden response_value; null when no override applied
+        human_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Reasoning
+          description: Human-overridden reasoning; null when no override applied
+        override_reason_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Reason Code
+          description: 'Structured reason for the latest human override. One of: ai_hallucination, overly_strict_success_criteria, overly_strict_system_prompt, other.'
+        override_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Notes
+          description: Freeform notes from the human reviewer accompanying the latest override
+        last_edited_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Edited By
+          description: User id of the most recent human reviewer
+        last_edited_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Edited At
+          description: Timestamp of the most recent human override
       type: object
       required:
       - name
-      - start_offset_ms
-      title: ToolCall
-      description: Represents a tool call during a conversation.
-    Latency:
-      properties:
-        avg_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Avg Agent Latency
-          description: Average latency
-          default: 0
-        max_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Agent Latency
-          description: Maximum latency
-          default: 0
-        p50_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P50 Agent Latency
-          description: 50th percentile latency
-          default: 0
-        p90_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P90 Agent Latency
-          description: 90th percentile latency
-          default: 0
-        p95_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P95 Agent Latency
-          description: 95th percentile latency
-          default: 0
-        p99_agent_latency:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: P99 Agent Latency
-          description: 99th percentile latency
-          default: 0
-      type: object
-      title: Latency
-    ParticipantRole:
-      type: string
-      enum:
-      - AGENT
-      - USER
-      title: ParticipantRole
-      description: Enum representing the role of a participant in a call.
-    WebhookOutboundSimulationStarted:
-      $defs:
-        DigitalHuman:
-          properties:
-            id:
-              description: The ID of the digital human
-              title: Id
-              type: integer
-            name:
-              description: The name of the digital human
-              title: Name
-              type: string
-            phone_number:
-              description: The phone number of the digital human
-              title: Phone Number
-              type: string
-            associated_simulation_result_ids:
-              description: The IDs of the simulation results that were created for this digital human
-              items:
-                type: integer
-              title: Associated Simulation Result Ids
-              type: array
-          required:
-          - id
-          - name
-          - phone_number
-          title: Digital Human
-          type: object
-      description: Represents an outbound simulation started event.
-      properties:
-        type:
-          default: outbound_simulation_started
-          description: Type of webhook payload
-          title: Type
-          type: string
-        agent_id:
-          description: The ID of the agent that this simulation belongs to
-          title: Agent Id
-          type: integer
-        simulation_id:
-          description: The ID of the simulation
-          title: Simulation Id
-          type: integer
-        simulation_run_id:
-          description: The ID of the simulation run
-          title: Simulation Run Id
-          type: integer
-        digital_humans:
-          description: The digital humans that were run for this simulation run
-          items:
-            $ref: '#/components/schemas/DigitalHuman'
-          title: Digital Humans
-          type: array
-      required:
-      - agent_id
-      - simulation_id
-      - simulation_run_id
-      - digital_humans
-      title: Outbound Simulation Started
-      type: object
-    TestResultStatus:
-      description: Enum representing the possible states of a test result.
-      enum:
-      - INITIALIZING
-      - QUEUED
-      - READY
-      - DISPATCHED
-      - RUNNING
-      - CONVERSATION_ENDED
-      - EVALUATING
-      - COMPLETED
-      - INCOMPLETED
-      - REJECTED
-      - INSUFFICIENT_FUNDS
-      title: TestResultStatus
-      type: string
+      - description
+      - response_type
+      - response_value
+      title: Custom Metric
     WebhookObservabilityCallEvaluated:
       $defs:
         CallDirection:
@@ -1272,15 +469,29 @@ components:
           - WEB
           title: CallInterface
           type: string
-        CallStatus:
-          description: Enum representing the possible states of a call.
+        ConversationStatus:
+          description: Enum representing the possible states of a conversation.
           enum:
           - INITIALIZING
           - QUEUED
+          - READY
+          - DISPATCHED
+          - RUNNING
+          - CONVERSATION_ENDED
           - EVALUATING
           - COMPLETED
+          - NOT_EVALUATED
+          - NO_CONNECTION
+          - NO_ANSWER
+          - CALL_DROPPED
+          - OUT_OF_FUNDS
+          - SYSTEM_ERROR
+          - CUSTOM_ERROR
+          - CANCELLED
           - INCOMPLETED
-          title: CallStatus
+          - REJECTED
+          - INSUFFICIENT_FUNDS
+          title: ConversationStatus
           type: string
         CustomMetric:
           properties:
@@ -1353,6 +564,56 @@ components:
               default: null
               description: The enum options of the custom metric
               title: Enum Options
+            human_edited:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Whether this metric result was manually overridden by a human
+              title: Human Edited
+            human_response_value:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden response_value; null when no override applied
+              title: Human Response Value
+            human_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden reasoning; null when no override applied
+              title: Human Reasoning
+            override_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: 'Structured reason for the latest human override. One of: ai_hallucination, overly_strict_success_criteria, overly_strict_system_prompt, other.'
+              title: Override Reason Code
+            override_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the human reviewer accompanying the latest override
+              title: Override Notes
+            last_edited_by:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: User id of the most recent human reviewer
+              title: Last Edited By
+            last_edited_at:
+              anyOf:
+              - format: date-time
+                type: string
+              - type: 'null'
+              default: null
+              description: Timestamp of the most recent human override
+              title: Last Edited At
           required:
           - name
           - description
@@ -1480,6 +741,29 @@ components:
               default: null
               description: Reasoning behind the pronunciation score, if applicable
               title: Pronunciation Reasoning
+            sentiment_label:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Overall sentiment label for customer utterances
+              title: Sentiment Label
+            sentiment_score:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Overall sentiment score for customer utterances
+              title: Sentiment Score
+            sentiment_scores:
+              anyOf:
+              - additionalProperties:
+                  type: number
+                type: object
+              - type: 'null'
+              default: null
+              description: Per-label sentiment scores for customer utterances
+              title: Sentiment Scores
             custom_metrics:
               anyOf:
               - items:
@@ -1489,6 +773,189 @@ components:
               default: null
               description: Custom metrics associated with the evaluation
               title: Custom Metrics
+            human_edited:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Whether any result in this evaluation was manually overridden by a human
+              title: Human Edited
+            human_goal_success:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Human-overridden goal_success; null when no override applied
+              title: Human Goal Success
+            human_goal_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden goal_reasoning; null when no override applied
+              title: Human Goal Reasoning
+            human_hallucination:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Human-overridden hallucination verdict; null when no override applied
+              title: Human Hallucination
+            human_hallucination_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden hallucination reasoning; null when no override applied
+              title: Human Hallucination Reasoning
+            human_redundancy:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Human-overridden redundancy verdict; null when no override applied
+              title: Human Redundancy
+            human_redundancy_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden redundancy reasoning; null when no override applied
+              title: Human Redundancy Reasoning
+            human_pronunciation_score:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Human-overridden pronunciation score; null when no override applied
+              title: Human Pronunciation Score
+            human_pronunciation_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden pronunciation reasoning; null when no override applied
+              title: Human Pronunciation Reasoning
+            override_goal_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reason for the human override of goal_success.
+              title: Override Goal Reason Code
+            override_goal_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the reviewer for the goal override.
+              title: Override Goal Notes
+            override_hallucination_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reason for the human override of hallucination.
+              title: Override Hallucination Reason Code
+            override_hallucination_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the reviewer for the hallucination override.
+              title: Override Hallucination Notes
+            override_redundancy_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reason for the human override of redundancy.
+              title: Override Redundancy Reason Code
+            override_redundancy_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the reviewer for the redundancy override.
+              title: Override Redundancy Notes
+            override_pronunciation_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reason for the human override of pronunciation_score.
+              title: Override Pronunciation Reason Code
+            override_pronunciation_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the reviewer for the pronunciation override.
+              title: Override Pronunciation Notes
+            last_edited_by:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: User id of the most recent human reviewer
+              title: Last Edited By
+            last_edited_at:
+              anyOf:
+              - format: date-time
+                type: string
+              - type: 'null'
+              default: null
+              description: Timestamp of the most recent human override
+              title: Last Edited At
+            predicted_age:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Estimated age of the caller in years, from their audio
+              title: Predicted Age
+            customer_gender:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: 'Predicted gender of the caller: ''male'', ''female'', or ''indeterminate'' when confidence is at or below 0.7'
+              title: Customer Gender
+            gender_confidence:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Confidence 0-1 behind customer_gender; null when the prediction is 'indeterminate'
+              title: Gender Confidence
+            detected_language:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Language detected on the call
+              title: Detected Language
+            language_confidence:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Confidence 0-1 behind detected_language
+              title: Language Confidence
+            agent_audio_clarity:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: 'Agent audio: audio clarity score 0-100 (higher better)'
+              title: Agent Audio Clarity
+            user_audio_clarity:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: 'User audio: audio clarity score 0-100 (higher better)'
+              title: User Audio Clarity
           required:
           - agent_speak_percentage
           - avg_agent_latency
@@ -1625,6 +1092,48 @@ components:
               title: P99 Agent Latency
           title: Latency
           type: object
+        MetricResult:
+          description: 'One metric scored on a conversation, read from `metric_results`.
+
+
+            Everything the platform scores lands here, including the audio measurements that have
+
+            no dedicated column anywhere else (perceived loudness, clipping, dropouts). `value` is a
+
+            string for every metric_type so results of mixed types can come back in one list,
+
+            matching GET /v1/observability/conversations/{id}.'
+          properties:
+            metric_name:
+              description: Stable name of the metric, e.g. 'user_perceived_loudness'
+              title: Metric Name
+              type: string
+            metric_type:
+              description: One of int, float, boolean, enum, qualitative, json, pass_fail, yes_no
+              title: Metric Type
+              type: string
+            value:
+              description: 'The effective value as a string: the human correction when one was applied, otherwise the model''s'
+              title: Value
+              type: string
+            human_edited:
+              default: false
+              description: Whether a reviewer overrode this result
+              title: Human Edited
+              type: boolean
+            reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reasoning behind the effective value
+              title: Reasoning
+          required:
+          - metric_name
+          - metric_type
+          - value
+          title: MetricResult
+          type: object
         ParticipantResponse:
           description: Pydantic model for participant data
           properties:
@@ -1657,22 +1166,22 @@ components:
           title: ParticipantResponse
           type: object
         ParticipantRole:
-          description: Enum representing the role of a participant in a call.
+          description: Role of a participant in a call or simulated conversation.
           enum:
           - AGENT
           - USER
+          - DIGITAL_HUMAN
+          - agent
+          - digital_human
           title: ParticipantRole
           type: string
-        ToolCall:
-          description: Represents a tool call during a conversation.
+        ToolCallData:
+          description: Tool call as stored on calls, jobs, and test results (API and database).
           properties:
             name:
-              description: Name of the tool called
               title: Name
               type: string
             start_offset_ms:
-              description: Start offset of the tool call in milliseconds
-              minimum: 0
               title: Start Offset Ms
               type: integer
             description:
@@ -1680,7 +1189,6 @@ components:
               - type: string
               - type: 'null'
               default: null
-              description: Description of the tool call
               title: Description
             parameters:
               anyOf:
@@ -1688,19 +1196,17 @@ components:
                 type: object
               - type: 'null'
               default: null
-              description: Parameters passed to the tool call
               title: Parameters
             output:
               anyOf:
               - {}
               - type: 'null'
               default: null
-              description: Output returned by the tool call
               title: Output
           required:
           - name
           - start_offset_ms
-          title: ToolCall
+          title: ToolCallData
           type: object
       description: Represents an observability call evaluated event.
       properties:
@@ -1744,7 +1250,7 @@ components:
           default: PHONE
           description: Interface used for the call
         status:
-          $ref: '#/components/schemas/CallStatus'
+          $ref: '#/components/schemas/ConversationStatus'
           description: Current status of the call
         created_at:
           description: When this request was created (defaults to now in UTC)
@@ -1761,7 +1267,7 @@ components:
         tool_calls:
           anyOf:
           - items:
-              $ref: '#/components/schemas/ToolCall'
+              $ref: '#/components/schemas/ToolCallData'
             type: array
           - type: 'null'
           description: List of tool calls made during the call
@@ -1797,6 +1303,14 @@ components:
           - type: 'null'
           description: List of evaluations associated with the call
           title: Evaluations
+        metrics:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/MetricResult'
+            type: array
+          - type: 'null'
+          description: Metric results scored on this call. Includes the audio measurements that have no evaluations column, such as user_perceived_loudness, user_audio_clipping and user_audio_dropouts
+          title: Metrics
         annotations:
           anyOf:
           - items: {}
@@ -1842,9 +1356,1289 @@ components:
       - status
       title: Observability Call Evaluated
       type: object
+    ConversationStatus:
+      type: string
+      enum:
+      - INITIALIZING
+      - QUEUED
+      - READY
+      - DISPATCHED
+      - RUNNING
+      - CONVERSATION_ENDED
+      - EVALUATING
+      - COMPLETED
+      - NOT_EVALUATED
+      - NO_CONNECTION
+      - NO_ANSWER
+      - CALL_DROPPED
+      - OUT_OF_FUNDS
+      - SYSTEM_ERROR
+      - CUSTOM_ERROR
+      - CANCELLED
+      - INCOMPLETED
+      - REJECTED
+      - INSUFFICIENT_FUNDS
+      title: ConversationStatus
+      description: Enum representing the possible states of a conversation.
+    Event:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Title of the event
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the event in milliseconds
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the event
+        end_offset_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: End Offset Ms
+          description: End offset of the event in milliseconds
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: List of tags associated with the event
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Additional metadata associated with the event
+      type: object
+      required:
+      - title
+      - start_offset_ms
+      title: Event
+      description: Pydantic model for event data
+    ToolCallData:
+      properties:
+        name:
+          type: string
+          title: Name
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Parameters
+        output:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Output
+      type: object
+      required:
+      - name
+      - start_offset_ms
+      title: ToolCallData
+      description: Tool call as stored on calls, jobs, and test results (API and database).
+    WebhookSimulationResultEnded:
+      $defs:
+        ConversationStatus:
+          description: Enum representing the possible states of a conversation.
+          enum:
+          - INITIALIZING
+          - QUEUED
+          - READY
+          - DISPATCHED
+          - RUNNING
+          - CONVERSATION_ENDED
+          - EVALUATING
+          - COMPLETED
+          - NOT_EVALUATED
+          - NO_CONNECTION
+          - NO_ANSWER
+          - CALL_DROPPED
+          - OUT_OF_FUNDS
+          - SYSTEM_ERROR
+          - CUSTOM_ERROR
+          - CANCELLED
+          - INCOMPLETED
+          - REJECTED
+          - INSUFFICIENT_FUNDS
+          title: ConversationStatus
+          type: string
+      description: Represents a simulation result ended event.
+      properties:
+        type:
+          default: simulation_ended
+          description: Type of webhook payload
+          title: Type
+          type: string
+        id:
+          description: The ID of the simulation result
+          title: Id
+          type: integer
+        digital_human_id:
+          description: The ID of the digital human
+          title: Digital Human Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/ConversationStatus'
+          default: CONVERSATION_ENDED
+          description: The status of the simulation result
+        simulation_run_id:
+          description: The ID of the simulation run that this simulation result belongs to
+          title: Simulation Run Id
+          type: integer
+        simulation_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          default: null
+          description: The ID of the simulation that this simulation result belongs to
+          title: Simulation Id
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          default: null
+          description: The ID of the agent that this simulation result belongs to
+          title: Agent Id
+        folder_id:
+          anyOf:
+          - format: uuid
+            type: string
+          - type: 'null'
+          default: null
+          description: The ID of the folder that the agent belongs to
+          title: Folder Id
+        external_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: null
+          description: The external ID of the agent that this simulation result belongs to
+          title: External Agent Id
+        created_at:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          default: null
+          description: The creation time of the simulation result
+          title: Created At
+        start_time:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          default: null
+          description: The start time of the simulation result
+          title: Start Time
+        end_time:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          default: null
+          description: The end time of the simulation result
+          title: End Time
+        duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          default: null
+          description: The duration of the simulation result
+          title: Duration
+      required:
+      - id
+      - digital_human_id
+      - simulation_run_id
+      title: Simulation Ended
+      type: object
+    CallInterface:
+      type: string
+      enum:
+      - PHONE
+      - WEB
+      title: CallInterface
+      description: Enum representing the interface used for a call.
+    CallDirection:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: CallDirection
+      description: Enum representing the direction of a call.
+    FillerIgnoredLatency:
+      properties:
+        avg_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Filler Ignored Latency
+          description: Average filler ignored latency
+          default: 0
+        p50_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Filler Ignored Latency
+          description: 50th percentile filler ignored latency
+          default: 0
+        p90_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Filler Ignored Latency
+          description: 90th percentile filler ignored latency
+          default: 0
+        p95_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Filler Ignored Latency
+          description: 95th percentile filler ignored latency
+          default: 0
+        p99_filler_ignored_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Filler Ignored Latency
+          description: 99th percentile filler ignored latency
+          default: 0
+      type: object
+      title: FillerIgnoredLatency
+    ParticipantResponse:
+      properties:
+        role:
+          $ref: '#/components/schemas/ParticipantRole'
+          description: Role of the participant in the call
+        spoke_first:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Spoke First
+          description: Whether the participant spoke first in the call
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the participant
+        phone_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone Number
+          description: Phone number of the participant (if applicable)
+      type: object
+      required:
+      - role
+      title: ParticipantResponse
+      description: Pydantic model for participant data
+    WebhookOutboundSimulationStarted:
+      $defs:
+        DigitalHuman:
+          properties:
+            id:
+              description: The ID of the digital human
+              title: Id
+              type: integer
+            name:
+              description: The name of the digital human
+              title: Name
+              type: string
+            phone_number:
+              description: The phone number of the digital human
+              title: Phone Number
+              type: string
+            associated_simulation_result_ids:
+              description: The IDs of the simulation results that were created for this digital human
+              items:
+                type: integer
+              title: Associated Simulation Result Ids
+              type: array
+          required:
+          - id
+          - name
+          - phone_number
+          title: Digital Human
+          type: object
+      description: Represents an outbound simulation started event.
+      properties:
+        type:
+          default: outbound_simulation_started
+          description: Type of webhook payload
+          title: Type
+          type: string
+        agent_id:
+          description: The ID of the agent that this simulation belongs to
+          title: Agent Id
+          type: integer
+        simulation_id:
+          description: The ID of the simulation
+          title: Simulation Id
+          type: integer
+        simulation_run_id:
+          description: The ID of the simulation run
+          title: Simulation Run Id
+          type: integer
+        digital_humans:
+          description: The digital humans that were run for this simulation run
+          items:
+            $ref: '#/components/schemas/DigitalHuman'
+          title: Digital Humans
+          type: array
+      required:
+      - agent_id
+      - simulation_id
+      - simulation_run_id
+      - digital_humans
+      title: Outbound Simulation Started
+      type: object
+    Latency:
+      properties:
+        avg_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Avg Agent Latency
+          description: Average latency
+          default: 0
+        max_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Agent Latency
+          description: Maximum latency
+          default: 0
+        p50_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P50 Agent Latency
+          description: 50th percentile latency
+          default: 0
+        p90_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P90 Agent Latency
+          description: 90th percentile latency
+          default: 0
+        p95_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P95 Agent Latency
+          description: 95th percentile latency
+          default: 0
+        p99_agent_latency:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: P99 Agent Latency
+          description: 99th percentile latency
+          default: 0
+      type: object
+      title: Latency
+    MetricResult:
+      properties:
+        metric_name:
+          type: string
+          title: Metric Name
+          description: Stable name of the metric, e.g. 'user_perceived_loudness'
+        metric_type:
+          type: string
+          title: Metric Type
+          description: One of int, float, boolean, enum, qualitative, json, pass_fail, yes_no
+        value:
+          type: string
+          title: Value
+          description: 'The effective value as a string: the human correction when one was applied, otherwise the model''s'
+        human_edited:
+          type: boolean
+          title: Human Edited
+          description: Whether a reviewer overrode this result
+          default: false
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+          description: Reasoning behind the effective value
+      type: object
+      required:
+      - metric_name
+      - metric_type
+      - value
+      title: MetricResult
+      description: 'One metric scored on a conversation, read from `metric_results`.
+
+
+        Everything the platform scores lands here, including the audio measurements that have
+
+        no dedicated column anywhere else (perceived loudness, clipping, dropouts). `value` is a
+
+        string for every metric_type so results of mixed types can come back in one list,
+
+        matching GET /v1/observability/conversations/{id}.'
+    WebhookSimulationResultEvaluated:
+      $defs:
+        ConversationStatus:
+          description: Enum representing the possible states of a conversation.
+          enum:
+          - INITIALIZING
+          - QUEUED
+          - READY
+          - DISPATCHED
+          - RUNNING
+          - CONVERSATION_ENDED
+          - EVALUATING
+          - COMPLETED
+          - NOT_EVALUATED
+          - NO_CONNECTION
+          - NO_ANSWER
+          - CALL_DROPPED
+          - OUT_OF_FUNDS
+          - SYSTEM_ERROR
+          - CUSTOM_ERROR
+          - CANCELLED
+          - INCOMPLETED
+          - REJECTED
+          - INSUFFICIENT_FUNDS
+          title: ConversationStatus
+          type: string
+        CustomMetric:
+          properties:
+            name:
+              description: The name of the custom metric
+              title: Name
+              type: string
+            description:
+              description: The description of the custom metric
+              title: Description
+              type: string
+            response_type:
+              description: The response type of the custom metric
+              title: Response Type
+              type: string
+            response_value:
+              description: The response value of the custom metric
+              title: Response Value
+              type: string
+            reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: The reasoning of the custom metric
+              title: Reasoning
+            min_value:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: The minimum value of the custom metric
+              title: Min Value
+            max_value:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: The maximum value of the custom metric
+              title: Max Value
+            category:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: The category of the custom metric
+              title: Category
+            tags:
+              anyOf:
+              - items:
+                  type: string
+                type: array
+              - type: 'null'
+              default: null
+              description: The tags of the custom metric
+              title: Tags
+            scoring_guidance:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: The scoring guidance of the custom metric
+              title: Scoring Guidance
+            enum_options:
+              anyOf:
+              - items:
+                  type: string
+                type: array
+              - type: 'null'
+              default: null
+              description: The enum options of the custom metric
+              title: Enum Options
+            human_edited:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Whether this metric result was manually overridden by a human
+              title: Human Edited
+            human_response_value:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden response_value; null when no override applied
+              title: Human Response Value
+            human_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden reasoning; null when no override applied
+              title: Human Reasoning
+            override_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: 'Structured reason for the latest human override. One of: ai_hallucination, overly_strict_success_criteria, overly_strict_system_prompt, other.'
+              title: Override Reason Code
+            override_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the human reviewer accompanying the latest override
+              title: Override Notes
+            last_edited_by:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: User id of the most recent human reviewer
+              title: Last Edited By
+            last_edited_at:
+              anyOf:
+              - format: date-time
+                type: string
+              - type: 'null'
+              default: null
+              description: Timestamp of the most recent human override
+              title: Last Edited At
+          required:
+          - name
+          - description
+          - response_type
+          - response_value
+          title: Custom Metric
+          type: object
+        Evaluation:
+          description: Pydantic model for evaluation result
+          properties:
+            id:
+              description: Unique identifier for the evaluation result
+              title: Id
+              type: string
+            created_at:
+              description: When this evaluation result was created (defaults to now in UTC)
+              format: date-time
+              title: Created At
+              type: string
+            hallucination:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Whether the agent exhibited hallucination during the call
+              title: Hallucination
+            hallucination_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reasoning behind the hallucination, if applicable
+              title: Hallucination Reasoning
+            redundancy:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Whether the agent exhibited redundancy during the call
+              title: Redundancy
+            redundancy_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reasoning behind the redundancy, if applicable
+              title: Redundancy Reasoning
+            agent_speak_percentage:
+              anyOf:
+              - type: number
+              - type: 'null'
+              description: Percentage of the call where the agent was speaking
+              title: Agent Speak Percentage
+            avg_agent_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              description: Average latency of the agent's responses during the call
+              title: Avg Agent Latency
+            latency:
+              anyOf:
+              - $ref: '#/components/schemas/Latency'
+              - type: 'null'
+              description: Latency metrics for the agent's responses
+            filler_ignored_latency:
+              anyOf:
+              - $ref: '#/components/schemas/FillerIgnoredLatency'
+              - type: 'null'
+              description: Filler ignored latency metrics
+            num_turns:
+              anyOf:
+              - type: integer
+              - type: 'null'
+              default: null
+              description: Total number of turns taken by the agent during the call
+              title: Num Turns
+            call_summary:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Summary of the call, if applicable
+              title: Call Summary
+            custom_evals:
+              anyOf:
+              - items: {}
+                type: array
+              - additionalProperties: true
+                type: object
+              - type: 'null'
+              description: List of custom evaluations performed during the call
+              title: Custom Evals
+            custom_evals_success_rate:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Success rate of the custom evaluations performed during the call
+              title: Custom Evals Success Rate
+            goal_success:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Whether the goal was successfully achieved during the call
+              title: Goal Success
+            goal_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reasoning behind the goal success, if applicable
+              title: Goal Reasoning
+            pronunciation_score:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Pronunciation score of the agent during the call
+              title: Pronunciation Score
+            pronunciation_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reasoning behind the pronunciation score, if applicable
+              title: Pronunciation Reasoning
+            sentiment_label:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Overall sentiment label for customer utterances
+              title: Sentiment Label
+            sentiment_score:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Overall sentiment score for customer utterances
+              title: Sentiment Score
+            sentiment_scores:
+              anyOf:
+              - additionalProperties:
+                  type: number
+                type: object
+              - type: 'null'
+              default: null
+              description: Per-label sentiment scores for customer utterances
+              title: Sentiment Scores
+            custom_metrics:
+              anyOf:
+              - items:
+                  $ref: '#/components/schemas/CustomMetric'
+                type: array
+              - type: 'null'
+              default: null
+              description: Custom metrics associated with the evaluation
+              title: Custom Metrics
+            human_edited:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Whether any result in this evaluation was manually overridden by a human
+              title: Human Edited
+            human_goal_success:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Human-overridden goal_success; null when no override applied
+              title: Human Goal Success
+            human_goal_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden goal_reasoning; null when no override applied
+              title: Human Goal Reasoning
+            human_hallucination:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Human-overridden hallucination verdict; null when no override applied
+              title: Human Hallucination
+            human_hallucination_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden hallucination reasoning; null when no override applied
+              title: Human Hallucination Reasoning
+            human_redundancy:
+              anyOf:
+              - type: boolean
+              - type: 'null'
+              default: null
+              description: Human-overridden redundancy verdict; null when no override applied
+              title: Human Redundancy
+            human_redundancy_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden redundancy reasoning; null when no override applied
+              title: Human Redundancy Reasoning
+            human_pronunciation_score:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Human-overridden pronunciation score; null when no override applied
+              title: Human Pronunciation Score
+            human_pronunciation_reasoning:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Human-overridden pronunciation reasoning; null when no override applied
+              title: Human Pronunciation Reasoning
+            override_goal_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reason for the human override of goal_success.
+              title: Override Goal Reason Code
+            override_goal_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the reviewer for the goal override.
+              title: Override Goal Notes
+            override_hallucination_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reason for the human override of hallucination.
+              title: Override Hallucination Reason Code
+            override_hallucination_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the reviewer for the hallucination override.
+              title: Override Hallucination Notes
+            override_redundancy_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reason for the human override of redundancy.
+              title: Override Redundancy Reason Code
+            override_redundancy_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the reviewer for the redundancy override.
+              title: Override Redundancy Notes
+            override_pronunciation_reason_code:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Reason for the human override of pronunciation_score.
+              title: Override Pronunciation Reason Code
+            override_pronunciation_notes:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Freeform notes from the reviewer for the pronunciation override.
+              title: Override Pronunciation Notes
+            last_edited_by:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: User id of the most recent human reviewer
+              title: Last Edited By
+            last_edited_at:
+              anyOf:
+              - format: date-time
+                type: string
+              - type: 'null'
+              default: null
+              description: Timestamp of the most recent human override
+              title: Last Edited At
+            predicted_age:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Estimated age of the caller in years, from their audio
+              title: Predicted Age
+            customer_gender:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: 'Predicted gender of the caller: ''male'', ''female'', or ''indeterminate'' when confidence is at or below 0.7'
+              title: Customer Gender
+            gender_confidence:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Confidence 0-1 behind customer_gender; null when the prediction is 'indeterminate'
+              title: Gender Confidence
+            detected_language:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Language detected on the call
+              title: Detected Language
+            language_confidence:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: Confidence 0-1 behind detected_language
+              title: Language Confidence
+            agent_audio_clarity:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: 'Agent audio: audio clarity score 0-100 (higher better)'
+              title: Agent Audio Clarity
+            user_audio_clarity:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: null
+              description: 'User audio: audio clarity score 0-100 (higher better)'
+              title: User Audio Clarity
+          required:
+          - agent_speak_percentage
+          - avg_agent_latency
+          title: Evaluation
+          type: object
+        Event:
+          description: Pydantic model for event data
+          properties:
+            title:
+              description: Title of the event
+              title: Title
+              type: string
+            start_offset_ms:
+              description: Start offset of the event in milliseconds
+              title: Start Offset Ms
+              type: integer
+            description:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              description: Description of the event
+              title: Description
+            end_offset_ms:
+              anyOf:
+              - type: integer
+              - type: 'null'
+              default: null
+              description: End offset of the event in milliseconds
+              title: End Offset Ms
+            tags:
+              anyOf:
+              - items:
+                  type: string
+                type: array
+              - type: 'null'
+              description: List of tags associated with the event
+              title: Tags
+            metadata:
+              anyOf:
+              - additionalProperties: true
+                type: object
+              - type: 'null'
+              default: null
+              description: Additional metadata associated with the event
+              title: Metadata
+          required:
+          - title
+          - start_offset_ms
+          title: Event
+          type: object
+        FillerIgnoredLatency:
+          properties:
+            avg_filler_ignored_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: Average filler ignored latency
+              title: Avg Filler Ignored Latency
+            p50_filler_ignored_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: 50th percentile filler ignored latency
+              title: P50 Filler Ignored Latency
+            p90_filler_ignored_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: 90th percentile filler ignored latency
+              title: P90 Filler Ignored Latency
+            p95_filler_ignored_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: 95th percentile filler ignored latency
+              title: P95 Filler Ignored Latency
+            p99_filler_ignored_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: 99th percentile filler ignored latency
+              title: P99 Filler Ignored Latency
+          title: FillerIgnoredLatency
+          type: object
+        Latency:
+          properties:
+            avg_agent_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: Average latency
+              title: Avg Agent Latency
+            max_agent_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: Maximum latency
+              title: Max Agent Latency
+            p50_agent_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: 50th percentile latency
+              title: P50 Agent Latency
+            p90_agent_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: 90th percentile latency
+              title: P90 Agent Latency
+            p95_agent_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: 95th percentile latency
+              title: P95 Agent Latency
+            p99_agent_latency:
+              anyOf:
+              - type: number
+              - type: 'null'
+              default: 0
+              description: 99th percentile latency
+              title: P99 Agent Latency
+          title: Latency
+          type: object
+        ToolCallData:
+          description: Tool call as stored on calls, jobs, and test results (API and database).
+          properties:
+            name:
+              title: Name
+              type: string
+            start_offset_ms:
+              title: Start Offset Ms
+              type: integer
+            description:
+              anyOf:
+              - type: string
+              - type: 'null'
+              default: null
+              title: Description
+            parameters:
+              anyOf:
+              - additionalProperties: true
+                type: object
+              - type: 'null'
+              default: null
+              title: Parameters
+            output:
+              anyOf:
+              - {}
+              - type: 'null'
+              default: null
+              title: Output
+          required:
+          - name
+          - start_offset_ms
+          title: ToolCallData
+          type: object
+      description: Represents a simulation result evaluated event.
+      properties:
+        type:
+          default: simulation_result_evaluated
+          description: Type of webhook payload
+          title: Type
+          type: string
+        id:
+          description: The ID of the simulation result
+          title: Id
+          type: integer
+        digital_human_id:
+          description: The ID of the digital human
+          title: Digital Human Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/ConversationStatus'
+          default: COMPLETED
+          description: The status of the simulation result
+        simulation_run_id:
+          description: The ID of the simulation run that this simulation result belongs to
+          title: Simulation Run Id
+          type: integer
+        simulation_id:
+          description: The ID of the simulation that this simulation result belongs to
+          title: Simulation Id
+          type: integer
+        agent_id:
+          description: The ID of the agent that this simulation result belongs to
+          title: Agent Id
+          type: integer
+        folder_id:
+          anyOf:
+          - format: uuid
+            type: string
+          - type: 'null'
+          default: null
+          description: The ID of the folder that the agent belongs to
+          title: Folder Id
+        result:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          deprecated: true
+          description: Please use the evaluations instead
+          title: Result
+        custom_metrics:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/CustomMetric'
+            type: array
+          - type: 'null'
+          deprecated: true
+          description: Please use the custom metrics in the evaluations instead
+          title: Custom Metrics
+        evaluations:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Evaluation'
+            type: array
+          - type: 'null'
+          description: The evaluations of the simulation result
+          title: Evaluations
+        created_at:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          default: null
+          description: The creation time of the simulation result
+          title: Created At
+        start_time:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          default: null
+          description: The start time of the simulation result
+          title: Start Time
+        end_time:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          default: null
+          description: The end time of the simulation result
+          title: End Time
+        duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          default: null
+          description: The duration of the simulation result
+          title: Duration
+        latency:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          description: The latency of the simulation result
+          title: Latency
+        events:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Event'
+            type: array
+          - type: 'null'
+          description: The events of the simulation result
+          title: Events
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolCallData'
+            type: array
+          - type: 'null'
+          description: The tool calls of the simulation result
+          title: Tool Calls
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          description: The tags of the simulation result
+          title: Tags
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          description: The metadata of the simulation result
+          title: Metadata
+      required:
+      - id
+      - digital_human_id
+      - simulation_run_id
+      - simulation_id
+      - agent_id
+      title: Simulation Result Evaluated
+      type: object
+    DigitalHuman:
+      properties:
+        id:
+          description: The ID of the digital human
+          title: Id
+          type: integer
+        name:
+          description: The name of the digital human
+          title: Name
+          type: string
+        phone_number:
+          description: The phone number of the digital human
+          title: Phone Number
+          type: string
+        associated_simulation_result_ids:
+          description: The IDs of the simulation results that were created for this digital human
+          items:
+            type: integer
+          title: Associated Simulation Result Ids
+          type: array
+      required:
+      - id
+      - name
+      - phone_number
+      title: Digital Human
+      type: object
+    ParticipantRole:
+      type: string
+      enum:
+      - AGENT
+      - USER
+      - DIGITAL_HUMAN
+      - agent
+      - digital_human
+      title: ParticipantRole
+      description: Role of a participant in a call or simulated conversation.
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

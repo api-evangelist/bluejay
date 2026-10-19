@@ -18,9 +18,16 @@ paths:
       summary: Create Custom Metric
       description: Create a new custom metric.
       operationId: create_custom_metric_v1_create_custom_metric_post
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -32,14 +39,55 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateCustomMetricRequest'
+              $ref: '#/components/schemas/CreateMetricRequest'
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomMetricResponse'
+                $ref: '#/components/schemas/MetricResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/create-metric:
+    post:
+      tags:
+      - Custom Metrics
+      summary: Create Custom Metric
+      description: Create a new custom metric.
+      operationId: create_custom_metric_v1_create_metric_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMetricRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricResponse'
         '422':
           description: Validation Error
           content:
@@ -53,9 +101,16 @@ paths:
       summary: Create Custom Metrics
       description: Create multiple custom metrics synchronously using a single bulk insert.
       operationId: create_custom_metrics_v1_create_custom_metrics_post
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -67,14 +122,55 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateCustomMetricsBulkRequest'
+              $ref: '#/components/schemas/CreateMetricsBulkRequest'
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateCustomMetricsBulkResponse'
+                $ref: '#/components/schemas/CreateMetricsBulkResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/create-metrics:
+    post:
+      tags:
+      - Custom Metrics
+      summary: Create Custom Metrics
+      description: Create multiple custom metrics synchronously using a single bulk insert.
+      operationId: create_custom_metrics_v1_create_metrics_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMetricsBulkRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMetricsBulkResponse'
         '422':
           description: Validation Error
           content:
@@ -88,6 +184,7 @@ paths:
       summary: Get Custom Metric
       description: Get a specific custom metric by ID.
       operationId: get_custom_metric_v1_custom_metric__metric_id__get
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -98,6 +195,12 @@ paths:
           type: string
           format: uuid
           title: Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -110,7 +213,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomMetricResponse'
+                $ref: '#/components/schemas/MetricResponse'
         '422':
           description: Validation Error
           content:
@@ -123,6 +226,7 @@ paths:
       summary: Delete Custom Metric
       description: Delete a specific custom metric by ID.
       operationId: delete_custom_metric_v1_custom_metric__metric_id__delete
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -133,6 +237,12 @@ paths:
           type: string
           format: uuid
           title: Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -145,7 +255,90 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/src__models__custom_metric__CustomMetric'
+                $ref: '#/components/schemas/Metric'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/metric/{metric_id}:
+    get:
+      tags:
+      - Custom Metrics
+      summary: Get Custom Metric
+      description: Get a specific custom metric by ID.
+      operationId: get_custom_metric_v1_metric__metric_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: metric_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Custom Metrics
+      summary: Delete Custom Metric
+      description: Delete a specific custom metric by ID.
+      operationId: delete_custom_metric_v1_metric__metric_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: metric_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metric'
         '422':
           description: Validation Error
           content:
@@ -159,6 +352,7 @@ paths:
       summary: Get Custom Metrics
       description: Get all custom metrics, optionally filtered by agent, with pagination.
       operationId: get_custom_metrics_v1_custom_metrics_get
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -184,6 +378,12 @@ paths:
           type: integer
           default: 50
           title: Page Size
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -196,7 +396,64 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomMetricsListResponse'
+                $ref: '#/components/schemas/MetricsListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/metrics:
+    get:
+      tags:
+      - Custom Metrics
+      summary: Get Custom Metrics
+      description: Get all custom metrics, optionally filtered by agent, with pagination.
+      operationId: get_custom_metrics_v1_metrics_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Page Size
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsListResponse'
         '422':
           description: Validation Error
           content:
@@ -208,12 +465,7 @@ paths:
       tags:
       - Custom Metrics
       summary: Get Custom Metrics By Agent
-      description: 'Get all custom metrics for an agent.
-
-
-        **DEPRECATED**: This endpoint is deprecated. Please use GET /custom-metrics?agent_id={agent_id} instead,
-
-        which supports pagination and additional features.'
+      description: Get all custom metrics for an agent.
       operationId: get_custom_metrics_by_agent_v1_custom_metrics_by_agent__agent_id__get
       deprecated: true
       security:
@@ -225,6 +477,12 @@ paths:
         schema:
           type: integer
           title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -237,7 +495,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomMetricsListResponse'
+                $ref: '#/components/schemas/MetricsListResponse'
         '422':
           description: Validation Error
           content:
@@ -251,6 +509,7 @@ paths:
       summary: Update Custom Metric
       description: Update a specific custom metric by ID.
       operationId: update_custom_metric_v1_update_custom_metric__metric_id__put
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
@@ -261,6 +520,12 @@ paths:
           type: string
           format: uuid
           title: Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -272,14 +537,62 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateCustomMetricRequest'
+              $ref: '#/components/schemas/UpdateMetricRequest'
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomMetricResponse'
+                $ref: '#/components/schemas/MetricResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-metric/{metric_id}:
+    put:
+      tags:
+      - Custom Metrics
+      summary: Update Custom Metric
+      description: Update a specific custom metric by ID.
+      operationId: update_custom_metric_v1_update_metric__metric_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: metric_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMetricRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricResponse'
         '422':
           description: Validation Error
           content:
@@ -295,9 +608,16 @@ paths:
 
         Only keys present in updates are applied; each key''s value (including null) is written.'
       operationId: bulk_update_custom_metrics_v1_update_custom_metrics_put
+      deprecated: true
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -309,14 +629,318 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BulkUpdateCustomMetricsRequest'
+              $ref: '#/components/schemas/BulkUpdateMetricsRequest'
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BulkUpdateCustomMetricsResponse'
+                $ref: '#/components/schemas/BulkUpdateMetricsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/update-metrics:
+    put:
+      tags:
+      - Custom Metrics
+      summary: Bulk Update Custom Metrics
+      description: 'Bulk update custom metrics: apply the same patch to each metric in metric_ids.
+
+        Only keys present in updates are applied; each key''s value (including null) is written.'
+      operationId: bulk_update_custom_metrics_v1_update_metrics_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpdateMetricsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpdateMetricsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/delete-custom-metrics:
+    post:
+      tags:
+      - Custom Metrics
+      summary: Bulk Delete Custom Metrics
+      description: 'Delete multiple custom metrics by ID.
+
+        All IDs must exist and belong to the caller''s organization (same rules as single delete).'
+      operationId: bulk_delete_custom_metrics_v1_delete_custom_metrics_post
+      deprecated: true
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteMetricsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDeleteMetricsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/delete-metrics:
+    post:
+      tags:
+      - Custom Metrics
+      summary: Bulk Delete Custom Metrics
+      description: 'Delete multiple custom metrics by ID.
+
+        All IDs must exist and belong to the caller''s organization (same rules as single delete).'
+      operationId: bulk_delete_custom_metrics_v1_delete_metrics_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteMetricsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDeleteMetricsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/generate-custom-metrics:
+    post:
+      tags:
+      - Custom Metrics
+      summary: Generate Custom Metrics
+      description: Generate custom metrics for a given agent based on its description and knowledge base.
+      operationId: generate_custom_metrics_v1_generate_custom_metrics_post
+      deprecated: true
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateMetricsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/generate-metrics:
+    post:
+      tags:
+      - Custom Metrics
+      summary: Generate Custom Metrics
+      description: Generate custom metrics for a given agent based on its description and knowledge base.
+      operationId: generate_custom_metrics_v1_generate_metrics_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateMetricsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/metric-settings:
+    get:
+      tags:
+      - Custom Metrics
+      summary: Get Metric Settings
+      description: 'Stored per-org metric enablement rows. Absent row = default (agent/user
+
+        standard metrics on, conversation_* whole-mix variants off) — resolved by readers.'
+      operationId: get_metric_settings_v1_metric_settings_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricSettingsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Custom Metrics
+      summary: Update Metric Settings
+      description: 'Bulk-upsert per-org metric enablement (one row per metric_id).
+
+
+        Only OPTIONAL standard metrics are toggleable (the library add/remove flow);
+
+        always-on standards (core/system/red-team) and custom metrics are rejected.
+
+
+        Org-admin only. metric_settings is deliberately organization-level: it is not one of
+
+        the stamped tables, so a change here rewrites how EVERY workspace''s conversations are
+
+        graded, including the judge override prompts. Gated only by authentication, any member
+
+        of any workspace, or a workspace-pinned API key, could silently change another team''s
+
+        eval results. The same gate workspace budgets use.'
+      operationId: update_metric_settings_v1_metric_settings_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMetricSettingsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricSettingsResponse'
         '422':
           description: Validation Error
           content:
@@ -325,133 +949,113 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    src__models__custom_metric__CustomMetric:
+    MetricSettingsResponse:
       properties:
-        agent_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Agent Id
-        name:
-          type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-        response_type:
-          $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
-        min_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Min Value
-        max_value:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Value
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-          description: Unique identifier for the custom metric
-        category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Category
-        tags:
+        settings:
+          items:
+            $ref: '#/components/schemas/MetricSettingEntry'
+          type: array
+          title: Settings
+      type: object
+      required:
+      - settings
+      title: MetricSettingsResponse
+    src__models__metric__ResponseType:
+      type: string
+      enum:
+      - pass_fail
+      - yes_no
+      - qualitative
+      - quantitative
+      - json
+      - enum
+      - int
+      - float
+      - boolean
+      - tool_call
+      title: ResponseType
+      description: Enum representing the possible response types for custom metrics.
+    BulkUpdateMetricsRequest:
+      properties:
+        metric_ids:
           items:
             type: string
           type: array
-          title: Tags
-        scoring_guidance:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Scoring Guidance
-        eval_route:
-          anyOf:
-          - $ref: '#/components/schemas/EvalRoute'
-          - type: 'null'
-          default: AUTO
-        model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model
-        audio_model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Audio Model
-        temperature:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Temperature
-        enum_options:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Enum Options
-        organization_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Organization Id
-        allow_not_applicable:
-          type: boolean
-          title: Allow Not Applicable
-          default: false
+          title: Metric Ids
+          description: UUIDs of custom metrics to update
+        updates:
+          $ref: '#/components/schemas/MetricUpdates'
+          description: Fields to update (only present keys are applied; value including null is written)
       type: object
       required:
-      - name
-      - description
-      - response_type
-      title: CustomMetric
-      description: Represents a custom metric entry in the database.
-    ValidationError:
+      - metric_ids
+      - updates
+      title: BulkUpdateMetricsRequest
+      description: Request for bulk updating custom metrics (same patch applied to each metric).
+    UpdateMetricRequest:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CreateCustomMetricRequest:
-      properties:
-        agent_id:
+        bluejay_as_code_id:
           anyOf:
-          - type: integer
+          - type: string
           - type: 'null'
-          title: Agent Id
-          description: ID of the agent this metric belongs to (deprecated, use agent_ids instead)
-          deprecated: true
+          title: Bluejay As Code Id
+          description: Stable code-addressable identifier
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the custom metric
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+          description: 'LLM-judge system prompt for this metric (legacy alias: description)'
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: Short plain-English description of the metric (LLM-generated)
+        metric_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric Type
+          description: 'Specific metric kind (llm_judge, tool_call, audio_*, vocal_fry); legacy alias: type'
+        settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Settings
+          description: 'Type-specific config (e.g. tool_call: {tool_names: [...]})'
+        eval_segment:
+          anyOf:
+          - type: string
+            enum:
+            - agent
+            - user
+            - all
+          - type: 'null'
+          title: Eval Segment
+          description: Which side of the conversation is evaluated
+        scope:
+          anyOf:
+          - type: string
+            enum:
+            - observability
+            - simulations
+            - all
+          - type: 'null'
+          title: Scope
+          description: Which pipeline runs this metric
+        response_type:
+          anyOf:
+          - $ref: '#/components/schemas/src__models__metric__ResponseType'
+          - type: 'null'
+          description: Type of response expected
         agent_ids:
           anyOf:
           - items:
@@ -459,18 +1063,7 @@ components:
             type: array
           - type: 'null'
           title: Agent Ids
-          description: List of agent IDs to associate this metric with
-        name:
-          type: string
-          title: Name
-          description: Name of the custom metric
-        description:
-          type: string
-          title: Description
-          description: Description of what this metric measures
-        response_type:
-          $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
-          description: Type of response expected
+          description: List of agent IDs to associate this metric with (replaces existing associations)
         min_value:
           anyOf:
           - type: number
@@ -503,12 +1096,11 @@ components:
           - type: 'null'
           title: Scoring Guidance
           description: Guidance on how to score this metric
-        eval_route:
+        eval_modality:
           anyOf:
           - $ref: '#/components/schemas/EvalRoute'
           - type: 'null'
-          description: Route for evaluating the metric
-          default: AUTO
+          description: 'Evaluation modality AUTO/TEXT/AUDIO; legacy alias: eval_route'
         model:
           anyOf:
           - type: string
@@ -535,86 +1127,91 @@ components:
           - type: 'null'
           title: Enum Options
           description: Options for enum metrics
+        tool_names:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tool Names
+          description: Expected tool names for tool_call metrics
+        json_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Json Schema
+          description: JSON Schema describing the object the judge must return (required for json metrics)
         allow_not_applicable:
-          type: boolean
+          anyOf:
+          - type: boolean
+          - type: 'null'
           title: Allow Not Applicable
           description: Whether this metric allows 'not applicable' responses.
-          default: false
       type: object
-      required:
-      - name
-      - description
-      - response_type
-      title: CreateCustomMetricRequest
-      description: Request model for creating a custom metric
-    BulkUpdateCustomMetricsRequest:
-      properties:
-        metric_ids:
-          items:
-            type: string
-          type: array
-          title: Metric Ids
-          description: UUIDs of custom metrics to update
-        updates:
-          $ref: '#/components/schemas/CustomMetricUpdates'
-          description: Fields to update (only present keys are applied; value including null is written)
-      type: object
-      required:
-      - metric_ids
-      - updates
-      title: BulkUpdateCustomMetricsRequest
-      description: Request for bulk updating custom metrics (same patch applied to each metric).
-    BulkUpdateCustomMetricsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether the operation succeeded
-          default: true
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Human-readable summary; frontend falls back to 'Updated N custom metric(s)' if missing
-        updated:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Updated
-          description: Number of metrics updated
-      type: object
-      title: BulkUpdateCustomMetricsResponse
-      description: Response for bulk update (success, message, updated count).
-    CreateCustomMetricsBulkRequest:
-      properties:
-        metrics:
-          items:
-            $ref: '#/components/schemas/CreateCustomMetricRequest'
-          type: array
-          title: Metrics
-          description: List of custom metrics to create
-      type: object
-      required:
-      - metrics
-      title: CreateCustomMetricsBulkRequest
-      description: Request model for creating multiple custom metrics
-    CustomMetricResponse:
+      title: UpdateMetricRequest
+      description: Request model for updating a custom metric
+    MetricResponse:
       properties:
         id:
           type: string
           title: Id
           description: Unique identifier for the custom metric
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bluejay As Code Id
+          description: Stable code-addressable identifier (same as id for custom metrics)
         name:
           type: string
           title: Name
           description: Name of the custom metric
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+          description: LLM-judge system prompt for this metric (null for non-judge types)
         description:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Description
-          description: Description of what this metric measures
+          description: 'Deprecated: same value as prompt'
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: Short plain-English description of the metric (LLM-generated)
+        metric_type:
+          type: string
+          title: Metric Type
+          description: Specific metric kind
+          default: llm_judge
+        eval_method:
+          type: string
+          title: Eval Method
+          description: Evaluation category (llm_judge|statistical|ml_model|deterministic)
+          default: llm_judge
+        settings:
+          additionalProperties: true
+          type: object
+          title: Settings
+          description: Type-specific config
+        eval_segment:
+          type: string
+          title: Eval Segment
+          description: Which side of the conversation is evaluated (agent|user|all)
+          default: all
+        scope:
+          type: string
+          title: Scope
+          description: Which pipeline runs this metric (observability|simulations|all)
+          default: all
         response_type:
-          $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
+          $ref: '#/components/schemas/src__models__metric__ResponseType'
           description: Type of response expected
         agent_ids:
           items:
@@ -659,11 +1256,30 @@ components:
           format: date-time
           title: Created At
           description: When this metric was created
-        eval_route:
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+          description: When this metric was last updated
+        updated_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Updated By
+          description: User who last updated this metric
+        created_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created By
+          description: User who created this metric
+        eval_modality:
           anyOf:
           - $ref: '#/components/schemas/EvalRoute'
           - type: 'null'
-          description: Route for evaluating the metric
+          description: Evaluation modality AUTO/TEXT/AUDIO
         model:
           anyOf:
           - type: string
@@ -690,28 +1306,131 @@ components:
           - type: 'null'
           title: Enum Options
           description: Options for enum metrics
+        tool_names:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tool Names
+          description: 'Deprecated: mirror of settings.tool_names for tool_call metrics'
+        json_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Json Schema
+          description: JSON Schema describing the object the judge must return (json metrics only)
         allow_not_applicable:
           type: boolean
           title: Allow Not Applicable
           description: Whether this metric allows 'not applicable' responses.
           default: false
+        eval_modality_auto_selected:
+          type: boolean
+          title: Eval Modality Auto Selected
+          description: 'Deprecated: always false (column removed).'
+          default: false
+        template_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Template Id
+          description: Library template this metric was created from
       type: object
       required:
       - id
       - name
-      - description
       - response_type
       - created_at
-      title: CustomMetricResponse
+      title: MetricResponse
       description: Response model for custom metric operations
-    EvalRoute:
-      type: string
-      enum:
-      - AUDIO
-      - TEXT
-      - AUTO
-      title: EvalRoute
-      description: Enum representing the evaluation route of a call.
+    BulkDeleteMetricsRequest:
+      properties:
+        custom_metric_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 100
+          minItems: 1
+          title: Custom Metric Ids
+          description: UUIDs of custom metrics to delete
+      type: object
+      required:
+      - custom_metric_ids
+      title: BulkDeleteMetricsRequest
+      description: Request to delete multiple custom metrics.
+    CreateMetricsBulkRequest:
+      properties:
+        metrics:
+          items:
+            $ref: '#/components/schemas/CreateMetricRequest'
+          type: array
+          title: Metrics
+          description: List of custom metrics to create
+      type: object
+      required:
+      - metrics
+      title: CreateMetricsBulkRequest
+      description: Request model for creating multiple custom metrics
+    CreateMetricsBulkResponse:
+      properties:
+        metrics:
+          items:
+            $ref: '#/components/schemas/MetricResponse'
+          type: array
+          title: Metrics
+          description: List of created custom metrics
+      type: object
+      required:
+      - metrics
+      title: CreateMetricsBulkResponse
+      description: Response model for bulk creating custom metrics
+    MetricSettingEntry:
+      properties:
+        metric_id:
+          type: string
+          format: uuid
+          title: Metric Id
+        is_enabled:
+          type: boolean
+          title: Is Enabled
+        override_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Prompt
+      type: object
+      required:
+      - metric_id
+      - is_enabled
+      title: MetricSettingEntry
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -721,130 +1440,30 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    CustomMetricUpdates:
-      properties:
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        agent_ids:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Agent Ids
-        eval_route:
-          anyOf:
-          - $ref: '#/components/schemas/EvalRoute'
-          - type: 'null'
-        model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model
-        audio_model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Audio Model
-        temperature:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Temperature
-        allow_not_applicable:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Allow Not Applicable
-      type: object
-      title: CustomMetricUpdates
-      description: Patch payload; only keys that are present are applied; each value (including null) is written.
-    CreateCustomMetricsBulkResponse:
-      properties:
-        metrics:
-          items:
-            $ref: '#/components/schemas/CustomMetricResponse'
-          type: array
-          title: Metrics
-          description: List of created custom metrics
-      type: object
-      required:
-      - metrics
-      title: CreateCustomMetricsBulkResponse
-      description: Response model for bulk creating custom metrics
-    src__models__custom_metric__ResponseType:
+    EvalRoute:
       type: string
       enum:
-      - pass_fail
-      - yes_no
-      - qualitative
-      - quantitative
-      - json
-      - enum
-      title: ResponseType
-      description: Enum representing the possible response types for custom metrics.
-    CustomMetricsListResponse:
+      - AUDIO
+      - TEXT
+      - AUTO
+      title: EvalRoute
+      description: Enum representing the evaluation route of a call.
+    CreateMetricRequest:
       properties:
-        metrics:
-          items:
-            $ref: '#/components/schemas/CustomMetricResponse'
-          type: array
-          title: Metrics
-          description: List of custom metrics
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of metrics across all pages
-        page:
-          type: integer
-          title: Page
-          description: Current page number
-        page_size:
-          type: integer
-          title: Page Size
-          description: Requested number of items per page
-        items_in_page:
-          type: integer
-          title: Items In Page
-          description: Actual number of items in current page
-        total_pages:
-          type: integer
-          title: Total Pages
-          description: Total number of pages
-      type: object
-      required:
-      - metrics
-      - total_count
-      - page
-      - page_size
-      - items_in_page
-      - total_pages
-      title: CustomMetricsListResponse
-      description: Response model for listing custom metrics
-    UpdateCustomMetricRequest:
-      properties:
-        name:
+        bluejay_as_code_id:
           anyOf:
           - type: string
+            format: uuid
           - type: 'null'
-          title: Name
-          description: Name of the custom metric
-        description:
+          title: Bluejay As Code Id
+          description: Stable code-addressable identifier
+        agent_id:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
-          title: Description
-          description: Description of what this metric measures
-        response_type:
-          anyOf:
-          - $ref: '#/components/schemas/src__models__custom_metric__ResponseType'
-          - type: 'null'
-          description: Type of response expected
+          title: Agent Id
+          description: ID of the agent this metric belongs to (deprecated, use agent_ids instead)
+          deprecated: true
         agent_ids:
           anyOf:
           - items:
@@ -852,7 +1471,54 @@ components:
             type: array
           - type: 'null'
           title: Agent Ids
-          description: List of agent IDs to associate this metric with (replaces existing associations)
+          description: List of agent IDs to associate this metric with
+        name:
+          type: string
+          title: Name
+          description: Name of the custom metric
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+          description: LLM-judge system prompt (required for llm_judge; null for other types)
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: Short plain-English description of the metric (LLM-generated)
+        metric_type:
+          type: string
+          title: Metric Type
+          description: 'Specific metric kind (llm_judge, tool_call, audio_*, vocal_fry); legacy alias: type'
+          default: llm_judge
+        settings:
+          additionalProperties: true
+          type: object
+          title: Settings
+          description: 'Type-specific config (e.g. tool_call: {tool_names: [...]})'
+        eval_segment:
+          type: string
+          enum:
+          - agent
+          - user
+          - all
+          title: Eval Segment
+          description: Which side of the conversation is evaluated
+          default: all
+        scope:
+          type: string
+          enum:
+          - observability
+          - simulations
+          - all
+          title: Scope
+          description: Which pipeline runs this metric
+          default: all
+        response_type:
+          $ref: '#/components/schemas/src__models__metric__ResponseType'
+          description: Type of response expected
         min_value:
           anyOf:
           - type: number
@@ -885,11 +1551,11 @@ components:
           - type: 'null'
           title: Scoring Guidance
           description: Guidance on how to score this metric
-        eval_route:
+        eval_modality:
           anyOf:
           - $ref: '#/components/schemas/EvalRoute'
           - type: 'null'
-          description: Route for evaluating the metric
+          description: 'Evaluation modality AUTO/TEXT/AUDIO; legacy alias: eval_route'
           default: AUTO
         model:
           anyOf:
@@ -917,18 +1583,405 @@ components:
           - type: 'null'
           title: Enum Options
           description: Options for enum metrics
+        tool_names:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tool Names
+          description: Expected tool names for tool_call metrics
+        json_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Json Schema
+          description: JSON Schema describing the object the judge must return (required for json metrics)
+        allow_not_applicable:
+          type: boolean
+          title: Allow Not Applicable
+          description: Whether this metric allows 'not applicable' responses.
+          default: false
+        template_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Template Id
+          description: Library template this metric was created from
+      type: object
+      required:
+      - name
+      - response_type
+      title: CreateMetricRequest
+      description: Request model for creating a custom metric
+    BulkUpdateMetricsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the operation succeeded
+          default: true
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Human-readable summary; frontend falls back to 'Updated N custom metric(s)' if missing
+        updated:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Updated
+          description: Number of metrics updated
+      type: object
+      title: BulkUpdateMetricsResponse
+      description: Response for bulk update (success, message, updated count).
+    GenerateMetricsRequest:
+      properties:
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent to generate metrics for
+        prompt_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Prompt Id
+          description: Deprecated. Use agent_version_id. Same uuid, still works.
+          deprecated: true
+        agent_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Version Id
+          description: Agent version UUID to generate metrics from (defaults to latest)
+        knowledge_base_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Knowledge Base Id
+          description: Knowledge base UUID associated with the agent
+        count:
+          type: integer
+          title: Count
+          description: Number of custom metrics to generate
+          default: 5
+        custom_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Prompt
+          description: Custom instructions for metric generation
+      type: object
+      required:
+      - agent_id
+      title: GenerateMetricsRequest
+    MetricsListResponse:
+      properties:
+        metrics:
+          items:
+            $ref: '#/components/schemas/MetricResponse'
+          type: array
+          title: Metrics
+          description: List of custom metrics
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of metrics across all pages
+        page:
+          type: integer
+          title: Page
+          description: Current page number
+        page_size:
+          type: integer
+          title: Page Size
+          description: Requested number of items per page
+        items_in_page:
+          type: integer
+          title: Items In Page
+          description: Actual number of items in current page
+        total_pages:
+          type: integer
+          title: Total Pages
+          description: Total number of pages
+        data:
+          items:
+            $ref: '#/components/schemas/MetricResponse'
+          type: array
+          title: Data
+          readOnly: true
+      type: object
+      required:
+      - metrics
+      - total_count
+      - page
+      - page_size
+      - items_in_page
+      - total_pages
+      - data
+      title: MetricsListResponse
+      description: Response model for listing custom metrics
+    BulkDeleteMetricsResponse:
+      properties:
+        deleted_count:
+          type: integer
+          title: Deleted Count
+          description: Number of metrics deleted
+        deleted_metric_ids:
+          items:
+            type: string
+          type: array
+          title: Deleted Metric Ids
+          description: IDs of metrics that were deleted
+      type: object
+      required:
+      - deleted_count
+      - deleted_metric_ids
+      title: BulkDeleteMetricsResponse
+      description: Response for bulk delete.
+    Metric:
+      properties:
+        name:
+          type: string
+          title: Name
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+        metric_type:
+          type: string
+          title: Metric Type
+          default: llm_judge
+        eval_method:
+          type: string
+          title: Eval Method
+          default: llm_judge
+        settings:
+          additionalProperties: true
+          type: object
+          title: Settings
+        source:
+          type: string
+          title: Source
+          default: custom
+        eval_segment:
+          type: string
+          title: Eval Segment
+          default: all
+        scope:
+          type: string
+          title: Scope
+          default: all
+        response_type:
+          $ref: '#/components/schemas/src__models__metric__ResponseType'
+        min_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Value
+        max_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Value
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+        updated_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By
+        created_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Created By
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+          description: Unique identifier for the metric
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+        tags:
+          items:
+            type: string
+          type: array
+          title: Tags
+        scoring_guidance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scoring Guidance
+        eval_modality:
+          anyOf:
+          - $ref: '#/components/schemas/EvalRoute'
+          - type: 'null'
+          default: AUTO
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+        audio_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Model
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+        enum_options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum Options
+        json_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Json Schema
+        organization_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Organization Id
+        workspace_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Workspace Id
+        allow_not_applicable:
+          type: boolean
+          title: Allow Not Applicable
+          default: false
+        template_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Template Id
+      type: object
+      required:
+      - name
+      - response_type
+      title: Metric
+      description: Represents a metric entry in the database.
+    MetricUpdates:
+      properties:
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        agent_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Agent Ids
+        eval_modality:
+          anyOf:
+          - $ref: '#/components/schemas/EvalRoute'
+          - type: 'null'
+        eval_segment:
+          anyOf:
+          - type: string
+            enum:
+            - agent
+            - user
+            - all
+          - type: 'null'
+          title: Eval Segment
+        scope:
+          anyOf:
+          - type: string
+            enum:
+            - observability
+            - simulations
+            - all
+          - type: 'null'
+          title: Scope
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+        audio_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Model
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
         allow_not_applicable:
           anyOf:
           - type: boolean
           - type: 'null'
           title: Allow Not Applicable
-          description: Whether this metric allows 'not applicable' responses.
       type: object
-      title: UpdateCustomMetricRequest
-      description: Request model for updating a custom metric
+      title: MetricUpdates
+      description: Patch payload; only keys that are present are applied; each value (including null) is written.
+    UpdateMetricSettingsRequest:
+      properties:
+        settings:
+          items:
+            $ref: '#/components/schemas/MetricSettingEntry'
+          type: array
+          maxItems: 200
+          minItems: 1
+          title: Settings
+      type: object
+      required:
+      - settings
+      title: UpdateMetricSettingsRequest
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

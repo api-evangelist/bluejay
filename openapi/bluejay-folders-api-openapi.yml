@@ -24,6 +24,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -62,6 +68,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -104,6 +116,12 @@ paths:
           type: string
           format: uuid
           title: Folder Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -144,6 +162,12 @@ paths:
           type: string
           format: uuid
           title: Folder Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -181,6 +205,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -226,6 +256,12 @@ paths:
           type: string
           format: uuid
           title: Folder Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -271,6 +307,12 @@ paths:
           type: string
           format: uuid
           title: Folder Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -295,34 +337,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AgentMode:
-      type: string
-      enum:
-      - VOICE
-      - TEXT
-      title: AgentMode
-      description: Enum representing the mode of agent
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     FolderUpdateRequest:
       properties:
         name:
@@ -333,6 +347,23 @@ components:
       required:
       - name
       title: FolderUpdateRequest
+    MoveAgentRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: ID of the agent to move
+        folder_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Folder Id
+          description: ID of the target folder (null to disassociate from any folder)
+      type: object
+      required:
+      - agent_id
+      title: MoveAgentRequest
     FolderCreateRequest:
       properties:
         name:
@@ -343,118 +374,34 @@ components:
       required:
       - name
       title: FolderCreateRequest
-    ConnectionType:
-      type: string
-      enum:
-      - SMS
-      - HTTP_WEBHOOK
-      - PHONE
-      - SIP
-      - WEBSOCKET
-      - LIVEKIT
-      - PIPECAT
-      title: ConnectionType
-      description: Enum representing the connection type of the agent
-    MoveAgentResponse:
-      properties:
-        agent_id:
-          type: integer
-          title: Agent Id
-          description: ID of the agent
-        folder_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Folder Id
-          description: ID of the folder (null if disassociated)
-        status:
-          type: string
-          title: Status
-          description: Status of the operation
-          default: success
-      type: object
-      required:
-      - agent_id
-      title: MoveAgentResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    FolderResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-          description: ID of the folder
-        name:
-          type: string
-          title: Name
-          description: Name of the folder
-        organization_id:
-          type: string
-          title: Organization Id
-          description: Organization ID
-        created_at:
-          type: string
-          title: Created At
-          description: Timestamp when the folder was created
-      type: object
-      required:
-      - id
-      - name
-      - organization_id
-      - created_at
-      title: FolderResponse
-    AgentType:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: AgentType
-      description: Enum representing the type of agent
-    FolderDeleteResponse:
-      properties:
-        folder_id:
-          type: string
-          format: uuid
-          title: Folder Id
-          description: ID of the deleted folder
-        status:
-          type: string
-          title: Status
-          description: Status of the deletion
-          default: success
-      type: object
-      required:
-      - folder_id
-      title: FolderDeleteResponse
     AgentPydantic:
       properties:
         id:
           anyOf:
-          - type: string
           - type: integer
+          - type: string
           - type: 'null'
           title: Id
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bluejay As Code Id
         name:
           type: string
           title: Name
         agent_description:
           type: string
           title: Agent Description
-        knowledge_base:
-          type: string
-          title: Knowledge Base
         organization_id:
           type: string
           title: Organization Id
+        workspace_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Workspace Id
         goals:
           anyOf:
           - items:
@@ -477,6 +424,25 @@ components:
           - type: string
           - type: 'null'
           title: Phone Number
+        email_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email Address
+        email_reply_addresses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Email Reply Addresses
+        follow_up_sms_sender_numbers:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Follow Up Sms Sender Numbers
         websocket_url:
           anyOf:
           - type: string
@@ -499,6 +465,30 @@ components:
             format: date-time
           - type: 'null'
           title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+        updated_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By
+        updated_by_api_key:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By Api Key
+        created_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Created By
         keyterms:
           anyOf:
           - items:
@@ -567,6 +557,21 @@ components:
             type: object
           - type: 'null'
           title: Livekit Metadata
+        livekit_customer_tool_topic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Customer Tool Topic
+        livekit_token_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Url
+        livekit_token_webhook_auth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Livekit Token Webhook Auth
         pipecat_agent_name:
           anyOf:
           - type: string
@@ -594,39 +599,395 @@ components:
           - type: string
           - type: 'null'
           title: Http Webhook Key
+        http_webhook_sync_reply:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Http Webhook Sync Reply
+        dynamic_sip_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dynamic Sip Webhook Url
+        outbound_trigger_webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outbound Trigger Webhook Url
+        outbound_trigger_payload_template:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Outbound Trigger Payload Template
+        eleven_labs_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eleven Labs Agent Id
+        retell_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Retell Agent Id
+        vapi_assistant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vapi Assistant Id
+        ces_app_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces App Id
+        ces_deployment_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ces Deployment Id
+        dfcx_project_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Project Id
+        dfcx_location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Location
+        dfcx_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dfcx Agent Id
+        amelia_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Base Url
+        amelia_domain_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Domain Code
+        amelia_flow_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Flow Name
+        amelia_agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Amelia Agent Name
+        bland_pathway_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Pathway Id
+        bland_agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Agent Id
+        bland_persona_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bland Persona Id
+        bland_call_settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Bland Call Settings
+        provider_request_data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provider Request Data
+        sierra_agent_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Agent Token
+        sierra_release:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sierra Release
+        sierra_agent_parameters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Sierra Agent Parameters
+        kore_host:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Host
+        kore_bot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Bot Id
+        kore_client_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Id
+        kore_client_secret:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Client Secret
+        openai_base_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Base Url
+        openai_api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Api Key
+        openai_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Model
+        openai_realtime_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Realtime Url
+        openai_realtime_session:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Openai Realtime Session
+        openai_prompt_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Id
+        openai_prompt_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Openai Prompt Version
+        kore_inbound_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kore Inbound Token
         enable_outbound_call_auto_start:
           anyOf:
           - type: boolean
           - type: 'null'
           title: Enable Outbound Call Auto Start
+        simulations_disabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Simulations Disabled
+          default: false
+        workflow:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Workflow
+        provider:
+          anyOf:
+          - $ref: '#/components/schemas/Provider'
+          - type: 'null'
+        red_team_profile:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Red Team Profile
       type: object
       required:
       - name
       - agent_description
-      - knowledge_base
       - organization_id
       - mode
       title: AgentPydantic
-    MoveAgentRequest:
+    Provider:
+      type: string
+      enum:
+      - CUSTOM
+      - ELEVENLABS
+      - VAPI
+      - RETELL
+      - GOOGLE_CES_VOICE
+      - GOOGLE_CES_CHAT
+      - GOOGLE_DFCX_VOICE
+      - GOOGLE_DFCX_CHAT
+      - AMELIA
+      - BLAND
+      title: Provider
+      description: 'Source platform the agent''s definition (system prompt, workflow) comes from.
+
+
+        Distinct from `voice_provider` (TTS/STT vendor) and `provider_id` (handle on that vendor) —
+
+        this identifies where the agent''s *behavior* (prompt, multi-agent graph) is authored.'
+    AgentMode:
+      type: string
+      enum:
+      - VOICE
+      - TEXT
+      - EMAIL
+      title: AgentMode
+      description: Enum representing the mode of agent
+    ConnectionType:
+      type: string
+      enum:
+      - SMS
+      - HTTP_WEBHOOK
+      - PHONE
+      - SIP
+      - WEBSOCKET
+      - LIVEKIT
+      - PIPECAT
+      - ELEVEN_LABS
+      - RETELL
+      - VAPI
+      - KORE
+      - OPENAI_CHAT
+      - OPENAI_REALTIME
+      - SIERRA_VOICE
+      - AMELIA_CHAT
+      - AMELIA_VOICE
+      - GOOGLE_CES_CHAT
+      - GOOGLE_CES_VOICE
+      - GOOGLE_DFCX_VOICE
+      - GOOGLE_DFCX_CHAT
+      - BLAND_PHONE
+      - BLAND_VOICE
+      - BLAND_CHAT
+      - EMAIL
+      title: ConnectionType
+      description: Enum representing the connection type of the agent
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    MoveAgentResponse:
       properties:
         agent_id:
           type: integer
           title: Agent Id
-          description: ID of the agent to move
+          description: ID of the agent
         folder_id:
           anyOf:
           - type: string
             format: uuid
           - type: 'null'
           title: Folder Id
-          description: ID of the target folder (null to disassociate from any folder)
+          description: ID of the folder (null if disassociated)
+        status:
+          type: string
+          title: Status
+          description: Status of the operation
+          default: success
       type: object
       required:
       - agent_id
-      title: MoveAgentRequest
+      title: MoveAgentResponse
+    AgentType:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: AgentType
+      description: Enum representing the type of agent
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    FolderDeleteResponse:
+      properties:
+        folder_id:
+          type: string
+          format: uuid
+          title: Folder Id
+          description: ID of the deleted folder
+        status:
+          type: string
+          title: Status
+          description: Status of the deletion
+          default: success
+      type: object
+      required:
+      - folder_id
+      title: FolderDeleteResponse
+    FolderResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+          description: ID of the folder
+        name:
+          type: string
+          title: Name
+          description: Name of the folder
+        organization_id:
+          type: string
+          title: Organization Id
+          description: Organization ID
+        created_at:
+          type: string
+          title: Created At
+          description: Timestamp when the folder was created
+      type: object
+      required:
+      - id
+      - name
+      - organization_id
+      - created_at
+      title: FolderResponse
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

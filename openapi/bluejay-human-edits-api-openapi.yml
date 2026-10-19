@@ -1,0 +1,771 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Human Edits API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Human Edits
+paths:
+  /v1/evaluation/{evaluation_id}/custom-metric/{custom_metric_id}:
+    patch:
+      tags:
+      - Human Edits
+      summary: Override Custom Metric Result
+      description: 'Override a custom metric result on its metric_results row. ``custom_metric_id`` is the
+
+        metric_results.metric_id; the string response_value is coerced by the row''s metric_type.'
+      operationId: override_custom_metric_result_v1_evaluation__evaluation_id__custom_metric__custom_metric_id__patch
+      deprecated: true
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: custom_metric_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Custom Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverrideCustomMetricRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/metric/{custom_metric_id}:
+    patch:
+      tags:
+      - Human Edits
+      summary: Override Custom Metric Result
+      description: 'Override a custom metric result on its metric_results row. ``custom_metric_id`` is the
+
+        metric_results.metric_id; the string response_value is coerced by the row''s metric_type.'
+      operationId: override_custom_metric_result_v1_evaluation__evaluation_id__metric__custom_metric_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: custom_metric_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Custom Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverrideCustomMetricRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/goal:
+    patch:
+      tags:
+      - Human Edits
+      summary: Override Goal Result
+      description: Override goal_success + reasoning on the `success` metric_results row.
+      operationId: override_goal_result_v1_evaluation__evaluation_id__goal_patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverrideGoalRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/hallucination:
+    patch:
+      tags:
+      - Human Edits
+      summary: Override Hallucination Result
+      description: Override the hallucination verdict + reasoning on the `hallucination` metric_results row.
+      operationId: override_hallucination_result_v1_evaluation__evaluation_id__hallucination_patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverrideHallucinationRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/redundancy:
+    patch:
+      tags:
+      - Human Edits
+      summary: Override Redundancy Result
+      description: Override the redundancy verdict + reasoning on the `redundancy` metric_results row.
+      operationId: override_redundancy_result_v1_evaluation__evaluation_id__redundancy_patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverrideRedundancyRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/pronunciation:
+    patch:
+      tags:
+      - Human Edits
+      summary: Override Pronunciation Result
+      description: 'Override the pronunciation score + reasoning on the `pronunciation` metric_results row.
+
+
+        404s until evals materializes a pronunciation metric_results row for the conversation.'
+      operationId: override_pronunciation_result_v1_evaluation__evaluation_id__pronunciation_patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverridePronunciationRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/custom-metric/{custom_metric_id}/override:
+    delete:
+      tags:
+      - Human Edits
+      summary: Revert Custom Metric Override
+      description: Revert a custom metric override by restoring its human_* columns to sentinels.
+      operationId: revert_custom_metric_override_v1_evaluation__evaluation_id__custom_metric__custom_metric_id__override_delete
+      deprecated: true
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: custom_metric_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Custom Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/metric/{custom_metric_id}/override:
+    delete:
+      tags:
+      - Human Edits
+      summary: Revert Custom Metric Override
+      description: Revert a custom metric override by restoring its human_* columns to sentinels.
+      operationId: revert_custom_metric_override_v1_evaluation__evaluation_id__metric__custom_metric_id__override_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: custom_metric_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Custom Metric Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/goal-override:
+    delete:
+      tags:
+      - Human Edits
+      summary: Revert Goal Override
+      description: Revert a goal override on the `success` metric_results row.
+      operationId: revert_goal_override_v1_evaluation__evaluation_id__goal_override_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/hallucination-override:
+    delete:
+      tags:
+      - Human Edits
+      summary: Revert Hallucination Override
+      description: Revert a hallucination override on the `hallucination` metric_results row.
+      operationId: revert_hallucination_override_v1_evaluation__evaluation_id__hallucination_override_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/redundancy-override:
+    delete:
+      tags:
+      - Human Edits
+      summary: Revert Redundancy Override
+      description: Revert a redundancy override on the `redundancy` metric_results row.
+      operationId: revert_redundancy_override_v1_evaluation__evaluation_id__redundancy_override_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation/{evaluation_id}/pronunciation-override:
+    delete:
+      tags:
+      - Human Edits
+      summary: Revert Pronunciation Override
+      description: Revert a pronunciation override on the `pronunciation` metric_results row.
+      operationId: revert_pronunciation_override_v1_evaluation__evaluation_id__pronunciation_override_delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Evaluation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanEditResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HumanEditResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Status of the response
+          default: success
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Optional message providing additional information
+      type: object
+      title: HumanEditResponse
+    OverrideGoalRequest:
+      properties:
+        goal_success:
+          type: boolean
+          title: Goal Success
+          description: The manually overridden goal success value
+        goal_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Goal Reasoning
+          description: The manually provided reasoning for the goal override
+        override_reason_code:
+          type: string
+          title: Override Reason Code
+          description: Structured reason for the override (one of VALID_OVERRIDE_REASON_CODES)
+        override_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Notes
+          description: Freeform notes from the reviewer
+      type: object
+      required:
+      - goal_success
+      - override_reason_code
+      title: OverrideGoalRequest
+    OverrideCustomMetricRequest:
+      properties:
+        response_value:
+          type: string
+          title: Response Value
+          description: The manually overridden response value for the custom metric
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+          description: The manually provided reasoning for the override
+        override_reason_code:
+          type: string
+          title: Override Reason Code
+          description: Structured reason for the override (one of VALID_OVERRIDE_REASON_CODES)
+        override_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Notes
+          description: Freeform notes from the reviewer
+      type: object
+      required:
+      - response_value
+      - override_reason_code
+      title: OverrideCustomMetricRequest
+    OverridePronunciationRequest:
+      properties:
+        pronunciation_score:
+          type: number
+          title: Pronunciation Score
+          description: The manually overridden pronunciation score
+        pronunciation_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pronunciation Reasoning
+          description: The manually provided reasoning for the pronunciation override
+        override_reason_code:
+          type: string
+          title: Override Reason Code
+          description: Structured reason for the override (one of VALID_OVERRIDE_REASON_CODES)
+        override_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Notes
+          description: Freeform notes from the reviewer
+      type: object
+      required:
+      - pronunciation_score
+      - override_reason_code
+      title: OverridePronunciationRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OverrideHallucinationRequest:
+      properties:
+        hallucination:
+          type: boolean
+          title: Hallucination
+          description: The manually overridden hallucination verdict
+        hallucination_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Hallucination Reasoning
+          description: The manually provided reasoning for the hallucination override
+        override_reason_code:
+          type: string
+          title: Override Reason Code
+          description: Structured reason for the override (one of VALID_OVERRIDE_REASON_CODES)
+        override_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Notes
+          description: Freeform notes from the reviewer
+      type: object
+      required:
+      - hallucination
+      - override_reason_code
+      title: OverrideHallucinationRequest
+    OverrideRedundancyRequest:
+      properties:
+        redundancy:
+          type: boolean
+          title: Redundancy
+          description: The manually overridden redundancy verdict
+        redundancy_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Redundancy Reasoning
+          description: The manually provided reasoning for the redundancy override
+        override_reason_code:
+          type: string
+          title: Override Reason Code
+          description: Structured reason for the override (one of VALID_OVERRIDE_REASON_CODES)
+        override_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Notes
+          description: Freeform notes from the reviewer
+      type: object
+      required:
+      - redundancy
+      - override_reason_code
+      title: OverrideRedundancyRequest
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

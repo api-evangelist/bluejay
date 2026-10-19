@@ -11,7 +11,7 @@ security:
 tags:
 - name: Generate Translated Transcript
 paths:
-  /v1/generate-translated-transcript/{test_result_id}:
+  /v1/generate-translated-transcript/{sim_conversation_id}:
     post:
       summary: Generate Translated Transcript
       description: 'Generate a translated transcript for a given audio file.
@@ -19,22 +19,28 @@ paths:
 
         Args:
 
-        test_result_id: the ID of the test result to generate a translated transcript for.
+        sim_conversation_id: the ID of the test result to generate a translated transcript for.
 
 
         Returns:
 
         a dictionary with the status, message, and translated transcript url.'
-      operationId: generate_translated_transcript_v1_generate_translated_transcript__test_result_id__post
+      operationId: generate_translated_transcript_v1_generate_translated_transcript__sim_conversation_id__post
       security:
       - HTTPBearer: []
       parameters:
-      - name: test_result_id
+      - name: sim_conversation_id
         in: path
         required: true
         schema:
           type: string
-          title: Test Result Id
+          title: Sim Conversation Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -57,15 +63,6 @@ paths:
       - Generate Translated Transcript
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -81,15 +78,33 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
       - loc
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

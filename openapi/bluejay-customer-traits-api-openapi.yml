@@ -35,6 +35,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -91,6 +97,12 @@ paths:
           type: string
           format: uuid
           title: Trait Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -140,6 +152,12 @@ paths:
           type: string
           format: uuid
           title: Trait Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -191,6 +209,12 @@ paths:
           - type: integer
           - type: 'null'
           title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -243,6 +267,12 @@ paths:
           type: string
           format: uuid
           title: Trait Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -311,6 +341,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -344,36 +380,22 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
+    DeleteCustomerTraitResponse:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        message:
           type: string
           title: Message
-        type:
+          description: Success message
+        deleted_trait_id:
           type: string
-          title: Error Type
+          title: Deleted Trait Id
+          description: ID of the deleted trait
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TraitDataType:
-      type: string
-      enum:
-      - BOOLEAN
-      - STRING
-      - DATE
-      - NUMBER
-      title: TraitDataType
-      description: Enum for trait data types.
+      - message
+      - deleted_trait_id
+      title: DeleteCustomerTraitResponse
+      description: Response model for deleting a customer trait.
     CustomerTraitResponse:
       properties:
         id:
@@ -437,86 +459,6 @@ components:
       - data_type
       title: CreateCustomerTraitRequest
       description: Request model for creating a customer trait definition.
-    CustomerTraitsListResponse:
-      properties:
-        traits:
-          items:
-            $ref: '#/components/schemas/CustomerTraitResponse'
-          type: array
-          title: Traits
-          description: List of customer traits
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of traits
-      type: object
-      required:
-      - traits
-      - total_count
-      title: CustomerTraitsListResponse
-      description: Response model for listing customer traits.
-    UpdateCustomerTraitRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Name of the trait
-        data_type:
-          anyOf:
-          - $ref: '#/components/schemas/TraitDataType'
-          - type: 'null'
-          description: Data type of the trait
-        default_value:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Default Value
-          description: Default value for this trait (will be converted based on data_type)
-      type: object
-      title: UpdateCustomerTraitRequest
-      description: Request model for updating a customer trait definition.
-    DeleteCustomerTraitResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_trait_id:
-          type: string
-          title: Deleted Trait Id
-          description: ID of the deleted trait
-      type: object
-      required:
-      - message
-      - deleted_trait_id
-      title: DeleteCustomerTraitResponse
-      description: Response model for deleting a customer trait.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    TraitInput:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the trait
-        data_type:
-          $ref: '#/components/schemas/TraitDataType'
-          description: Data type of the trait (BOOLEAN, STRING, NUMBER, DATE)
-      type: object
-      required:
-      - name
-      - data_type
-      title: TraitInput
-      description: One trait to generate values for.
     GenerateTraitValuesRequest:
       properties:
         scenarios:
@@ -549,9 +491,119 @@ components:
       - traits
       title: GenerateTraitValuesRequest
       description: 'Request: list of scenarios and list of traits; values are generated per scenario per trait.'
+    CustomerTraitsListResponse:
+      properties:
+        traits:
+          items:
+            $ref: '#/components/schemas/CustomerTraitResponse'
+          type: array
+          title: Traits
+          description: List of customer traits
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of traits
+      type: object
+      required:
+      - traits
+      - total_count
+      title: CustomerTraitsListResponse
+      description: Response model for listing customer traits.
+    TraitDataType:
+      type: string
+      enum:
+      - BOOLEAN
+      - STRING
+      - DATE
+      - NUMBER
+      title: TraitDataType
+      description: Enum for trait data types.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UpdateCustomerTraitRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Name of the trait
+        data_type:
+          anyOf:
+          - $ref: '#/components/schemas/TraitDataType'
+          - type: 'null'
+          description: Data type of the trait
+        default_value:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Default Value
+          description: Default value for this trait (will be converted based on data_type)
+        sync_existing:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Sync Existing
+          description: If True, sync changes to existing digital humans' customer_trait_values records
+          default: false
+      type: object
+      title: UpdateCustomerTraitRequest
+      description: Request model for updating a customer trait definition.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TraitInput:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the trait
+        data_type:
+          $ref: '#/components/schemas/TraitDataType'
+          description: Data type of the trait (BOOLEAN, STRING, NUMBER, DATE)
+      type: object
+      required:
+      - name
+      - data_type
+      title: TraitInput
+      description: One trait to generate values for.
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

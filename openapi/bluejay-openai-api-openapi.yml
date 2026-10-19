@@ -1,0 +1,115 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Open AI API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Openai
+paths:
+  /v1/integrations/openai/realtime-session:
+    post:
+      tags:
+      - Openai
+      summary: Create Openai Realtime Session
+      description: 'The Realtime URL, auth headers and opening session for one simulated call.
+
+
+        Minted here, per call, because the key is write-only and decrypts with a backend-held secret.'
+      operationId: create_openai_realtime_session_v1_integrations_openai_realtime_session_post
+      parameters:
+      - name: X-Webhook-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Webhook-Secret
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenAIRealtimeSessionRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Openai Realtime Session V1 Integrations Openai Realtime Session Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    OpenAIRealtimeSessionRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+      type: object
+      required:
+      - agent_id
+      title: OpenAIRealtimeSessionRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

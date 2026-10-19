@@ -1,0 +1,860 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Workspaces API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Workspaces
+paths:
+  /v1/workspaces:
+    get:
+      tags:
+      - Workspaces
+      summary: Get Workspaces
+      description: 'The workspaces this caller can act in.
+
+
+        Membership-scoped: this populates the workspace switcher, and a member has no business
+
+        knowing that workspaces they were never added to exist. An org admin belongs to every
+
+        workspace in the organization, and a user with no membership rows anywhere belongs to
+
+        the default one.'
+      operationId: get_workspaces_v1_workspaces_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspacesListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Workspaces
+      summary: Create Workspace
+      operationId: create_workspace_v1_workspaces_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkspaceRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/workspaces/budget:
+    get:
+      tags:
+      - Workspaces
+      summary: Get Workspace Budget
+      description: 'The org''s credit ceiling, what workspaces reserve, and what is left. Billing data
+
+        is member-visible; changing any limit stays admin-gated on the write paths.'
+      operationId: get_workspace_budget_v1_workspaces_budget_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/workspaces/spend:
+    get:
+      tags:
+      - Workspaces
+      summary: Get Workspace Spend
+      description: 'Allocation versus actual, for the workspaces this caller can see.
+
+
+        The sibling above answers "how much of the plan is still unclaimed", which is what the
+
+        workspace form needs. This one answers the customer''s question: for a workspace I belong
+
+        to, how much was set aside, how much has actually been spent this billing period, how
+
+        much is left, and which agents are spending it.
+
+
+        Visibility is exactly the visibility every list endpoint uses, so it follows the access
+
+        model rather than restating it: a member sees the workspaces they belong to, and an org
+
+        admin sees all of them. The organization roll-up is included only for a caller who can
+
+        already see every workspace, since it would otherwise describe spending in workspaces
+
+        they are not on.'
+      operationId: get_workspace_spend_v1_workspaces_spend_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workspace_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Workspace Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceSpendResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/workspaces/{workspace_id}/select:
+    post:
+      tags:
+      - Workspaces
+      summary: Select Workspace
+      description: 'Record which workspace this user is acting in.
+
+
+        Their selection is stored on their row, so every later request resolves it from the
+
+        credential instead of from a header the caller has to remember to send on each hop.
+
+        Any member may select a workspace they belong to; this grants nothing, it only records
+
+        which of their existing workspaces new resources should land in.
+
+
+        Membership is still re-checked on every request that uses it, so a stored selection
+
+        cannot outlive the access it was based on.'
+      operationId: select_workspace_v1_workspaces__workspace_id__select_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Workspace Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/workspaces/{workspace_id}:
+    patch:
+      tags:
+      - Workspaces
+      summary: Update Workspace
+      operationId: update_workspace_v1_workspaces__workspace_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Workspace Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWorkspaceRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Workspaces
+      summary: Delete Workspace
+      operationId: delete_workspace_v1_workspaces__workspace_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Workspace Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/workspaces/{workspace_id}/members:
+    get:
+      tags:
+      - Workspaces
+      summary: Get Workspace Members
+      operationId: get_workspace_members_v1_workspaces__workspace_id__members_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Workspace Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceMembersResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Workspaces
+      summary: Add Workspace Member
+      operationId: add_workspace_member_v1_workspaces__workspace_id__members_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Workspace Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddWorkspaceMemberRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceMemberOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/workspaces/{workspace_id}/members/bulk:
+    post:
+      tags:
+      - Workspaces
+      summary: Add Workspace Members
+      operationId: add_workspace_members_v1_workspaces__workspace_id__members_bulk_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Workspace Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddWorkspaceMembersRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddWorkspaceMembersResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/workspaces/{workspace_id}/members/{user_id}:
+    delete:
+      tags:
+      - Workspaces
+      summary: Remove Workspace Member
+      operationId: remove_workspace_member_v1_workspaces__workspace_id__members__user_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Workspace Id
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AgentSpendOut:
+      properties:
+        agent_id:
+          type: string
+          title: Agent Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        minutes:
+          type: number
+          title: Minutes
+          default: 0.0
+        spent_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Spent Credits
+        simulation_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Simulation Credits
+        observability_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Observability Credits
+      type: object
+      required:
+      - agent_id
+      title: AgentSpendOut
+    WorkspaceSpendResponse:
+      properties:
+        period_start:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Period Start
+        credits_available:
+          type: boolean
+          title: Credits Available
+          default: false
+        minute_charges_configured:
+          type: boolean
+          title: Minute Charges Configured
+        org_limit_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Org Limit Credits
+        allocated_credits:
+          type: number
+          title: Allocated Credits
+        spent_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Spent Credits
+        organization:
+          anyOf:
+          - $ref: '#/components/schemas/OrganizationSpendOut'
+          - type: 'null'
+        workspaces:
+          items:
+            $ref: '#/components/schemas/WorkspaceSpendOut'
+          type: array
+          title: Workspaces
+          default: []
+      type: object
+      required:
+      - minute_charges_configured
+      - allocated_credits
+      title: WorkspaceSpendResponse
+    AddWorkspaceMemberRequest:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+      additionalProperties: false
+      type: object
+      required:
+      - user_id
+      title: AddWorkspaceMemberRequest
+    WorkspaceSpendOut:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        is_default:
+          type: boolean
+          title: Is Default
+        allocated_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Allocated Credits
+        minutes:
+          type: number
+          title: Minutes
+          default: 0.0
+        spent_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Spent Credits
+        remaining_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Remaining Credits
+        agents:
+          items:
+            $ref: '#/components/schemas/AgentSpendOut'
+          type: array
+          title: Agents
+          default: []
+      type: object
+      required:
+      - id
+      - name
+      - is_default
+      title: WorkspaceSpendOut
+    UpdateWorkspaceRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        usage_limit_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Credits
+      type: object
+      title: UpdateWorkspaceRequest
+    CreateWorkspaceRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        usage_limit_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Credits
+      type: object
+      required:
+      - name
+      title: CreateWorkspaceRequest
+    AddWorkspaceMembersResponse:
+      properties:
+        added:
+          items:
+            $ref: '#/components/schemas/WorkspaceMemberOut'
+          type: array
+          title: Added
+        failed:
+          items:
+            $ref: '#/components/schemas/WorkspaceMemberError'
+          type: array
+          title: Failed
+      type: object
+      required:
+      - added
+      - failed
+      title: AddWorkspaceMembersResponse
+    WorkspaceMemberOut:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        first_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Name
+        last_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Name
+      type: object
+      required:
+      - user_id
+      title: WorkspaceMemberOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    WorkspaceOut:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        is_default:
+          type: boolean
+          title: Is Default
+        usage_limit_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usage Limit Credits
+        member_count:
+          type: integer
+          title: Member Count
+        key_count:
+          type: integer
+          title: Key Count
+        created_at:
+          type: string
+          title: Created At
+      type: object
+      required:
+      - id
+      - name
+      - is_default
+      - member_count
+      - key_count
+      - created_at
+      title: WorkspaceOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    WorkspaceMemberError:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        error:
+          type: string
+          title: Error
+      type: object
+      required:
+      - user_id
+      - error
+      title: WorkspaceMemberError
+    OrganizationSpendOut:
+      properties:
+        minutes:
+          type: number
+          title: Minutes
+          default: 0.0
+        spent_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Spent Credits
+        unattributed_credits:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Unattributed Credits
+      type: object
+      title: OrganizationSpendOut
+      description: The whole organization's burn, including what no workspace owns.
+    WorkspaceMembersResponse:
+      properties:
+        members:
+          items:
+            $ref: '#/components/schemas/WorkspaceMemberOut'
+          type: array
+          title: Members
+      type: object
+      required:
+      - members
+      title: WorkspaceMembersResponse
+    AddWorkspaceMembersRequest:
+      properties:
+        user_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 200
+          minItems: 1
+          title: User Ids
+      additionalProperties: false
+      type: object
+      required:
+      - user_ids
+      title: AddWorkspaceMembersRequest
+    WorkspacesListResponse:
+      properties:
+        workspaces:
+          items:
+            $ref: '#/components/schemas/WorkspaceOut'
+          type: array
+          title: Workspaces
+      type: object
+      required:
+      - workspaces
+      title: WorkspacesListResponse
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

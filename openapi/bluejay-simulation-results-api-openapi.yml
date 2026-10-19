@@ -20,6 +20,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -47,27 +53,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     UpdateSimulationResponse:
       properties:
         status:
@@ -83,36 +68,6 @@ components:
           description: Optional message providing additional information about the response
       type: object
       title: UpdateSimulationResponse
-    TranscriptEntryRequest:
-      properties:
-        start_offset_ms:
-          type: integer
-          title: Start Offset Ms
-          description: Start offset of the utterance in milliseconds
-        end_offset_ms:
-          type: integer
-          title: End Offset Ms
-          description: End offset of the utterance in milliseconds
-        speaker:
-          $ref: '#/components/schemas/ParticipantRole'
-          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
-        utterance:
-          type: string
-          title: Utterance
-          description: Transcribed text of the utterance
-        filler_utterance:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Filler Utterance
-          description: Whether the utterance is a filler utterance
-      type: object
-      required:
-      - start_offset_ms
-      - end_offset_ms
-      - speaker
-      - utterance
-      title: TranscriptEntryRequest
     Event:
       properties:
         title:
@@ -156,42 +111,62 @@ components:
       - start_offset_ms
       title: Event
       description: Pydantic model for event data
-    ToolCall:
+    ToolCallData:
       properties:
         name:
           type: string
           title: Name
-          description: Name of the tool called
         start_offset_ms:
           type: integer
-          minimum: 0.0
           title: Start Offset Ms
-          description: Start offset of the tool call in milliseconds
         description:
           anyOf:
           - type: string
           - type: 'null'
           title: Description
-          description: Description of the tool call
         parameters:
           anyOf:
           - additionalProperties: true
             type: object
           - type: 'null'
           title: Parameters
-          description: Parameters passed to the tool call
         output:
           anyOf:
           - {}
           - type: 'null'
           title: Output
-          description: Output returned by the tool call
       type: object
       required:
       - name
       - start_offset_ms
-      title: ToolCall
-      description: Represents a tool call during a conversation.
+      title: ToolCallData
+      description: Tool call as stored on calls, jobs, and test results (API and database).
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -201,19 +176,35 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ParticipantRole:
-      type: string
-      enum:
-      - AGENT
-      - USER
-      title: ParticipantRole
-      description: Enum representing the role of a participant in a call.
     src__api__update_simulation_result__UpdateSimulationRequest:
       properties:
         simulation_result_id:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Simulation Result Id
-          description: Simulation result ID provided via SIP for the specific call
+          description: Simulation result ID provided via SIP for the specific call. Omit to match on start_time, end_time, and duration.
+        start_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Time
+          description: Call start (timezone-aware). With end_time and duration, identifies the result when simulation_result_id is omitted.
+        end_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: End Time
+          description: Call end (timezone-aware). With start_time and duration, identifies the result when simulation_result_id is omitted.
+        duration:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Duration
+          description: Call duration in seconds. With start_time and end_time, identifies the result when simulation_result_id is omitted.
         events:
           anyOf:
           - items:
@@ -225,7 +216,7 @@ components:
         tool_calls:
           anyOf:
           - items:
-              $ref: '#/components/schemas/ToolCall'
+              $ref: '#/components/schemas/ToolCallData'
             type: array
           - type: 'null'
           title: Tool Calls
@@ -237,7 +228,7 @@ components:
             type: array
           - type: 'null'
           title: Recorded Transcript
-          description: Recorded transcript of the call (utilized to analyze STT accuracy)
+          description: Recorded transcript of the call. Stored for STT accuracy, and used to pick the call when several match the time window.
         tags:
           anyOf:
           - items:
@@ -253,13 +244,63 @@ components:
           - type: 'null'
           title: Metadata
           description: Additional metadata associated with the call
+        trace_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Trace Ids
+          description: Trace IDs to associate with this simulation result
+      type: object
+      title: UpdateSimulationRequest
+    TranscriptEntryRequest:
+      properties:
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the utterance in milliseconds
+        end_offset_ms:
+          type: integer
+          title: End Offset Ms
+          description: End offset of the utterance in milliseconds
+        speaker:
+          $ref: '#/components/schemas/ParticipantRole'
+          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
+        utterance:
+          type: string
+          title: Utterance
+          description: Transcribed text of the utterance
+        filler_utterance:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Filler Utterance
+          description: Whether the utterance is a filler utterance
       type: object
       required:
-      - simulation_result_id
-      title: UpdateSimulationRequest
+      - start_offset_ms
+      - end_offset_ms
+      - speaker
+      - utterance
+      title: TranscriptEntryRequest
+    ParticipantRole:
+      type: string
+      enum:
+      - AGENT
+      - USER
+      - DIGITAL_HUMAN
+      - agent
+      - digital_human
+      title: ParticipantRole
+      description: Role of a participant in a call or simulated conversation.
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

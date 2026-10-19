@@ -11,6 +11,78 @@ security:
 tags:
 - name: Simulation Runs
 paths:
+  /v1/simulation-runs/{simulation_run_id}/cancel:
+    post:
+      summary: Cancel Simulation Run
+      description: 'Cancel an in-flight simulation run.
+
+
+        Cascades the cancel down to child sim_conversations:
+
+
+        1. Set simulation_run.status = COMPLETED (the only terminal state after
+
+        the SimulationRunStatus collapse). The fact that the user cancelled
+
+        the run is captured by child sim_conversation rows transitioning to
+
+        CANCELLED, not by a distinct sim_run status.
+
+        2. For each child sim_conversation still in PRE_RUNNING_STATUSES, call
+
+        mark_cancelled_async() — guarded so it raises if a status snuck out
+
+        of pre-running between our read and write.
+
+        3. Children that already started running (RUNNING / CONVERSATION_ENDED /
+
+        EVALUATING) are LEFT ALONE — they keep their natural terminal status
+
+        so dropped/completed calls still produce meaningful eval data.
+
+        4. Bump simulation_run.tests_cancelled by the cascade count.
+
+
+        The endpoint is idempotent for already-terminal sim runs (returns success=False
+
+        with a message; doesn''t try to re-cancel).'
+      operationId: cancel_simulation_run_v1_simulation_runs__simulation_run_id__cancel_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: simulation_run_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Simulation Run Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelSimulationRunResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Simulation Runs
   /v1/simulation-result/{simulation_result_id}:
     delete:
       tags:
@@ -27,6 +99,12 @@ paths:
         schema:
           type: integer
           title: Simulation Result Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -62,6 +140,12 @@ paths:
         schema:
           type: integer
           title: Simulation Run Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -83,31 +167,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    DeleteSimulationRunResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          description: Success message
-        deleted_simulation_run_id:
-          type: integer
-          title: Deleted Simulation Run Id
-          description: ID of the deleted simulation run
-      type: object
-      required:
-      - message
-      - deleted_simulation_run_id
-      title: DeleteSimulationRunResponse
-      description: Response model for deleting a simulation run.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     DeleteSimulationResultResponse:
       properties:
         message:
@@ -124,6 +183,55 @@ components:
       - deleted_simulation_result_id
       title: DeleteSimulationResultResponse
       description: Response model for the delete simulation result API (customer-facing).
+    DeleteSimulationRunResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_simulation_run_id:
+          type: integer
+          title: Deleted Simulation Run Id
+          description: ID of the deleted simulation run
+      type: object
+      required:
+      - message
+      - deleted_simulation_run_id
+      title: DeleteSimulationRunResponse
+      description: Response model for deleting a simulation run.
+    CancelSimulationRunResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: True if the sim run was marked CANCELLED
+        simulation_run_id:
+          type: integer
+          title: Simulation Run Id
+          description: The sim run that was acted upon
+        cancelled_test_result_ids:
+          items:
+            type: integer
+          type: array
+          title: Cancelled Test Result Ids
+          description: Pre-running conversations that were cascaded to CANCELLED
+        left_running_test_result_ids:
+          items:
+            type: integer
+          type: array
+          title: Left Running Test Result Ids
+          description: Children in RUNNING / CONVERSATION_ENDED / EVALUATING — left alone so they reach their own natural terminal status instead of being force-cancelled mid-call
+        message:
+          type: string
+          title: Message
+          description: Human-readable summary
+      type: object
+      required:
+      - success
+      - simulation_run_id
+      - message
+      title: CancelSimulationRunResponse
+      description: Response for the cancel-simulation-run endpoint.
     ValidationError:
       properties:
         loc:
@@ -139,15 +247,33 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
       - loc
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

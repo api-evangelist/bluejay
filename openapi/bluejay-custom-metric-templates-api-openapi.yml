@@ -1,0 +1,808 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Custom Metric Templates API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Custom Metric Templates
+paths:
+  /v1/custom-metric-templates:
+    get:
+      tags:
+      - Custom Metric Templates
+      summary: List Custom Metric Templates
+      description: List Bluejay-authored metric templates in the global library.
+      operationId: list_custom_metric_templates_v1_custom_metric_templates_get
+      deprecated: true
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 24
+          title: Page Size
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Search
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+      - name: response_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Response Type
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/metric-templates:
+    get:
+      tags:
+      - Custom Metric Templates
+      summary: List Custom Metric Templates
+      description: List Bluejay-authored metric templates in the global library.
+      operationId: list_custom_metric_templates_v1_metric_templates_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 24
+          title: Page Size
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Search
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+      - name: response_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Response Type
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/custom-metric-template/{template_id}:
+    get:
+      tags:
+      - Custom Metric Templates
+      summary: Get Custom Metric Template
+      description: Get a single metric template by ID.
+      operationId: get_custom_metric_template_v1_custom_metric_template__template_id__get
+      deprecated: true
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: template_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Template Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/metric-template/{template_id}:
+    get:
+      tags:
+      - Custom Metric Templates
+      summary: Get Custom Metric Template
+      description: Get a single metric template by ID.
+      operationId: get_custom_metric_template_v1_metric_template__template_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: template_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Template Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/custom-metric-templates:
+    post:
+      tags:
+      - Custom Metric Templates
+      summary: Admin Create Bluejay Template
+      description: Create a Bluejay-authored template (the library seeding mechanism).
+      operationId: admin_create_bluejay_template_v1_admin_custom_metric_templates_post
+      deprecated: true
+      parameters:
+      - name: X-Admin-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Admin-Secret
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminCreateTemplateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/metric-templates:
+    post:
+      tags:
+      - Custom Metric Templates
+      summary: Admin Create Bluejay Template
+      description: Create a Bluejay-authored template (the library seeding mechanism).
+      operationId: admin_create_bluejay_template_v1_admin_metric_templates_post
+      parameters:
+      - name: X-Admin-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Admin-Secret
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminCreateTemplateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/custom-metric-template/{template_id}:
+    delete:
+      tags:
+      - Custom Metric Templates
+      summary: Admin Delete Template
+      description: Delete a template. FK pointers on metrics are set null by the DB.
+      operationId: admin_delete_template_v1_admin_custom_metric_template__template_id__delete
+      deprecated: true
+      parameters:
+      - name: template_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Template Id
+      - name: X-Admin-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Admin-Secret
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteTemplateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/metric-template/{template_id}:
+    delete:
+      tags:
+      - Custom Metric Templates
+      summary: Admin Delete Template
+      description: Delete a template. FK pointers on metrics are set null by the DB.
+      operationId: admin_delete_template_v1_admin_metric_template__template_id__delete
+      parameters:
+      - name: template_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Template Id
+      - name: X-Admin-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Admin-Secret
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteTemplateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    EvalRoute:
+      type: string
+      enum:
+      - AUDIO
+      - TEXT
+      - AUTO
+      title: EvalRoute
+      description: Enum representing the evaluation route of a call.
+    src__models__metric__ResponseType:
+      type: string
+      enum:
+      - pass_fail
+      - yes_no
+      - qualitative
+      - quantitative
+      - json
+      - enum
+      - int
+      - float
+      - boolean
+      - tool_call
+      title: ResponseType
+      description: Enum representing the possible response types for custom metrics.
+    TemplateResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        name:
+          type: string
+          title: Name
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+        metric_type:
+          type: string
+          title: Metric Type
+          default: llm_judge
+        eval_method:
+          type: string
+          title: Eval Method
+          default: llm_judge
+        eval_segment:
+          type: string
+          title: Eval Segment
+          default: all
+        scope:
+          type: string
+          title: Scope
+          default: all
+        settings:
+          additionalProperties: true
+          type: object
+          title: Settings
+        response_type:
+          $ref: '#/components/schemas/src__models__metric__ResponseType'
+        min_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Value
+        max_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Value
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+        tags:
+          items:
+            type: string
+          type: array
+          title: Tags
+        scoring_guidance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scoring Guidance
+        eval_modality:
+          anyOf:
+          - $ref: '#/components/schemas/EvalRoute'
+          - type: 'null'
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+        audio_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Model
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+        enum_options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum Options
+        tool_names:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tool Names
+        json_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Json Schema
+        allow_not_applicable:
+          type: boolean
+          title: Allow Not Applicable
+          default: false
+      type: object
+      required:
+      - id
+      - created_at
+      - name
+      - response_type
+      title: TemplateResponse
+      description: Public library view of a Bluejay-authored template.
+    DeleteTemplateResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: DeleteTemplateResponse
+    AdminCreateTemplateRequest:
+      properties:
+        bluejay_as_code_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Bluejay As Code Id
+          description: Stable code-addressable identifier
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent this metric belongs to (deprecated, use agent_ids instead)
+          deprecated: true
+        agent_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Agent Ids
+          description: List of agent IDs to associate this metric with
+        name:
+          type: string
+          title: Name
+          description: Name of the custom metric
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+          description: LLM-judge system prompt (required for llm_judge; null for other types)
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: Short plain-English description of the metric (LLM-generated)
+        metric_type:
+          type: string
+          title: Metric Type
+          description: 'Specific metric kind (llm_judge, tool_call, audio_*, vocal_fry); legacy alias: type'
+          default: llm_judge
+        settings:
+          additionalProperties: true
+          type: object
+          title: Settings
+          description: 'Type-specific config (e.g. tool_call: {tool_names: [...]})'
+        eval_segment:
+          type: string
+          enum:
+          - agent
+          - user
+          - all
+          title: Eval Segment
+          description: Which side of the conversation is evaluated
+          default: all
+        scope:
+          type: string
+          enum:
+          - observability
+          - simulations
+          - all
+          title: Scope
+          description: Which pipeline runs this metric
+          default: all
+        response_type:
+          $ref: '#/components/schemas/src__models__metric__ResponseType'
+          description: Type of response expected
+        min_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Value
+          description: Minimum value for quantitative metrics
+        max_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Value
+          description: Maximum value for quantitative metrics
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+          description: Category for organizing metrics
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: Tags for categorizing the metric
+        scoring_guidance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scoring Guidance
+          description: Guidance on how to score this metric
+        eval_modality:
+          anyOf:
+          - $ref: '#/components/schemas/EvalRoute'
+          - type: 'null'
+          description: 'Evaluation modality AUTO/TEXT/AUDIO; legacy alias: eval_route'
+          default: AUTO
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Model to use for text evaluation of the metric
+        audio_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Model
+          description: Model to use for audio evaluation of the metric
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+          description: Temperature for evaluating the metric
+        enum_options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum Options
+          description: Options for enum metrics
+        tool_names:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tool Names
+          description: Expected tool names for tool_call metrics
+        json_schema:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Json Schema
+          description: JSON Schema describing the object the judge must return (required for json metrics)
+        allow_not_applicable:
+          type: boolean
+          title: Allow Not Applicable
+          description: Whether this metric allows 'not applicable' responses.
+          default: false
+        template_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Template Id
+          description: Library template this metric was created from
+      type: object
+      required:
+      - name
+      - response_type
+      title: AdminCreateTemplateRequest
+      description: Bluejay-authored template creation; agent/template fields are ignored.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TemplateListResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/TemplateResponse'
+          type: array
+          title: Data
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+        page_size:
+          type: integer
+          title: Page Size
+      type: object
+      required:
+      - data
+      - total
+      - page
+      - page_size
+      title: TemplateListResponse
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

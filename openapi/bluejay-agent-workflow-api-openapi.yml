@@ -1,0 +1,957 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Agent Workflow API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Agent Workflow
+paths:
+  /v1/agents/{agent_id}/workflow:
+    put:
+      tags:
+      - Agent Workflow
+      summary: Save Agent Workflow
+      description: 'Attach an imported workflow to an agent and mark the agent''s provider CUSTOM.
+
+
+        This is the persistence step for document-ingested workflows (e.g. an IVR
+
+        diagram parsed in Bluejay AI): the reviewed graph becomes the agent''s stored
+
+        workflow with no external source behind it.
+
+
+        Only agents with no workflow provider (or already CUSTOM) accept an import —
+
+        an agent synced from ElevenLabs/VAPI/Retell/DFCX is refused with 409 so an
+
+        import can never clobber a provider-managed workflow.'
+      operationId: save_agent_workflow_v1_agents__agent_id__workflow_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveWorkflowRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Save Agent Workflow V1 Agents  Agent Id  Workflow Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/summary:
+    get:
+      tags:
+      - Agent Workflow
+      summary: Get Workflow Summary
+      description: Flatten the stored workflow into a compact ``{nodes, edges}`` view for inspection.
+      operationId: get_workflow_summary_v1_agents__agent_id__workflow_summary_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Workflow Summary V1 Agents  Agent Id  Workflow Summary Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/nodes/{node_id}:
+    patch:
+      tags:
+      - Agent Workflow
+      summary: Patch Workflow Node
+      description: 'Update a single node inside the agent''s stored workflow.
+
+
+        Universal fields only: ``prompt``, ``name``, ``description``. Provider-specific fields
+
+        (ElevenLabs voice/llm/eagerness, etc.) live on provider-named endpoints.'
+      operationId: patch_workflow_node_v1_agents__agent_id__workflow_nodes__node_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: node_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Node Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodePatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Patch Workflow Node V1 Agents  Agent Id  Workflow Nodes  Node Id  Patch
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Workflow
+      summary: Delete Workflow Node
+      description: 'Remove a node and cascade-delete every edge that touches it.
+
+
+        The Start node is protected — every workflow needs an entry point.'
+      operationId: delete_workflow_node_v1_agents__agent_id__workflow_nodes__node_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: node_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Node Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Delete Workflow Node V1 Agents  Agent Id  Workflow Nodes  Node Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/nodes:
+    post:
+      tags:
+      - Agent Workflow
+      summary: Add Workflow Node
+      description: 'Add a node to the agent''s stored workflow. The node has no edges yet — call
+
+        ``POST .../workflow/edges`` to connect it. Returns ``{node_id}``.'
+      operationId: add_workflow_node_v1_agents__agent_id__workflow_nodes_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Add Workflow Node V1 Agents  Agent Id  Workflow Nodes Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/edges:
+    post:
+      tags:
+      - Agent Workflow
+      summary: Add Workflow Edge
+      description: Add a directed edge between two existing nodes. Returns ``{edge_id}``.
+      operationId: add_workflow_edge_v1_agents__agent_id__workflow_edges_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EdgeCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Add Workflow Edge V1 Agents  Agent Id  Workflow Edges Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/edges/{edge_id}:
+    delete:
+      tags:
+      - Agent Workflow
+      summary: Delete Workflow Edge
+      description: Remove an edge by id.
+      operationId: delete_workflow_edge_v1_agents__agent_id__workflow_edges__edge_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: edge_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Edge Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Delete Workflow Edge V1 Agents  Agent Id  Workflow Edges  Edge Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/sync:
+    post:
+      tags:
+      - Agent Workflow
+      summary: Sync Agent Workflow
+      description: 'Pull the latest workflow from the agent''s source provider into Bluejay.
+
+
+        ``branch_id`` is opaque metadata — adapters that don''t support branching ignore it.'
+      operationId: sync_agent_workflow_v1_agents__agent_id__workflow_sync_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: branch_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Branch Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Sync Agent Workflow V1 Agents  Agent Id  Workflow Sync Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/push:
+    post:
+      tags:
+      - Agent Workflow
+      summary: Push Agent Workflow
+      description: 'Push Bluejay''s stored workflow back to the agent''s source provider.
+
+
+        ``force=true`` bypasses DFCX conflict detection (use when you want to
+
+        overwrite remote drift). Non-DFCX providers ignore the flag.
+
+
+        ``create_version=true`` (DFCX only) snapshots the flows/playbooks the push
+
+        actually changed into new immutable versions, recording them in the version
+
+        ledger. Snapshotting only-changed resources keeps version counts down and is
+
+        why it rides on push: the remote draft only reflects Bluejay''s edits *after*
+
+        a successful push.
+
+
+        Returns 409 with ``{conflicts}`` when remote has drifted and force is False.
+
+        Returns 207 with ``{results}`` when some DFCX SDK calls succeed and some fail.'
+      operationId: push_agent_workflow_v1_agents__agent_id__workflow_push_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: branch_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Branch Id
+      - name: force
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Force
+      - name: create_version
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Create Version
+      - name: version_description
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version Description
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/versions:
+    get:
+      tags:
+      - Agent Workflow
+      summary: List Workflow Versions
+      description: List version snapshots for the agent's definition (DFCX flows/playbooks, Bland pathways).
+      operationId: list_workflow_versions_v1_agents__agent_id__workflow_versions_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Workflow Versions V1 Agents  Agent Id  Workflow Versions Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/environments:
+    get:
+      tags:
+      - Agent Workflow
+      summary: List Workflow Environments
+      description: List deployment environments and what each currently pins (DFCX, Bland).
+      operationId: list_workflow_environments_v1_agents__agent_id__workflow_environments_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Workflow Environments V1 Agents  Agent Id  Workflow Environments Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/promote:
+    post:
+      tags:
+      - Agent Workflow
+      summary: Promote Workflow
+      description: 'Promote versions into a higher environment (DFCX, Bland).
+
+
+        Gated behind :func:`require_promote_permission`. On DFCX this deploys flow versions only (there
+
+        is no deploy-playbook primitive); on Bland it publishes one pathway version to staging or
+
+        production. Both providers record the deployment upstream; we log the Bluejay actor for audit.'
+      operationId: promote_workflow_v1_agents__agent_id__workflow_promote_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromoteRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Promote Workflow V1 Agents  Agent Id  Workflow Promote Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/sync-preview:
+    post:
+      tags:
+      - Agent Workflow
+      summary: Preview Sync
+      description: 'Return what WOULD change in our DB if we pulled fresh from DFCX right now.
+
+
+        Pure: no Supabase writes, no DFCX writes. DFCX-only endpoint.
+
+        Returns a PushPlan-shaped dict describing the pull diff.'
+      operationId: preview_sync_v1_agents__agent_id__workflow_sync_preview_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Preview Sync V1 Agents  Agent Id  Workflow Sync Preview Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/push-preview:
+    post:
+      tags:
+      - Agent Workflow
+      summary: Preview Push Endpoint
+      description: 'Return what WOULD be pushed to DFCX right now. No SDK writes.
+
+
+        Mirrors push()''s diff phase but skips dispatch. DFCX-only endpoint.
+
+        ``force=true`` promotes conflicts into to_update / to_delete (same as push).'
+      operationId: preview_push_endpoint_v1_agents__agent_id__workflow_push_preview_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: force
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Force
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Preview Push Endpoint V1 Agents  Agent Id  Workflow Push Preview Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/workflow/paths:
+    get:
+      tags:
+      - Agent Workflow
+      summary: List Workflow Paths
+      description: Enumerate every distinct path through the workflow (Generate-From-Workflow input).
+      operationId: list_workflow_paths_v1_agents__agent_id__workflow_paths_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Workflow Paths V1 Agents  Agent Id  Workflow Paths Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    EdgeCreate:
+      properties:
+        source_node_id:
+          type: string
+          minLength: 1
+          title: Source Node Id
+        target_node_id:
+          type: string
+          minLength: 1
+          title: Target Node Id
+        condition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Condition
+      type: object
+      required:
+      - source_node_id
+      - target_node_id
+      title: EdgeCreate
+      description: Universal edge-creation spec. ``condition`` is the human-readable transition trigger.
+    NodePatch:
+      properties:
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      title: NodePatch
+      description: 'Universal node patch. Pass only the fields you want to change; ``None`` leaves them as-is.
+
+
+        Provider-specific fields (e.g. ElevenLabs voice / llm / eagerness) live on provider-named
+
+        tools, NOT on this universal shape.'
+    PromoteRequest:
+      properties:
+        environment_name:
+          type: string
+          minLength: 1
+          title: Environment Name
+          description: DFCX environment resource name (…/environments/{id}), or 'production' / 'staging' for Bland
+        flow_version_names:
+          items:
+            type: string
+          type: array
+          minItems: 1
+          title: Flow Version Names
+          description: 'Versions to deploy: DFCX flow version resource names, or one Bland version number'
+      type: object
+      required:
+      - environment_name
+      - flow_version_names
+      title: PromoteRequest
+    NodeCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      title: NodeCreate
+      description: Universal node-creation spec. Same field set as :class:`NodePatch` but ``name`` is required.
+    SaveWorkflowRequest:
+      properties:
+        workflow:
+          additionalProperties: true
+          type: object
+          title: Workflow
+          description: 'Scenario-graph blob: {nodes: [{id, type, data}], edges: [{id, source, target, sourceHandle?}], is_ivr_flow?}'
+      type: object
+      required:
+      - workflow
+      title: SaveWorkflowRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

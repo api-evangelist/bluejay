@@ -1,0 +1,278 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Internal API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Internal
+paths:
+  /v1/internal/run-scheduled-simulation:
+    post:
+      summary: Run Scheduled Simulation
+      description: 'Internal fire endpoint for the cron service (simulation-cron-service) and uptime.
+
+
+        Auth is the inbound counterpart to weekly_notifications'' outbound X-Internal-Token.
+
+        Awaits queueing the run (so 4xx/5xx propagate) but text paths do not wait on Groq
+
+        objectives — those run in the background after the request returns accepted.
+
+        A 404 is a permanent failure (sim/test cases gone) — propagate it so cron stops retrying.'
+      operationId: run_scheduled_simulation_v1_internal_run_scheduled_simulation_post
+      parameters:
+      - name: x-internal-token
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Internal-Token
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunScheduledSimulationRequest'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Internal
+  /v1/internal/spend-allowed/{agent_id}:
+    get:
+      summary: Internal Spend Allowed
+      description: Tells whether new billable work for this agent is admitted by its workspace's usage limit.
+      operationId: internal_spend_allowed_v1_internal_spend_allowed__agent_id__get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: x-internal-token
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Internal-Token
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Internal
+  /v1/internal/run-autosync:
+    post:
+      summary: Run Autosync
+      description: Per-target autosync fire from simulation-cron-service. Fire-and-forget; 202 on accept.
+      operationId: run_autosync_v1_internal_run_autosync_post
+      parameters:
+      - name: x-internal-token
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Internal-Token
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunAutosyncRequest'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Internal
+  /v1/internal/purge-recently-deleted:
+    post:
+      summary: Purge Recently Deleted Tick
+      description: 'Purge tick, fired hourly by simulation-cron-service (also usable as a manual ops
+
+        trigger). The advisory lock makes overlapping triggers harmless.'
+      operationId: purge_recently_deleted_tick_v1_internal_purge_recently_deleted_post
+      parameters:
+      - name: x-internal-token
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Internal-Token
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Internal
+  /v1/internal/sweep-journeys:
+    post:
+      summary: Sweep Journeys Tick
+      description: 'Journey scheduler sweep tick from simulation-cron-service. Fire-and-forget;
+
+        202 on accept — a lost result is retried by the next tick.'
+      operationId: sweep_journeys_tick_v1_internal_sweep_journeys_post
+      parameters:
+      - name: x-internal-token
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Internal-Token
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Internal
+components:
+  schemas:
+    RunAutosyncRequest:
+      properties:
+        organization_id:
+          type: string
+          title: Organization Id
+        provider:
+          type: string
+          title: Provider
+      type: object
+      required:
+      - organization_id
+      - provider
+      title: RunAutosyncRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RunScheduledSimulationRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+        uptime_check_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Uptime Check Id
+      type: object
+      required:
+      - simulation_id
+      title: RunScheduledSimulationRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

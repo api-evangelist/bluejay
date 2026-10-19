@@ -16,24 +16,335 @@ paths:
       tags:
       - ElevenLabs
       summary: Handle Webhook
+      description: 'Accepts ElevenLabs'' own deliveries (HMAC over the raw body) and relays from a
+
+        customer''s service (Bluejay API key). A relay that reshapes or redacts the payload
+
+        invalidates ElevenLabs'' signature, so the key is the only auth left to it.'
       operationId: handle_webhook_v1_integrations_ElevenLabs_post
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
+      security:
+      - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
         schema:
           type: string
         description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/elevenlabs/agents:
+    get:
+      tags:
+      - ElevenLabs
+      summary: List Elevenlabs Agents
+      description: List Convai agents for the org's stored API key. Used by Add Agent → ElevenLabs.
+      operationId: list_elevenlabs_agents_v1_integrations_elevenlabs_agents_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Elevenlabs Agents V1 Integrations Elevenlabs Agents Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/elevenlabs/agents/{bluejay_agent_id}/branches:
+    get:
+      tags:
+      - ElevenLabs
+      summary: List Elevenlabs Branches
+      description: List branches for the agent (Main + drafts + custom). Powers the Workflow tab branch picker.
+      operationId: list_elevenlabs_branches_v1_integrations_elevenlabs_agents__bluejay_agent_id__branches_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: bluejay_agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Bluejay Agent Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Elevenlabs Branches V1 Integrations Elevenlabs Agents  Bluejay Agent Id  Branches Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/elevenlabs/agents/{bluejay_agent_id}/merge:
+    post:
+      tags:
+      - ElevenLabs
+      summary: Merge Elevenlabs Branches
+      description: 'Merge ``source_branch_id`` into ``target_branch_id``. Typical: merge an Experiment branch into Main.'
+      operationId: merge_elevenlabs_branches_v1_integrations_elevenlabs_agents__bluejay_agent_id__merge_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: bluejay_agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Bluejay Agent Id
+      - name: source_branch_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Source Branch Id
+      - name: target_branch_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Target Branch Id
+      - name: archive_source
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Archive Source
+      - name: force
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Force
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Merge Elevenlabs Branches V1 Integrations Elevenlabs Agents  Bluejay Agent Id  Merge Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/eleven-labs/sync:
+    post:
+      tags:
+      - ElevenLabs
+      summary: Sync Eleven Labs Agents
+      description: Trigger an async sync of all ElevenLabs Convai agents into Bluejay agents.
+      operationId: sync_eleven_labs_agents_v1_integrations_eleven_labs_sync_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SyncElevenLabsAgentsRequest'
+              default:
+                dry_run: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/integrations/eleven-labs/sync-agent:
+    post:
+      tags:
+      - ElevenLabs
+      summary: Sync Single Agent From Eleven Labs
+      description: Trigger an async sync of a single ElevenLabs agent's name + prompt + workflow.
+      operationId: sync_single_agent_from_eleven_labs_v1_integrations_eleven_labs_sync_agent_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SyncSingleAgentFromElevenLabsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
+  schemas:
+    SyncSingleAgentFromElevenLabsRequest:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+      type: object
+      required:
+      - agent_id
+      title: SyncSingleAgentFromElevenLabsRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SyncElevenLabsAgentsRequest:
+      properties:
+        organization_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Organization Id
+        dry_run:
+          type: boolean
+          title: Dry Run
+          default: true
+      type: object
+      title: SyncElevenLabsAgentsRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

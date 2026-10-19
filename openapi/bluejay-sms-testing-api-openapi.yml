@@ -1,0 +1,268 @@
+openapi: 3.2.0
+info:
+  title: Bluejay SMS Testing API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: SMS Testing
+paths:
+  /v1/sms-testing/status:
+    get:
+      tags:
+      - SMS Testing
+      summary: Get Sms Testing Status
+      operationId: get_sms_testing_status_v1_sms_testing_status_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmsTestingStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/sms-testing/request:
+    post:
+      tags:
+      - SMS Testing
+      summary: Create Sms Testing Request
+      operationId: create_sms_testing_request_v1_sms_testing_request_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmsTestingRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmsTestingRequestResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/sms-testing/requests/{request_id}/review:
+    post:
+      tags:
+      - SMS Testing
+      summary: Review Sms Testing Request
+      operationId: review_sms_testing_request_v1_sms_testing_requests__request_id__review_post
+      parameters:
+      - name: request_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Request Id
+      - name: x-internal-token
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Internal-Token
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmsTestingReviewBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmsTestingRequestResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/sms-testing/slack-interactivity:
+    post:
+      tags:
+      - SMS Testing
+      summary: Sms Testing Slack Interactivity
+      description: 'Slack sends button clicks as x-www-form-urlencoded with a single `payload` JSON field.
+
+        Staff in #kalebs-korner approve/reject here; we verify Slack''s signature and apply the review
+
+        inline (fast), but push the requester email and Slack message edit to background tasks so the
+
+        ack isn''t held up by SQS/Slack round-trips.'
+      operationId: sms_testing_slack_interactivity_v1_sms_testing_slack_interactivity_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Sms Testing Slack Interactivity V1 Sms Testing Slack Interactivity Post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+components:
+  schemas:
+    SmsTestingRequestBody:
+      properties:
+        message_details:
+          type: string
+          title: Message Details
+          description: Free-text description of the message types/use-cases to send
+        monthly_volume:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Monthly Volume
+      type: object
+      required:
+      - message_details
+      title: SmsTestingRequestBody
+    SmsTestingStatusResponse:
+      properties:
+        allowed:
+          type: boolean
+          title: Allowed
+        enabled:
+          type: boolean
+          title: Enabled
+        request_status:
+          type: string
+          title: Request Status
+          description: none | pending | approved | rejected
+      type: object
+      required:
+      - allowed
+      - enabled
+      - request_status
+      title: SmsTestingStatusResponse
+    SmsTestingReviewBody:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: approved | rejected
+        review_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Review Notes
+      type: object
+      required:
+      - status
+      title: SmsTestingReviewBody
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SmsTestingRequestResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - id
+      - status
+      title: SmsTestingRequestResponse
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

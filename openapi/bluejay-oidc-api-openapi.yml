@@ -1,0 +1,68 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Oidc API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: OIDC
+paths:
+  /.well-known/openid-configuration:
+    get:
+      tags:
+      - OIDC
+      summary: Openid Configuration
+      operationId: openid_configuration__well_known_openid_configuration_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Openid Configuration  Well Known Openid Configuration Get
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+  /.well-known/jwks.json:
+    get:
+      tags:
+      - OIDC
+      summary: Jwks
+      operationId: jwks__well_known_jwks_json_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Jwks  Well Known Jwks Json Get
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

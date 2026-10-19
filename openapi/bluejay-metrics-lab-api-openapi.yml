@@ -16,11 +16,17 @@ paths:
       tags:
       - Metrics Lab
       summary: Evaluate Conversation
-      description: Queue a conversation (call or test_result) for evaluation in the metrics lab.
+      description: Queue a conversation (obs or sim) for evaluation in the metrics lab.
       operationId: evaluate_conversation_v1_metrics_lab_evaluate_conversation_post
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -56,6 +62,12 @@ paths:
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -98,6 +110,12 @@ paths:
           type: string
           format: uuid
           title: Lab Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -139,6 +157,12 @@ paths:
           type: string
           format: uuid
           title: Lab Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -152,6 +176,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeleteLabResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Metrics Lab
+      summary: Get Lab Detail
+      description: 'Get a lab''s full state: conversations, metrics, AI annotations, human labels,
+
+        and metric revisions with their AI evaluations.
+
+
+        This is the read side of the iterate loop: poll it after queueing evaluations to
+
+        observe results (each evaluation carries a ``status`` of QUEUED/EVALUATING/COMPLETED/…)
+
+        and to compare a revision''s results against the base metric and human labels.'
+      operationId: get_lab_detail_v1_metrics_lab_lab__lab_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: lab_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Lab Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabDetailResponse'
         '422':
           description: Validation Error
           content:
@@ -175,6 +249,12 @@ paths:
           type: string
           format: uuid
           title: Lab Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -217,6 +297,12 @@ paths:
           type: string
           format: uuid
           title: Lab Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -258,6 +344,12 @@ paths:
           type: string
           format: uuid
           title: Lab Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -299,6 +391,12 @@ paths:
           type: string
           format: uuid
           title: Lab Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -341,6 +439,12 @@ paths:
           type: string
           format: uuid
           title: Lab Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -383,6 +487,12 @@ paths:
           type: string
           format: uuid
           title: Lab Id
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -408,102 +518,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/metrics-lab/labs:
+    get:
+      tags:
+      - Metrics Lab
+      summary: List Labs
+      description: List the organization's labs, newest first, with conversation/metric/revision counts.
+      operationId: list_labs_v1_metrics_lab_labs_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Max labs per page
+          default: 20
+          title: Page Size
+        description: Max labs per page
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ConversationRequest:
-      properties:
-        type:
-          type: string
-          enum:
-          - test_result
-          - call
-          title: Type
-          description: 'Type of conversation: ''test_result'' or ''call'''
-        id:
-          type: string
-          title: Id
-          description: ID of the conversation (test_result_id or call_id as string)
-      type: object
-      required:
-      - type
-      - id
-      title: ConversationRequest
-      description: Pydantic model for conversation in evaluate-conversation request
-    MetricsRequest:
-      properties:
-        type:
-          type: string
-          enum:
-          - custom_metric
-          - custom_metric_revision
-          title: Type
-          description: 'Type of metrics: ''custom_metric'' or ''custom_metric_revision'''
-        custom_metric_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Custom Metric Ids
-          description: List of custom metric IDs (required when type is 'custom_metric')
-        custom_metric_revision_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Custom Metric Revision Id
-          description: Custom metric revision ID (required when type is 'custom_metric_revision')
-      type: object
-      required:
-      - type
-      title: MetricsRequest
-      description: Pydantic model for metrics in evaluate-conversation request
-    AddConversationsToLabRequest:
-      properties:
-        lab_id:
-          type: string
-          title: Lab Id
-          description: Lab ID (UUID as string)
-        conversations:
-          items:
-            $ref: '#/components/schemas/ConversationItem'
-          type: array
-          minItems: 1
-          title: Conversations
-          description: List of conversations to add to the lab
-      type: object
-      required:
-      - lab_id
-      - conversations
-      title: AddConversationsToLabRequest
-      description: Request model for adding conversations to an existing lab
-    RemoveConversationsFromLabRequest:
-      properties:
-        lab_id:
-          type: string
-          title: Lab Id
-          description: Lab ID (UUID as string)
-        conversations:
-          items:
-            $ref: '#/components/schemas/ConversationItem'
-          type: array
-          minItems: 1
-          title: Conversations
-          description: List of conversations to remove from the lab
-      type: object
-      required:
-      - lab_id
-      - conversations
-      title: RemoveConversationsFromLabRequest
-      description: Request model for removing conversations from a lab
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     AddConversationsToLabResponse:
       properties:
         added_count:
@@ -534,303 +606,6 @@ components:
       - added_conversation_ids
       title: AddConversationsToLabResponse
       description: Response model for adding conversations to a lab
-    CreateLabRequest:
-      properties:
-        name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Name
-          description: Name of the lab
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the lab
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-          description: Tags for the lab
-        conversations:
-          items:
-            $ref: '#/components/schemas/ConversationItem'
-          type: array
-          title: Conversations
-          description: List of conversations to associate with the lab
-        metric_ids:
-          items:
-            type: string
-          type: array
-          title: Metric Ids
-          description: List of custom metric IDs (UUIDs as strings) to associate with the lab
-      type: object
-      required:
-      - name
-      - conversations
-      - metric_ids
-      title: CreateLabRequest
-      description: Request model for creating a lab
-    AddMetricsToLabResponse:
-      properties:
-        added_count:
-          type: integer
-          title: Added Count
-          description: Number of metrics successfully added
-        skipped_count:
-          type: integer
-          title: Skipped Count
-          description: Number of metrics that were skipped (already existed)
-        added_metric_ids:
-          items:
-            type: string
-          type: array
-          title: Added Metric Ids
-          description: List of metric IDs that were added
-        evaluation_triggered:
-          type: boolean
-          title: Evaluation Triggered
-          description: Whether evaluations were triggered for existing conversations
-          default: false
-        evaluation_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Evaluation Count
-          description: Number of conversations that were evaluated (if evaluation_triggered is true)
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-          description: Human-readable message about the operation
-      type: object
-      required:
-      - added_count
-      - skipped_count
-      - added_metric_ids
-      title: AddMetricsToLabResponse
-      description: Response model for adding metrics to a lab
-    MetricEvaluationItem:
-      properties:
-        type:
-          type: string
-          title: Type
-          description: 'Type of metric: ''custom_metric'' or ''custom_metric_revision'''
-        id:
-          type: string
-          title: Id
-          description: Metric ID (custom_metric_id or custom_metric_revision_id)
-        eval_id:
-          type: string
-          title: Eval Id
-          description: Evaluation ID (lab_annotate_ai_evaluation_id or lab_ai_evaluation_id)
-      type: object
-      required:
-      - type
-      - id
-      - eval_id
-      title: MetricEvaluationItem
-      description: Pydantic model for a single metric evaluation item in response
-    CreateOrUpdateHumanEvaluationRequest:
-      properties:
-        custom_metric_id:
-          type: string
-          title: Custom Metric Id
-          description: Custom metric ID (UUID as string)
-        call_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Call Id
-          description: Call ID (UUID as string)
-        test_result_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Test Result Id
-          description: Test result ID
-        human_response_value:
-          type: string
-          title: Human Response Value
-          description: Human evaluation response value
-        human_reasoning:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Human Reasoning
-          description: Human evaluator's reasoning for the score
-      type: object
-      required:
-      - custom_metric_id
-      - human_response_value
-      title: CreateOrUpdateHumanEvaluationRequest
-      description: Request model for creating or updating a human evaluation
-    UpdateLabSettingsResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Indicates if the operation was successful
-        message:
-          type: string
-          title: Message
-          description: A descriptive message about the operation
-      type: object
-      required:
-      - success
-      - message
-      title: UpdateLabSettingsResponse
-      description: Response model for updating lab settings
-    AddMetricsToLabRequest:
-      properties:
-        lab_id:
-          type: string
-          title: Lab Id
-          description: Lab ID (UUID as string)
-        metric_ids:
-          items:
-            type: string
-          type: array
-          minItems: 1
-          title: Metric Ids
-          description: List of custom metric IDs (UUIDs as strings) to add to the lab
-        evaluate_conversations:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Evaluate Conversations
-          description: Whether to evaluate conversations in the lab with the newly added metrics (copies existing evaluations where found, queues new evaluations only for metrics without results)
-          default: false
-      type: object
-      required:
-      - lab_id
-      - metric_ids
-      title: AddMetricsToLabRequest
-      description: Request model for adding metrics to an existing lab
-    ConversationItem:
-      properties:
-        call_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Call Id
-          description: Call ID (UUID as string)
-        test_result_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Test Result Id
-          description: Test result ID
-      type: object
-      title: ConversationItem
-      description: Model for a conversation in create lab request
-    UpdateLabSettingsRequest:
-      properties:
-        fuzzy_alignment:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Fuzzy Alignment
-          description: Fuzzy alignment settings (nested object)
-      additionalProperties: true
-      type: object
-      title: UpdateLabSettingsRequest
-      description: Request model for updating lab settings
-    EvaluateConversationResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: Status of the operation
-        message:
-          type: string
-          title: Message
-          description: Response message
-        conversation_id:
-          type: string
-          title: Conversation Id
-          description: ID of the conversation
-        conversation_type:
-          type: string
-          title: Conversation Type
-          description: Type of conversation
-        metrics:
-          items:
-            $ref: '#/components/schemas/MetricEvaluationItem'
-          type: array
-          title: Metrics
-          description: List of metrics with their evaluation IDs
-      type: object
-      required:
-      - status
-      - message
-      - conversation_id
-      - conversation_type
-      - metrics
-      title: EvaluateConversationResponse
-      description: Pydantic model for evaluate-conversation response
-    HumanEvaluationResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether the operation was successful
-        message:
-          type: string
-          title: Message
-          description: Response message
-      type: object
-      required:
-      - success
-      - message
-      title: HumanEvaluationResponse
-      description: Response model for human evaluation operations
-    UpdateLabRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
-          title: Name
-          description: New name for the lab
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: New description for the lab
-      type: object
-      title: UpdateLabRequest
-      description: Request model for updating a lab
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     MetricRevisionResponse:
       properties:
         id:
@@ -873,6 +648,12 @@ components:
           - type: 'null'
           title: Model
           description: Model to use for evaluation
+        audio_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Model
+          description: Audio model to use for evaluation
         temperature:
           anyOf:
           - type: number
@@ -899,22 +680,83 @@ components:
       - created_at
       title: MetricRevisionResponse
       description: Response model for metric revision operations
-    DeleteLabResponse:
+    LabListItem:
       properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        conversation_count:
+          type: integer
+          title: Conversation Count
+          default: 0
+        metric_count:
+          type: integer
+          title: Metric Count
+          default: 0
+        revision_count:
+          type: integer
+          title: Revision Count
+          default: 0
+      type: object
+      required:
+      - id
+      - name
+      title: LabListItem
+      description: One lab in the list view, with cheap junction counts.
+    EvaluateConversationResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Status of the operation
         message:
           type: string
           title: Message
-          description: Success message
-        deleted_lab_id:
+          description: Response message
+        conversation_id:
           type: string
-          title: Deleted Lab Id
-          description: ID of the deleted lab
+          title: Conversation Id
+          description: ID of the conversation
+        conversation_type:
+          type: string
+          title: Conversation Type
+          description: Type of conversation
+        metrics:
+          items:
+            $ref: '#/components/schemas/MetricEvaluationItem'
+          type: array
+          title: Metrics
+          description: List of metrics with their evaluation IDs
       type: object
       required:
+      - status
       - message
-      - deleted_lab_id
-      title: DeleteLabResponse
-      description: Response model for deleting a lab
+      - conversation_id
+      - conversation_type
+      - metrics
+      title: EvaluateConversationResponse
+      description: Pydantic model for evaluate-conversation response
     EvaluateConversationRequest:
       properties:
         lab_id:
@@ -935,53 +777,22 @@ components:
       - metrics
       title: EvaluateConversationRequest
       description: Pydantic model for evaluate-conversation request
-    CreateMetricRevisionRequest:
+    HumanEvaluationResponse:
       properties:
-        custom_metric_id:
+        success:
+          type: boolean
+          title: Success
+          description: Whether the operation was successful
+        message:
           type: string
-          title: Custom Metric Id
-          description: Custom metric ID (UUID as string)
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the metric revision
-        scoring_guidance:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Scoring Guidance
-          description: Scoring guidance for the metric revision
-        eval_route:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Eval Route
-          description: Evaluation route (e.g., 'AUDIO', 'TEXT', 'AUTO')
-        model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model
-          description: Model to use for evaluation
-        temperature:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Temperature
-          description: Temperature for evaluation (0-2)
-        allow_not_applicable:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Allow Not Applicable
-          description: Whether to allow 'not applicable' responses
+          title: Message
+          description: Response message
       type: object
       required:
-      - custom_metric_id
-      title: CreateMetricRevisionRequest
-      description: Request model for creating a metric revision
+      - success
+      - message
+      title: HumanEvaluationResponse
+      description: Response model for human evaluation operations
     LabResponse:
       properties:
         id:
@@ -1017,9 +828,872 @@ components:
       - created_at
       title: LabResponse
       description: Response model for lab operations
+    ConversationItem:
+      properties:
+        call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Id
+          description: Call ID (UUID as string)
+        test_result_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Test Result Id
+          description: Simulated conversation ID
+      type: object
+      title: ConversationItem
+      description: Model for a conversation in create lab request
+    LabAIEvaluationDetail:
+      properties:
+        id:
+          type: string
+          title: Id
+        lab_metric_revision_id:
+          type: string
+          title: Lab Metric Revision Id
+        call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Id
+        test_result_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Test Result Id
+        response_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Response Value
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+      type: object
+      required:
+      - id
+      - lab_metric_revision_id
+      title: LabAIEvaluationDetail
+      description: An AI result produced by evaluating a metric *revision* on a conversation.
+    CreateOrUpdateHumanEvaluationRequest:
+      properties:
+        custom_metric_id:
+          type: string
+          title: Custom Metric Id
+          description: Custom metric ID (UUID as string)
+        call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Id
+          description: Call ID (UUID as string)
+        test_result_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Test Result Id
+          description: Simulated conversation ID
+        human_response_value:
+          type: string
+          title: Human Response Value
+          description: Human evaluation response value
+        human_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Reasoning
+          description: Human evaluator's reasoning for the score
+      type: object
+      required:
+      - custom_metric_id
+      - human_response_value
+      title: CreateOrUpdateHumanEvaluationRequest
+      description: Request model for creating or updating a human evaluation
+    AddMetricsToLabRequest:
+      properties:
+        lab_id:
+          type: string
+          title: Lab Id
+          description: Lab ID (UUID as string)
+        metric_ids:
+          items:
+            type: string
+          type: array
+          minItems: 1
+          title: Metric Ids
+          description: List of custom metric IDs (UUIDs as strings) to add to the lab
+        evaluate_conversations:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Evaluate Conversations
+          description: Whether to evaluate conversations in the lab with the newly added metrics (copies existing evaluations where found, queues new evaluations only for metrics without results)
+          default: false
+      type: object
+      required:
+      - lab_id
+      - metric_ids
+      title: AddMetricsToLabRequest
+      description: Request model for adding metrics to an existing lab
+    LabHumanEvaluationDetail:
+      properties:
+        id:
+          type: string
+          title: Id
+        custom_metric_id:
+          type: string
+          title: Custom Metric Id
+        call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Id
+        test_result_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Test Result Id
+        human_response_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Response Value
+        human_reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Human Reasoning
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+      type: object
+      required:
+      - id
+      - custom_metric_id
+      title: LabHumanEvaluationDetail
+      description: A human label for (metric, conversation) — the ground truth to align against.
+    MetricsRequest:
+      properties:
+        type:
+          type: string
+          enum:
+          - custom_metric
+          - custom_metric_revision
+          title: Type
+          description: 'Type of metrics: ''custom_metric'' or ''custom_metric_revision'''
+        custom_metric_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Custom Metric Ids
+          description: List of custom metric IDs (required when type is 'custom_metric')
+        custom_metric_revision_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custom Metric Revision Id
+          description: Custom metric revision ID (required when type is 'custom_metric_revision')
+      type: object
+      required:
+      - type
+      title: MetricsRequest
+      description: Pydantic model for metrics in evaluate-conversation request
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MetricEvaluationItem:
+      properties:
+        type:
+          type: string
+          title: Type
+          description: 'Type of metric: ''custom_metric'' or ''custom_metric_revision'''
+        id:
+          type: string
+          title: Id
+          description: Metric ID (custom_metric_id or custom_metric_revision_id)
+        eval_id:
+          type: string
+          title: Eval Id
+          description: Evaluation ID (lab_annotate_ai_evaluation_id or lab_ai_evaluation_id)
+      type: object
+      required:
+      - type
+      - id
+      - eval_id
+      title: MetricEvaluationItem
+      description: Pydantic model for a single metric evaluation item in response
+    UpdateLabSettingsResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          description: Indicates if the operation was successful
+        message:
+          type: string
+          title: Message
+          description: A descriptive message about the operation
+      type: object
+      required:
+      - success
+      - message
+      title: UpdateLabSettingsResponse
+      description: Response model for updating lab settings
+    UpdateLabRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+          description: New name for the lab
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: New description for the lab
+      type: object
+      title: UpdateLabRequest
+      description: Request model for updating a lab
+    LabListResponse:
+      properties:
+        labs:
+          items:
+            $ref: '#/components/schemas/LabListItem'
+          type: array
+          title: Labs
+        total_count:
+          type: integer
+          title: Total Count
+      type: object
+      required:
+      - labs
+      - total_count
+      title: LabListResponse
+      description: Paginated list of labs for the organization, newest first.
+    CreateLabRequest:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+          description: Name of the lab
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the lab
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: Tags for the lab
+        conversations:
+          items:
+            $ref: '#/components/schemas/ConversationItem'
+          type: array
+          title: Conversations
+          description: List of conversations to associate with the lab
+        metric_ids:
+          items:
+            type: string
+          type: array
+          title: Metric Ids
+          description: List of custom metric IDs (UUIDs as strings) to associate with the lab
+      type: object
+      required:
+      - name
+      - conversations
+      - metric_ids
+      title: CreateLabRequest
+      description: Request model for creating a lab
+    LabDetailResponse:
+      properties:
+        lab:
+          $ref: '#/components/schemas/LabSummary'
+        conversations:
+          items:
+            $ref: '#/components/schemas/LabConversationDetail'
+          type: array
+          title: Conversations
+        metrics:
+          items:
+            $ref: '#/components/schemas/LabMetricDetail'
+          type: array
+          title: Metrics
+        human_evaluations:
+          items:
+            $ref: '#/components/schemas/LabHumanEvaluationDetail'
+          type: array
+          title: Human Evaluations
+        ai_evaluations:
+          items:
+            $ref: '#/components/schemas/LabAnnotateAIEvaluationDetail'
+          type: array
+          title: Ai Evaluations
+        metric_revisions:
+          items:
+            $ref: '#/components/schemas/LabMetricRevisionDetail'
+          type: array
+          title: Metric Revisions
+        lab_ai_evaluations:
+          items:
+            $ref: '#/components/schemas/LabAIEvaluationDetail'
+          type: array
+          title: Lab Ai Evaluations
+      type: object
+      required:
+      - lab
+      - conversations
+      - metrics
+      - human_evaluations
+      - ai_evaluations
+      - metric_revisions
+      - lab_ai_evaluations
+      title: LabDetailResponse
+      description: Full state of a lab. Mirrors the frontend LabDetail shape.
+    LabSummary:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Lab ID (UUID as string)
+        name:
+          type: string
+          title: Name
+          description: Name of the lab
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the lab
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: Tags on the lab
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+          description: When the lab was created
+      type: object
+      required:
+      - id
+      - name
+      title: LabSummary
+      description: The lab record itself.
+    AddMetricsToLabResponse:
+      properties:
+        added_count:
+          type: integer
+          title: Added Count
+          description: Number of metrics successfully added
+        skipped_count:
+          type: integer
+          title: Skipped Count
+          description: Number of metrics that were skipped (already existed)
+        added_metric_ids:
+          items:
+            type: string
+          type: array
+          title: Added Metric Ids
+          description: List of metric IDs that were added
+        evaluation_triggered:
+          type: boolean
+          title: Evaluation Triggered
+          description: Whether evaluations were triggered for existing conversations
+          default: false
+        evaluation_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Evaluation Count
+          description: Number of conversations that were evaluated (if evaluation_triggered is true)
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Human-readable message about the operation
+      type: object
+      required:
+      - added_count
+      - skipped_count
+      - added_metric_ids
+      title: AddMetricsToLabResponse
+      description: Response model for adding metrics to a lab
+    LabMetricDetail:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Custom metric ID (UUID as string)
+        name:
+          type: string
+          title: Name
+          description: Metric name
+        prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt
+          description: 'Metric LLM-judge prompt (legacy alias: description)'
+        response_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Response Type
+          description: Metric response type
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+          description: Metric category
+        min_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Value
+          description: Minimum value (numeric metrics)
+        max_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Value
+          description: Maximum value (numeric metrics)
+        enum_options:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum Options
+          description: Enum options (enum metrics)
+        eval_route:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Route
+          description: 'Evaluation route (renamed column: eval_modality)'
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Model used for evaluation
+        audio_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Model
+          description: Audio model used for evaluation
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+          description: Evaluation temperature
+        allow_not_applicable:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow Not Applicable
+          description: Whether 'not applicable' is allowed
+      type: object
+      required:
+      - id
+      - name
+      title: LabMetricDetail
+      description: A custom metric attached to the lab (subset of custom_metrics columns).
+    CreateMetricRevisionRequest:
+      properties:
+        custom_metric_id:
+          type: string
+          title: Custom Metric Id
+          description: Custom metric ID (UUID as string)
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the metric revision
+        scoring_guidance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scoring Guidance
+          description: Scoring guidance for the metric revision
+        eval_route:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Route
+          description: Evaluation route (e.g., 'AUDIO', 'TEXT', 'AUTO')
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+          description: Model to use for evaluation
+        audio_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Model
+          description: Audio model to use for evaluation
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+          description: Temperature for evaluation (0-2)
+        allow_not_applicable:
+          type: boolean
+          title: Allow Not Applicable
+          description: Whether to allow 'not applicable' responses
+          default: false
+      type: object
+      required:
+      - custom_metric_id
+      title: CreateMetricRevisionRequest
+      description: Request model for creating a metric revision
+    UpdateLabSettingsRequest:
+      properties:
+        fuzzy_alignment:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Fuzzy Alignment
+          description: Fuzzy alignment settings (nested object)
+      additionalProperties: true
+      type: object
+      title: UpdateLabSettingsRequest
+      description: Request model for updating lab settings
+    ConversationRequest:
+      properties:
+        type:
+          type: string
+          enum:
+          - obs_conversation
+          - sim_conversation
+          title: Type
+          description: 'Type of conversation: ''obs_conversation'' or ''sim_conversation'''
+        id:
+          type: string
+          title: Id
+          description: ID of the conversation (obs_conversation_id UUID or sim_conversation_id integer as string)
+      type: object
+      required:
+      - type
+      - id
+      title: ConversationRequest
+      description: Pydantic model for conversation in evaluate-conversation request
+    LabAnnotateAIEvaluationDetail:
+      properties:
+        id:
+          type: string
+          title: Id
+        custom_metric_id:
+          type: string
+          title: Custom Metric Id
+        call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Id
+        test_result_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Test Result Id
+        response_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Response Value
+        reasoning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reasoning
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+      type: object
+      required:
+      - id
+      - custom_metric_id
+      title: LabAnnotateAIEvaluationDetail
+      description: An AI result for the base (un-revised) metric on a conversation.
+    RemoveConversationsFromLabRequest:
+      properties:
+        lab_id:
+          type: string
+          title: Lab Id
+          description: Lab ID (UUID as string)
+        conversations:
+          items:
+            $ref: '#/components/schemas/ConversationItem'
+          type: array
+          minItems: 1
+          title: Conversations
+          description: List of conversations to remove from the lab
+      type: object
+      required:
+      - lab_id
+      - conversations
+      title: RemoveConversationsFromLabRequest
+      description: Request model for removing conversations from a lab
+    LabMetricRevisionDetail:
+      properties:
+        id:
+          type: string
+          title: Id
+        custom_metric_id:
+          type: string
+          title: Custom Metric Id
+        lab_id:
+          type: string
+          title: Lab Id
+        revision_number:
+          type: integer
+          title: Revision Number
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        eval_route:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Route
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+        audio_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Model
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+        eval_enabled:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Enabled
+        allow_not_applicable:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allow Not Applicable
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+      type: object
+      required:
+      - id
+      - custom_metric_id
+      - lab_id
+      - revision_number
+      title: LabMetricRevisionDetail
+      description: A revision of a metric authored inside the lab.
+    LabConversationDetail:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: 'Stable id: call_id for obs_conversations, ''test_<id>'' for sim_conversations'
+        type:
+          type: string
+          enum:
+          - obs_conversation
+          - sim_conversation
+          title: Type
+          description: Conversation source type
+        call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Id
+          description: obs_conversation_id, stored in the call_id column (when type='obs_conversation')
+        test_result_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Test Result Id
+          description: sim_conversation_id (when type='sim_conversation')
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: Agent the conversation belongs to (0 if unresolved)
+          default: 0
+        start_time_utc:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Time Utc
+          description: When the conversation started
+        duration_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Duration Ms
+          description: Duration in ms (calls)
+        duration_s:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Duration S
+          description: Duration in seconds (test results)
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+          description: Conversation status
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: Tags (calls only)
+      type: object
+      required:
+      - id
+      - type
+      title: LabConversationDetail
+      description: A conversation attached to the lab, resolved to its obs_conversation or sim_conversation.
+    DeleteLabResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          description: Success message
+        deleted_lab_id:
+          type: string
+          title: Deleted Lab Id
+          description: ID of the deleted lab
+      type: object
+      required:
+      - message
+      - deleted_lab_id
+      title: DeleteLabResponse
+      description: Response model for deleting a lab
+    AddConversationsToLabRequest:
+      properties:
+        lab_id:
+          type: string
+          title: Lab Id
+          description: Lab ID (UUID as string)
+        conversations:
+          items:
+            $ref: '#/components/schemas/ConversationItem'
+          type: array
+          minItems: 1
+          title: Conversations
+          description: List of conversations to add to the lab
+      type: object
+      required:
+      - lab_id
+      - conversations
+      title: AddConversationsToLabRequest
+      description: Request model for adding conversations to an existing lab
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

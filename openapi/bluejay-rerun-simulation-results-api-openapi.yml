@@ -1,0 +1,170 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Rerun Simulation Results API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Rerun Simulation Results
+paths:
+  /v1/rerun-simulation-results:
+    post:
+      tags:
+      - Rerun Simulation Results
+      summary: Rerun Simulation Results
+      description: 'Rerun an explicit list of sim_conversations in their existing simulation run.
+
+
+        Resolves the run from the provided sim_conversation_ids (which must all share one
+
+        simulation and one run), then defers to create_same_run_reruns for eligibility,
+
+        the retry cap, idempotency, and the org rerun settings.
+
+
+        Auth: standard API key / JWT, or X-Webhook-Secret (LiveKit agent / eval). When
+
+        using webhook secret, the org is derived from the simulation itself.'
+      operationId: rerun_simulation_results_v1_rerun_simulation_results_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: X-Webhook-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Webhook-Secret
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RerunSimulationResultsRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RerunSimulationResultsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    RerunSimulationResultsRequest:
+      properties:
+        simulation_id:
+          type: string
+          title: Simulation Id
+          description: ID of the simulation the conversations belong to
+        sim_conversation_ids:
+          items:
+            type: integer
+          type: array
+          minItems: 1
+          title: Sim Conversation Ids
+          description: IDs of existing simulated conversations to rerun in their same simulation run.
+        force:
+          type: boolean
+          title: Force
+          description: When True, bypass the simulation's rerun settings gates (enable_rerun_failed_test_results / enable_rerun_on_custom_error). Structural checks (retry cap, idempotency) still apply. Use for manual UI-triggered reruns.
+          default: false
+      type: object
+      required:
+      - simulation_id
+      - sim_conversation_ids
+      title: RerunSimulationResultsRequest
+    RerunSimulationResultsResponse:
+      properties:
+        simulation_run_id:
+          type: string
+          title: Simulation Run Id
+          description: ID of the existing simulation run the reruns were added to
+        simulation_result_ids:
+          items:
+            type: string
+          type: array
+          title: Simulation Result Ids
+          description: IDs of the newly created rerun conversations
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent associated with the simulation run
+        status:
+          type: string
+          title: Status
+          default: success
+      type: object
+      required:
+      - simulation_run_id
+      - simulation_result_ids
+      - agent_id
+      title: RerunSimulationResultsResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

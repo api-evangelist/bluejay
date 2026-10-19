@@ -1,0 +1,248 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Twins API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: twins
+paths:
+  /v1/internal/twins/screen:
+    post:
+      tags:
+      - twins
+      summary: Screen Task
+      operationId: screen_task_v1_internal_twins_screen_post
+      parameters:
+      - name: x-internal-token
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Internal-Token
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreenRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/internal/twins/consent:
+    post:
+      tags:
+      - twins
+      summary: Check Consent Audio
+      operationId: check_consent_audio_v1_internal_twins_consent_post
+      parameters:
+      - name: x-internal-token
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Internal-Token
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_check_consent_audio_v1_internal_twins_consent_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_check_consent_audio_v1_internal_twins_consent_post:
+      properties:
+        audio:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Audio
+        expected:
+          type: string
+          maxLength: 1000
+          title: Expected
+      type: object
+      required:
+      - audio
+      - expected
+      title: Body_check_consent_audio_v1_internal_twins_consent_post
+    ScreenRequest:
+      properties:
+        task:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Task
+        phone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone
+        name:
+          type: string
+          maxLength: 40
+          title: Name
+          default: ''
+        account_name:
+          anyOf:
+          - type: string
+            maxLength: 80
+          - type: 'null'
+          title: Account Name
+        mode:
+          type: string
+          enum:
+          - phone
+          - practice
+          title: Mode
+      type: object
+      required:
+      - task
+      - mode
+      title: ScreenRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ConsentResult:
+      properties:
+        ok:
+          type: boolean
+          title: Ok
+        transcript:
+          type: string
+          title: Transcript
+        score:
+          type: number
+          title: Score
+        reason:
+          type: string
+          title: Reason
+      type: object
+      required:
+      - ok
+      - transcript
+      - score
+      - reason
+      title: ConsentResult
+    ScreenResult:
+      properties:
+        allowed:
+          type: boolean
+          title: Allowed
+        stage:
+          type: string
+          enum:
+          - number
+          - moderation
+          - policy
+          - error
+          title: Stage
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+        reason:
+          type: string
+          title: Reason
+        message:
+          type: string
+          title: Message
+        model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model
+      type: object
+      required:
+      - allowed
+      - stage
+      - category
+      - reason
+      - message
+      - model
+      title: ScreenResult
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

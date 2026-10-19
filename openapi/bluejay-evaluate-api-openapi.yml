@@ -16,14 +16,17 @@ paths:
       tags:
       - Evaluate
       summary: Evaluate
-      description: 'Submit a call or chat for evaluation.
-
-
-        Returns an eval ID that can be used to track evaluation status.'
+      description: Submit a call or chat for evaluation.
       operationId: evaluate_v1_evaluate_call_post
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -57,14 +60,17 @@ paths:
       tags:
       - Evaluate
       summary: Evaluate
-      description: 'Submit a call or chat for evaluation.
-
-
-        Returns an eval ID that can be used to track evaluation status.'
+      description: Submit a call or chat for evaluation.
       operationId: evaluate_v1_evaluate_post
       security:
       - HTTPBearer: []
       parameters:
+      - name: X-Organization-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Organization-Id
       - name: X-API-Key
         in: header
         required: true
@@ -95,71 +101,172 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
+    CallRequestUsingAgentId:
       properties:
-        loc:
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent associated with the call
+        recording_url:
+          anyOf:
+          - type: string
+            maxLength: 5000
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Recording Url
+          description: 'URL to the recording file (supported formats: .mp3, .mp4, .wav, .m4a)'
+        recording_base64:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Recording Base64
+          description: 'Base64 encoded recording file in data URL format (supported formats: .mp3, .mp4, .wav, .m4a)'
+        start_time_utc:
+          type: string
+          format: date-time
+          title: Start Time Utc
+          description: 'When the call started, in UTC ([python] log: datetime.now(timezone.utc) at call start)'
+        participants:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/Participant'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CallInterface:
-      type: string
-      enum:
-      - PHONE
-      - WEB
-      title: CallInterface
-      description: Enum representing the interface used for a call.
-    CallDirection:
-      type: string
-      enum:
-      - INBOUND
-      - OUTBOUND
-      title: CallDirection
-      description: Enum representing the direction of a call.
-    TranscriptEntryRequest:
-      properties:
-        start_offset_ms:
-          type: integer
-          title: Start Offset Ms
-          description: Start offset of the utterance in milliseconds
-        end_offset_ms:
-          type: integer
-          title: End Offset Ms
-          description: End offset of the utterance in milliseconds
-        speaker:
-          $ref: '#/components/schemas/ParticipantRole'
-          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
-        utterance:
-          type: string
-          title: Utterance
-          description: Transcribed text of the utterance
-        filler_utterance:
+          maxItems: 2
+          minItems: 2
+          title: Participants
+          description: List of call participants
+        call_direction:
+          anyOf:
+          - $ref: '#/components/schemas/CallDirection'
+          - type: 'null'
+          description: Direction of the call from the Agent's perspective (INBOUND or OUTBOUND)
+          default: INBOUND
+        interface:
+          anyOf:
+          - $ref: '#/components/schemas/CallInterface'
+          - type: 'null'
+          description: Interface used for the call
+          default: PHONE
+        transcript_url:
+          anyOf:
+          - type: string
+            maxLength: 5000
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Transcript Url
+          description: 'URL to the transcript file (supported formats: .json)'
+        transcript:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TranscriptEntryRequest'
+            type: array
+          - type: 'null'
+          title: Transcript
+          description: Transcript of the call in text format
+        tool_calls:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolCallData'
+            type: array
+          - type: 'null'
+          title: Tool Calls
+          description: List of tool calls made during the call
+        events:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Event'
+            type: array
+          - type: 'null'
+          title: Events
+          description: List of events that occurred during the call
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+          description: List of tags associated with the call
+        trace_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Trace Id
+          description: Trace ID of the call
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+          description: When this request was created (defaults to now in UTC)
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Additional metadata associated with the evaluation
+        webhook_tag:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Webhook Tag
+          description: Tag of the webhook to send the evaluation to
+        custom_metrics:
+          anyOf:
+          - items:
+              type: string
+              format: uuid
+            type: array
+          - type: 'null'
+          title: Custom Metrics
+          description: List of additional custom metrics to be used in the call
+        custom_metric_tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Custom Metric Tags
+          description: Specify one or more tags to include all custom metrics associated with those tags. This allows you to run groups of related custom metrics without listing each individually.
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: Label of the agent to use for the evaluation (determines which prompt and knowledge base to use and defaults to the `production` label if not provided). An unknown label is created and attached to the production version.
+        version:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Version
+          description: Agent version number the call ran against. When omitted, uses the version that currently has the production label. When set and the version exists, it wins over the label's pointer for the call's agent_version_id. An unknown version falls back to production (with a warning) instead of 404.
+        enable_phrase_latencies:
           anyOf:
           - type: boolean
           - type: 'null'
-          title: Filler Utterance
-          description: Whether the utterance is a filler utterance
+          title: Enable Phrase Latencies
+          description: Deprecated; ignored.
+        conversation_ended_by:
+          anyOf:
+          - $ref: '#/components/schemas/ParticipantRole'
+          - type: 'null'
+          description: 'Which participant role ended the conversation: ''USER'' or ''AGENT'''
+        multichannel:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Multichannel
+          description: Whether the participants of the call are on different audio channels
+          default: false
       type: object
       required:
-      - start_offset_ms
-      - end_offset_ms
-      - speaker
-      - utterance
-      title: TranscriptEntryRequest
+      - agent_id
+      - start_time_utc
+      - participants
+      title: Call Request Using Bluejay Agent ID
     Event:
       properties:
         title:
@@ -203,58 +310,36 @@ components:
       - start_offset_ms
       title: Event
       description: Pydantic model for event data
-    ToolCall:
+    ToolCallData:
       properties:
         name:
           type: string
           title: Name
-          description: Name of the tool called
         start_offset_ms:
           type: integer
-          minimum: 0.0
           title: Start Offset Ms
-          description: Start offset of the tool call in milliseconds
         description:
           anyOf:
           - type: string
           - type: 'null'
           title: Description
-          description: Description of the tool call
         parameters:
           anyOf:
           - additionalProperties: true
             type: object
           - type: 'null'
           title: Parameters
-          description: Parameters passed to the tool call
         output:
           anyOf:
           - {}
           - type: 'null'
           title: Output
-          description: Output returned by the tool call
       type: object
       required:
       - name
       - start_offset_ms
-      title: ToolCall
-      description: Represents a tool call during a conversation.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ParticipantRole:
-      type: string
-      enum:
-      - AGENT
-      - USER
-      title: ParticipantRole
-      description: Enum representing the role of a participant in a call.
+      title: ToolCallData
+      description: Tool call as stored on calls, jobs, and test results (API and database).
     CallRequestUsingExternalAgentId:
       properties:
         external_agent_id:
@@ -264,7 +349,7 @@ components:
         recording_url:
           anyOf:
           - type: string
-            maxLength: 2083
+            maxLength: 5000
             minLength: 1
             format: uri
           - type: 'null'
@@ -304,7 +389,7 @@ components:
         transcript_url:
           anyOf:
           - type: string
-            maxLength: 2083
+            maxLength: 5000
             minLength: 1
             format: uri
           - type: 'null'
@@ -321,7 +406,7 @@ components:
         tool_calls:
           anyOf:
           - items:
-              $ref: '#/components/schemas/ToolCall'
+              $ref: '#/components/schemas/ToolCallData'
             type: array
           - type: 'null'
           title: Tool Calls
@@ -390,14 +475,20 @@ components:
           - type: string
           - type: 'null'
           title: Label
-          description: Label of the agent to use for the evaluation (determines which prompt and knowledge base to use)
+          description: Label of the agent to use for the evaluation (determines which prompt and knowledge base to use). An unknown label is created and attached to the production version.
           default: production
+        version:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Version
+          description: Agent version number the call ran against. When omitted, uses the version that currently has the production label. When set and the version exists, it wins over the label's pointer for the call's agent_version_id. An unknown version falls back to production (with a warning) instead of 404.
         enable_phrase_latencies:
           anyOf:
           - type: boolean
           - type: 'null'
           title: Enable Phrase Latencies
-          description: Whether to enable phrase-level latency tracking for this call
+          description: Deprecated; ignored.
         conversation_ended_by:
           anyOf:
           - $ref: '#/components/schemas/ParticipantRole'
@@ -416,211 +507,147 @@ components:
       - start_time_utc
       - participants
       title: Call Request Using External Agent ID
+    CallInterface:
+      type: string
+      enum:
+      - PHONE
+      - WEB
+      title: CallInterface
+      description: Enum representing the interface used for a call.
     Participant:
       properties:
         role:
           $ref: '#/components/schemas/ParticipantRole'
-        spoke_first:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Spoke First
-          description: Only provide if you would like to override the auto-detected spoke first behavior.
+          default: AGENT
         name:
           anyOf:
           - type: string
           - type: 'null'
           title: Name
+        spoke_first:
+          type: boolean
+          title: Spoke First
+          default: false
         phone_number:
           anyOf:
           - type: string
           - type: 'null'
           title: Phone Number
       type: object
-      required:
-      - role
       title: Participant
-      description: Represents a participant in a call.
+      description: Participant on a call or conversation.
+    CallDirection:
+      type: string
+      enum:
+      - INBOUND
+      - OUTBOUND
+      title: CallDirection
+      description: Enum representing the direction of a call.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     EvaluateCallResponse:
       properties:
         status:
           type: string
           title: Status
         call_id:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Call Id
         message:
           type: string
           title: Message
+        warning:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Warning
       type: object
       required:
       - status
-      - call_id
       - message
       title: EvaluateCallResponse
-    CallRequestUsingAgentId:
+    HTTPValidationError:
       properties:
-        agent_id:
-          type: string
-          title: Agent Id
-          description: ID of the agent associated with the call
-        recording_url:
-          anyOf:
-          - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
-          - type: 'null'
-          title: Recording Url
-          description: 'URL to the recording file (supported formats: .mp3, .mp4, .wav, .m4a)'
-        recording_base64:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Recording Base64
-          description: 'Base64 encoded recording file in data URL format (supported formats: .mp3, .mp4, .wav, .m4a)'
-        start_time_utc:
-          type: string
-          format: date-time
-          title: Start Time Utc
-          description: 'When the call started, in UTC ([python] log: datetime.now(timezone.utc) at call start)'
-        participants:
+        detail:
           items:
-            $ref: '#/components/schemas/Participant'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          maxItems: 2
-          minItems: 2
-          title: Participants
-          description: List of call participants
-        call_direction:
-          anyOf:
-          - $ref: '#/components/schemas/CallDirection'
-          - type: 'null'
-          description: Direction of the call from the Agent's perspective (INBOUND or OUTBOUND)
-          default: INBOUND
-        interface:
-          anyOf:
-          - $ref: '#/components/schemas/CallInterface'
-          - type: 'null'
-          description: Interface used for the call
-          default: PHONE
-        transcript_url:
-          anyOf:
-          - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
-          - type: 'null'
-          title: Transcript Url
-          description: 'URL to the transcript file (supported formats: .json)'
-        transcript:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/TranscriptEntryRequest'
-            type: array
-          - type: 'null'
-          title: Transcript
-          description: Transcript of the call in text format
-        tool_calls:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ToolCall'
-            type: array
-          - type: 'null'
-          title: Tool Calls
-          description: List of tool calls made during the call
-        events:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Event'
-            type: array
-          - type: 'null'
-          title: Events
-          description: List of events that occurred during the call
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-          description: List of tags associated with the call
-        trace_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Trace Id
-          description: Trace ID of the call
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-          description: When this request was created (defaults to now in UTC)
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: Additional metadata associated with the evaluation
-        webhook_tag:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Webhook Tag
-          description: Tag of the webhook to send the evaluation to
-        custom_metrics:
-          anyOf:
-          - items:
-              type: string
-              format: uuid
-            type: array
-          - type: 'null'
-          title: Custom Metrics
-          description: List of additional custom metrics to be used in the call
-        custom_metric_tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Custom Metric Tags
-          description: Specify one or more tags to include all custom metrics associated with those tags. This allows you to run groups of related custom metrics without listing each individually.
-        label:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label
-          description: Label of the agent to use for the evaluation (determines which prompt and knowledge base to use and defaults to the `production` label if not provided)
-        enable_phrase_latencies:
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TranscriptEntryRequest:
+      properties:
+        start_offset_ms:
+          type: integer
+          title: Start Offset Ms
+          description: Start offset of the utterance in milliseconds
+        end_offset_ms:
+          type: integer
+          title: End Offset Ms
+          description: End offset of the utterance in milliseconds
+        speaker:
+          $ref: '#/components/schemas/ParticipantRole'
+          description: Identifier for the speaker (e.g., 'AGENT', 'USER')
+        utterance:
+          type: string
+          title: Utterance
+          description: Transcribed text of the utterance
+        filler_utterance:
           anyOf:
           - type: boolean
           - type: 'null'
-          title: Enable Phrase Latencies
-          description: Whether to enable phrase-level latency tracking for this call
-        conversation_ended_by:
-          anyOf:
-          - $ref: '#/components/schemas/ParticipantRole'
-          - type: 'null'
-          description: 'Which participant role ended the conversation: ''USER'' or ''AGENT'''
-        multichannel:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Multichannel
-          description: Whether the participants of the call are on different audio channels
-          default: false
+          title: Filler Utterance
+          description: Whether the utterance is a filler utterance
       type: object
       required:
-      - agent_id
-      - start_time_utc
-      - participants
-      title: Call Request Using Bluejay Agent ID
+      - start_offset_ms
+      - end_offset_ms
+      - speaker
+      - utterance
+      title: TranscriptEntryRequest
+    ParticipantRole:
+      type: string
+      enum:
+      - AGENT
+      - USER
+      - DIGITAL_HUMAN
+      - agent
+      - digital_human
+      title: ParticipantRole
+      description: Role of a participant in a call or simulated conversation.
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
       description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.

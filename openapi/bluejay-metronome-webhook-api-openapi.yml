@@ -1,0 +1,47 @@
+openapi: 3.2.0
+info:
+  title: Bluejay Metronome Webhook API
+  description: Bluejay API
+  version: 0.1.0
+servers:
+- url: https://api.getbluejay.ai
+  description: Production server
+security:
+- apiKeyAuth: []
+tags:
+- name: Metronome Webhook
+paths:
+  /v1/metronome/webhook:
+    post:
+      tags:
+      - Metronome Webhook
+      summary: Receive Metronome Webhook
+      description: 'verify, then route: user usage alert -> notifications; entitlement event -> recompute + cache.'
+      operationId: receive_metronome_webhook_v1_metronome_webhook_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Receive Metronome Webhook V1 Metronome Webhook Post
+      parameters:
+      - name: X-API-Key
+        in: header
+        required: true
+        schema:
+          type: string
+        description: API key required to authenticate requests.
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key required to authenticate requests.
+    scimToken:
+      type: http
+      scheme: bearer
+      description: SCIM token from Settings → Security → User provisioning (SCIM). Not an API key.
