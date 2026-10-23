@@ -49,11 +49,11 @@ artifacts:
     method: derived
     evidence: openapi/bluejay-call-logs-api
   collections/bluejay-check-queue-simulation-run-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-check-queue-simulation-run-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-check-queue-simulation-run-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-check-queue-simulation-run-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-communities-api.opencollection.json:
     method: derived
     evidence: openapi/bluejay-communities-api
@@ -73,11 +73,11 @@ artifacts:
     method: derived
     evidence: openapi/bluejay-create-schedule-api
   collections/bluejay-create-simulation-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-create-simulation-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-create-simulation-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-create-simulation-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-custom-metrics-api.opencollection.json:
     method: derived
     evidence: openapi/bluejay-custom-metrics-api
@@ -133,11 +133,11 @@ artifacts:
     method: derived
     evidence: openapi/bluejay-folders-api
   collections/bluejay-generate-custom-metrics-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-generate-custom-metrics-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-generate-custom-metrics-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-generate-custom-metrics-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-generate-customer-personas-api.opencollection.json:
     method: derived
     evidence: openapi/bluejay-generate-customer-personas-api
@@ -145,11 +145,11 @@ artifacts:
     method: derived
     evidence: openapi/bluejay-generate-customer-personas-api
   collections/bluejay-generate-digital-humans-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-generate-digital-humans-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-generate-digital-humans-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-generate-digital-humans-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-generate-test-scenarios-api.opencollection.json:
     method: derived
     evidence: openapi/bluejay-generate-test-scenarios-api
@@ -163,23 +163,23 @@ artifacts:
     method: derived
     evidence: openapi/bluejay-generate-translated-transcript-api
   collections/bluejay-get-all-simulations-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-get-all-simulations-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-get-all-simulations-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-get-all-simulations-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-get-simulation-runs-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-get-simulation-runs-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-get-simulation-runs-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-get-simulation-runs-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-get-simulations-by-agent-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-get-simulations-by-agent-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-get-simulations-by-agent-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-get-simulations-by-agent-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-goals-api.opencollection.json:
     method: derived
     evidence: openapi/bluejay-goals-api
@@ -283,11 +283,11 @@ artifacts:
     method: derived
     evidence: openapi/bluejay-retell-api
   collections/bluejay-retrieve-simulation-result-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-retrieve-simulation-result-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-retrieve-simulation-result-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-retrieve-simulation-result-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-retrieve-simulation-results-api.opencollection.json:
     method: derived
     evidence: openapi/bluejay-retrieve-simulation-results-api
@@ -295,11 +295,11 @@ artifacts:
     method: derived
     evidence: openapi/bluejay-retrieve-simulation-results-api
   collections/bluejay-send-text-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-send-text-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-send-text-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-send-text-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-simulation-results-api.opencollection.json:
     method: derived
     evidence: openapi/bluejay-simulation-results-api
@@ -373,11 +373,11 @@ artifacts:
     method: derived
     evidence: openapi/bluejay-weekly-notifications-api
   collections/bluejay-workflows-api.opencollection.json:
-    method: derived
-    evidence: openapi/bluejay-workflows-api
+    method: unknown
+    evidence: no authorship recorded
   collections/bluejay-workflows-api.postman_collection.json:
-    method: derived
-    evidence: openapi/bluejay-workflows-api
+    method: unknown
+    evidence: no authorship recorded
   conformance/bluejay-conformance.yml:
     method: derived
     evidence: declared in the artifact
@@ -393,127 +393,7 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T125852.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T133943.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T143147.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T154045.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-26T215308.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T094438.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T103455.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T123021.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T132314.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T140727.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T213958.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T230545.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T203505.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T220315.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-31T223420.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T063623.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T210448.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T222808.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T224043.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T161828.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T174231.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T062714.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T212454.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T224856.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T055819.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T144739.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T195450.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T211839.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T011047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T224210.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T200636.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T213054.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T214843.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T232836.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T204815.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T222408.yml:
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-12T062655.yml:
@@ -597,6 +477,21 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/bluejay-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -606,17 +501,31 @@ artifacts:
   mcp/bluejay-mcp.yml:
     method: searched
     evidence: declared in the artifact
-  openapi/_original/bluejay-openapi-original.json:
+  openapi/_original/bluejay-openapi.json:
     method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
+    evidence: byte-identical to https://api.getbluejay.ai/openapi.json (sha256 52d6410644bb, fetched 2026-10-19)
+  openapi/bluejay-agent-versions-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-agent-workflow-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-agents-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-alerts-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-aligned-diff-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-amelia-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-api-keys-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-bbb-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-bland-api-openapi.yml:
@@ -625,10 +534,13 @@ artifacts:
   openapi/bluejay-bluejay-api-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/bluejay-call-logs-api-openapi.yml:
+  openapi/bluejay-bluejay-as-code-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-check-queue-simulation-run-api-openapi.yml:
+  openapi/bluejay-bluejayai-references-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-call-logs-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-communities-api-openapi.yml:
@@ -640,7 +552,7 @@ artifacts:
   openapi/bluejay-create-schedule-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-create-simulation-api-openapi.yml:
+  openapi/bluejay-custom-metric-templates-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-custom-metrics-api-openapi.yml:
@@ -652,13 +564,22 @@ artifacts:
   openapi/bluejay-customer-traits-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-dashboards-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-delete-schedule-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-digital-humans-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-documents-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-elevenlabs-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-email-simulations-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-end-conversations-api-openapi.yml:
@@ -670,13 +591,7 @@ artifacts:
   openapi/bluejay-folders-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-generate-custom-metrics-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-generate-customer-personas-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-generate-digital-humans-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-generate-test-scenarios-api-openapi.yml:
@@ -685,22 +600,37 @@ artifacts:
   openapi/bluejay-generate-translated-transcript-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-get-all-simulations-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-get-simulation-runs-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-get-simulations-by-agent-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-goals-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-google-agents-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-google-ces-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-google-dfcx-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-health-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-http-text-agent-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-human-edits-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-integration-keys-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-internal-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-issues-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-journey-steps-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-knowledge-bases-api-openapi.yml:
@@ -709,13 +639,37 @@ artifacts:
   openapi/bluejay-labels-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-live-transcripts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-livekit-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-metrics-lab-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-metronome-webhook-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-move-regen-test-scenarios-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-observability-conversations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-observability-issues-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-oidc-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-openai-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-optimize-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-personalities-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-phone-number-management-api-openapi.yml:
@@ -727,6 +681,9 @@ artifacts:
   openapi/bluejay-ping-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-preview-chat-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-prompts-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
@@ -736,22 +693,46 @@ artifacts:
   openapi/bluejay-re-evaluate-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-recently-deleted-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-red-team-simulations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-regen-test-scenarios-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-regeneration-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-retell-api-openapi.yml:
+  openapi/bluejay-rerun-simulation-results-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-retrieve-simulation-result-api-openapi.yml:
+  openapi/bluejay-retell-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-retrieve-simulation-results-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-send-text-api-openapi.yml:
+  openapi/bluejay-scenario-builder-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-schedule-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-schedules-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-scim-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-self-improve-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-sierra-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-simulation-issues-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-simulation-results-api-openapi.yml:
@@ -761,6 +742,15 @@ artifacts:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-simulations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-slack-assistant-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-sms-testing-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-stripe-webhook-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-subscription-api-openapi.yml:
@@ -778,10 +768,25 @@ artifacts:
   openapi/bluejay-twilio-sip-webhook-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-twins-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-update-schedule-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-uptime-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-usage-alerts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-vapi-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-voice-clones-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-voice-generation-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/bluejay-webhook-management-api-openapi.yml:
@@ -790,13 +795,22 @@ artifacts:
   openapi/bluejay-weekly-notifications-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/bluejay-workflows-api-openapi.yml:
+  openapi/bluejay-widgets-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-workflow-extraction-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/bluejay-workspaces-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   overlays/bluejay-openapi-overlay.yaml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
   packages/bluejay-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  plans/bluejay-plans-pricing.yml:
     method: searched
     evidence: declared in the artifact
   security/bluejay-domain-security.yml:
