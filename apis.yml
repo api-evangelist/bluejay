@@ -959,7 +959,8 @@ apis:
   description: The google_agents API from Bluejay — 3 operation(s) for google_agents.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
-  tags:
+  tags: []
+  tags_raw:
   - google_agents
   properties:
   - type: OpenAPI
@@ -973,7 +974,8 @@ apis:
   description: The google_ces API from Bluejay — 2 operation(s) for google_ces.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
-  tags:
+  tags: []
+  tags_raw:
   - google_ces
   properties:
   - type: OpenAPI
@@ -987,7 +989,8 @@ apis:
   description: The google_dfcx API from Bluejay — 1 operation(s) for google_dfcx.
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
-  tags:
+  tags: []
+  tags_raw:
   - google_dfcx
   properties:
   - type: OpenAPI
@@ -1086,6 +1089,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - Livekit
+  tags_raw:
   - livekit
   properties:
   - type: OpenAPI
@@ -1143,6 +1148,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - OpenID Connect
+  tags_raw:
   - oidc
   properties:
   - type: OpenAPI
@@ -1270,6 +1277,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - Schedule
+  tags_raw:
   - Schedules
   properties:
   - type: OpenAPI
@@ -1382,6 +1391,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - Twins
+  tags_raw:
   - twins
   properties:
   - type: OpenAPI
@@ -1480,6 +1491,8 @@ apis:
   humanURL: https://docs.getbluejay.ai/api-reference/introduction
   baseURL: https://api.getbluejay.ai
   tags:
+  - Workspace
+  tags_raw:
   - Workspaces
   properties:
   - type: OpenAPI
